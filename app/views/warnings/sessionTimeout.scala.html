@@ -1,0 +1,12 @@
+@import views.html.helpers._
+@import views.html.calculation.resident._
+
+@(restartUrl: String, homeLink: String)(implicit request: Request[_])
+
+@resident_main_template(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
+
+    <h1 class="heading-large">@Messages("session.timeout.message")</h1>
+
+    <a id="startAgain" class="bold-medium" href="@restartUrl" data-journey-click="nav:calc:restart">@Messages("calc.summary.startAgain")</a>
+
+}

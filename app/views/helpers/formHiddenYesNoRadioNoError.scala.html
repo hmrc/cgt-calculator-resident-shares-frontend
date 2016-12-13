@@ -1,0 +1,43 @@
+@import uk.gov.hmrc.play.views.html.{helpers => govHelpers}
+
+@(form: Form[_], fieldName: String, questionText:String, content:Html, helpText:Option[String] = None, displayLegend: Boolean = true)(implicit lang: play.api.i18n.Lang)
+
+<div class="form-group" data-hidden='hidden'>
+
+
+    @if(displayLegend) {
+
+        @formInputRadioGroup(
+            field = form(fieldName),
+            Seq(
+                "Yes"->Messages("calc.base.yes"),
+                "No"->Messages("calc.base.no")),
+            '_legend -> questionText,
+            '_helpText -> helpText,
+            '_legendID -> fieldName,
+            '_labelAfter -> true,
+            '_labelClass -> "block-label",
+            '_groupClass -> "inline"
+        )
+    } else {
+        @formInputRadioGroup(
+            field = form(fieldName),
+            Seq(
+            "Yes"->Messages("calc.base.yes"),
+            "No"->Messages("calc.base.no")),
+            '_legend -> questionText,
+            '_legendClass -> "visuallyhidden",
+            '_helpText -> helpText,
+            '_legendID -> fieldName,
+            '_labelAfter -> true,
+            '_labelClass -> "block-label",
+            '_groupClass -> "inline"
+        )
+    }
+
+    <div class="panel-indent" id='hidden'>
+        <div>
+            @content
+        </div>
+    </div>
+</div>

@@ -1,0 +1,56 @@
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import models.resident._
+@import views.html.calculation.resident._
+@import views.html.helpers.resident._
+@import play.api.mvc.Call
+
+@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, hasOtherProperties: Boolean, navHomeLink: String, navTitle: String)(implicit request: Request[_])
+
+@hiddenHelpTextContent = {
+<div id="helpInfo">
+    <p>@Messages("calc.resident.lossesBroughtForward.helpInfo.subtitle")</p>
+    <ul class="list-bullet">
+        <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point1")</li>
+        <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point2")</li>
+        <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point3")</li>
+    </ul>
+</div>
+}
+
+@resident_main_template(
+    title = Messages("calc.resident.lossesBroughtForward.title",
+    taxYear.taxYearSupplied),
+    backLink = Some(backLinkUrl),
+    homeLink = navHomeLink,
+    navTitle = navTitle
+) {
+
+    @errorSummary(lossesBroughtForwardForm, "option")
+
+    <h1 class="heading-large">@Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied)</h1>
+
+    @form(action = postAction) {
+
+        @formInputRadioGroup(
+            field = lossesBroughtForwardForm("option"),
+            Seq(
+            "Yes"->Messages("calc.base.yes"),
+            "No"->Messages("calc.base.no")),
+            '_legend -> Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied),
+            '_legendID -> "option",
+            '_legendClass -> "visuallyhidden",
+            '_labelAfter -> true,
+            '_labelClass -> "block-label",
+            '_groupClass -> "inline form-group radio-list",
+            '_fieldsetAttributes -> "aria-details = help"
+        )
+
+        <input type="hidden" name="option" value="" />
+        <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+    }
+
+    @if(!hasOtherProperties) {@expandableHelpTextHelper(Messages("calc.resident.lossesBroughtForward.helpInfo.title"), hiddenHelpTextContent)}
+
+}

@@ -1,0 +1,18 @@
+@import uk.gov.hmrc.play.views.html.{helpers => govHelpers}
+@import play.api.data._
+@import views.html.helpers._
+
+@(inputForm: Form[_], inputDetails: Seq[(String, String, Option[String])])(implicit lang: play.api.i18n.Lang)
+
+<div class="form-group">
+
+    @inputDetails.map(index => {
+                formInputMoney(
+                    inputForm,
+                    index._1, //fieldName
+                    index._2, //questionText
+                    index._3  //helpText
+                )
+    })
+
+</div>

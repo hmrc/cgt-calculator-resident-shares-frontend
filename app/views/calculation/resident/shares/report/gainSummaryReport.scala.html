@@ -1,0 +1,91 @@
+@import views.html.helpers.resident._
+@import models.SummaryDataItemModel
+@import models.resident._
+@import models.resident.shares._
+@import common.Dates._
+@import constructors.resident.shares.SummaryConstructor._
+@import controllers.resident.shares.routes.{GainController => routes}
+
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_])
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/shares/assets/stylesheets/cgt.css">
+    <title>@Messages("calc.resident.summary.title")</title>
+</head>
+
+
+<div class="pdf">
+    <div class="header-container">
+        <h1 class="heading-xlarge">
+            <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
+            &pound;0.00
+        </h1>
+        <div class="logo">
+            <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+        </div>
+    </div>
+
+    @{if (!taxYear.isValidYear) {
+    <div class="notice-wrapper">
+        <div class="notice">
+            <strong class="bold-small">
+                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
+            </strong>
+        </div>
+    </div>
+    }
+    }
+
+    <!-- Calculation Details Section -->
+    <section id="calcDetails">
+        <!-- Header -->
+        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
+
+        <!-- Data Rows -->
+        @summaryNumericRowHelper("gain",gainMessage(gain),gain)
+    </section>
+
+    <!-- Your Answers Section -->
+    <section id="yourAnswers">
+        <!-- Header -->
+        @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
+
+        <!-- Data Rows-->
+        @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),answers.disposalDate,None)
+        <!-- Shares updated disposal value section -->
+        @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), answers.soldForLessThanWorth, None)
+
+        @{if(!answers.soldForLessThanWorth)
+            summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), answers.disposalValue.get, None)
+        }
+
+        @{if(answers.soldForLessThanWorth)
+            summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), answers.worthWhenSoldForLess.get, None)
+        }
+        <!-- Ends -->
+        @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),answers.disposalCosts,None)
+        @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),answers.ownerBeforeLegislationStart,None)
+        @if(answers.ownerBeforeLegislationStart){
+            @summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),answers.valueBeforeLegislationStart.get,None)
+        }
+
+        @if(!answers.ownerBeforeLegislationStart) {
+            @summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),answers.inheritedTheShares.get,None)
+        }
+
+        @if(answers.displayWorthWhenInherited){
+            @summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),answers.worthWhenInherited.get,None)
+        }
+
+        @if(answers.displayWorthWhenBought){
+                @summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),answers.acquisitionValue.get,None)
+        }
+        
+        @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),answers.acquisitionCosts,None)
+    </section>
+</div>

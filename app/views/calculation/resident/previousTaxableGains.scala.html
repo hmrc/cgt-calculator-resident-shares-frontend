@@ -1,0 +1,33 @@
+@import views.html.calculation.resident._
+@import models.resident.income.PreviousTaxableGainsModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+
+@(previousTaxableGainsForm: Form[PreviousTaxableGainsModel], backUrl: String, postAction: Call, homeLink: String, journey: String, taxYear: String, navTitle: String)(implicit request: Request[_])
+
+@sidebar =  {
+    <a id="helpLink1" class="external-link" rel="external" href="https://www.gov.uk/capital-gains-tax/work-out-need-to-pay" target="_blank"
+       data-journey-click="help:govUK:rtt-@{journey}-previousTaxableGains">
+        @Messages("calc.resident.previousTaxableGain.link.one")
+        <span id="opensInANewTab">@Messages("calc.base.externalLink")</span>
+    </a>
+}
+
+@resident_main_template(
+    Messages("calc.resident.previousTaxableGains.title", taxYear),
+    backLink = Some(backUrl), sidebarLinks = Some(sidebar),
+    homeLink = homeLink,
+    navTitle = navTitle
+) {
+
+    @errorSummary(previousTaxableGainsForm, "previousTaxableGains")
+
+    <h1 class="heading-large">@Messages("calc.resident.previousTaxableGains.title", taxYear)</h1>
+
+    @form(action = postAction) {
+
+        @formInputMoney(previousTaxableGainsForm, "amount", Messages("calc.resident.previousTaxableGains.title", taxYear), helpText = Some(Messages("calc.resident.previousTaxableGains.helpText")), hideLabel = true)
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+}

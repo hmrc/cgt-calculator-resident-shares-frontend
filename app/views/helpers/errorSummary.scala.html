@@ -1,0 +1,36 @@
+@(form: Form[_], page: String, errorKey: String = "")
+
+@summary = {
+    <div
+        class="flash error-summary error-summary--show"
+        id="error-summary-display"
+        role="alert"
+        aria-labelledby="error-summary-heading"
+        tabindex="-1">
+
+        <h2 id="error-summary-heading" class="h3-heading">@Messages("calc.error.summary.heading")</h2>
+        <ul class="js-error-summary-messages">
+            @form.errors.map { error =>
+                @if(error.key.equals("")) {
+                    <li role="tooltip" data-journey="@page:error:@errorKey">
+                        <a href="#@errorKey"
+                           id="@{errorKey}-error-summary"
+                           data-focuses="@errorKey">
+                            @Messages(error.message)
+                        </a>
+                    </li>
+                } else {
+                <li role="tooltip" data-journey="@page:error:@error.key">
+                    <a href="#@error.key"
+                        id="@{error.key}-error-summary"
+                        data-focuses="@error.key">
+                    @Messages(error.message)
+                    </a>
+                </li>
+                }
+            }
+        </ul>
+    </div>
+}
+
+@(if(form.hasErrors) summary)

@@ -1,0 +1,15 @@
+@import play.api.data._
+@import views.html.helpers._
+
+@()(implicit lang: play.api.i18n.Lang)
+
+<div class="notice-wrapper">
+    <div class="notice">
+        <i class="icon icon-important icon-important-size">
+            <span class="visuallyhidden" >Warning</span>
+        </i>
+        <strong class="bold-small">
+            @Messages("calc.summary.warning.taxYear")
+        </strong>
+    </div>
+</div>

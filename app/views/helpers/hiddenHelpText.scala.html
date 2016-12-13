@@ -1,0 +1,10 @@
+@(helpTextId: String, helpTextTitle: String, content: Html)
+
+<div id="@helpTextId" class="form-group">
+    <details>
+        <summary><span class="summary" data-journey-click="help:reveal:@helpTextTitle">@helpTextTitle</span></summary>
+        <div class="panel-indent">
+            @content
+        </div>
+    </details>
+</div>
