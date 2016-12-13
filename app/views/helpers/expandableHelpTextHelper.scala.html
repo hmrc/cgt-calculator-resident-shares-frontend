@@ -1,0 +1,10 @@
+@(helpTextTitle: String, content: Html)
+
+<details id="help" role="group">
+    <summary role="button" aria-controls="details-content-0">
+        <span class="summary" data-journey-click="help:reveal:@helpTextTitle">@helpTextTitle</span>
+    </summary>
+    <div class="panel-indent">
+        @content
+    </div>
+</details>

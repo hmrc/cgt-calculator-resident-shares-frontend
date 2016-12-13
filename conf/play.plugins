@@ -1,0 +1,4 @@
+1000:uk.gov.hmrc.play.health.HealthPlugin
+1000:com.kenshoo.play.metrics.MetricsPlugin
+3000:uk.gov.hmrc.http.cache.client.HttpCachingClientPlugin
+

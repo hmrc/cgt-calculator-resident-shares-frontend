@@ -1,0 +1,21 @@
+@import models.SummaryDataItemModel
+
+@(sectionId: String, sectionContent: Array[SummaryDataItemModel])
+
+<section id="@sectionId" class="summary-section">
+    @for(i <- 0 until sectionContent.length) {
+
+    <div class="grid-layout grid-layout--stacked form-group">
+        <div class="grid-layout__column grid-layout__column--1-3">
+            <span class="lede">@sectionContent(i).question</span>
+        </div>
+        <div class="grid-layout__column grid-layout__column--1-2">
+            @defining(s"${sectionId}(${i})") { inputIdNone =>
+                @if(sectionContent(i).link == None) {
+                    <span id="@inputIdNone" class="lede">@Html(sectionContent(i).answer)</span>
+                }
+            }
+        </div>
+    </div>
+    }
+</section>

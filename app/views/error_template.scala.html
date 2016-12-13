@@ -1,0 +1,12 @@
+@import config.ApplicationConfig
+@(pageTitle: String, heading: String, message: String, homeNavLink: String)(implicit request: Request[_])
+
+@contentHeader = {
+  <h1>@heading</h1>
+}
+
+@mainContent = {
+  <p>@message</p>
+}
+
+@govuk_wrapper(appConfig = ApplicationConfig, title = pageTitle, contentHeader = Some(contentHeader), mainContent = mainContent, homeLink = homeNavLink)

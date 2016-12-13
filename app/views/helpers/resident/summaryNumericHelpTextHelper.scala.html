@@ -1,0 +1,37 @@
+@import uk.gov.hmrc.play.views.helpers._
+@import play.twirl.api.Html
+
+
+@(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Html] = None)
+
+@additionalDetails(additionalText: String, additionalAmount: String) = {
+<span class="form-hint font-small">@additionalText &pound;@additionalAmount</span>
+}
+
+<div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
+    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+        @question
+    </div>
+    <div id="@{rowId}-amount" class="grid-layout__column grid-layout__column--1-2">
+        @amount.scale match {
+        case 0 => {
+        <span class="bold-medium">&pound;@MoneyPounds(amount, 0).quantity</span>
+        }
+        case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
+        <span class="bold-medium">&pound;@MoneyPounds(amount, 0).quantity</span>
+        }
+        case _ => {
+        <span class="bold-medium">&pound;@MoneyPounds(amount, 2).quantity</span>
+        }
+        }
+        @if(link.isDefined){<br><a id="@{rowId}-change-link" href="@link" class="font-xsmall">
+        @Messages("calc.base.change")
+        <span class="visuallyhidden">@question</span>
+    </a>}
+        <div class="form-hint font-small">
+        @{if(additionalContent.isDefined){
+            {additionalContent.get}
+        }}
+        </div>
+    </div>
+</div>

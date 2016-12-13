@@ -1,0 +1,18 @@
+@import uk.gov.hmrc.play.views.helpers._
+@import models.resident.TotalGainAndTaxOwedModel
+
+@(rowId: String, question: String, firstBand: BigDecimal, firstRate: Int, secondBand: Option[BigDecimal], secondRate: Option[Int])
+
+<div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
+    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+        @question
+    </div>
+    <div id="@{rowId}-result" class="grid-layout__column grid-layout__column--1-2">
+        @if(firstBand != 0) {
+            <div id="firstBand" class="bold-medium">&pound;@MoneyPounds(firstBand, 0).quantity at @firstRate&percnt;</div>
+        }
+        @if(secondBand.isDefined) {
+            <div id="secondBand" class="bold-medium">&pound;@MoneyPounds(secondBand.get, 0).quantity at @secondRate.get&percnt;</div>
+        }
+    </div>
+</div>

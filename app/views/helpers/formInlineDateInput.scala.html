@@ -1,0 +1,52 @@
+@(formItem:Form[_], fieldName: String, questionText: String, args: (Symbol,Any)*)(implicit lang: play.api.i18n.Lang)
+
+@import uk.gov.hmrc.play.mappers.DateFields._
+@import play.api.i18n._
+@import uk.gov.hmrc.play.views.html.{helpers => govHelpers}
+@import java.text.SimpleDateFormat
+
+@fieldsetClasses = @{if(formItem.hasErrors && (formItem.errors.find(_.key == "").isDefined || formItem.errors.find(_.key != "hasAcquisitionDate").isDefined)) "form-field--error" else "" }
+
+    <fieldset class="form-group form-date @fieldsetClasses" id="@fieldName-fieldset">
+
+    <legend @{if(args.toMap.contains('_visually_hidden)) {"class=visuallyhidden"}}>
+        @questionText
+    </legend>
+
+    @if(formItem.hasErrors) {
+        @formItem.errors.filter(_.key == "").map { error => <span class="error-notification">@error.message</span>}
+        @if(formItem.errors.find(_.key != "").isDefined && formItem.errors.find(_.key != "hasAcquisitionDate").isDefined) {
+            <span class="error-notification">@Messages("calc.common.date.error.invalidDate")</span>
+        }
+    }
+
+    <span class="form-hint">@Messages("calc.common.date.hint")</span>
+
+    @simpleNoErrorInput(
+        formItem(s"${fieldName}Day"),
+        '_label -> Messages("calc.common.date.fields.day"),
+        '_labelClass -> "form-group form-group-day",
+        '_type -> "number",
+        '_inputClass -> s"input--xxsmall input--no-spinner",
+        '_maxlength -> "2"
+    )
+
+    @simpleNoErrorInput(
+        formItem(s"${fieldName}Month"),
+        '_label -> Messages("calc.common.date.fields.month"),
+        '_labelClass -> "form-group form-group-month",
+        '_type -> "number",
+        '_inputClass -> s"input--xxsmall input--no-spinner",
+        '_maxlength -> "2"
+    )
+
+    @simpleNoErrorInput(
+        formItem(s"${fieldName}Year"),
+        '_label -> Messages("calc.common.date.fields.year"),
+        '_labelClass -> "form-group form-group-year",
+        '_type -> "number",
+        '_inputClass -> s"input--small input--no-spinner",
+        '_maxlength -> "4"
+    )
+
+</fieldset>

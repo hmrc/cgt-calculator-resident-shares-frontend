@@ -1,0 +1,30 @@
+@import uk.gov.hmrc.play.views.html.{helpers => govHelpers}
+@import play.api.data._
+@import views.html.helpers._
+
+@(inputForm: Form[_], fieldName: String, questionText: String, helpText: Option[Html] = None, hideLabel: Boolean = false, step: String = "0.01")(implicit lang: play.api.i18n.Lang)
+
+<div class="form-group">
+
+    @if(hideLabel) {
+        @moneyInputFormat(
+            inputForm(fieldName),
+            '_label -> questionText,
+            '_labelTextClass -> "visuallyhidden",
+            '_inputHint -> helpText,
+            '_type -> "number",
+            '_inputClass -> "input--no-spinner",
+            '_step -> step
+        )
+    } else {
+        @moneyInputFormat(
+            inputForm(fieldName),
+            '_label -> questionText,
+            '_inputHint -> helpText,
+            '_type -> "number",
+            '_inputClass -> "input--no-spinner",
+            '_step -> step
+        )
+    }
+
+</div>

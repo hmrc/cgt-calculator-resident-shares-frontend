@@ -1,0 +1,31 @@
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.AcquisitionValueModel
+@import views.html.helpers._
+@import views.html.calculation.resident._
+
+@(acquisitionValueForm: Form[AcquisitionValueModel], navHomeLink: String)(implicit request: Request[_])
+
+@resident_main_template(
+    Messages("calc.resident.shares.acquisitionValue.question"),
+    backLink = Some(controllers.resident.shares.routes.GainController.disposalCosts().toString),
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.shares.home")
+) {
+
+    @errorSummary(acquisitionValueForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.shares.acquisitionValue.question")</h1>
+
+    @form(action = controllers.resident.shares.routes.GainController.submitAcquisitionValue) {
+
+        @formInputMoney(
+            acquisitionValueForm,
+            "amount",
+            Messages("calc.resident.shares.acquisitionValue.question"),
+            hideLabel = true
+        )
+
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+
+}

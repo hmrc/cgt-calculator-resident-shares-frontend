@@ -1,0 +1,53 @@
+@(field: Field, radioOptions: Seq[(String, String, String, Option[String])], args: (Symbol, Any)*)(implicit lang: play.api.i18n.Lang)
+
+@import play.api.i18n._
+@import views.html.helper._
+@import scala.concurrent.Future
+@import scala.concurrent.ExecutionContext.Implicits.global
+@import uk.gov.hmrc.play.views.formatting.Money._
+@import uk.gov.hmrc.play.views.helpers._
+
+@elements = @{new FieldElements(field.id, field, null, args.toMap, lang) }
+@fieldsetClass = {@elements.args.get('_groupClass)}
+@labelAfter = @{ elements.args.get('_labelAfter).getOrElse(true).asInstanceOf[Boolean] }
+<div class="@if(elements.hasErrors){ form-field--error}">
+    <fieldset id="@field.id" class="@fieldsetClass"
+        @if(elements.args.get('_fieldsetAttributes).isDefined) {@elements.args.get('_fieldsetAttributes)}>
+        @if(elements.args.get('_legend).isDefined) {
+            <legend @if(elements.args.get('_legendClass).isDefined) {class="@elements.args.get('_legendClass)"}
+                    @if(elements.args.get('_legendID).isDefined) {id="@elements.args.get('_legendID)"}>
+                @elements.args.get('_legend)
+            </legend>
+        }
+        @if(elements.args.get('_helpText).isDefined) {
+            <span class="form-hint">
+                @elements.args.get('_helpText)
+            </span>
+        }
+        @elements.errors.map{error => <span class="error-notification">@Messages("calc.base.optionReqError")</span>}
+
+        @radioOptions.map { case (value, amount, message, dateMessage) =>
+            @defining(s"${elements.field.name}-${value.toLowerCase.replace(" ","_")}")  { inputId =>
+                <div>
+                    <label for="@inputId"
+                        @elements.args.get('_labelClass).map{labelClass => class="@labelClass@field.value.filter( _ == value).map{_ => selected}"}>
+                        <input
+                            type="radio"
+                            id="@inputId"
+                            name="@elements.field.name"
+                            value="@value"
+                            aria-expanded="false"
+                            @elements.args.get('_inputClass).map{inputClass => class="@inputClass"}
+                            @if(elements.args.contains('_dataAttributes) ){ @elements.args.get('_dataAttributes)}
+                            @field.value.filter( _ == value).map{_ => checked="checked"}/>
+                        <span class="bold-medium">&pound;@MoneyPounds(BigDecimal(amount)).quantity</span>
+                        @defining(s"${value.toLowerCase.replace(" ","_")}-para") { radioParaId =>
+                            <p id="@radioParaId"><span class="bold-xsmall block">@Messages("calc.calculationElection.based")</span><br> @message <span class="no-wrap">@dateMessage</span></p>
+                        }
+                    </label>
+                </div>
+            }
+        }
+
+    </fieldset>
+</div>
