@@ -42,11 +42,11 @@
 }
 
 @resident_main_template(
-title = Messages("calc.resident.summary.title"),
-backLink = Some(backUrl),
-articleLayout = false,
-homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.shares.home")
+    title = Messages("calc.resident.summary.title"),
+    backLink = Some(backUrl),
+    articleLayout = false,
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.shares.home")
 ) {
 
 <h1 class="heading-xlarge">
@@ -213,7 +213,7 @@ navTitle = Messages("calc.base.resident.shares.home")
             </section>
     }
 
-    <a type="submit" class="button save-pdf-button" href="@controllers.resident.shares.routes.ReportController.deductionsReport.toString"
+    <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.deductionsReport.toString"
        data-journey-click="rtt-shares-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
 
 }

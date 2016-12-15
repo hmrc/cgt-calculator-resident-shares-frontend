@@ -12,7 +12,7 @@
 
 @resident_main_template(
     title = Messages("calc.resident.summary.title"),
-    backLink = Some(controllers.resident.shares.routes.GainController.acquisitionCosts().toString),
+    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString),
     articleLayout = false,
     homeLink = navHomeLink,
     navTitle = Messages("calc.base.resident.shares.home")
@@ -125,6 +125,6 @@
             </section>
         }
     }
-    <a type="submit" class="button save-pdf-button" href="@controllers.resident.shares.routes.ReportController.gainSummaryReport.toString"
+    <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.gainSummaryReport.toString"
        data-journey-click="rtt-shares-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
 }

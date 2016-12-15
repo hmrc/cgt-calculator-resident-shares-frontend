@@ -25,7 +25,7 @@
 @resident_main_template(title = title.toString,
                         backLink = Some(backUrl),
                         sidebarLinks = Some(sidebar),
-                        homeLink = controllers.resident.shares.routes.GainController.disposalDate().url,
+                        homeLink = controllers.routes.GainController.disposalDate().url,
                         navTitle = Messages("calc.base.resident.shares.home")) {
 
     @errorSummary(currentIncomeForm, "current-income")
@@ -36,7 +36,7 @@
         } else {@Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)}
     </h1>
 
-    @form(action = controllers.resident.shares.routes.IncomeController.submitCurrentIncome){
+    @form(action = controllers.routes.IncomeController.submitCurrentIncome){
 
         @formInputMoney(currentIncomeForm, "amount",
                         if(inCurrentTaxYear) {Messages("calc.resident.currentIncome.questionCurrentYear")

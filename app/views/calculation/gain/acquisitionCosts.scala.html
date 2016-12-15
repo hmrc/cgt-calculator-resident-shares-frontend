@@ -11,7 +11,7 @@
 
     <h1 class="heading-large">@Messages("calc.resident.shares.acquisitionCosts.question")</h1>
 
-    @form(action = controllers.resident.shares.routes.GainController.submitAcquisitionCosts) {
+    @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
 
         @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.shares.acquisitionCosts.question"), Some(Messages("calc.resident.shares.acquisitionCosts.help")), hideLabel = true)
 

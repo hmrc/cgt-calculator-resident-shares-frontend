@@ -16,7 +16,7 @@
 
 @resident_main_template(
     title = Messages("calc.resident.otherProperties.title", taxYear.taxYearSupplied),
-    backLink = Some(controllers.resident.shares.routes.GainController.acquisitionCosts().toString),
+    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString),
     homeLink = navHomeUrl,
     navTitle = Messages("calc.base.resident.shares.home")
 ) {
@@ -25,7 +25,7 @@
 
     <h1>Messages("calc.resident.otherProperties.pageHeading", taxYear.taxYearSupplied)</h1>
 
-    @form(action = controllers.resident.shares.routes.DeductionsController.submitOtherDisposals) {
+    @form(action = controllers.routes.DeductionsController.submitOtherDisposals) {
 
             <div class="form-group">
                 @formInputRadioGroup(

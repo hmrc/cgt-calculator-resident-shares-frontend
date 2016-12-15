@@ -7,7 +7,7 @@
 
 @resident_main_template(
     Messages("calc.resident.shares.disposalCosts.question"),
-    backLink = Some(controllers.resident.shares.routes.GainController.disposalValue().toString),
+    backLink = Some(controllers.routes.GainController.disposalValue().toString),
     homeLink = navHomeLink,
     navTitle = Messages("calc.base.resident.shares.home")
 ) {
@@ -16,7 +16,7 @@
 
     <h1 class="heading-large">@Messages("calc.resident.shares.disposalCosts.question")</h1>
 
-    @form(action = controllers.resident.shares.routes.GainController.submitDisposalCosts){
+    @form(action = controllers.routes.GainController.submitDisposalCosts){
 
         @formInputMoney(disposalCostsForm, "amount", Messages("calc.resident.shares.disposalCosts.question"), Some(Messages("calc.resident.shares.disposalCosts.helpText")), hideLabel = true)
 

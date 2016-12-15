@@ -8,13 +8,13 @@
 
 @resident_shares_main_template(
     title = Messages("calc.resident.shares.valueBeforeLegislationStart.question"),
-    backLink = Some(controllers.resident.shares.routes.GainController.ownerBeforeLegislationStart.toString)) {
+    backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.toString)) {
 
     @errorSummary(valueBeforeLegislationStartForm, "amount")
 
     <h1 class="heading-large">@Messages("calc.resident.shares.valueBeforeLegislationStart.question")</h1>
 
-    @form(action = controllers.resident.shares.routes.GainController.submitValueBeforeLegislationStart) {
+    @form(action = controllers.resident.GainController.submitValueBeforeLegislationStart) {
 
         @formInputMoney(valueBeforeLegislationStartForm, "amount", Messages("calc.resident.shares.valueBeforeLegislationStart.question"), hideLabel = true)
 
