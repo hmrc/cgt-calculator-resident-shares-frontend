@@ -1,7 +1,6 @@
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import play.api.i18n._
 
-@(field: Field, legend: String, legendClass: Option[String] = None, helpText: Option[String] = None)
+@(field: Field, legend: String, legendClass: Option[String] = None, helpText: Option[String] = None)(implicit messages: Messages)
 
 @{(helpText, legendClass) match {
     case (Some(help), Some(legendClass)) => {

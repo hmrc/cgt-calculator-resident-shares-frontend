@@ -2,7 +2,7 @@
 @import play.twirl.api.Html
 
 
-@(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Html] = None)
+@(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Html] = None)(implicit messages: Messages)
 
 @additionalDetails(additionalText: String, additionalAmount: String) = {
 <span class="form-hint font-small">@additionalText &pound;@additionalAmount</span>

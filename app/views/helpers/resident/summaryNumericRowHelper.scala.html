@@ -1,6 +1,6 @@
 @import uk.gov.hmrc.play.views.helpers._
 
-@(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Seq[(String, String)]] = None)
+@(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Seq[(String, String)]] = None)(implicit messages: Messages)
 
 @additionalDetails(additionalText: String, additionalAmount: String) = {
     <div>

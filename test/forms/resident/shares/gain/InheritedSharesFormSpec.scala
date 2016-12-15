@@ -17,7 +17,7 @@
 package forms.resident.shares.gain
 
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.shares.gain.DidYouInheritThemForm._
+import forms.DidYouInheritThemForm._
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 
 class InheritedSharesFormSpec extends UnitSpec with WithFakeApplication {

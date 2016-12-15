@@ -17,7 +17,7 @@
 package views.resident.shares.gain
 
 import controllers.helpers.FakeRequestHelper
-import forms.resident.shares.gain.DidYouInheritThemForm._
+import forms.DidYouInheritThemForm._
 import models.resident.shares.gain.DidYouInheritThemModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

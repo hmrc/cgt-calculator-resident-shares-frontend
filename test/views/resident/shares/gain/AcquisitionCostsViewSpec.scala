@@ -19,7 +19,7 @@ package views.resident.shares.gain
 import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.AcquisitionCostsForm._
+import forms.AcquisitionCostsForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.shares.{gain => views}

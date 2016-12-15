@@ -18,7 +18,7 @@ package forms.resident
 
 import models.resident.DisposalDateModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.DisposalDateForm._
+import forms.DisposalDateForm._
 import assets.MessageLookup.{DisposalDate => messages}
 import controllers.helpers.FakeRequestHelper
 

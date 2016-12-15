@@ -18,7 +18,7 @@ package forms.resident
 
 import models.resident.AllowableLossesValueModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.AllowableLossesValueForm._
+import forms.AllowableLossesValueForm._
 import assets.MessageLookup.{Resident => messages}
 
 class AllowableLossesValueFormSpec extends UnitSpec with WithFakeApplication {

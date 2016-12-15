@@ -19,7 +19,7 @@ package forms.resident.shares.gain
 import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
-import forms.resident.shares.gain.ValueBeforeLegislationStartForm._
+import forms.ValueBeforeLegislationStartForm._
 
 
 class ValueBeforeLegislationStartFormSpec extends UnitSpec with WithFakeApplication {

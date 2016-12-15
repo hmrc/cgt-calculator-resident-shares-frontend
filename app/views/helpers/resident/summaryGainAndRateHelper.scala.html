@@ -1,7 +1,7 @@
 @import uk.gov.hmrc.play.views.helpers._
 @import models.resident.TotalGainAndTaxOwedModel
 
-@(rowId: String, question: String, firstBand: BigDecimal, firstRate: Int, secondBand: Option[BigDecimal], secondRate: Option[Int])
+@(rowId: String, question: String, firstBand: BigDecimal, firstRate: Int, secondBand: Option[BigDecimal], secondRate: Option[Int])(implicit messages: Messages)
 
 <div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
     <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">

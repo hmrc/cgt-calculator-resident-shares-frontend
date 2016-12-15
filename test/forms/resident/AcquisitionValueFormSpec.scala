@@ -18,7 +18,7 @@ package forms.resident
 
 import models.resident.AcquisitionValueModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.AcquisitionValueForm._
+import forms.AcquisitionValueForm._
 import assets.MessageLookup.{Resident => messages}
 
 class AcquisitionValueFormSpec extends UnitSpec with WithFakeApplication {

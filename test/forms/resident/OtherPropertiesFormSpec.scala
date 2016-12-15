@@ -18,7 +18,7 @@ package forms.resident
 
 import models.resident.OtherPropertiesModel
 import uk.gov.hmrc.play.test.{WithFakeApplication, UnitSpec}
-import forms.resident.OtherPropertiesForm._
+import forms.OtherPropertiesForm._
 import assets.MessageLookup.{OtherProperties => messages}
 
 class OtherPropertiesFormSpec extends UnitSpec with WithFakeApplication {

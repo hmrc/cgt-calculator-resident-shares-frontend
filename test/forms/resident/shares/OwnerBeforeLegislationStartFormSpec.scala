@@ -17,7 +17,7 @@
 package forms.resident.shares
 
 import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => Messages}
-import forms.resident.shares.OwnerBeforeLegislationStartForm._
+import forms.OwnerBeforeLegislationStartForm._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 

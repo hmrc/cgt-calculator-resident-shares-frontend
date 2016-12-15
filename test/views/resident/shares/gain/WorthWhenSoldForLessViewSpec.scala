@@ -20,7 +20,7 @@ import assets.MessageLookup
 import assets.MessageLookup.Resident.Shares.{WorthWhenSoldForLess => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.WorthWhenSoldForLessForm._
+import forms.WorthWhenSoldForLessForm._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.shares.{gain => views}
 import org.jsoup.Jsoup

@@ -17,7 +17,7 @@
 package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.AnnualExemptAmountForm._
+import forms.AnnualExemptAmountForm._
 import controllers.helpers.FakeRequestHelper
 import models.resident.AnnualExemptAmountModel
 import uk.gov.hmrc.play.views.helpers.MoneyPounds

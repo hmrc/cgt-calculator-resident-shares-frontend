@@ -20,7 +20,7 @@ import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
 import assets.MessageLookup.Resident.{Shares => CommonSharesMessages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.WorthWhenInheritedForm._
+import forms.WorthWhenInheritedForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.resident.shares.{gain => views}

@@ -20,7 +20,7 @@ import assets.MessageLookup.{SharesDisposalDate => messages}
 import assets.MessageLookup.{DisposalDate => viewMessages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.DisposalDateForm._
+import forms.DisposalDateForm._
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

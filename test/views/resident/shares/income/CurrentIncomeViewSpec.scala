@@ -19,7 +19,7 @@ package views.resident.shares.income
 import assets.MessageLookup.{CurrentIncome => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.income.CurrentIncomeForm._
+import forms.CurrentIncomeForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

@@ -18,7 +18,7 @@ package forms.resident.income
 
 import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.income.PreviousTaxableGainsForm._
+import forms.PreviousTaxableGainsForm._
 import models.resident.income.PreviousTaxableGainsModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 

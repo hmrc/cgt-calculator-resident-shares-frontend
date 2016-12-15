@@ -19,7 +19,7 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import models.resident.DisposalValueModel
-import forms.resident.DisposalValueForm._
+import forms.DisposalValueForm._
 
 class DisposalValueFormSpec extends UnitSpec with WithFakeApplication {
 

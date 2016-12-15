@@ -19,7 +19,7 @@
 @import views.html.calculation.resident._
 
 @(partialUrl: String, formBody: Option[Html])(implicit request: Request[_], formPartialRetriever: FormPartialRetriever,
-  partialRetriever: CachedStaticHtmlPartialRetriever)
+  partialRetriever: CachedStaticHtmlPartialRetriever, messages: Messages)
 
 @resident_main_template(Messages("feedback.title"),
                         homeLink = controllers.resident.shares.routes.GainController.disposalDate().url,

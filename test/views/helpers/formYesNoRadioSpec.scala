@@ -17,7 +17,7 @@
 package views.helpers
 
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.OtherPropertiesForm._
+import forms.OtherPropertiesForm._
 import org.jsoup.Jsoup
 import views.html.helpers._
 import assets.MessageLookup.{NonResident => messages}

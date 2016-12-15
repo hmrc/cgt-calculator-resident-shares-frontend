@@ -1,0 +1,29 @@
+@import models.resident.DisposalDateModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import views.html.calculation.resident._
+
+@(disposalDateForm: Form[DisposalDateModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
+
+@resident_main_template(
+    Messages("calc.resident.shares.disposalDate.question"),
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.shares.home")
+) {
+
+    @errorSummary(disposalDateForm, "disposal-date", "disposalDateDay")
+
+    <h1 class="heading-large">@Messages("calc.resident.shares.disposalDate.question")</h1>
+
+    @form(action = controllers.resident.shares.routes.GainController.submitDisposalDate){
+
+        @formInlineDateInput(disposalDateForm,
+                            "disposalDate",
+                            Messages("calc.resident.shares.disposalDate.question"),
+                            '_visually_hidden -> true)
+
+        <button id="continue-button" class="button">@Messages("calc.base.button.continue")</button>
+
+    }
+
+}

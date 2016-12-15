@@ -20,7 +20,7 @@ import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.{OtherProperties => viewMessages}
 import assets.MessageLookup.{SharesOtherDisposals => messages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.OtherPropertiesForm._
+import forms.OtherPropertiesForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

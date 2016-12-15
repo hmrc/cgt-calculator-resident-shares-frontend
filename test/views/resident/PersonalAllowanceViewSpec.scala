@@ -22,7 +22,7 @@ import assets.DateAsset
 import common.Dates
 import common.resident.JourneyKeys
 import controllers.helpers.FakeRequestHelper
-import forms.resident.income.PersonalAllowanceForm._
+import forms.PersonalAllowanceForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

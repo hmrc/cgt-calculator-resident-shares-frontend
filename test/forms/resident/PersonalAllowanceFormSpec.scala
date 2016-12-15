@@ -18,7 +18,7 @@ package forms.resident
 
 import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.income.PersonalAllowanceForm._
+import forms.PersonalAllowanceForm._
 import controllers.helpers.FakeRequestHelper
 import models.resident.income.PersonalAllowanceModel
 import uk.gov.hmrc.play.views.helpers.MoneyPounds

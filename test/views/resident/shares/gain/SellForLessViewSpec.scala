@@ -19,7 +19,7 @@ package views.resident.shares.gain
 import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.shares.SellForLessForm._
+import forms.SellForLessForm._
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

@@ -1,7 +1,7 @@
 @import common.Dates._
 @import java.time.LocalDate
 
-@(rowId: String, question: String, date: LocalDate, link: Option[String] = None)
+@(rowId: String, question: String, date: LocalDate, link: Option[String] = None)(implicit messages: Messages)
 
 <div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
     <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">

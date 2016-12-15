@@ -19,7 +19,7 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import controllers.helpers.FakeRequestHelper
 import models.resident.LossesBroughtForwardValueModel
-import forms.resident.LossesBroughtForwardValueForm._
+import forms.LossesBroughtForwardValueForm._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class LossesBroughtForwardValueFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {

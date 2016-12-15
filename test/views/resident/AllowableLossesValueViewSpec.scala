@@ -19,7 +19,7 @@ package views.resident
 import assets.MessageLookup.{AllowableLossesValue => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.AllowableLossesValueForm._
+import forms.AllowableLossesValueForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

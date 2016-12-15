@@ -19,7 +19,7 @@ package views.resident.shares.gain
 import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => Messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
-import forms.resident.shares.OwnerBeforeLegislationStartForm._
+import forms.OwnerBeforeLegislationStartForm._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

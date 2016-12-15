@@ -1,0 +1,49 @@
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident._
+@import views.html.helpers._
+@import views.html.calculation.resident._
+
+@(otherPropertiesForm: Form[OtherPropertiesModel], taxYear: TaxYearModel, navHomeUrl: String)(implicit request: Request[_], messages: Messages)
+
+@helpText = {
+    <p>@Messages("calc.resident.otherProperties.bullet.title")</p>
+    <ul class="list-bullet">
+        <li>@Messages("calc.resident.shares.otherDisposals.bullet.one")</li>
+        <li>@Messages("calc.resident.otherProperties.bullet.two")</li>
+        <li>@Messages("calc.resident.shares.otherDisposals.bullet.three")</li>
+    </ul>
+}
+
+@resident_main_template(
+    title = Messages("calc.resident.otherProperties.title", taxYear.taxYearSupplied),
+    backLink = Some(controllers.resident.shares.routes.GainController.acquisitionCosts().toString),
+    homeLink = navHomeUrl,
+    navTitle = Messages("calc.base.resident.shares.home")
+) {
+
+    @errorSummary(otherPropertiesForm, "hasOtherProperties")
+
+    <h1>Messages("calc.resident.otherProperties.pageHeading", taxYear.taxYearSupplied)</h1>
+
+    @form(action = controllers.resident.shares.routes.DeductionsController.submitOtherDisposals) {
+
+            <div class="form-group">
+                @formInputRadioGroup(
+                    field = otherPropertiesForm("hasOtherProperties"),
+                    Seq(
+                        "Yes" -> Messages("calc.base.yes"),
+                        "No" -> Messages("calc.base.no")),
+                    '_legend -> Messages("calc.resident.otherProperties.pageHeading", taxYear.taxYearSupplied),
+                    '_legendID -> "hasOtherProperties",
+                    '_legendClass -> "visuallyhidden",
+                    '_helpText -> helpText,
+                    '_labelAfter -> true,
+                    '_labelClass -> "block-label",
+                    '_groupClass -> "inline"
+                )
+            </div>
+
+            <input type="hidden" name="hasOtherProperties" value="" />
+            <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        }
+}

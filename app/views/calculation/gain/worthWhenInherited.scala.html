@@ -1,0 +1,28 @@
+@import views.html.helpers._
+@import views.html.calculation.resident._
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident.WorthWhenInheritedModel
+@import views.html.calculation.resident.shares.gain._
+
+@(worthWhenInheritedForm: Form[WorthWhenInheritedModel])(implicit request: Request[_], messages: Messages)
+
+@resident_shares_main_template(
+    title = Messages("calc.resident.shares.worthWhenInherited.question"),
+    backLink = Some(controllers.resident.shares.routes.GainController.didYouInheritThem.url)
+){
+
+    @errorSummary(worthWhenInheritedForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.shares.worthWhenInherited.question")</h1>
+
+    @form(action = controllers.resident.shares.routes.GainController.submitWorthWhenInherited) {
+
+        @formInputMoney(
+            worthWhenInheritedForm,
+            "amount",
+            Messages("calc.resident.shares.worthWhenInherited.question"),
+            hideLabel = true
+        )
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+}

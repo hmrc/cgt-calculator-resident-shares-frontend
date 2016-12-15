@@ -19,7 +19,7 @@ package forms.resident
 import assets.MessageLookup.{Resident => messages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import models.resident.AcquisitionCostsModel
-import forms.resident.AcquisitionCostsForm._
+import forms.AcquisitionCostsForm._
 import controllers.helpers.FakeRequestHelper
 
 class AcquisitionCostsFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {

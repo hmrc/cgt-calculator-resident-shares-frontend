@@ -20,7 +20,7 @@ import assets.MessageLookup.{AnnualExemptAmount => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.resident.JourneyKeys
 import controllers.helpers.FakeRequestHelper
-import forms.resident.AnnualExemptAmountForm._
+import forms.AnnualExemptAmountForm._
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{resident => views}

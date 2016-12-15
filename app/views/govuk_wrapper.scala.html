@@ -10,7 +10,7 @@
   scriptElem: Option[Html] = None,
   homeLink: String,
   navTitle: String = Messages("calc.base.nonresident.home")
-)(implicit request: Request[_])
+)(implicit request: Request[_], messages: Messages)
 
 @import layouts.{govuk_template => hmrcGovUkTemplate}
 @import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
