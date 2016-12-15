@@ -4,12 +4,12 @@
 @import models.resident.shares._
 @import common.Dates._
 @import common.TaxDates
-@import constructors.resident.shares.SummaryConstructor._
-@import constructors.resident.shares.CalculateRequestConstructor._
-@import controllers.resident.shares.routes.{GainController => gainRoutes}
-@import controllers.resident.shares.routes.{DeductionsController => deductionRoutes}
+@import constructors.SummaryConstructor._
+@import constructors.CalculateRequestConstructor._
+@import controllers.routes.{GainController => gainRoutes}
+@import controllers.routes.{DeductionsController => deductionRoutes}
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import views.html.calculation.resident._
+@import views.html.calculation._
 
 @(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String)(implicit request: Request[_], messages: Messages)
 

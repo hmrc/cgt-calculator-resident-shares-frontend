@@ -4,9 +4,9 @@
 @import models.resident.shares._
 @import common.Dates._
 @import common.TaxDates
-@import constructors.resident.shares.SummaryConstructor._
-@import controllers.resident.shares.routes.{GainController => routes}
-@import views.html.calculation.resident._
+@import constructors.SummaryConstructor._
+@import controllers.routes.{GainController => routes}
+@import views.html.calculation._
 
 @(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String)(implicit request: Request[_], messages: Messages)
 

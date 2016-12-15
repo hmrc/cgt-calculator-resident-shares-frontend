@@ -6,10 +6,10 @@
 @(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
-Messages("calc.resident.shares.worthWhenSoldForLess.question"),
-backLink = Some(controllers.resident.shares.routes.GainController.sellForLess().toString),
-homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.shares.home")
+    Messages("calc.resident.shares.worthWhenSoldForLess.question"),
+    backLink = Some(controllers.resident.shares.routes.GainController.sellForLess().toString),
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.shares.home")
 ) {
 
     @errorSummary(worthWhenSoldForLessForm, "amount")

@@ -3,8 +3,8 @@
 @import models.resident._
 @import models.resident.shares._
 @import common.Dates._
-@import constructors.resident.shares.SummaryConstructor._
-@import controllers.resident.shares.routes.{GainController => routes}
+@import constructors.SummaryConstructor._
+@import controllers.routes.{GainController => routes}
 
 @(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
 
