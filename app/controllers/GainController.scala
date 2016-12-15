@@ -42,8 +42,8 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
-import views.html.calculation.{resident => commonViews}
-import views.html.calculation.resident.shares.{gain => views}
+import views.html.{calculation => commonViews}
+import views.html.calculation.{gain => views}
 
 import scala.concurrent.Future
 
@@ -56,7 +56,7 @@ trait GainController extends ValidActiveSession {
   val calcConnector: CalculatorConnector
 
   val navTitle = Messages("calc.base.resident.shares.home")
-  override val homeLink = controllers.resident.shares.routes.GainController.disposalDate().url
+  override val homeLink = controllers.routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
 
   //################# Disposal Date Actions ####################
@@ -168,7 +168,7 @@ trait GainController extends ValidActiveSession {
       Ok(commonViews.outsideTaxYear(
         taxYear = taxYear.get,
         isAfterApril15 = TaxDates.dateAfterStart(Dates.constructDate(disposalDate.get.day, disposalDate.get.month, disposalDate.get.year)),
-        false,
+        isProperty = false,
         navBackLink = routes.GainController.disposalDate().url,
         navHomeLink = homeLink,
         continueUrl = routes.GainController.sellForLess().url,
@@ -214,7 +214,7 @@ trait GainController extends ValidActiveSession {
 
 
   //################# Owned Before 1982 Actions ########################
-  private val ownerBeforeLegislationStartBackLink = Some(controllers.resident.shares.routes.GainController.disposalCosts().url)
+  private val ownerBeforeLegislationStartBackLink = Some(controllers.routes.GainController.disposalCosts().url)
 
   val ownerBeforeLegislationStart = ValidateSession.async { implicit request =>
     calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart).map {

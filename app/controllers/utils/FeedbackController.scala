@@ -39,7 +39,7 @@ object FeedbackController extends FeedbackController with PartialRetriever {
   override val httpGet = WSHttp
 
   override def contactFormReferer(implicit request: Request[AnyContent]): String = request.headers.get(REFERER).getOrElse("")
-  override def localSubmitUrl(implicit request: Request[AnyContent]): String = routes.FeedbackController.submit().url
+  override def localSubmitUrl(implicit request: Request[AnyContent]): String = controllers.routes.FeedbackController.submit().url
 
   protected def authConnector: AuthConnector = config.FrontendAuthConnector
   protected def loadPartial(url : String)(implicit request : RequestHeader) : HtmlPartial = ???
@@ -89,7 +89,7 @@ trait FeedbackController extends FrontendController with Actions {
         httpPost.POSTForm[HttpResponse](feedbackHmrcSubmitPartialUrl, formData)(rds = readPartialsForm, hc = partialsReadyHeaderCarrier).map {
           resp =>
             resp.status match {
-              case HttpStatus.OK => Redirect(routes.FeedbackController.thankyou()).withSession(request.session + (TICKET_ID -> resp.body))
+              case HttpStatus.OK => Redirect(controllers.routes.FeedbackController.thankyou()).withSession(request.session + (TICKET_ID -> resp.body))
               case HttpStatus.BAD_REQUEST => BadRequest(views.html.feedback.feedback(feedbackFormPartialUrl, Some(Html(resp.body))))
               case status => Logger.warn(s"Unexpected status code from feedback form: $status"); InternalServerError
             }

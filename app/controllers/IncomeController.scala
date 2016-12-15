@@ -32,8 +32,7 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.HeaderCarrier
-import views.html.calculation.{resident => commonViews}
-import views.html.calculation.resident.shares.{income => views}
+import views.html.{calculation => views}
 
 import scala.concurrent.Future
 
@@ -46,7 +45,7 @@ trait IncomeController extends ValidActiveSession {
   val calcConnector: CalculatorConnector
 
   val navTitle = Messages("calc.base.resident.shares.home")
-  override val homeLink = controllers.resident.shares.routes.GainController.disposalDate().url
+  override val homeLink = controllers.GainController.disposalDate().toString()
   override val sessionTimeoutUrl = homeLink
 
   def otherPropertiesResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
@@ -95,7 +94,7 @@ trait IncomeController extends ValidActiveSession {
 
   //################################# Previous Taxable Gain Actions ##########################################
 
-  private val previousTaxableGainsPostAction = controllers.resident.shares.routes.IncomeController.submitPreviousTaxableGains()
+  private val previousTaxableGainsPostAction = controllers.routes.IncomeController.submitPreviousTaxableGains()
 
   def buildPreviousTaxableGainsBackUrl(implicit hc: HeaderCarrier): Future[String] = {
 
@@ -117,9 +116,9 @@ trait IncomeController extends ValidActiveSession {
 
     def routeRequest(backUrl: String, calculationYear: String): Future[Result] = {
       calcConnector.fetchAndGetFormData[PreviousTaxableGainsModel](keystoreKeys.previousTaxableGains).map {
-        case Some(data) => Ok(commonViews.previousTaxableGains(previousTaxableGainsForm.fill(data), backUrl,
+        case Some(data) => Ok(views.deductions.previousTaxableGains(previousTaxableGainsForm.fill(data), backUrl,
           previousTaxableGainsPostAction, homeLink, JourneyKeys.shares, calculationYear, navTitle))
-        case None => Ok(commonViews.previousTaxableGains(previousTaxableGainsForm, backUrl,
+        case None => Ok(views.deductions.previousTaxableGains(previousTaxableGainsForm, backUrl,
           previousTaxableGainsPostAction, homeLink, JourneyKeys.shares, calculationYear, navTitle))
       }
     }
@@ -136,7 +135,7 @@ trait IncomeController extends ValidActiveSession {
   val submitPreviousTaxableGains = ValidateSession.async { implicit request =>
 
     def errorAction (errors: Form[PreviousTaxableGainsModel], backUrl: String, taxYear: String) = {
-      Future.successful(BadRequest(commonViews.previousTaxableGains(errors, backUrl, previousTaxableGainsPostAction,
+      Future.successful(BadRequest(views.deductions.previousTaxableGains(errors, backUrl, previousTaxableGainsPostAction,
         homeLink, JourneyKeys.properties, taxYear, navTitle)))
     }
 
@@ -183,8 +182,8 @@ trait IncomeController extends ValidActiveSession {
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
 
       calcConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
-        case Some(data) => Ok(views.currentIncome(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
-        case None => Ok(views.currentIncome(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
+        case Some(data) => Ok(views.income.currentIncome(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
+        case None => Ok(views.income.currentIncome(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
       }
     }
 
@@ -205,7 +204,8 @@ trait IncomeController extends ValidActiveSession {
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
 
       currentIncomeForm.bindFromRequest.fold(
-        errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(views.currentIncome(errors, url, taxYearModel, inCurrentTaxYear)))),
+        errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(views.income.currentIncome(errors, url,
+          taxYearModel, inCurrentTaxYear)))),
         success => {
           calcConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
           Future.successful(Redirect(routes.IncomeController.personalAllowance()))
@@ -231,8 +231,8 @@ trait IncomeController extends ValidActiveSession {
     Future.successful(TaxDates.taxYearStringToInteger(taxYear))
   }
 
-  private val backLinkPersonalAllowance = Some(controllers.resident.shares.routes.IncomeController.currentIncome().toString)
-  private val postActionPersonalAllowance = controllers.resident.shares.routes.IncomeController.submitPersonalAllowance()
+  private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome().toString)
+  private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance()
 
   val personalAllowance = ValidateSession.async { implicit request =>
 
@@ -245,7 +245,7 @@ trait IncomeController extends ValidActiveSession {
 
     def routeRequest(taxYearModel: TaxYearModel, standardPA: BigDecimal, formData: Form[PersonalAllowanceModel], currentTaxYear: String):
     Future[Result] = {
-      Future.successful(Ok(commonViews.personalAllowance(formData, taxYearModel, standardPA, homeLink,
+      Future.successful(Ok(views.income.personalAllowance(formData, taxYearModel, standardPA, homeLink,
         postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear)))
     }
     for {
@@ -269,7 +269,7 @@ trait IncomeController extends ValidActiveSession {
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
       personalAllowanceForm(maxPA).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.personalAllowance(errors, taxYearModel, standardPA, homeLink,
+        errors => Future.successful(BadRequest(views.income.personalAllowance(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear))),
         success => {
           calcConnector.saveFormData(keystoreKeys.personalAllowance, success)

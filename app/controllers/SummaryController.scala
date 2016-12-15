@@ -26,7 +26,9 @@ import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.HeaderCarrier
-import views.html.calculation.resident.shares.{summary => views}
+import views.html.calculation.{summary => views}
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 import scala.concurrent.Future
 
@@ -38,7 +40,7 @@ trait SummaryController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
 
-  override val homeLink = controllers.resident.shares.routes.GainController.disposalDate().url
+  override val homeLink = controllers.routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
 
   val summary = ValidateSession.async { implicit request =>

@@ -34,8 +34,8 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import views.html.calculation.{resident => commonViews}
-import views.html.calculation.resident.shares.{deductions => views}
+import views.html.{calculation => commonViews}
+import views.html.calculation.{deductions => views}
 
 import scala.concurrent.Future
 
@@ -46,7 +46,7 @@ object DeductionsController extends DeductionsController {
 trait DeductionsController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
-  override val homeLink = controllers.resident.shares.routes.GainController.disposalDate().url
+  override val homeLink = routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
   val navTitle = Messages("calc.base.resident.shares.home")
 
@@ -131,7 +131,7 @@ trait DeductionsController extends ValidActiveSession {
 
   //################# Brought Forward Losses Actions ##############################
 
-  private val lossesBroughtForwardPostAction = controllers.resident.shares.routes.DeductionsController.submitLossesBroughtForward()
+  private val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
 
   def otherPropertiesCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
     calcConnector.fetchAndGetFormData[OtherPropertiesModel](keystoreKeys.otherProperties).map {
@@ -181,9 +181,9 @@ trait DeductionsController extends ValidActiveSession {
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel, otherPropertiesClaimed: Boolean): Future[Result] = {
       calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
-        case Some(data) => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
+        case Some(data) => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
           backLinkUrl, taxYear, otherPropertiesClaimed, homeLink, navTitle))
-        case _ => Ok(commonViews.lossesBroughtForward(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear,
+        case _ => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear,
           otherPropertiesClaimed, homeLink, navTitle))
       }
     }
@@ -204,7 +204,7 @@ trait DeductionsController extends ValidActiveSession {
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel, otherPropertiesClaimed: Boolean): Future[Result] = {
       lossesBroughtForwardForm.bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
+        errors => Future.successful(BadRequest(commonViews.deductions.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
           otherPropertiesClaimed, homeLink, navTitle))),
         success => {
           calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success)
@@ -251,7 +251,7 @@ trait DeductionsController extends ValidActiveSession {
     }
 
     def routeRequest(taxYear: TaxYearModel, formData: Form[LossesBroughtForwardValueModel]): Future[Result] = {
-      Future.successful(Ok(commonViews.lossesBroughtForwardValue(
+      Future.successful(Ok(commonViews.deductions.lossesBroughtForwardValue(
         formData,
         taxYear,
         navBackLink = lossesBroughtForwardValueBackLink,
@@ -277,7 +277,7 @@ trait DeductionsController extends ValidActiveSession {
           disposalDateString <- formatDisposalDate(disposalDate.get)
           taxYear <- calcConnector.getTaxYear(disposalDateString)
         } yield {
-          BadRequest(commonViews.lossesBroughtForwardValue(
+          BadRequest(commonViews.deductions.lossesBroughtForwardValue(
             errors,
             taxYear.get,
             navBackLink = lossesBroughtForwardValueBackLink,
@@ -305,13 +305,13 @@ trait DeductionsController extends ValidActiveSession {
 
   val allowableLosses = ValidateSession.async { implicit request =>
 
-    val postAction = controllers.resident.shares.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.resident.shares.routes.DeductionsController.otherDisposals().toString())
+    val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
+    val backLink = Some(controllers.routes.DeductionsController.otherDisposals().toString())
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
       calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
-        case Some(data) => Ok(commonViews.allowableLosses(allowableLossesForm.fill(data), taxYear, postAction, backLink, homeLink, navTitle))
-        case None => Ok(commonViews.allowableLosses(allowableLossesForm, taxYear, postAction, backLink, homeLink, navTitle))
+        case Some(data) => Ok(commonViews.deductions.allowableLosses(allowableLossesForm.fill(data), taxYear, postAction, backLink, homeLink, navTitle))
+        case None => Ok(commonViews.deductions.allowableLosses(allowableLossesForm, taxYear, postAction, backLink, homeLink, navTitle))
       }
     }
     for {
@@ -324,12 +324,12 @@ trait DeductionsController extends ValidActiveSession {
 
   val submitAllowableLosses = ValidateSession.async { implicit request =>
 
-    val postAction = controllers.resident.shares.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.resident.shares.routes.DeductionsController.otherDisposals().toString())
+    val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
+    val backLink = Some(controllers.routes.DeductionsController.otherDisposals().toString())
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
       allowableLossesForm.bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.allowableLosses(errors, taxYear, postAction, backLink, homeLink, navTitle))),
+        errors => Future.successful(BadRequest(commonViews.deductions.allowableLosses(errors, taxYear, postAction, backLink, homeLink, navTitle))),
         success => {
           calcConnector.saveFormData[AllowableLossesModel](keystoreKeys.allowableLosses, success)
           if (success.isClaiming) {
@@ -351,9 +351,9 @@ trait DeductionsController extends ValidActiveSession {
 
   //################# Allowable Losses Value Actions ############################
 
-  private val allowableLossesValueHomeLink = controllers.resident.shares.routes.GainController.disposalDate().toString
-  private val allowableLossesValuePostAction = controllers.resident.shares.routes.DeductionsController.submitAllowableLossesValue()
-  private val allowableLossesValueBackLink = Some(controllers.resident.shares.routes.DeductionsController.allowableLosses().toString)
+  private val allowableLossesValueHomeLink = controllers.routes.GainController.disposalDate().toString
+  private val allowableLossesValuePostAction = controllers.routes.DeductionsController.submitAllowableLossesValue()
+  private val allowableLossesValueBackLink = Some(controllers.routes.DeductionsController.allowableLosses().toString)
 
   val allowableLossesValue = ValidateSession.async { implicit request =>
 
@@ -365,7 +365,7 @@ trait DeductionsController extends ValidActiveSession {
     }
 
     def routeRequest(taxYear: TaxYearModel, formData: Form[AllowableLossesValueModel]): Future[Result] = {
-      Future.successful(Ok(commonViews.allowableLossesValue(formData, taxYear,
+      Future.successful(Ok(commonViews.deductions.allowableLossesValue(formData, taxYear,
         allowableLossesValueHomeLink,
         allowableLossesValuePostAction,
         allowableLossesValueBackLink,
@@ -385,7 +385,7 @@ trait DeductionsController extends ValidActiveSession {
 
     def routeRequest(taxYearModel: TaxYearModel): Future[Result] = {
       allowableLossesValueForm.bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.allowableLossesValue(errors, taxYearModel,
+        errors => Future.successful(BadRequest(commonViews.deductions.allowableLossesValue(errors, taxYearModel,
           allowableLossesValueHomeLink,
           allowableLossesValuePostAction,
           allowableLossesValueBackLink,
@@ -410,19 +410,19 @@ trait DeductionsController extends ValidActiveSession {
   private def annualExemptAmountBackLink(implicit hc: HeaderCarrier): Future[Option[String]] = calcConnector
     .fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
     case Some(LossesBroughtForwardModel(true)) =>
-      Some(controllers.resident.shares.routes.DeductionsController.lossesBroughtForwardValue().toString)
+      Some(controllers.routes.DeductionsController.lossesBroughtForwardValue().toString)
     case _ =>
-      Some(controllers.resident.shares.routes.DeductionsController.lossesBroughtForward().toString)
+      Some(controllers.routes.DeductionsController.lossesBroughtForward().toString)
   }
 
-  private val annualExemptAmountPostAction = controllers.resident.shares.routes.DeductionsController.submitAnnualExemptAmount()
+  private val annualExemptAmountPostAction = controllers.routes.DeductionsController.submitAnnualExemptAmount()
 
   val annualExemptAmount = ValidateSession.async { implicit request =>
     def routeRequest(backLink: Option[String]) = {
       calcConnector.fetchAndGetFormData[AnnualExemptAmountModel](keystoreKeys.annualExemptAmount).map {
-        case Some(data) => Ok(commonViews.annualExemptAmount(annualExemptAmountForm().fill(data), backLink,
+        case Some(data) => Ok(commonViews.deductions.annualExemptAmount(annualExemptAmountForm().fill(data), backLink,
           annualExemptAmountPostAction, homeLink, JourneyKeys.shares, navTitle))
-        case None => Ok(commonViews.annualExemptAmount(annualExemptAmountForm(), backLink,
+        case None => Ok(commonViews.deductions.annualExemptAmount(annualExemptAmountForm(), backLink,
           annualExemptAmountPostAction, homeLink, JourneyKeys.shares, navTitle))
       }
     }
@@ -449,7 +449,7 @@ trait DeductionsController extends ValidActiveSession {
 
     def routeRequest(maxAEA: BigDecimal, backLink: Option[String]): Future[Result] = {
       annualExemptAmountForm(maxAEA).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.annualExemptAmount(errors, backLink,
+        errors => Future.successful(BadRequest(commonViews.deductions.annualExemptAmount(errors, backLink,
           annualExemptAmountPostAction, homeLink, JourneyKeys.shares, navTitle))),
         success => {
           for {
