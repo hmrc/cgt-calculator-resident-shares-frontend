@@ -30,7 +30,7 @@ import views.html.calculation.{gain => views}
 class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   "worthWhenInherited view" should {
-    val form = worthWhenInheritedForm
+    lazy val form = worthWhenInheritedForm
     lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -84,8 +84,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
   }
 
   "worthWhenInherited View with form without errors" should {
-    val homeLink = "homeLink"
-    val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
+    lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
     lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -103,7 +102,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
   }
 
   "worthWhenInherited View with form with errors" should {
-    val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
+    lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
     lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

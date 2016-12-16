@@ -23,7 +23,7 @@
 
     @errorSummary(otherPropertiesForm, "hasOtherProperties")
 
-    <h1>Messages("calc.resident.otherProperties.pageHeading", taxYear.taxYearSupplied)</h1>
+    <h1>@Messages("calc.resident.otherProperties.pageHeading", taxYear.taxYearSupplied)</h1>
 
     @form(action = controllers.routes.DeductionsController.submitOtherDisposals) {
 

@@ -79,7 +79,7 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
   "Disposal Value View with form without errors" should {
 
-    val form = disposalValueForm.bind(Map("amount" -> "100"))
+    lazy val form = disposalValueForm.bind(Map("amount" -> "100"))
     lazy val view = views.disposalValue(form, "home-link")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -98,7 +98,7 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
   "Disposal Value View with form with errors" should {
 
-    val form = disposalValueForm.bind(Map("amount" -> ""))
+    lazy val form = disposalValueForm.bind(Map("amount" -> ""))
     lazy val view = views.disposalValue(form, "home-link")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

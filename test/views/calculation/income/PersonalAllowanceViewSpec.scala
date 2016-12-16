@@ -214,7 +214,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
       "is due to mandatory field error" should {
 
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        val form = personalAllowanceForm().bind(Map("amount" -> ""))
+        lazy val form = personalAllowanceForm().bind(Map("amount" -> ""))
         lazy val view = views.personalAllowance(form, taxYearModel, BigDecimal(11000), "home", postAction,
           Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
         lazy val doc = Jsoup.parse(view.body)

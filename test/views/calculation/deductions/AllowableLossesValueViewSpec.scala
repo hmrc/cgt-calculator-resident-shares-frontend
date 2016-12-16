@@ -150,7 +150,7 @@ class AllowableLossesValueViewSpec extends UnitSpec with WithFakeApplication wit
   }
 
   "Allowable Losses Value View with form with errors" should {
-    val form = allowableLossesValueForm.bind(Map("amount" -> ""))
+    lazy val form = allowableLossesValueForm.bind(Map("amount" -> ""))
     lazy val view = views.allowableLossesValue(form, TaxYearModel("2015/16", true, "2015/16"),
       "home",
       controllers.routes.DeductionsController.submitAllowableLossesValue(),

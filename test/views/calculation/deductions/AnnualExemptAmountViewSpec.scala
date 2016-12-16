@@ -179,7 +179,7 @@ class AnnualExemptAmountViewSpec extends UnitSpec with WithFakeApplication with 
     "is due to mandatory field error" should {
       lazy val postAction = controllers.routes.DeductionsController.submitAnnualExemptAmount()
       lazy val backLink = Some(controllers.routes.DeductionsController.lossesBroughtForwardValue().toString)
-      val form = annualExemptAmountForm().bind(Map("amount" -> ""))
+      lazy val form = annualExemptAmountForm().bind(Map("amount" -> ""))
       lazy val homeLink = controllers.routes.GainController.disposalDate().url
       lazy val view = views.annualExemptAmount(form, backLink, postAction, homeLink, JourneyKeys.properties,
         "navTitle")(fakeRequest, applicationMessages)

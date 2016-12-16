@@ -141,7 +141,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
   }
 
   "Acquisition Value View with form with errors" should {
-    val form = acquisitionValueForm.bind(Map("amount" -> ""))
+    lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
     lazy val view = views.acquisitionValue(form, "home-link")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

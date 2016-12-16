@@ -25,14 +25,14 @@ import play.api.Play.current
 
 class ExpandableHelpTextHelperSpec extends UnitSpec with WithFakeApplication{
 
-  val content = expandableHelpTextHelper("testQ", Html("someHtml"))(applicationMessages)
-  val doc = Jsoup.parse(content.body)
+  lazy val content = expandableHelpTextHelper("testQ", Html("someHtml"))(applicationMessages)
+  lazy val doc = Jsoup.parse(content.body)
 
   "Expandable Help Text Helper" should {
 
     "have a details tag" which {
 
-      val details = doc.select("details#help")
+      lazy val details = doc.select("details#help")
 
       "has the id 'help'" in {
         details.attr("id") shouldBe "help"
@@ -45,7 +45,7 @@ class ExpandableHelpTextHelperSpec extends UnitSpec with WithFakeApplication{
 
     "have a header summary" which {
 
-      val summary = doc.select("summary")
+      lazy val summary = doc.select("summary")
 
       "has the role 'button'" in {
         summary.attr("role") shouldBe "button"
@@ -66,7 +66,7 @@ class ExpandableHelpTextHelperSpec extends UnitSpec with WithFakeApplication{
 
     "have hidden html" which {
 
-      val hiddenHtml = doc.select("div")
+      lazy val hiddenHtml = doc.select("div")
 
       "has the class 'panel-indent'" in {
         hiddenHtml.hasClass("panel-indent") shouldBe true

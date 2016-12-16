@@ -149,7 +149,7 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
     "is due to mandatory field error" should {
 
-      val form = disposalCostsForm.bind(Map("amount" -> ""))
+      lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
       lazy val view = views.disposalCosts(form, "home-link")(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 

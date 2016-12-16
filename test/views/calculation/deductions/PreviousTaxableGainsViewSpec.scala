@@ -72,17 +72,17 @@ class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication wit
     }
 
     "have the correct back link" in {
-      val link = doc.select("#back-link")
+      lazy val link = doc.select("#back-link")
       link.attr("href") shouldBe "#"
     }
 
     "have the correct label" in {
-      val label = doc.select("label")
+      lazy val label = doc.select("label")
       label.text should startWith(messages.question("2016/17"))
     }
 
     "have a hidden label" in {
-      val label = doc.select("label > span")
+      lazy val label = doc.select("label > span")
       label.hasClass("visuallyhidden") shouldBe true
     }
 
@@ -122,7 +122,7 @@ class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication wit
 
   "Previous taxable gains view with form without errors" should {
 
-    val form = previousTaxableGainsForm.bind(Map("amount" -> "100"))
+    lazy val form = previousTaxableGainsForm.bind(Map("amount" -> "100"))
     lazy val postAction = controllers.routes.IncomeController.previousTaxableGains()
     lazy val homeLink = controllers.routes.GainController.disposalDate().url
     lazy val view = views.previousTaxableGains(form, "#", postAction, homeLink, JourneyKeys.shares,
@@ -158,7 +158,7 @@ class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication wit
 
   "Previous taxable gains view with form with errors" should {
 
-    val form = previousTaxableGainsForm.bind(Map("amount" -> ""))
+    lazy val form = previousTaxableGainsForm.bind(Map("amount" -> ""))
     lazy val postAction = controllers.routes.IncomeController.previousTaxableGains()
     lazy val homeLink = controllers.routes.GainController.disposalDate().url
     lazy val view = views.previousTaxableGains(form, "#", postAction, homeLink, JourneyKeys.shares,

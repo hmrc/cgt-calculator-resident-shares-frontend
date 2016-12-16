@@ -17,15 +17,15 @@
 package views.helpers
 
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summarySectionHeaderHelper
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
-class SummarySectionHeaderHelperSpec extends UnitSpec {
+class SummarySectionHeaderHelperSpec extends UnitSpec with WithFakeApplication {
 
-  val TestObject = summarySectionHeaderHelper("Heading")(applicationMessages)
-  val h2 = Jsoup.parse(TestObject.body).select("H2")
+  lazy val TestObject = summarySectionHeaderHelper("Heading")(applicationMessages)
+  lazy val h2 = Jsoup.parse(TestObject.body).select("H2")
 
   "The Summary Section Header Helper" should {
 

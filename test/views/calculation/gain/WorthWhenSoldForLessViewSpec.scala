@@ -134,7 +134,7 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
 
   "The Shares Worth When Sold For Less View when supplied with a correct form" should {
 
-    val form = worthWhenSoldForLessForm.bind(Map("amount" -> "100"))
+    lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "100"))
     lazy val view = views.worthWhenSoldForLess(form, "home-link")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -153,7 +153,7 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
 
   "The Shares Worth When Sold For Less View when supplied with an incorrect form" should {
 
-    val form = worthWhenSoldForLessForm.bind(Map("amount" -> "adsa"))
+    lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "adsa"))
     lazy val view = views.worthWhenSoldForLess(form, "home-link")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 

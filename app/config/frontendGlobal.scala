@@ -44,7 +44,6 @@ object FrontendGlobal
   }
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: Request[_]): Html = {
-    val url = """^(.*[\/])""".r findFirstIn rh.path
     val homeNavLink = controllers.routes.GainController.disposalDate().url
     views.html.error_template(pageTitle, heading, message, homeNavLink)
   }

@@ -25,14 +25,14 @@ import play.api.Play.current
 
 class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
 
-  val row = summaryNumericRowHelper("testID","testQ",2000)(applicationMessages)
-  val doc = Jsoup.parse(row.body)
+  lazy val row = summaryNumericRowHelper("testID","testQ",2000)(applicationMessages)
+  lazy val doc = Jsoup.parse(row.body)
 
   "The Summary Numeric Row Helper with no link" should {
 
     "have an outer div" which {
 
-      val outerDiv = doc.select("div#testID")
+      lazy val outerDiv = doc.select("div#testID")
 
       "has the id 'testID" in {
         outerDiv.attr("id") shouldBe "testID"
@@ -57,7 +57,7 @@ class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an inner question div" which {
 
-      val questionDiv = doc.select("div#testID-question")
+      lazy val questionDiv = doc.select("div#testID-question")
 
       "has the id 'testID-question" in {
         questionDiv.attr("id") shouldBe "testID-question"
@@ -79,7 +79,7 @@ class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
 
     "have an inner amount div" which {
 
-      val amountDiv = doc.select("div#testID-amount")
+      lazy val amountDiv = doc.select("div#testID-amount")
 
       "has the id 'testID-amount" in {
         amountDiv.attr("id") shouldBe "testID-amount"

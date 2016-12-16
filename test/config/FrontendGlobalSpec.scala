@@ -48,7 +48,7 @@ class FrontendGlobalSpec extends UnitSpec with WithFakeApplication {
         val result = standardErrorTemplate("test", "teat-heading", "test-message")(fakeRequest)
         val doc = Jsoup.parse(result.body)
 
-        doc.getElementById("homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/"
+        doc.getElementById("homeNavHref").attr("href") shouldBe "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
     }
