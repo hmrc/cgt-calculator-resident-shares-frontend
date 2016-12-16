@@ -19,9 +19,9 @@
 @import views.html.helper._
 
 
-@elements = @{ new FieldElements(field.id, field, null, args.toMap, lang) }
+@elements = @{ new FieldElements(field.id, field, null, args.toMap, messages) }
 @parentField = @{args.toMap.get('parentField).asInstanceOf[Option[Field]]}
-@parentElements = @{parentField.map(pf => new FieldElements(pf.id, pf, null, Map(), lang) )}
+@parentElements = @{parentField.map(pf => new FieldElements(pf.id, pf, null, Map(), messages) )}
 @value = @{ field.value match { case Some(x) => x case None => "" case x => x }}
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 @labelHighlight = @{ elements.args.get('_labelHighlight).getOrElse(false).asInstanceOf[Boolean] }

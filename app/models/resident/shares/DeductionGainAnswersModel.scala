@@ -17,7 +17,7 @@
 package models.resident.shares
 
 import models.resident._
-import constructors.resident.shares.CalculateRequestConstructor._
+import constructors.CalculateRequestConstructor._
 
 case class DeductionGainAnswersModel(otherPropertiesModel: Option[OtherPropertiesModel],
                                      allowableLossesModel: Option[AllowableLossesModel],

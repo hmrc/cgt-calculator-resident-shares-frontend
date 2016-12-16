@@ -14,7 +14,7 @@
 
     <h1 class="heading-large">@Messages("calc.resident.shares.valueBeforeLegislationStart.question")</h1>
 
-    @form(action = controllers.resident.GainController.submitValueBeforeLegislationStart) {
+    @form(action = controllers.routes.GainController.submitValueBeforeLegislationStart) {
 
         @formInputMoney(valueBeforeLegislationStartForm, "amount", Messages("calc.resident.shares.valueBeforeLegislationStart.question"), hideLabel = true)
 

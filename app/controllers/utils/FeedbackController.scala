@@ -30,6 +30,8 @@ import uk.gov.hmrc.play.frontend.controller.{FrontendController, UnauthorisedAct
 import uk.gov.hmrc.play.frontend.filters.SessionCookieCryptoFilter
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpPost, _}
 import uk.gov.hmrc.play.partials._
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 import scala.concurrent.Future
 
@@ -39,7 +41,7 @@ object FeedbackController extends FeedbackController with PartialRetriever {
   override val httpGet = WSHttp
 
   override def contactFormReferer(implicit request: Request[AnyContent]): String = request.headers.get(REFERER).getOrElse("")
-  override def localSubmitUrl(implicit request: Request[AnyContent]): String = controllers.routes.FeedbackController.submit().url
+  override def localSubmitUrl(implicit request: Request[AnyContent]): String = controllers.utils.routes.FeedbackController.submit().url
 
   protected def authConnector: AuthConnector = config.FrontendAuthConnector
   protected def loadPartial(url : String)(implicit request : RequestHeader) : HtmlPartial = ???
@@ -89,7 +91,7 @@ trait FeedbackController extends FrontendController with Actions {
         httpPost.POSTForm[HttpResponse](feedbackHmrcSubmitPartialUrl, formData)(rds = readPartialsForm, hc = partialsReadyHeaderCarrier).map {
           resp =>
             resp.status match {
-              case HttpStatus.OK => Redirect(controllers.routes.FeedbackController.thankyou()).withSession(request.session + (TICKET_ID -> resp.body))
+              case HttpStatus.OK => Redirect(controllers.utils.routes.FeedbackController.thankyou()).withSession(request.session + (TICKET_ID -> resp.body))
               case HttpStatus.BAD_REQUEST => BadRequest(views.html.feedback.feedback(feedbackFormPartialUrl, Some(Html(resp.body))))
               case status => Logger.warn(s"Unexpected status code from feedback form: $status"); InternalServerError
             }

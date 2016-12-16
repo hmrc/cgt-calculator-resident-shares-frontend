@@ -18,7 +18,7 @@
 @import play.api.i18n._
 @import views.html.helper._
 
-@elements = @{new FieldElements(field.id, field, null, args.toMap, lang) }
+@elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
 @fieldsetClass = {@elements.args.get('_groupClass)}
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 <div class="@if(elements.hasErrors){ form-field--error}">

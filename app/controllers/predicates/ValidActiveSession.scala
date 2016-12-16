@@ -16,10 +16,9 @@
 
 package controllers.predicates
 
-import controllers.routes
 import play.api.mvc._
 import uk.gov.hmrc.play.frontend.controller.FrontendController
-import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
+import uk.gov.hmrc.play.http.SessionKeys
 
 import scala.concurrent.Future
 
@@ -36,7 +35,7 @@ trait ValidActiveSession extends FrontendController {
     def async(action: AsyncRequest): Action[AnyContent] = {
       Action.async { implicit request =>
         if (request.session.get(SessionKeys.sessionId).isEmpty) {
-          Future.successful(Redirect(routes.TimeoutController.timeout(sessionTimeoutUrl, homeLink)))
+          Future.successful(Redirect(controllers.utils.routes.TimeoutController.timeout(sessionTimeoutUrl, homeLink)))
         } else {
           action(request)
         }

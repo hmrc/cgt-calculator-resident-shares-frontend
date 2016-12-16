@@ -22,9 +22,10 @@ import common.Validation._
 import models.resident.AcquisitionCostsModel
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
 import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
+import play.api.i18n.Messages
 
 object AcquisitionCostsForm {
 

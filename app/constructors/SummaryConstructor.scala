@@ -20,6 +20,8 @@ import models.resident._
 import models.resident.shares.DeductionGainAnswersModel
 import play.api.i18n.Messages
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 
 import scala.math.BigDecimal.RoundingMode
 

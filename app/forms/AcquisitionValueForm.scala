@@ -23,6 +23,8 @@ import models.resident.AcquisitionValueModel
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.i18n.Messages
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object AcquisitionValueForm {

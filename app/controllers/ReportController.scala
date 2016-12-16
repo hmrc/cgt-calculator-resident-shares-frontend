@@ -41,6 +41,8 @@ trait ReportController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
 
+  val pdfGenerator = new PdfGenerator
+
   def host(implicit request: RequestHeader): String = {
     s"http://${request.host}/"
   }
@@ -62,7 +64,7 @@ trait ReportController extends ValidActiveSession {
       answers <- calcConnector.getShareGainAnswers
       taxYear <- getTaxYear(answers.disposalDate)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
-    } yield {PdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get), host).asScala()
+    } yield {pdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
   }
 
@@ -77,7 +79,7 @@ trait ReportController extends ValidActiveSession {
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
     } yield
-      {PdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get), host).asScala()
+      {pdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
 
   }
@@ -97,7 +99,7 @@ trait ReportController extends ValidActiveSession {
       currentTaxYear <- Dates.getCurrentTaxYear
       totalGain <- calcConnector.calculateRttShareTotalGainAndTax(answers, deductionAnswers, maxAEA.get, incomeAnswers)
     } yield {
-      PdfGenerator.ok(views.finalSummaryReport(answers,
+      pdfGenerator.ok(views.finalSummaryReport(answers,
         deductionAnswers,
         incomeAnswers,
         totalGain.get,

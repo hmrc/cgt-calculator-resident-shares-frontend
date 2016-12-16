@@ -22,7 +22,7 @@
   partialRetriever: CachedStaticHtmlPartialRetriever, messages: Messages)
 
 @resident_main_template(Messages("feedback.title"),
-                        homeLink = controllers.resident.shares.routes.GainController.disposalDate().url,
+                        homeLink = controllers.routes.GainController.disposalDate().url,
                         navTitle = Messages("calc.base.resident.shares.home")) {
     @formBody.getOrElse(formPartialRetriever.getPartialContent(partialUrl))
 }
