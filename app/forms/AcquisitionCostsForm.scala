@@ -29,7 +29,7 @@ import play.api.i18n.Messages
 
 object AcquisitionCostsForm {
 
-  val acquisitionCostsForm = Form(
+  lazy val acquisitionCostsForm = Form(
     mapping(
       "amount" -> text
         .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)

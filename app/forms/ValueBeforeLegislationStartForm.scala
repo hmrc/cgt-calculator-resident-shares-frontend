@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object ValueBeforeLegislationStartForm {
 
-  val valueBeforeLegislationStartForm = Form(
+  lazy val valueBeforeLegislationStartForm = Form(
     mapping(
       "amount" -> text
         .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)

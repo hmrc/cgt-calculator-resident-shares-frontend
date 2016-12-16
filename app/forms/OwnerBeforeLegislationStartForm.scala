@@ -27,7 +27,7 @@ import play.api.Play.current
 
 object OwnerBeforeLegislationStartForm {
 
-  val ownerBeforeLegislationStartForm = Form(
+  lazy val ownerBeforeLegislationStartForm = Form(
     mapping(
       "ownerBeforeLegislationStart" -> text
         .verifying(Messages("calc.resident.shares.ownerBeforeLegislationStart.noSelectError"), mandatoryCheck)

@@ -27,7 +27,7 @@ import play.api.Play.current
 
 object DisposalDateForm {
 
-  val disposalDateForm = Form(
+  lazy val disposalDateForm = Form(
     mapping(
       "disposalDateDay" -> text
         .verifying(Messages("calc.resident.disposalDate.invalidDayError"), mandatoryCheck)

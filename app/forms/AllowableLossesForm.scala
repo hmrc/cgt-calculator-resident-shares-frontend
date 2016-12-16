@@ -27,7 +27,7 @@ import play.api.Play.current
 
 object AllowableLossesForm {
 
-  val allowableLossesForm = Form(
+  lazy val allowableLossesForm = Form(
     mapping(
       "isClaiming" -> text
         .verifying(Messages("calc.resident.allowableLosses.errorSelect", "2015/16"), mandatoryCheck)

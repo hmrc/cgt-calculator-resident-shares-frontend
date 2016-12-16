@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object DisposalValueForm {
 
-  val disposalValueForm = Form(
+  lazy val disposalValueForm = Form(
     mapping(
       "amount" -> text
         .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)

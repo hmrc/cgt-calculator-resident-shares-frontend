@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object PreviousTaxableGainsForm {
 
-  val previousTaxableGainsForm = Form(
+  lazy val previousTaxableGainsForm = Form(
     mapping(
       "amount" -> text
         .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)

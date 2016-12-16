@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object CurrentIncomeForm {
 
-  val currentIncomeForm = Form(
+  lazy val currentIncomeForm = Form(
     mapping(
       "amount" -> text
         .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)

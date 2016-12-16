@@ -27,7 +27,7 @@ import play.api.Play.current
 
 object SellForLessForm {
 
-  val sellForLessForm = Form(
+  lazy val sellForLessForm = Form(
     mapping(
       "sellForLess" -> text
         .verifying(Messages("calc.resident.shares.sellForLess.noSelectError"), mandatoryCheck)

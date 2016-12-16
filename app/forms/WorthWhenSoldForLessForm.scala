@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object WorthWhenSoldForLessForm {
 
-  val worthWhenSoldForLessForm = Form(
+  lazy val worthWhenSoldForLessForm = Form(
     mapping(
       "amount" -> text
         .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)

@@ -27,7 +27,7 @@ import play.api.Play.current
 
 object LossesBroughtForwardForm {
 
-  val lossesBroughtForwardForm = Form(
+  lazy val lossesBroughtForwardForm = Form(
     mapping(
       "option" -> text
         .verifying(Messages("calc.resident.lossesBroughtForward.errorSelect", "2015/16"), mandatoryCheck)

@@ -29,7 +29,7 @@ import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object WorthWhenInheritedForm {
 
-  val worthWhenInheritedForm = Form(
+  lazy val worthWhenInheritedForm = Form(
     mapping(
       "amount" -> text
         .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)

@@ -27,7 +27,7 @@ import play.api.Play.current
 
 object OtherPropertiesForm {
 
-  val otherPropertiesForm = Form(
+  lazy val otherPropertiesForm = Form(
     mapping(
       "hasOtherProperties" -> text
         .verifying(Messages("calc.resident.otherProperties.errorSelect", "2015/16"), mandatoryCheck)

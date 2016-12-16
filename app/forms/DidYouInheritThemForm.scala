@@ -27,7 +27,7 @@ import play.api.Play.current
 
 object DidYouInheritThemForm {
 
-  val didYouInheritThemForm = Form(
+  lazy val didYouInheritThemForm = Form(
     mapping(
       "wereInherited" -> text
         .verifying(Messages("calc.resident.shares.didYouInheritThem.errorSelect", "2015/16"), mandatoryCheck)
