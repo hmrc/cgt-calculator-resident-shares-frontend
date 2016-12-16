@@ -4,106 +4,106 @@
 GET         /assets/*file           controllers.Assets.at(path="/public", file)
 
 #Feedback routes
-GET         /feedback               controllers.FeedbackController.show
-POST        /feedback               controllers.FeedbackController.submit
-GET         /thankyou               controllers.FeedbackController.thankyou
+GET         /feedback               controllers.utils.FeedbackController.show
+POST        /feedback               controllers.utils.FeedbackController.submit
+GET         /thankyou               controllers.utils.FeedbackController.thankyou
 
 #Session Timeout route
-GET         /session-timeout        controllers.TimeoutController.timeout(restartUrl: String, homeLink: String)
+GET         /session-timeout        controllers.utils.TimeoutController.timeout(restartUrl: String, homeLink: String)
 
 #Routes file for the resident shares routes.
 
 #Disposal Date Routes
-GET     /disposal-date                    controllers.resident.shares.GainController.disposalDate
-POST    /disposal-date                    controllers.resident.shares.GainController.submitDisposalDate
+GET     /disposal-date                    controllers.GainController.disposalDate
+POST    /disposal-date                    controllers.GainController.submitDisposalDate
 
 #Outside Tax Years Routes
-GET     /outside-tax-years                controllers.resident.shares.GainController.outsideTaxYears
+GET     /outside-tax-years                controllers.GainController.outsideTaxYears
 
 #Disposal Value or Market Value Routes
-GET     /disposal-value                   controllers.resident.shares.GainController.disposalValue
-POST    /disposal-value                   controllers.resident.shares.GainController.submitDisposalValue
+GET     /disposal-value                   controllers.GainController.disposalValue
+POST    /disposal-value                   controllers.GainController.submitDisposalValue
 
 #Sell for Less Routes
-GET     /sell-for-less                    controllers.resident.shares.GainController.sellForLess
-POST    /sell-for-less                    controllers.resident.shares.GainController.submitSellForLess
+GET     /sell-for-less                    controllers.GainController.sellForLess
+POST    /sell-for-less                    controllers.GainController.submitSellForLess
 
 #Worth when Sold For Less Routes
-GET     /worth-when-sold-for-less         controllers.resident.shares.GainController.worthWhenSoldForLess
-POST    /worth-when-sold-for-less         controllers.resident.shares.GainController.submitWorthWhenSoldForLess
+GET     /worth-when-sold-for-less         controllers.GainController.worthWhenSoldForLess
+POST    /worth-when-sold-for-less         controllers.GainController.submitWorthWhenSoldForLess
 
 #Disposal Costs Routes
-GET     /disposal-costs                   controllers.resident.shares.GainController.disposalCosts
-POST    /disposal-costs                   controllers.resident.shares.GainController.submitDisposalCosts
+GET     /disposal-costs                   controllers.GainController.disposalCosts
+POST    /disposal-costs                   controllers.GainController.submitDisposalCosts
 
 #Owner Before Legislation Start Routes
-GET     /owner-before-legislation-start    controllers.resident.shares.GainController.ownerBeforeLegislationStart
-POST    /owner-before-legislation-start    controllers.resident.shares.GainController.submitOwnerBeforeLegislationStart
+GET     /owner-before-legislation-start    controllers.GainController.ownerBeforeLegislationStart
+POST    /owner-before-legislation-start    controllers.GainController.submitOwnerBeforeLegislationStart
 
 #Value Before Legislation Start Routes
-GET     /value-before-legislation-start    controllers.resident.shares.GainController.valueBeforeLegislationStart
-POST    /value-before-legislation-start    controllers.resident.shares.GainController.submitValueBeforeLegislationStart
+GET     /value-before-legislation-start    controllers.GainController.valueBeforeLegislationStart
+POST    /value-before-legislation-start    controllers.GainController.submitValueBeforeLegislationStart
 
 #Did you Inherit the Shares Routes
-GET     /did-you-inherit-them             controllers.resident.shares.GainController.didYouInheritThem
-POST    /did-you-inherit-them             controllers.resident.shares.GainController.submitDidYouInheritThem
+GET     /did-you-inherit-them             controllers.GainController.didYouInheritThem
+POST    /did-you-inherit-them             controllers.GainController.submitDidYouInheritThem
 
 #Worth when Inherited Routes
-GET     /worth-when-inherited             controllers.resident.shares.GainController.worthWhenInherited
-POST    /worth-when-inherited             controllers.resident.shares.GainController.submitWorthWhenInherited
+GET     /worth-when-inherited             controllers.GainController.worthWhenInherited
+POST    /worth-when-inherited             controllers.GainController.submitWorthWhenInherited
 
 #Acquisition Value or Market Value Routes
-GET     /acquisition-value                controllers.resident.shares.GainController.acquisitionValue
-POST    /acquisition-value                controllers.resident.shares.GainController.submitAcquisitionValue
+GET     /acquisition-value                controllers.GainController.acquisitionValue
+POST    /acquisition-value                controllers.GainController.submitAcquisitionValue
 
 #Acquisition Costs Routes
-GET     /acquisition-costs                controllers.resident.shares.GainController.acquisitionCosts
-POST    /acquisition-costs                controllers.resident.shares.GainController.submitAcquisitionCosts
+GET     /acquisition-costs                controllers.GainController.acquisitionCosts
+POST    /acquisition-costs                controllers.GainController.submitAcquisitionCosts
 
 #Other Disposals Routes
-GET     /other-disposals                  controllers.resident.shares.DeductionsController.otherDisposals
-POST    /other-disposals                  controllers.resident.shares.DeductionsController.submitOtherDisposals
+GET     /other-disposals                  controllers.DeductionsController.otherDisposals
+POST    /other-disposals                  controllers.DeductionsController.submitOtherDisposals
 
 #Allowable Losses Routes
-GET     /allowable-losses                 controllers.resident.shares.DeductionsController.allowableLosses
-POST    /allowable-losses                 controllers.resident.shares.DeductionsController.submitAllowableLosses
+GET     /allowable-losses                 controllers.DeductionsController.allowableLosses
+POST    /allowable-losses                 controllers.DeductionsController.submitAllowableLosses
 
 #Allowable Losses Value Routes
-GET     /allowable-losses-value           controllers.resident.shares.DeductionsController.allowableLossesValue
-POST    /allowable-losses-value           controllers.resident.shares.DeductionsController.submitAllowableLossesValue
+GET     /allowable-losses-value           controllers.DeductionsController.allowableLossesValue
+POST    /allowable-losses-value           controllers.DeductionsController.submitAllowableLossesValue
 
 #Losses Brought Forward Routes
-GET     /losses-brought-forward           controllers.resident.shares.DeductionsController.lossesBroughtForward
-POST    /losses-brought-forward           controllers.resident.shares.DeductionsController.submitLossesBroughtForward
+GET     /losses-brought-forward           controllers.DeductionsController.lossesBroughtForward
+POST    /losses-brought-forward           controllers.DeductionsController.submitLossesBroughtForward
 
 #Losses Brought Forward Value Routes
-GET     /losses-brought-forward-value     controllers.resident.shares.DeductionsController.lossesBroughtForwardValue
-POST    /losses-brought-forward-value     controllers.resident.shares.DeductionsController.submitLossesBroughtForwardValue
+GET     /losses-brought-forward-value     controllers.DeductionsController.lossesBroughtForwardValue
+POST    /losses-brought-forward-value     controllers.DeductionsController.submitLossesBroughtForwardValue
 
 #Annual Exempt Amount Routes
-GET     /annual-exempt-amount             controllers.resident.shares.DeductionsController.annualExemptAmount
-POST    /annual-exempt-amount             controllers.resident.shares.DeductionsController.submitAnnualExemptAmount
+GET     /annual-exempt-amount             controllers.DeductionsController.annualExemptAmount
+POST    /annual-exempt-amount             controllers.DeductionsController.submitAnnualExemptAmount
 
 #Previous Taxable Gains Routes
-GET     /previous-taxable-gains           controllers.resident.shares.IncomeController.previousTaxableGains
-POST    /previous-taxable-gains           controllers.resident.shares.IncomeController.submitPreviousTaxableGains
+GET     /previous-taxable-gains           controllers.IncomeController.previousTaxableGains
+POST    /previous-taxable-gains           controllers.IncomeController.submitPreviousTaxableGains
 
 #Current Income Routes
-GET     /current-income                   controllers.resident.shares.IncomeController.currentIncome
-POST    /current-income                   controllers.resident.shares.IncomeController.submitCurrentIncome
+GET     /current-income                   controllers.IncomeController.currentIncome
+POST    /current-income                   controllers.IncomeController.submitCurrentIncome
 
 #Personal Allowance Routes
-GET     /personal-allowance               controllers.resident.shares.IncomeController.personalAllowance
-POST    /personal-allowance               controllers.resident.shares.IncomeController.submitPersonalAllowance
+GET     /personal-allowance               controllers.IncomeController.personalAllowance
+POST    /personal-allowance               controllers.IncomeController.submitPersonalAllowance
 
 #Summary Routes
-GET     /summary                          controllers.resident.shares.SummaryController.summary
+GET     /summary                          controllers.SummaryController.summary
 
 #Gain Summary PDF Routes
-GET     /gain-report                      controllers.resident.shares.ReportController.gainSummaryReport
+GET     /gain-report                      controllers.ReportController.gainSummaryReport
 
 #Deductions Summary PDF Routes
-GET     /deductions-report                controllers.resident.shares.ReportController.deductionsReport
+GET     /deductions-report                controllers.ReportController.deductionsReport
 
 #Final Summary PDF Routes
-GET     /final-report                     controllers.resident.shares.ReportController.finalSummaryReport
+GET     /final-report                     controllers.ReportController.finalSummaryReport

@@ -1,6 +1,6 @@
 @import models.SummaryDataItemModel
 
-@(sectionId: String, sectionContent: Array[SummaryDataItemModel])
+@(sectionId: String, sectionContent: Array[SummaryDataItemModel])(implicit messages: Messages)
 
 <section id="@sectionId" class="summary-section">
     @for(i <- 0 until sectionContent.length) {

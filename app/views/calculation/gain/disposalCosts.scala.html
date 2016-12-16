@@ -1,0 +1,26 @@
+@import models.resident.DisposalCostsModel
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import views.html.helpers._
+@import views.html.calculation._
+
+@(disposalCostsForm: Form[DisposalCostsModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
+
+@resident_main_template(
+    Messages("calc.resident.shares.disposalCosts.question"),
+    backLink = Some(controllers.routes.GainController.disposalValue().toString),
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.shares.home")
+) {
+
+    @errorSummary(disposalCostsForm, "disposal-costs")
+
+    <h1 class="heading-large">@Messages("calc.resident.shares.disposalCosts.question")</h1>
+
+    @form(action = controllers.routes.GainController.submitDisposalCosts){
+
+        @formInputMoney(disposalCostsForm, "amount", Messages("calc.resident.shares.disposalCosts.question"), Some(Messages("calc.resident.shares.disposalCosts.helpText")), hideLabel = true)
+
+        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+
+    }
+}

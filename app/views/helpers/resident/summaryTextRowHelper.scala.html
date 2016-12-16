@@ -1,4 +1,4 @@
-@(rowId: String, question: String, answer: String, link: Option[String] = None)
+@(rowId: String, question: String, answer: String, link: Option[String] = None)(implicit messages: Messages)
 
 <div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
     <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">

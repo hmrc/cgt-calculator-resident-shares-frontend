@@ -17,17 +17,19 @@
 package views.helpers
 
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import forms.resident.OtherPropertiesForm._
+import forms.OtherPropertiesForm._
 import org.jsoup.Jsoup
 import views.html.helpers._
 import assets.MessageLookup.{NonResident => messages}
+import play.api.i18n.Messages.Implicits._
+import play.api.Play.current
 
 class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
 
   "formYesNoRadio" when {
 
     "not supplied with help text or a legend class" should {
-      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend")
+      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend")(applicationMessages)
       lazy val document = Jsoup.parse(helper.body)
 
       "contain inputs with the id hasOtherProperties" in {
@@ -80,7 +82,7 @@ class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
     }
 
     "supplied with help text but no legend" should {
-      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend", helpText = Some("help"))
+      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend", helpText = Some("help"))(applicationMessages)
       lazy val document = Jsoup.parse(helper.body)
 
       "have some help text of help" in {
@@ -93,7 +95,7 @@ class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
     }
 
     "supplied with no help text but with a legend" should {
-      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend", legendClass = Some("class"))
+      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend", legendClass = Some("class"))(applicationMessages)
       lazy val document = Jsoup.parse(helper.body)
 
       "not have any help text" in {
@@ -106,7 +108,8 @@ class formYesNoRadioSpec extends UnitSpec with WithFakeApplication {
     }
 
     "supplied with both help text and a legend" should {
-      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend", helpText = Some("help"), legendClass = Some("class"))
+      lazy val helper = formYesNoRadio(otherPropertiesForm.apply("hasOtherProperties"), "legend", helpText = Some("help"),
+        legendClass = Some("class"))(applicationMessages)
       lazy val document = Jsoup.parse(helper.body)
 
       "have some help text of help" in {

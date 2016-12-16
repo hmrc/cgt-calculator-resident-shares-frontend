@@ -2,7 +2,7 @@
 @import play.api.data._
 @import views.html.helpers._
 
-@(inputForm: Form[_], inputDetails: Seq[(String, String, Option[String])])(implicit lang: play.api.i18n.Lang)
+@(inputForm: Form[_], inputDetails: Seq[(String, String, Option[String])])(implicit messages: Messages)
 
 <div class="form-group">
 

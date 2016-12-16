@@ -1,4 +1,4 @@
-@(field: Field, radioOptions: Seq[(String, String, String, Option[String])], args: (Symbol, Any)*)(implicit lang: play.api.i18n.Lang)
+@(field: Field, radioOptions: Seq[(String, String, String, Option[String])], args: (Symbol, Any)*)(implicit messages: Messages)
 
 @import play.api.i18n._
 @import views.html.helper._
@@ -7,7 +7,7 @@
 @import uk.gov.hmrc.play.views.formatting.Money._
 @import uk.gov.hmrc.play.views.helpers._
 
-@elements = @{new FieldElements(field.id, field, null, args.toMap, lang) }
+@elements = @{new FieldElements(field.id, field, null, args.toMap, messages) }
 @fieldsetClass = {@elements.args.get('_groupClass)}
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(true).asInstanceOf[Boolean] }
 <div class="@if(elements.hasErrors){ form-field--error}">

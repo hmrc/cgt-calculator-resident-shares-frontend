@@ -1,7 +1,7 @@
 @import views.html.helpers._
-@import views.html.calculation.resident._
+@import views.html.calculation._
 
-@(restartUrl: String, homeLink: String)(implicit request: Request[_])
+@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
 

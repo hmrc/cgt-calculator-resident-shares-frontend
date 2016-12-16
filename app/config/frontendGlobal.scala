@@ -16,17 +16,17 @@
 
 package config
 
-import java.io.File
-
 import com.typesafe.config.Config
 import net.ceedubs.ficus.Ficus._
-import play.api.Mode._
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Request
 import play.api.{Application, Configuration, Play}
 import play.twirl.api.Html
 import uk.gov.hmrc.crypto.ApplicationCrypto
 import uk.gov.hmrc.play.audit.filters.FrontendAuditFilter
 import uk.gov.hmrc.play.config.{AppName, ControllerConfig, RunMode}
+import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
 import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter
 
@@ -43,19 +43,8 @@ object FrontendGlobal
     ApplicationCrypto.verifyConfiguration()
   }
 
-  override def onLoadConfig(config: Configuration, path: File, classloader: ClassLoader, mode: Mode): Configuration = {
-    super.onLoadConfig(config, path, classloader, mode)
-  }
-
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: Request[_]): Html = {
-    val url = """^(.*[\/])""".r findFirstIn rh.path
-    val homeNavLink = url match {
-      case Some(path) if path == "/calculate-your-capital-gains/resident/properties/" =>
-        controllers.resident.shares.routes.GainController.disposalDate().url
-      case Some(path) if path == "/calculate-your-capital-gains/resident/shares/" =>
-        controllers.resident.shares.routes.GainController.disposalDate().url
-      case _ => "/calculate-your-capital-gains/"
-    }
+    val homeNavLink = controllers.routes.GainController.disposalDate().url
     views.html.error_template(pageTitle, heading, message, homeNavLink)
   }
 
@@ -66,11 +55,11 @@ object ControllerConfiguration extends ControllerConfig {
   lazy val controllerConfigs = Play.current.configuration.underlying.as[Config]("controllers")
 }
 
-object LoggingFilter extends FrontendLoggingFilter {
+object LoggingFilter extends FrontendLoggingFilter with MicroserviceFilterSupport {
   override def controllerNeedsLogging(controllerName: String) = ControllerConfiguration.paramsForController(controllerName).needsLogging
 }
 
-object AuditFilter extends FrontendAuditFilter with RunMode with AppName {
+object AuditFilter extends FrontendAuditFilter with RunMode with AppName with MicroserviceFilterSupport {
 
   override lazy val maskedFormFields = Seq("password")
 

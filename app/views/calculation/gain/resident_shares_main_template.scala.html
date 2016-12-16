@@ -1,0 +1,57 @@
+@import config.ApplicationConfig
+@(title: String,
+  sidebarLinks: Option[Html] = None,
+  contentHeader: Option[Html] = None,
+  bodyClasses: Option[String] = None,
+  mainClass: Option[String] = None,
+  scriptElem: Option[Html] = None,
+  articleLayout: Boolean = true,
+  backLink: Option[String] = None
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
+
+@import uk.gov.hmrc.play.views.html.layouts
+
+@serviceInfoContent = {}
+
+@sidebarContent = {
+    <div class="service-info">
+        <h2 class="heading-medium">@Messages("calc.common.readMore")</h2>
+        @sidebarLinks.get
+    </div>
+}
+
+@sidebar = {
+    @if(sidebarLinks.isDefined) {
+        @layouts.sidebar(sidebarContent, Some("sidebar"))
+    }
+}
+
+@contentLayout = {
+    <div class="resident">
+        @if(articleLayout) {
+            @layouts.article(mainContent)
+        } else {
+            @mainContent
+        }
+    </div>
+}
+
+@contentHeader = {
+    @if(backLink.isDefined) {
+        <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
+    }
+}
+
+@govuk_wrapper(appConfig = ApplicationConfig,
+               title = title,
+               mainClass = mainClass,
+               bodyClasses = bodyClasses,
+               sidebar = sidebar,
+               contentHeader = Some(contentHeader),
+               mainContent = contentLayout,
+               serviceInfoContent = serviceInfoContent,
+               scriptElem = scriptElem,
+               homeLink = controllers.routes.GainController.disposalDate().url,
+               navTitle = Messages("calc.base.resident.shares.home")
+)
+

@@ -2,7 +2,7 @@
 @import play.api.data._
 @import views.html.helpers._
 
-@(inputForm: Form[_], fieldName: String, questionText: String, helpText: Option[String] = None, additionalHTMLContent: Option[String] = None, hideLabel: Boolean = false, step: String = "0.01")(implicit lang: play.api.i18n.Lang)
+@(inputForm: Form[_], fieldName: String, questionText: String, helpText: Option[String] = None, additionalHTMLContent: Option[String] = None, hideLabel: Boolean = false, step: String = "0.01")(implicit messages: Messages)
 
     <div class="form-group">
 

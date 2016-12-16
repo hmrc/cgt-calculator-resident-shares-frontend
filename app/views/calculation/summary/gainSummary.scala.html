@@ -1,0 +1,130 @@
+@import views.html.helpers.resident._
+@import models.SummaryDataItemModel
+@import models.resident._
+@import models.resident.shares._
+@import common.Dates._
+@import common.TaxDates
+@import constructors.SummaryConstructor._
+@import controllers.routes.{GainController => routes}
+@import views.html.calculation._
+
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String)(implicit request: Request[_], messages: Messages)
+
+@resident_main_template(
+    title = Messages("calc.resident.summary.title"),
+    backLink = Some(controllers.routes.GainController.acquisitionCosts().toString),
+    articleLayout = false,
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.shares.home")
+    ) {
+
+    <h1 class="heading-xlarge">
+        <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
+        &pound;0.00
+    </h1>
+
+    @{if (!taxYear.isValidYear) {
+        <div class="notice-wrapper">
+            <div class="notice">
+                <i class="icon icon-important">
+                    <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
+                </i>
+                <strong class="bold-small">
+                    {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
+                </strong>
+            </div>
+        </div>
+        }
+    }
+
+    <!-- Google Analytics -->
+    <div id="ga-reporting" class="visuallyhidden">
+
+        <!-- Tax Year -->
+        <span data-metrics="rtt-shares-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
+
+        <!-- Loss Stats -->
+        @if(gain < 0){
+            <span data-metrics="rtt-shares-summary:result:loss"></span>
+        } else {
+            <span data-metrics="rtt-shares-summary:result:no-gain"></span>
+        }
+    </div>
+
+    <!-- Calculation Details Section -->
+    <section id="calcDetails">
+        <!-- Header -->
+        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
+
+        <!-- Data Rows -->
+        @summaryNumericRowHelper("gain",gainMessage(gain),gain)
+    </section>
+
+    <!-- Your Answers Section -->
+    <section id="yourAnswers">
+        <!-- Header -->
+        @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
+
+        <!-- Data Rows-->
+        @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),answers.disposalDate,Some(routes.disposalDate().toString))
+        <!-- Shares updated disposal value section -->
+        @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), answers.soldForLessThanWorth, Some(routes.sellForLess().toString))
+
+        @{if(!answers.soldForLessThanWorth)
+            summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), answers.disposalValue.get, Some(routes.disposalValue().toString))
+        }
+
+        @{if(answers.soldForLessThanWorth)
+            summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), answers.worthWhenSoldForLess.get, Some(routes.worthWhenSoldForLess().toString))
+        }
+        <!-- Ends -->
+        @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),answers.disposalCosts,Some(routes.disposalCosts().toString))
+        @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),answers.ownerBeforeLegislationStart,Some(routes.ownerBeforeLegislationStart().url))
+        @if(answers.ownerBeforeLegislationStart){
+            @summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),answers.valueBeforeLegislationStart.get,Some(routes.valueBeforeLegislationStart().toString))
+        }
+        @if(!answers.ownerBeforeLegislationStart) {
+            @summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),answers.inheritedTheShares.get,Some(routes.didYouInheritThem().url))
+        }
+
+        @if(answers.displayWorthWhenInherited){
+            @summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),answers.worthWhenInherited.get,Some(routes.worthWhenInherited().url))
+        }
+        @if(answers.displayWorthWhenBought){
+            @summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),answers.acquisitionValue.get,Some(routes.acquisitionValue().url))
+        }
+
+        @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),answers.acquisitionCosts,Some(routes.acquisitionCosts().toString))
+    </section>
+
+    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(answers.disposalDate), getMonth(answers.disposalDate), getYear(answers.disposalDate))) {
+
+        @if(gain < 0) {
+            <section id="whatToDoNext" class="summary-underline summary-overline">
+                <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
+                <div id="whatToDoNextText" class="font-medium what-to-do-next-text">@Messages("calc.resident.summary.whatNext.youCan") <a id="whatToDoNextLink"
+                                                                                               class="external-link"
+                                                                                               rel="external"
+                                                                                               href="https://www.gov.uk/capital-gains-tax/losses"
+                                                                                               target="_blank"
+                                                                                               data-journey-click="help:govUK:rtt-shares-whatToDoNext">@Messages("calc.resident.summary.whatNext.link")  <span id="opensInANewTab">@Messages("calc.base.externalLink")</span></a>
+                    @Messages("calc.resident.summary.whatNext.text")</div>
+
+            </section>
+        } else {
+            <section id="whatToDoNext" class="summary-underline summary-overline">
+                <h2 id="whatToDoNextNoLossTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
+                <div id="whatToDoNextNoLossText" class="font-medium what-to-do-next-text">
+                    @Messages("calc.resident.summary.whatNext.noLossOrGain")
+                    <a href="https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax" target="_blank" rel="external"
+                       data-journey-click="help:govUK:rtt-shares-whatToDoNext">
+                        @Messages("calc.resident.summary.whatNext.noLossOrGainLinkShares")
+                        <span id="opensInANewTab2">@Messages("calc.base.externalLink")</span>.
+                    </a>
+                </div>
+            </section>
+        }
+    }
+    <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.gainSummaryReport.toString"
+       data-journey-click="rtt-shares-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+}

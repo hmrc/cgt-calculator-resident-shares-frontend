@@ -1,0 +1,26 @@
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import models.resident._
+@import views.html.helpers._
+@import views.html.calculation._
+
+@(allowableLossesValueForm: Form[AllowableLossesValueModel], taxYear: TaxYearModel, navHomeLink: String, postAction: Call, backUrl: Option[String], navTitle: String)(implicit request: Request[_], messages: Messages)
+
+@resident_main_template(
+    title = Messages("calc.resident.allowableLossesValue.title", taxYear.taxYearSupplied),
+    backLink = backUrl,
+    homeLink = navHomeLink,
+    navTitle = navTitle
+){
+
+    @errorSummary(allowableLossesValueForm, "amount")
+
+    <h1 class="heading-large">@Messages("calc.resident.allowableLossesValue.question", taxYear.taxYearSupplied)</h1>
+
+    @form(action = postAction){
+
+        @formInputMoney(allowableLossesValueForm, "amount", Messages("calc.resident.allowableLossesValue.question", taxYear.taxYearSupplied), hideLabel = true)
+
+        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+
+    }
+}

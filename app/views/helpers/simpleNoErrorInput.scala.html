@@ -1,10 +1,10 @@
-@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit lang: play.api.i18n.Lang)
+@(field: play.api.data.Field, args: (Symbol,Any)*)(implicit messages: Messages)
 
 @import play.api.i18n._
 @import views.html.helper._
 
 
-@elements = @{ new FieldElements(field.id, field, null, args.toMap, lang) }
+@elements = @{ new FieldElements(field.id, field, null, args.toMap, messages) }
 @value = @{ field.value match { case Some(x) => x case None => "" case x => x }}
 @labelAfter = @{ elements.args.get('_labelAfter).getOrElse(false).asInstanceOf[Boolean] }
 @labelHighlight = @{ elements.args.get('_labelHighlight).getOrElse(false).asInstanceOf[Boolean] }

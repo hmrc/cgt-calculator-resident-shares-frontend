@@ -1,0 +1,164 @@
+@import views.html.helpers.resident._
+@import views.html.calculation._
+@import models.SummaryDataItemModel
+@import models.resident._
+@import models.resident.shares._
+@import common.Dates._
+@import constructors.SummaryConstructor._
+@import constructors.CalculateRequestConstructor._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+
+@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
+
+@allowableLossesHelpText() = {
+    <span>
+        @Messages("calc.resident.summary.remainingLossHelp")
+        <span>
+            @Messages("calc.resident.summary.remainingLossLink")
+        </span>
+        @Messages("calc.resident.summary.remainingAllowableLossHelp")
+    </span>
+}
+
+@broughtForwardLossesHelpText() = {
+    <span>
+        @Messages("calc.resident.summary.remainingLossHelp")
+        <span>
+            @Messages("calc.resident.summary.remainingLossLink")
+        </span>
+        @Messages("calc.resident.summary.remainingBroughtForwardLossHelp")
+    </span>
+}
+
+@annualExemptAmountHelpText() = {
+    <span>@Messages("calc.resident.summary.annualExemptAmountHelp")</span>
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/shares/assets/stylesheets/cgt.css">
+    <title>@Messages("calc.resident.summary.title")</title>
+</head>
+
+
+<div class="pdf">
+    <div class="header-container">
+        <h1 class="heading-xlarge">
+            <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
+            &pound;0.00
+        </h1>
+        <div class="logo">
+            <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
+        </div>
+    </div>
+
+    @{if (!taxYear.isValidYear) {
+    <div class="notice-wrapper">
+        <div class="notice">
+            <strong class="bold-small">
+                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
+            </strong>
+        </div>
+    </div>
+    }
+    }
+
+    <!-- Calculation Details Section -->
+    <section id="calcDetails">
+        <!-- Header -->
+        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
+
+        <!-- Data Rows -->
+        @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
+        @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None,
+        Some(Seq(
+        (Messages("calc.resident.summary.deductionsDetails.allowableLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.allowableLossesUsed, 0).quantity),
+        (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
+        (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
+        )))
+        @if(result.chargeableGain == 0){
+            @summaryNumericRowHelper("chargeableGain", Messages("calc.resident.summary.chargeableGain"), result.chargeableGain)
+        }
+        @if(result.allowableLossesRemaining > 0) {
+            @{summaryNumericHelpTextHelper("allowableLossRemaining", Messages("calc.resident.summary.remainingAllowableLoss", taxYear.taxYearSupplied),
+                result.allowableLossesRemaining,
+                None,
+                Some(allowableLossesHelpText()))
+            }
+        }
+        @if(result.broughtForwardLossesRemaining > 0) {
+            @{summaryNumericHelpTextHelper("broughtForwardLossRemaining", Messages("calc.resident.summary.remainingBroughtForwardLoss", taxYear.taxYearSupplied),
+                result.broughtForwardLossesRemaining,
+                None,
+                Some(broughtForwardLossesHelpText()))
+            }
+        }
+        @summaryNumericHelpTextHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), result.aeaRemaining, None,
+            if(result.aeaRemaining > 0) {Some(annualExemptAmountHelpText())}
+            else {None}
+        )
+
+    </section>
+
+
+    <!-- Your Answers Section -->
+    <section id="yourAnswers">
+        <!-- Header -->
+        @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
+
+        <!-- Data Rows-->
+        @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,None)
+
+        <!-- Shares updated disposal value section -->
+        @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), gainAnswers.soldForLessThanWorth, None)
+
+        @{if(!gainAnswers.soldForLessThanWorth)
+            summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), gainAnswers.disposalValue.get, None)
+        }
+
+        @{if(gainAnswers.soldForLessThanWorth)
+            summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, None)
+        }
+        <!-- Ends -->
+
+        @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),gainAnswers.disposalCosts,None)
+        @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),gainAnswers.ownerBeforeLegislationStart,None)
+        @{if(gainAnswers.ownerBeforeLegislationStart)
+            summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,None)
+        }
+
+        @{if (!gainAnswers.ownerBeforeLegislationStart)
+            summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),gainAnswers.inheritedTheShares.get,None)
+        }
+
+        @{if(gainAnswers.displayWorthWhenInherited)
+            summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),gainAnswers.worthWhenInherited.get,None)
+        }
+
+        @{if(gainAnswers.displayWorthWhenBought)
+            summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),gainAnswers.acquisitionValue.get,None)
+        }
+
+        @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,None)
+
+        @summaryOptionRowHelper("otherProperties",Messages("calc.resident.otherProperties.title", taxYear.taxYearSupplied),deductionAnswers.otherPropertiesModel.get.hasOtherProperties,None)
+
+        @{if (deductionAnswers.otherPropertiesModel.get.hasOtherProperties)
+        summaryOptionRowHelper("allowableLosses",Messages("calc.resident.allowableLosses.title", taxYear.taxYearSupplied),deductionAnswers.allowableLossesModel.get.isClaiming,None)}
+
+        @{if (deductionAnswers.displayAllowableLossesValue)
+        summaryNumericRowHelper("allowableLossesValue",Messages("calc.resident.allowableLossesValue.title", taxYear.taxYearSupplied),deductionAnswers.allowableLossesValueModel.get.amount,None)}
+
+        @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, None)
+
+        @{if (deductionAnswers.broughtForwardModel.get.option)
+        summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,None)}
+
+        @{if (deductionAnswers.displayAnnualExemptAmount)
+        summaryNumericRowHelper("annualExemptAmount",Messages("calc.resident.annualExemptAmount.title"),deductionAnswers.annualExemptAmountModel.get.amount,None)}
+    </section>
+</div>

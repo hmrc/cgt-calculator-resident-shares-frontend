@@ -19,7 +19,7 @@ package connectors
 import common.Dates._
 import common.KeystoreKeys.ResidentShareKeys
 import config.{CalculatorSessionCache, WSHttp}
-import constructors.resident.shares
+import constructors.CalculateRequestConstructor
 import models._
 import play.api.libs.json.Format
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
@@ -181,7 +181,7 @@ trait CalculatorConnector {
 
   def calculateRttShareGrossGain(input: resident.shares.GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/shares/calculate-total-gain" +
-      shares.CalculateRequestConstructor.totalGainRequestString(input)
+      CalculateRequestConstructor.totalGainRequestString(input)
     )
   }
 
@@ -189,8 +189,8 @@ trait CalculatorConnector {
                                       chargeableGainInput: resident.shares.DeductionGainAnswersModel,
                                       maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[resident.ChargeableGainResultModel]] = {
     http.GET[Option[resident.ChargeableGainResultModel]](s"$serviceUrl/capital-gains-calculator/shares/calculate-chargeable-gain" +
-      shares.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
-      shares.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
+      CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
+      CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
 
     )
   }
@@ -201,9 +201,9 @@ trait CalculatorConnector {
                                        incomeAnswers: resident.IncomeAnswersModel)(implicit hc: HeaderCarrier):
   Future[Option[resident.TotalGainAndTaxOwedModel]] = {
     http.GET[Option[resident.TotalGainAndTaxOwedModel]](s"$serviceUrl/capital-gains-calculator/shares/calculate-resident-capital-gains-tax" +
-      shares.CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
-      shares.CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
-      shares.CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
+      CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
+      CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
+      CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
     )
   }
 }

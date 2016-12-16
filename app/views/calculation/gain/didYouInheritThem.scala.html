@@ -1,0 +1,37 @@
+@import views.html.helpers._
+@import views.html.calculation._
+@import models.resident.shares.gain.DidYouInheritThemModel
+@import models.resident.shares._
+@import uk.gov.hmrc.play.views.html.helpers.form
+
+@(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages)
+
+@resident_main_template(title = Messages("calc.resident.shares.didYouInheritThem.question"),
+backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url),
+homeLink = controllers.routes.GainController.disposalDate().url,
+navTitle = Messages("calc.base.resident.shares.home")){
+
+    @errorSummary(didYouInheritThemForm, "wereInherited")
+
+    <h1 class="heading-large">@Messages("calc.resident.shares.didYouInheritThem.question")</h1>
+
+    @form(action = controllers.routes.GainController.submitDidYouInheritThem) {
+
+        <div id="radio-input" class="form-group">
+            @formInputRadioGroup(
+            field = didYouInheritThemForm("wereInherited"),
+            Seq(
+            "Yes" -> Messages("calc.base.yes"),
+            "No" -> Messages("calc.base.no")),
+            '_legend -> Messages("calc.resident.shares.didYouInheritThem.question"),
+            '_labelClass -> "block-label",
+            '_legendClass -> "visuallyhidden",
+            '_groupClass -> "inline"
+            )
+        </div>
+
+        <input type="hidden" name="wereInherited" value="" />
+        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    }
+
+}
