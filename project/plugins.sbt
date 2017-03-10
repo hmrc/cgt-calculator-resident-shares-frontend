@@ -8,7 +8,7 @@ addSbtPlugin("uk.gov.hmrc" % "sbt-distributables" % "1.0.0")
 
 resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/"
 
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.8")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.5.12")
 
 resolvers += Resolver.url("scoverage-bintray", url("https://dl.bintray.com/sksamuel/sbt-plugins/"))(Resolver.ivyStylePatterns)
 
