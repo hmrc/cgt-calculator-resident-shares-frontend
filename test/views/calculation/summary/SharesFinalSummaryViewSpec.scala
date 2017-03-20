@@ -168,10 +168,6 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
 
           "has a breakdown that" should {
 
-            "include a value for Allowable Losses of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2015/16")} £0")
-            }
-
             "include a value for Capital gains tax allowance used of £0" in {
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
             }
@@ -359,29 +355,6 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
 
           s"should have a change link to ${routes.GainController.acquisitionCosts().url}" in {
             doc.select("#acquisitionCosts-amount a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
-          }
-        }
-
-        "has an option output row for other disposals" which {
-
-          s"should have the question text '${pages.OtherProperties.title("2015/16")}'" in {
-            doc.select("#otherDisposals-question").text shouldBe pages.OtherProperties.title("2015/16")
-          }
-
-          "should have the value 'No'" in {
-            doc.select("#otherDisposals-option span.bold-medium").text shouldBe "No"
-          }
-
-          s"should have a change link to ${routes.DeductionsController.otherDisposals().url}" in {
-            doc.select("#otherDisposals-option a").attr("href") shouldBe routes.DeductionsController.otherDisposals().url
-          }
-
-          "has the question as part of the link" in {
-            doc.select("#otherDisposals-option a").text shouldBe s"${commonMessages.change} ${pages.OtherProperties.title("2015/16")}"
-          }
-
-          "has the question component of the link as visuallyhidden" in {
-            doc.select("#otherDisposals-option a span.visuallyhidden").text shouldBe pages.OtherProperties.title("2015/16")
           }
         }
 
@@ -766,21 +739,6 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       }
       "Should have the tax rate 18%" in {
         doc.select("#firstBand").text should include("18%")
-      }
-    }
-
-    "has an option output row for previous taxable gains" which {
-
-      s"should have the question text '${pages.PreviousTaxableGains.title("2013/14")}'" in {
-        doc.select("#previousTaxableGains-question").text shouldBe pages.PreviousTaxableGains.title("2013/14")
-      }
-
-      "should have the value '£1,000'" in {
-        doc.select("#previousTaxableGains-amount span.bold-medium").text shouldBe "£1,000"
-      }
-
-      s"should have a change link to ${routes.IncomeController.previousTaxableGains().url}" in {
-        doc.select("#previousTaxableGains-amount a").attr("href") shouldBe routes.IncomeController.previousTaxableGains().url
       }
     }
 
