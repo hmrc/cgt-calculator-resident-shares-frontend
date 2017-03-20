@@ -158,10 +158,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
 
           "has a breakdown that" should {
 
-            "include a value for Allowable Losses of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2015/16")} £0")
-            }
-
             "include a value for Capital gains tax allowance used of £11,100" in {
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £11,100")
             }
@@ -170,10 +166,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2015/16")} £0")
             }
           }
-        }
-
-        "has no numeric output row for allowable losses remaining" in {
-          doc.select("#allowableLossRemaining").isEmpty shouldBe true
         }
 
         "has no numeric output row for brought forward losses remaining" in {
@@ -338,29 +330,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
             doc.select("#acquisitionCosts-amount a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
           }
 
-        }
-
-        "has an option output row for other disposals" which {
-
-          s"should have the question text '${pages.OtherProperties.title("2015/16")}'" in {
-            doc.select("#otherDisposals-question").text shouldBe pages.OtherProperties.title("2015/16")
-          }
-
-          "should have the value 'No'" in {
-            doc.select("#otherDisposals-option span.bold-medium").text shouldBe "No"
-          }
-
-          s"should have a change link to ${routes.DeductionsController.otherDisposals().url}" in {
-            doc.select("#otherDisposals-option a").attr("href") shouldBe routes.DeductionsController.otherDisposals().url
-          }
-
-          "has the question as part of the link" in {
-            doc.select("#otherDisposals-option a").text shouldBe s"${commonMessages.change} ${pages.OtherProperties.title("2015/16")}"
-          }
-
-          "has the question component of the link as visuallyhidden" in {
-            doc.select("#otherDisposals-option a span.visuallyhidden").text shouldBe pages.OtherProperties.title("2015/16")
-          }
         }
 
         "has an option output row for brought forward losses" which {
@@ -702,10 +671,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
 
         "has a breakdown that" should {
 
-          "include a value for Allowable Losses of £10,000" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2013/14")} £10,000")
-          }
-
           "include a value for Capital gains tax allowance used of £0" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
           }
@@ -713,25 +678,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
           "include a value for Loss brought forward of £10,000" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2013/14")} £10,000")
           }
-        }
-      }
-
-      "has a numeric output row for allowable losses remaining" which {
-
-        "should have the question text for an in year loss" in {
-          doc.select("#allowableLossRemaining-question").text() shouldBe messages.remainingAllowableLoss("2013/14")
-        }
-
-        "should have the value £1000" in {
-          doc.select("#allowableLossRemaining-amount").text() should include("£1,000")
-        }
-
-        "should have the correct help text" in {
-          doc.select("#allowableLossRemaining-amount div span").text() should include(s"${messages.remainingLossHelp} ${messages.remainingLossLink} ${commonMessages.externalLink} ${messages.remainingAllowableLossHelp}")
-        }
-
-        "should have a link in the help text to https://www.gov.uk/capital-gains-tax/losses" in {
-          doc.select("#allowableLossRemaining-amount div span a").attr("href") shouldBe "https://www.gov.uk/capital-gains-tax/losses"
         }
       }
 
@@ -786,67 +732,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
 
         "has the class 'heading-large'" in {
           doc.select("section#yourAnswers h2").hasClass("heading-large") shouldBe true
-        }
-      }
-
-      "has an option output row for other disposals" which {
-
-        s"should have the question text '${pages.OtherProperties.title("2013/14")}'" in {
-          doc.select("#otherDisposals-question").text shouldBe pages.OtherProperties.title("2013/14")
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#otherDisposals-option span.bold-medium").text shouldBe "Yes"
-        }
-
-        s"should have a change link to ${routes.DeductionsController.otherDisposals().url}" in {
-          doc.select("#otherDisposals-option a").attr("href") shouldBe routes.DeductionsController.otherDisposals().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#otherDisposals-option a").text shouldBe s"${commonMessages.change} ${pages.OtherProperties.title("2013/14")}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#otherDisposals-option a span.visuallyhidden").text shouldBe pages.OtherProperties.title("2013/14")
-        }
-      }
-
-      "has an option output row for allowable losses" which {
-
-        s"should have the question text '${pages.AllowableLosses.title("2013/14")}'" in {
-          doc.select("#allowableLosses-question").text shouldBe pages.AllowableLosses.title("2013/14")
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#allowableLosses-option span.bold-medium").text shouldBe "Yes"
-        }
-
-        s"should have a change link to ${routes.DeductionsController.allowableLosses().url}" in {
-          doc.select("#allowableLosses-option a").attr("href") shouldBe routes.DeductionsController.allowableLosses().url
-        }
-
-        "has the question as part of the link" in {
-          doc.select("#allowableLosses-option a").text shouldBe s"${commonMessages.change} ${pages.AllowableLosses.title("2013/14")}"
-        }
-
-        "has the question component of the link as visuallyhidden" in {
-          doc.select("#allowableLosses-option a span.visuallyhidden").text shouldBe pages.AllowableLosses.title("2013/14")
-        }
-      }
-
-      "has a numeric output row for allowable losses value" which {
-
-        s"should have the question text '${pages.AllowableLossesValue.title("2013/14")}'" in {
-          doc.select("#allowableLossesValue-question").text shouldBe pages.AllowableLossesValue.title("2013/14")
-        }
-
-        "should have the value '£10,000'" in {
-          doc.select("#allowableLossesValue-amount span.bold-medium").text shouldBe "£10,000"
-        }
-
-        s"should have a change link to ${routes.DeductionsController.allowableLossesValue().url}" in {
-          doc.select("#allowableLossesValue-amount a").attr("href") shouldBe routes.DeductionsController.allowableLossesValue().url
         }
       }
 
@@ -948,54 +833,8 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backLink, taxYearModel, homeLink)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
-    "has a numeric output row for allowable losses remaining" which {
-
-      "should have the question text for an in year loss" in {
-        doc.select("#allowableLossRemaining-question").text() shouldBe messages.remainingAllowableLoss("2015/16")
-      }
-
-      "should have the value £1000" in {
-        doc.select("#allowableLossRemaining-amount").text() should include("£1,000")
-      }
-
-      "should have the correct help text" in {
-        doc.select("#allowableLossRemaining-amount div span").text() should include(s"${messages.remainingLossHelp} ${messages.remainingLossLink} ${commonMessages.externalLink} ${messages.remainingAllowableLossHelp}")
-      }
-    }
-
     "has no numeric output row for brought forward losses remaining" in {
       doc.select("#broughtForwardLossRemaining").isEmpty shouldBe true
-    }
-
-    "has a numeric output row for AEA value" should {
-
-      s"should have the question text '${pages.AnnualExemptAmount.title}'" in {
-        doc.select("#annualExemptAmount-question").text shouldBe pages.AnnualExemptAmount.title
-      }
-
-      "should have the value '£1,000'" in {
-        doc.select("#annualExemptAmount-amount span.bold-medium").text shouldBe "£1,000"
-      }
-
-      s"should have a change link to ${routes.DeductionsController.annualExemptAmount().url}" in {
-        doc.select("#annualExemptAmount-amount a").attr("href") shouldBe routes.DeductionsController.annualExemptAmount().url
-      }
-
-      s"display the text ${messages.whatToDoNextText}" in {
-        doc.select("div#whatToDoNextNoLossText").text shouldBe s"${messages.whatToDoNextNoLossText} ${messages.whatToDoNextNoLossLinkShares} ${commonMessages.externalLink}."
-      }
-
-      s"have the link text ${messages.whatToDoNextNoLossLinkShares}${commonMessages.externalLink}" in {
-        doc.select("div#whatToDoNextNoLossText a").text should include(s"${messages.whatToDoNextNoLossLinkShares}")
-      }
-
-      s"have a link to https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax" in {
-        doc.select("div#whatToDoNextNoLossText a").attr("href") shouldBe "https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
-      }
-
-      s"have the visually hidden text ${commonMessages.externalLink}" in {
-        doc.select("div#whatToDoNextNoLossText span#opensInANewWindow").text shouldBe s"${commonMessages.externalLink}"
-      }
     }
   }
 
@@ -1040,10 +879,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
 
 
     lazy val doc = Jsoup.parse(view.body)
-
-    "has a numeric output row for allowable losses remaining" in {
-        doc.select("#allowableLossRemaining").isEmpty shouldBe true
-    }
 
     "has a numeric output row for brought forward losses remaining" which {
 
