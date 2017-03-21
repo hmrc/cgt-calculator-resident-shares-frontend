@@ -52,20 +52,6 @@ navTitle = Messages("calc.base.resident.shares.home")
     <!-- Gain Stats -->
     <span data-metrics="rtt-shares-summary:result:gain"></span>
 
-    <!-- Other Disposal Stats -->
-    @if(deductionAnswers.otherPropertiesModel.fold(false)(_.hasOtherProperties)){
-        <span data-metrics="rtt-shares-summary:otherDisposals:yes"></span>
-    } else {
-        <span data-metrics="rtt-shares-summary:otherDisposals:no"></span>
-    }
-
-    <!-- Claiming In Year Allowable Losses Stats -->
-    @if(deductionAnswers.allowableLossesModel.fold(false)(_.isClaiming)){
-        <span data-metrics="rtt-shares-summary:inYearAllowableLosses:yes"></span>
-    } else {
-        <span data-metrics="rtt-shares-summary:inYearAllowableLosses:no"></span>
-    }
-
     <!-- Claiming Brought Forward Losses Stats -->
     @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
         <span data-metrics="rtt-shares-summary:broughtForwardLosses:yes"></span>
@@ -82,7 +68,6 @@ navTitle = Messages("calc.base.resident.shares.home")
     <!-- Data Rows -->
     @summaryNumericRowHelper("gain", gainMessage(result.gain), result.gain)
     @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-    (Messages("calc.resident.summary.deductionsDetails.allowableLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.allowableLossesUsed, 0).quantity),
     (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
     (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
     )))
@@ -134,25 +119,10 @@ navTitle = Messages("calc.base.resident.shares.home")
 
     @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,Some(gainRoutes.acquisitionCosts().toString))
 
-    @summaryOptionRowHelper("otherDisposals",Messages("calc.resident.otherProperties.title", taxYear.taxYearSupplied),deductionAnswers.otherPropertiesModel.get.hasOtherProperties,Some(deductionRoutes.otherDisposals().toString))
-
-    @{if (deductionAnswers.otherPropertiesModel.get.hasOtherProperties)
-    summaryOptionRowHelper("allowableLosses",Messages("calc.resident.allowableLosses.title", taxYear.taxYearSupplied),deductionAnswers.allowableLossesModel.get.isClaiming,Some(deductionRoutes.allowableLosses().toString))}
-
-    @{if (deductionAnswers.displayAllowableLossesValue)
-    summaryNumericRowHelper("allowableLossesValue",Messages("calc.resident.allowableLossesValue.title", taxYear.taxYearSupplied),deductionAnswers.allowableLossesValueModel.get.amount,Some(deductionRoutes.allowableLossesValue().toString))}
-
     @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString))
 
     @{if (deductionAnswers.broughtForwardModel.get.option)
         summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))}
-
-    @{if (deductionAnswers.displayAnnualExemptAmount)
-        summaryNumericRowHelper("annualExemptAmount",Messages("calc.resident.annualExemptAmount.title"),deductionAnswers.annualExemptAmountModel.get.amount,Some(deductionRoutes.annualExemptAmount().toString))
-    }
-
-    @{if (deductionAnswers.displayPreviousTaxableGains)
-        summaryNumericRowHelper("previousTaxableGains", Messages("calc.resident.previousTaxableGains.title", taxYear.taxYearSupplied), incomeAnswers.previousTaxableGainsModel.get.amount, Some(incomeRoutes.previousTaxableGains().toString))}
 
     @summaryNumericRowHelper("currentIncome",if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}else{Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},incomeAnswers.currentIncomeModel.get.amount,Some(incomeRoutes.currentIncome().toString))
 
