@@ -13,18 +13,6 @@
 
 @(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String)(implicit request: Request[_], messages: Messages)
 
-@allowableLossesHelpText() = {
-    <span>
-        @Messages("calc.resident.summary.remainingLossHelp")
-        <a href="https://www.gov.uk/capital-gains-tax/losses" rel="external"
-           data-journey-click="rtt-shares-help:govUK:summary-cgt-losses">
-            @Messages("calc.resident.summary.remainingLossLink")
-            <span>@Messages("calc.base.externalLink")</span>
-        </a>
-        @Messages("calc.resident.summary.remainingAllowableLossHelp")
-    </span>
-}
-
 @broughtForwardLossesHelpText() = {
     <span>
         @Messages("calc.resident.summary.remainingLossHelp")
@@ -77,20 +65,6 @@
     <!-- No Gain Stats -->
     <span data-metrics="rtt-shares-summary:result:no-gain"></span>
 
-    <!-- Other Disposal Stats -->
-    @if(deductionAnswers.otherPropertiesModel.fold(false)(_.hasOtherProperties)){
-        <span data-metrics="rtt-shares-summary:otherDisposals:yes"></span>
-    } else {
-        <span data-metrics="rtt-shares-summary:otherDisposals:no"></span>
-    }
-
-    <!-- Claiming In Year Allowable Losses Stats -->
-    @if(deductionAnswers.allowableLossesModel.fold(false)(_.isClaiming)){
-        <span data-metrics="rtt-shares-summary:inYearAllowableLosses:yes"></span>
-    } else {
-        <span data-metrics="rtt-shares-summary:inYearAllowableLosses:no"></span>
-    }
-
     <!-- Claiming Brought Forward Losses Stats -->
     @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
         <span data-metrics="rtt-shares-summary:broughtForwardLosses:yes"></span>
@@ -107,19 +81,11 @@
     <!-- Data Rows -->
     @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
     @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-        (Messages("calc.resident.summary.deductionsDetails.allowableLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.allowableLossesUsed, 0).quantity),
         (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
         (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
     )))
     @if(result.chargeableGain == 0){
         @summaryNumericRowHelper("chargeableGain", Messages("calc.resident.summary.chargeableGain"), result.chargeableGain)
-    }
-    @if(result.allowableLossesRemaining > 0) {
-        @{summaryNumericHelpTextHelper("allowableLossRemaining", Messages("calc.resident.summary.remainingAllowableLoss", taxYear.taxYearSupplied),
-            result.allowableLossesRemaining,
-            None,
-            Some(allowableLossesHelpText()))
-        }
     }
     @if(result.broughtForwardLossesRemaining > 0) {
         @{summaryNumericHelpTextHelper("broughtForwardLossRemaining", Messages("calc.resident.summary.remainingBroughtForwardLoss", taxYear.taxYearSupplied),
@@ -172,28 +138,11 @@
 
     @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,Some(gainRoutes.acquisitionCosts().toString))
 
-    @summaryOptionRowHelper("otherDisposals",Messages("calc.resident.otherProperties.title", taxYear.taxYearSupplied),deductionAnswers.otherPropertiesModel.get.hasOtherProperties,Some(deductionRoutes.otherDisposals().toString))
-
-    @{if (deductionAnswers.otherPropertiesModel.get.hasOtherProperties)
-        summaryOptionRowHelper("allowableLosses",Messages("calc.resident.allowableLosses.title",
-        taxYear.taxYearSupplied),deductionAnswers.allowableLossesModel.get.isClaiming,Some(deductionRoutes.allowableLosses().toString))
-    }
-
-    @{if (deductionAnswers.displayAllowableLossesValue)
-        summaryNumericRowHelper("allowableLossesValue",Messages("calc.resident.allowableLossesValue.title",
-        taxYear.taxYearSupplied),deductionAnswers.allowableLossesValueModel.get.amount,Some(deductionRoutes.allowableLossesValue().toString))
-    }
-
     @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString))
 
     @{if (deductionAnswers.broughtForwardModel.get.option)
         summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title",
         taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))
-    }
-
-    @{if (deductionAnswers.displayAnnualExemptAmount)
-        summaryNumericRowHelper("annualExemptAmount",Messages("calc.resident.annualExemptAmount.title"),
-        deductionAnswers.annualExemptAmountModel.get.amount,Some(deductionRoutes.annualExemptAmount().toString))
     }
 </section>
 
