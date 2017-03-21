@@ -211,14 +211,9 @@ trait DeductionsController extends ValidActiveSession {
 
           if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
           else {
-            displayAnnualExemptAmountCheck.flatMap { displayAnnualExemptAmount =>
-              if (displayAnnualExemptAmount) Future.successful(Redirect(routes.DeductionsController.annualExemptAmount()))
-              else {
-                positiveChargeableGainCheck.map { positiveChargeableGain =>
-                  if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-                  else Redirect(routes.SummaryController.summary())
-                }
-              }
+            positiveChargeableGainCheck.map { positiveChargeableGain =>
+              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+              else Redirect(routes.SummaryController.summary())
             }
           }
         }
@@ -288,14 +283,9 @@ trait DeductionsController extends ValidActiveSession {
       },
       success => {
         calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
-        displayAnnualExemptAmountCheck.flatMap { displayAnnualExemptAmount =>
-          if (displayAnnualExemptAmount) Future.successful(Redirect(routes.DeductionsController.annualExemptAmount()))
-          else {
-            positiveChargeableGainCheck.map { positiveChargeableGain =>
-              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.SummaryController.summary())
-            }
-          }
+          positiveChargeableGainCheck.map { positiveChargeableGain =>
+            if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+            else Redirect(routes.SummaryController.summary())
         }
       }
     )
