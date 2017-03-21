@@ -30,5 +30,4 @@ case class DeductionGainAnswersModel(otherPropertiesModel: Option[OtherPropertie
     case (Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(true))) => true
     case _ => false
   }
-  
 }
