@@ -102,7 +102,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         acquisitionCosts = 5
       )
       lazy val chargeableGainAnswers = DeductionGainAnswersModel(None, None)
-      lazy val incomeAnswersModel = IncomeAnswersModel(None, None, None)
+      lazy val incomeAnswersModel = IncomeAnswersModel(None, None)
       lazy val target = setupTarget(
         gainAnswers,
         -6000,
@@ -143,7 +143,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
       )
       lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)), None)
       lazy val chargeableGainResultModel = ChargeableGainResultModel(7000, 0, 11100, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
-      lazy val incomeAnswersModel = IncomeAnswersModel(None, None, None)
+      lazy val incomeAnswersModel = IncomeAnswersModel(None, None)
       lazy val target = setupTarget(
         gainAnswers,
         7000,
@@ -189,7 +189,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
       lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(true)),
         Some(LossesBroughtForwardValueModel(1000)))
       lazy val chargeableGainResultModel = ChargeableGainResultModel(7000, -1000, 11100, 5100, 1000, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
-      lazy val incomeAnswersModel = IncomeAnswersModel(None, None, None)
+      lazy val incomeAnswersModel = IncomeAnswersModel(None, None)
       lazy val target = setupTarget(
         gainAnswers,
         7000,

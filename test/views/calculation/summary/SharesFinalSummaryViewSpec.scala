@@ -56,7 +56,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       lazy val deductionAnswers = DeductionGainAnswersModel(
         Some(LossesBroughtForwardModel(false)),
         None)
-      lazy val incomeAnswers = IncomeAnswersModel(None, Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
       lazy val results = TotalGainAndTaxOwedModel(
         50000,
         20000,
@@ -444,7 +444,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       lazy val deductionAnswers = DeductionGainAnswersModel(
         Some(LossesBroughtForwardModel(false)),
         None)
-      lazy val incomeAnswers = IncomeAnswersModel(None, Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
       lazy val results = TotalGainAndTaxOwedModel(
         50000,
         20000,
@@ -539,7 +539,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       lazy val deductionAnswers = DeductionGainAnswersModel(
         Some(LossesBroughtForwardModel(false)),
         None)
-      lazy val incomeAnswers = IncomeAnswersModel(None, Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
       lazy val results = TotalGainAndTaxOwedModel(
         50000,
         20000,
@@ -623,7 +623,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
     lazy val deductionAnswers = DeductionGainAnswersModel(
       Some(LossesBroughtForwardModel(false)),
       None)
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
       20000,
@@ -712,7 +712,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       Some(LossesBroughtForwardModel(false)),
       None)
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(0)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
     lazy val results = TotalGainAndTaxOwedModel(
       0,
       0,
@@ -790,7 +790,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       Some(LossesBroughtForwardModel(false)),
       None)
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -839,7 +839,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       Some(LossesBroughtForwardModel(false)),
       None)
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -906,7 +906,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       Some(LossesBroughtForwardModel(false)),
       None)
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,

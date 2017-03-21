@@ -154,16 +154,14 @@ trait CalculatorConnector {
   }
 
   def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[resident.IncomeAnswersModel] = {
-    val previousTaxableGainsModel = fetchAndGetFormData[resident.income.PreviousTaxableGainsModel](ResidentShareKeys.previousTaxableGains)
     val currentIncomeModel = fetchAndGetFormData[resident.income.CurrentIncomeModel](ResidentShareKeys.currentIncome)
     val personalAllowanceModel = fetchAndGetFormData[resident.income.PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
 
     for {
-      previousGains <- previousTaxableGainsModel
       currentIncome <- currentIncomeModel
       personalAllowance <- personalAllowanceModel
     } yield {
-      resident.IncomeAnswersModel(previousGains, currentIncome, personalAllowance)
+      resident.IncomeAnswersModel(currentIncome, personalAllowance)
     }
   }
 
