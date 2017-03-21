@@ -56,9 +56,37 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
       doc.select("fieldset").attr("aria-details") shouldBe "help"
     }
 
+    s"have a drop down button" in {
+      doc.body.getElementsByTag("summary").attr("role") shouldBe "button"
+    }
+
+    s"the drop down button has the text ${messages.helpInfoTitle}" in {
+      doc.body.getElementsByTag("summary").text shouldEqual messages.helpInfoTitle
+    }
+
     "have a hidden legend" in {
       val legend = doc.select("legend")
       legend.hasClass("visuallyhidden") shouldBe true
+    }
+
+    "have the correct help info subtitle" in {
+      val element = doc.select("#helpInfo > p")
+      element.text shouldBe messages.helpInfoSubtitle
+    }
+
+    "have the correct help info bullet point #1" in {
+      val element = doc.select("#helpInfo > ul > li:eq(0)")
+      element.text shouldBe messages.helpInfoPoint1
+    }
+
+    "have the correct help info bullet point #2" in {
+      val element = doc.select("#helpInfo > ul > li:eq(1)")
+      element.text shouldBe messages.helpInfoPoint2
+    }
+
+    "have the correct help info bullet point #3" in {
+      val element = doc.select("#helpInfo > ul > li:eq(2)")
+      element.text shouldBe messages.helpInfoPoint3
     }
 
     s"have a back link with text ${commonMessages.back}" in {
@@ -98,10 +126,6 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
 
     "have the option 'Yes' auto selected" in {
       doc.body.getElementById("option-yes").parent.className should include("selected")
-    }
-
-    "not have a drop down button" in {
-      doc.body.select("summary").isEmpty shouldBe true
     }
   }
 
