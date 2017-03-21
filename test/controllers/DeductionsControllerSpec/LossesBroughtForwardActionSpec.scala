@@ -134,8 +134,8 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
         status(result) shouldBe 200
       }
 
-      "have a back link with the address /calculate-your-capital-gains/resident/shares/allowable-losses" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/allowable-losses"
+      "have a back link to acquisition costs" in {
+        doc.select("#back-link").attr("href") shouldEqual controllers.routes.GainController.acquisitionCosts().url
       }
     }
 
