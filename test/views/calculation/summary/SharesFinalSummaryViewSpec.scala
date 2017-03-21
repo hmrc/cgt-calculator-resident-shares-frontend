@@ -605,7 +605,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       }
     }
   }
-  
+
   "Final Summary shares view with a calculation that returns tax on both side of the rate boundary" should {
 
     lazy val gainAnswers = GainAnswersModel(
