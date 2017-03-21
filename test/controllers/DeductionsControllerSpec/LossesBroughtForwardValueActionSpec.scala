@@ -173,61 +173,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
     "given a valid form" when {
 
-      "the user has disposed of other properties with non-zero allowable losses" should {
-        lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
-        lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val target = setPostTarget(Some(OtherPropertiesModel(true)), gainModel, summaryModel,
-          ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0), Some(AllowableLossesModel(true)),
-          Some(AllowableLossesValueModel(BigDecimal(1000))), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-        lazy val result = target.submitLossesBroughtForwardValue(request)
-
-        "return a status of 303" in {
-          status(result) shouldBe 303
-        }
-
-        s"redirect to '${controllers.routes.SummaryController.summary().toString}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.SummaryController.summary().toString
-        }
-      }
-
-      "the user has disposed of other properties with zero allowable losses" should {
-        lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
-        lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val target = setPostTarget(Some(OtherPropertiesModel(true)), gainModel, summaryModel,
-          ChargeableGainResultModel(2000, 2000, 2000, 0, 2000, BigDecimal(0), BigDecimal(0), None, None, 0, 0), Some(AllowableLossesModel(true)),
-          Some(AllowableLossesValueModel(BigDecimal(0))), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-        lazy val result = target.submitLossesBroughtForwardValue(request)
-
-        "return a status of 303" in {
-          status(result) shouldBe 303
-        }
-
-        s"redirect to '${controllers.routes.DeductionsController.annualExemptAmount().toString}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.DeductionsController.annualExemptAmount().toString
-        }
-      }
-
-      "the user has disposed of other properties with no allowable losses" should {
-        lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
-        lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val target = setPostTarget(Some(OtherPropertiesModel(true)), gainModel, summaryModel,
-          ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0), Some(AllowableLossesModel(false)),
-          None, disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
-        lazy val result = target.submitLossesBroughtForwardValue(request)
-
-        "return a status of 303" in {
-          status(result) shouldBe 303
-        }
-
-        s"redirect to '${controllers.routes.DeductionsController.annualExemptAmount().toString}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.DeductionsController.annualExemptAmount().toString
-        }
-      }
-
-      "the user has not disposed of other properties and has zero chargeable gain" should {
+      "the user has zero chargeable gain" should {
         lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val target = setPostTarget(Some(OtherPropertiesModel(false)), gainModel, summaryModel,
@@ -245,7 +191,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
         }
       }
 
-      "the user has not disposed of other properties and has negative chargeable gain" should {
+      "the user has negative chargeable gain" should {
         lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val target = setPostTarget(Some(OtherPropertiesModel(false)), gainModel, summaryModel,
@@ -263,7 +209,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
         }
       }
 
-      "the user has not disposed of other properties and has positive chargeable gain of £1,000" should {
+      "the user has positive chargeable gain of £1,000" should {
         lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val target = setPostTarget(Some(OtherPropertiesModel(false)), gainModel, summaryModel,
