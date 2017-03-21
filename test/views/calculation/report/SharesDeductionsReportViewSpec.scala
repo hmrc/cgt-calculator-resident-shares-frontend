@@ -47,12 +47,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         acquisitionValue = Some(100000),
         acquisitionCosts = 10000
       )
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
         None)
       lazy val results = ChargeableGainResultModel(BigDecimal(50000),
         BigDecimal(38900),
@@ -314,11 +309,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         acquisitionCosts = 40
       )
       lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
         Some(LossesBroughtForwardModel(false)),
-        None,
         None)
       lazy val results = ChargeableGainResultModel(BigDecimal(50000),
         BigDecimal(38900),
@@ -408,11 +399,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         acquisitionCosts = 40
       )
       lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
         Some(LossesBroughtForwardModel(false)),
-        None,
         None)
       lazy val results = ChargeableGainResultModel(BigDecimal(50000),
         BigDecimal(38900),
@@ -491,12 +478,8 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
       acquisitionCosts = 10000
     )
     lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
-      Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)))
+      Some(LossesBroughtForwardValueModel(10000)))
     lazy val results = ChargeableGainResultModel(BigDecimal(50000),
       BigDecimal(-11000),
       BigDecimal(0),
@@ -671,69 +654,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
       "should have the value '£10'" in {
         doc.select("#worthWhenSoldForLess-amount span.bold-medium").text shouldBe "£10"
       }
-    }
-  }
-
-  "Deductions Report view with AEA options selected" which {
-
-    lazy val gainAnswers = GainAnswersModel(
-      disposalDate = Dates.constructDate(10, 10, 2016),
-      soldForLessThanWorth = false,
-      disposalValue = Some(200000),
-      worthWhenSoldForLess = None,
-      disposalCosts = 10000,
-      ownerBeforeLegislationStart = false,
-      valueBeforeLegislationStart = None,
-      inheritedTheShares = Some(false),
-      worthWhenInherited = None,
-      acquisitionValue = Some(100000),
-      acquisitionCosts = 10000
-    )
-    lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      Some(AllowableLossesValueModel(10000)),
-      Some(LossesBroughtForwardModel(true)),
-      Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)))
-    lazy val results = ChargeableGainResultModel(BigDecimal(50000),
-      BigDecimal(-11000),
-      BigDecimal(0),
-      BigDecimal(11000),
-      BigDecimal(71000),
-      BigDecimal(1000),
-      BigDecimal(0),
-      None,
-      None,
-      10000,
-      10000
-    )
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "has a numeric output row for the AEA remaining" which {
-
-      "should have the question text 'Capital Gains Tax allowance left for 2015/16" in {
-        doc.select("#aeaRemaining-question").text should include(messages.aeaRemaining("2015/16"))
-      }
-
-      "include a value for Capital gains tax allowance left of £11,000" in {
-        doc.select("#aeaRemaining-amount span.bold-medium").text should include("£11,000")
-      }
-
-      "include the additional help text for AEA" in {
-        doc.select("#aeaRemaining-amount div span").text shouldBe messages.aeaHelp
-      }
-    }
-
-    "has no numeric output row for brought forward losses remaining" in {
-      doc.select("#broughtForwardLossRemaining").isEmpty shouldBe true
-    }
-
-    "does not display the section for what to do next" in {
-      doc.select("#whatToDoNext").isEmpty shouldBe true
     }
   }
 }

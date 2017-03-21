@@ -101,8 +101,7 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
         acquisitionValue = Some(10000),
         acquisitionCosts = 0
       )
-      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(OtherPropertiesModel(false)),
-        Some(AllowableLossesModel(false)), None, Some(LossesBroughtForwardModel(false)), None, None)
+      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)), None)
       lazy val chargeableGainResultModel = ChargeableGainResultModel(20000, 20000, 11100, 0, 11100, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
       lazy val incomeAnswersModel = IncomeAnswersModel(None, Some(CurrentIncomeModel(20000)), Some(PersonalAllowanceModel(10000)))
       lazy val totalGainAndTaxOwedModel = TotalGainAndTaxOwedModel(20000, 20000, 11100, 11100, 3600, 20000, 18, None, None, None, None, 0 , 0)
@@ -148,8 +147,7 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
         acquisitionValue = Some(10000),
         acquisitionCosts = 0
       )
-      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(OtherPropertiesModel(false)),
-        Some(AllowableLossesModel(false)), None, Some(LossesBroughtForwardModel(false)), None, None)
+      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)), None)
       lazy val chargeableGainResultModel = ChargeableGainResultModel(20000, 20000, 11100, 0, 11100, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
       lazy val incomeAnswersModel = IncomeAnswersModel(None, Some(CurrentIncomeModel(20000)), Some(PersonalAllowanceModel(10000)))
       lazy val totalGainAndTaxOwedModel = TotalGainAndTaxOwedModel(20000, 20000, 11100, 11100, 3600, 20000, 18, Some(5000), Some(28), None, None, 0, 0)

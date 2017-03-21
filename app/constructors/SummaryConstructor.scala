@@ -32,14 +32,6 @@ object SummaryConstructor {
     else Messages("calc.resident.summary.totalLoss")
   }
 
-  def allowableLossesUsed (input: DeductionGainAnswersModel): String = {
-    (input.otherPropertiesModel, input.allowableLossesModel) match {
-      case (Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(true))) =>
-        MoneyPounds(input.allowableLossesValueModel.get.amount.setScale(0, RoundingMode.UP), 0).quantity
-      case _ => MoneyPounds(0,0).quantity
-    }
-  }
-
   def broughtForwardLossesUsed (input: DeductionGainAnswersModel): String = {
     input.broughtForwardModel match {
       case Some(LossesBroughtForwardModel(true)) => MoneyPounds(input.broughtForwardValueModel.get.amount.setScale(0, RoundingMode.UP), 0).quantity

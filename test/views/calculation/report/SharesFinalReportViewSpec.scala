@@ -50,13 +50,8 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         acquisitionCosts = 10000
       )
 
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(false)),
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
-        Some(AnnualExemptAmountModel(0)))
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+        None)
 
       lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
@@ -351,13 +346,8 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         acquisitionValue = None,
         acquisitionCosts = 40
       )
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(false)),
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
-        Some(AnnualExemptAmountModel(0)))
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+        None)
 
       lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
@@ -451,13 +441,8 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         acquisitionCosts = 40
       )
 
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(false)),
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
-        Some(AnnualExemptAmountModel(0)))
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+        None)
 
       lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
@@ -574,13 +559,8 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
       acquisitionValue = Some(100000),
       acquisitionCosts = 10000
     )
-    lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(0)))
+    lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+      None)
 
     lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 

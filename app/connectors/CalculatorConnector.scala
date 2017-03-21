@@ -140,28 +140,16 @@ trait CalculatorConnector {
   //scalastyle:on
 
   def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[resident.shares.DeductionGainAnswersModel] = {
-    val otherPropertiesModel = fetchAndGetFormData[resident.OtherPropertiesModel](ResidentShareKeys.otherProperties)
-    val allowableLossesModel = fetchAndGetFormData[resident.AllowableLossesModel](ResidentShareKeys.allowableLosses)
-    val allowableLossesValueModel = fetchAndGetFormData[resident.AllowableLossesValueModel](ResidentShareKeys.allowableLossesValue)
     val broughtForwardModel = fetchAndGetFormData[resident.LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
     val broughtForwardValueModel = fetchAndGetFormData[resident.LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
-    val annualExemptAmountModel = fetchAndGetFormData[resident.AnnualExemptAmountModel](ResidentShareKeys.annualExemptAmount)
 
     for {
-      otherProperties <- otherPropertiesModel
-      allowableLosses <- allowableLossesModel
-      allowableLossesValue <- allowableLossesValueModel
       broughtForward <- broughtForwardModel
       broughtForwardValue <- broughtForwardValueModel
-      annualExemptAmount <- annualExemptAmountModel
     } yield {
       resident.shares.DeductionGainAnswersModel(
-        otherProperties,
-        allowableLosses,
-        allowableLossesValue,
         broughtForward,
-        broughtForwardValue,
-        annualExemptAmount)
+        broughtForwardValue)
     }
   }
 

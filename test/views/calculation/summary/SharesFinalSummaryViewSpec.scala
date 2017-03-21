@@ -54,11 +54,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         acquisitionValue = Some(100000),
         acquisitionCosts = 10000)
       lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
         Some(LossesBroughtForwardModel(false)),
-        None,
         None)
       lazy val incomeAnswers = IncomeAnswersModel(None, Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
       lazy val results = TotalGainAndTaxOwedModel(
@@ -446,11 +442,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         acquisitionCosts = 40
       )
       lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
         Some(LossesBroughtForwardModel(false)),
-        None,
         None)
       lazy val incomeAnswers = IncomeAnswersModel(None, Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
       lazy val results = TotalGainAndTaxOwedModel(
@@ -545,11 +537,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         acquisitionCosts = 40
       )
       lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
         Some(LossesBroughtForwardModel(false)),
-        None,
         None)
       lazy val incomeAnswers = IncomeAnswersModel(None, Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
       lazy val results = TotalGainAndTaxOwedModel(
@@ -617,180 +605,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       }
     }
   }
-
-  "Final Summary shares view with a calculation that has some previous taxable gains" should {
-
-    lazy val gainAnswers = GainAnswersModel(
-      disposalDate = Dates.constructDate(10, 10, 2016),
-      soldForLessThanWorth = false,
-      disposalValue = Some(200000),
-      worthWhenSoldForLess = None,
-      disposalCosts = 10000,
-      ownerBeforeLegislationStart = false,
-      valueBeforeLegislationStart = None,
-      inheritedTheShares = Some(false),
-      worthWhenInherited = None,
-      acquisitionValue = Some(100000),
-      acquisitionCosts = 10000)
-    lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(0)))
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
-    lazy val results = TotalGainAndTaxOwedModel(
-      50000,
-      20000,
-      0,
-      30000,
-      3600,
-      30000,
-      18,
-      None,
-      None,
-      None,
-      None,
-      0,
-      0
-    )
-    lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
-    lazy val backLink = "/calculate-your-capital-gains/resident/shares/personal-allowance"
-    lazy val homeLink = "home-link"
-    lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, homeLink, false)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "have a charset of UTF-8" in {
-      doc.charset().toString shouldBe "UTF-8"
-    }
-
-    s"have a title ${messages.title}" in {
-      doc.title() shouldBe messages.title
-    }
-
-    s"have a back button" which {
-
-      lazy val backLink = doc.getElementById("back-link")
-
-      "has the id 'back-link'" in {
-        backLink.attr("id") shouldBe "back-link"
-      }
-
-      s"has the text '${commonMessages.back}'" in {
-        backLink.text shouldBe commonMessages.back
-      }
-
-      s"has a link to '${routes.IncomeController.personalAllowance().toString()}'" in {
-        backLink.attr("href") shouldBe routes.IncomeController.personalAllowance().toString
-      }
-
-    }
-
-    s"have a page heading" which {
-
-      s"includes a secondary heading with text '${messages.pageHeading}'" in {
-        doc.select("h1 span.pre-heading").text shouldBe messages.pageHeading
-      }
-
-      "includes an amount of tax due of £3,600.00" in {
-        doc.select("h1").text should include ("£3,600.00")
-      }
-    }
-
-    "has a notice summary that" should {
-
-      "have the class notice-wrapper" in {
-        doc.select("div.notice-wrapper").isEmpty shouldBe false
-      }
-
-      s"have the text ${messages.noticeWarning("2015/16")}" in {
-        doc.select("strong.bold-small").text shouldBe messages.noticeWarning("2015/16")
-      }
-
-      "have a warning icon" in {
-        doc.select("i.icon-important").isEmpty shouldBe false
-      }
-
-      "have a visually hidden warning text" in {
-        doc.select("div.notice-wrapper span.visuallyhidden").text shouldBe messages.warning
-      }
-    }
-
-    s"has a h2 tag" which {
-
-      s"should have the title '${messages.calcDetailsHeadingDate("2013/14")}'" in {
-        doc.select("section#calcDetails h2").text shouldBe messages.calcDetailsHeadingDate("2013/14")
-      }
-
-      "has the class 'heading-large'" in {
-        doc.select("section#calcDetails h2").hasClass("heading-large") shouldBe true
-      }
-    }
-
-    "has a numeric output row and a tax rate" which {
-
-      "Should have the question text 'Tax Rate'" in {
-        doc.select("#gainAndRate-question").text shouldBe messages.taxRate
-      }
-
-      "Should have the value £30,000" in {
-        doc.select("#firstBand").text should include("£30,000")
-      }
-      "Should have the tax rate 18%" in {
-        doc.select("#firstBand").text should include("18%")
-      }
-    }
-
-    "has an option output row for current income" which {
-
-      s"should have the question text '${pages.CurrentIncome.title("2013/14")}'" in {
-        doc.select("#currentIncome-question").text shouldBe pages.CurrentIncome.title("2013/14")
-      }
-
-      "should have the value '£0'" in {
-        doc.select("#currentIncome-amount span.bold-medium").text shouldBe "£0"
-      }
-
-      s"should have a change link to ${routes.IncomeController.currentIncome().url}" in {
-        doc.select("#currentIncome-amount a").attr("href") shouldBe routes.IncomeController.currentIncome().url
-      }
-    }
-    "has an option output row for personal allowance" which {
-
-      s"should have the question text '${pages.PersonalAllowance.question("2013/14")}'" in {
-        doc.select("#personalAllowance-question").text shouldBe pages.PersonalAllowance.question("2013/14")
-      }
-
-      "should have the value '£0'" in {
-        doc.select("#personalAllowance-amount span.bold-medium").text shouldBe "£0"
-      }
-
-      s"should have a change link to ${routes.IncomeController.personalAllowance().url}" in {
-        doc.select("#personalAllowance-amount a").attr("href") shouldBe routes.IncomeController.personalAllowance().url
-      }
-    }
-
-    "display the save as PDF Button" which {
-
-      "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
-      }
-
-      s"with an href to ${controllers.routes.ReportController.finalSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/final-report"
-      }
-
-      s"have the text ${messages.saveAsPdf}" in {
-        doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
-      }
-    }
-  }
-
+  
   "Final Summary shares view with a calculation that returns tax on both side of the rate boundary" should {
 
     lazy val gainAnswers = GainAnswersModel(
@@ -806,12 +621,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       acquisitionValue = Some(100000),
       acquisitionCosts = 10000)
     lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
       Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(11000)))
+      None)
     lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
     lazy val results = TotalGainAndTaxOwedModel(
       50000,
@@ -896,14 +707,11 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       acquisitionValue = Some(0),
       acquisitionCosts = 0)
 
+
     lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
       Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(11000))
-    )
+      None)
+
     lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(0)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
     lazy val results = TotalGainAndTaxOwedModel(
       0,
@@ -979,13 +787,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       acquisitionCosts = 0)
 
     lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
       Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(11000))
-    )
+      None)
 
     lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
@@ -1033,13 +836,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
     )
 
     lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
       Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(11000))
-    )
+      None)
 
     lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
@@ -1105,13 +903,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       acquisitionCosts = 0)
 
     lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
       Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(11000))
-    )
+      None)
 
     lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 

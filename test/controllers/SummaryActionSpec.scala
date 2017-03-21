@@ -101,7 +101,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         acquisitionValue = Some(5000),
         acquisitionCosts = 5
       )
-      lazy val chargeableGainAnswers = DeductionGainAnswersModel(None, None, None, None, None, None)
+      lazy val chargeableGainAnswers = DeductionGainAnswersModel(None, None)
       lazy val incomeAnswersModel = IncomeAnswersModel(None, None, None)
       lazy val target = setupTarget(
         gainAnswers,
@@ -127,7 +127,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
       }
     }
 
-    "a zero taxable gain is returned with no other disposals of or brought forward losses" should {
+    "a zero taxable gain is returned with no brought forward losses" should {
       lazy val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(12, 1, 2016),
         soldForLessThanWorth = false,
@@ -141,8 +141,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         acquisitionValue = Some(5000),
         acquisitionCosts = 500
       )
-      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(OtherPropertiesModel(false)),
-        None, None, Some(LossesBroughtForwardModel(false)), None, None)
+      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)), None)
       lazy val chargeableGainResultModel = ChargeableGainResultModel(7000, 0, 11100, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
       lazy val incomeAnswersModel = IncomeAnswersModel(None, None, None)
       lazy val target = setupTarget(
@@ -173,7 +172,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
       }
     }
 
-    "a negative taxable gain is returned with no other disposals of but with brought forward losses" should {
+    "a negative taxable gain is returned with brought forward losses" should {
       lazy val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(12, 1, 2016),
         soldForLessThanWorth = false,
@@ -187,8 +186,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         acquisitionValue = Some(5000),
         acquisitionCosts = 500
       )
-      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(OtherPropertiesModel(false)), None, None,
-        Some(LossesBroughtForwardModel(true)), Some(LossesBroughtForwardValueModel(1000)), None)
+      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(true)),
+        Some(LossesBroughtForwardValueModel(1000)))
       lazy val chargeableGainResultModel = ChargeableGainResultModel(7000, -1000, 11100, 5100, 1000, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
       lazy val incomeAnswersModel = IncomeAnswersModel(None, None, None)
       lazy val target = setupTarget(
@@ -216,100 +215,6 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
       s"has a link to '${routes.DeductionsController.lossesBroughtForwardValue().toString()}'" in {
         doc.getElementById("back-link").attr("href") shouldBe routes.DeductionsController.lossesBroughtForwardValue().toString
-      }
-    }
-
-    "a negative taxable gain is returned with other disposals" should {
-      lazy val gainAnswers = GainAnswersModel(
-        disposalDate = Dates.constructDate(12, 1, 2016),
-        soldForLessThanWorth = false,
-        disposalValue = Some(15000),
-        worthWhenSoldForLess = None,
-        disposalCosts = 1000,
-        ownerBeforeLegislationStart = false,
-        valueBeforeLegislationStart = None,
-        inheritedTheShares = Some(false),
-        worthWhenInherited = None,
-        acquisitionValue = Some(3000),
-        acquisitionCosts = 2000
-      )
-      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(true)),
-        Some(AllowableLossesValueModel(BigDecimal(1000))), Some(LossesBroughtForwardModel(false)), None, Some(AnnualExemptAmountModel(10000)))
-      lazy val chargeableGainResultModel = ChargeableGainResultModel(10000, -1100, 11100, 0, 11100, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
-      lazy val incomeAnswersModel = IncomeAnswersModel(None, Some(CurrentIncomeModel(20000)), Some(PersonalAllowanceModel(10000)))
-      lazy val totalGainAndTaxOwedModel = TotalGainAndTaxOwedModel(20000, 20000, 11100, 11100, 3600, 20000, 18, None, None, None, None, 0, 0)
-      lazy val target = setupTarget(
-        gainAnswers,
-        10000,
-        chargeableGainAnswers,
-        Some(chargeableGainResultModel),
-        taxYearModel = Some(TaxYearModel("2015/2016", true, "2015/16")),
-        incomeAnswersModel,
-        Some(totalGainAndTaxOwedModel)
-      )
-      lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
-
-      "return a status of 200" in {
-        status(result) shouldBe 200
-      }
-
-      "return some html" in {
-        contentType(result) shouldBe Some("text/html")
-      }
-
-      s"return a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
-      }
-
-      s"has a link to '${routes.DeductionsController.lossesBroughtForward().toString()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.DeductionsController.lossesBroughtForward().toString
-      }
-    }
-
-    "a negative taxable gain is returned with other properties disposed of but an allowable loss of 0" should {
-      lazy val gainAnswers = GainAnswersModel(
-        disposalDate = Dates.constructDate(12, 1, 2016),
-        soldForLessThanWorth = false,
-        disposalValue = Some(15000),
-        worthWhenSoldForLess = None,
-        disposalCosts = 1000,
-        ownerBeforeLegislationStart = false,
-        valueBeforeLegislationStart = None,
-        inheritedTheShares = Some(false),
-        worthWhenInherited = None,
-        acquisitionValue = Some(3000),
-        acquisitionCosts = 2000
-      )
-      lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(true)),
-        Some(AllowableLossesValueModel(BigDecimal(0))), Some(LossesBroughtForwardModel(false)), None, Some(AnnualExemptAmountModel(10000)))
-      lazy val chargeableGainResultModel = ChargeableGainResultModel(10000, -1100, 11100, 0, 11100, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
-      lazy val incomeAnswersModel = IncomeAnswersModel(None, None, None)
-      lazy val target = setupTarget(
-        gainAnswers,
-        10000,
-        chargeableGainAnswers,
-        Some(chargeableGainResultModel),
-        taxYearModel = Some(TaxYearModel("2015/2016", true, "2015/16")),
-        incomeAnswersModel
-      )
-      lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
-
-      "return a status of 200" in {
-        status(result) shouldBe 200
-      }
-
-      "return some html" in {
-        contentType(result) shouldBe Some("text/html")
-      }
-
-      s"return a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
-      }
-
-      s"has a link to '${routes.DeductionsController.annualExemptAmount().toString()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.DeductionsController.annualExemptAmount().toString
       }
     }
   }

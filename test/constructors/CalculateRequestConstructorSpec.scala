@@ -56,11 +56,7 @@ class CalculateRequestConstructorSpec extends UnitSpec {
     "supplied with no optional values" should {
 
       "return a valid url variable string" in {
-        val answers = DeductionGainAnswersModel(Some(OtherPropertiesModel(false)),
-          None,
-          None,
-          Some(LossesBroughtForwardModel(false)),
-          None,
+        val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
           None)
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
         result shouldBe "&annualExemptAmount=11100"
@@ -70,12 +66,8 @@ class CalculateRequestConstructorSpec extends UnitSpec {
     "supplied with all optional values" should {
 
       "return a valid url variable string" in {
-        val answers = DeductionGainAnswersModel(Some(OtherPropertiesModel(true)),
-          Some(AllowableLossesModel(false)),
-          None,
-          Some(LossesBroughtForwardModel(true)),
-          Some(LossesBroughtForwardValueModel(BigDecimal(2000))),
-          Some(AnnualExemptAmountModel(BigDecimal(3000))))
+        val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(true)),
+          Some(LossesBroughtForwardValueModel(BigDecimal(2000))))
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
         result shouldBe "&broughtForwardLosses=2000&annualExemptAmount=11100"
       }
@@ -85,8 +77,7 @@ class CalculateRequestConstructorSpec extends UnitSpec {
   "calling incomeAnswersRequestString" when {
 
     "supplied with personal allowance and previous income" should {
-      val deductionGainAnswersModel = DeductionGainAnswersModel(Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(false)),
-        None, None, None, Some(AnnualExemptAmountModel(1000)))
+      val deductionGainAnswersModel = DeductionGainAnswersModel(None, None)
       val incomeGainAnswersModel = IncomeAnswersModel(None, Some(CurrentIncomeModel(1000)), Some(PersonalAllowanceModel(10600)))
 
       "return a valid request string" in {
