@@ -138,10 +138,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
           "has a breakdown that" should {
 
-            "include a value for Allowable Losses of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2015/16")} £0")
-            }
-
             "include a value for Capital gains tax allowance used of £11,100" in {
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £11,100")
             }
@@ -150,10 +146,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2015/16")} £0")
             }
           }
-        }
-
-        "has no numeric output row for allowable losses remaining" in {
-          doc.select("#allowableLossRemaining").isEmpty shouldBe true
         }
 
         "has no numeric output row for brought forward losses remaining" in {
@@ -285,17 +277,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
           "should have the value '£10,000'" in {
             doc.select("#acquisitionCosts-amount span.bold-medium").text shouldBe "£10,000"
-          }
-        }
-
-        "has an option output row for other disposals" which {
-
-          s"should have the question text '${commonMessages.OtherProperties.title("2015/16")}'" in {
-            doc.select("#otherProperties-question").text shouldBe commonMessages.OtherProperties.title("2015/16")
-          }
-
-          "should have the value 'No'" in {
-            doc.select("#otherProperties-option span.bold-medium").text shouldBe "No"
           }
         }
 
@@ -589,10 +570,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
         "has a breakdown that" should {
 
-          "include a value for Allowable Losses of £10,000" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2013/14")} £10,000")
-          }
-
           "include a value for Capital gains tax allowance used of £0" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
           }
@@ -600,22 +577,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           "include a value for Loss brought forward of £10,000" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2013/14")} £10,000")
           }
-        }
-      }
-
-      "has a numeric output row for allowable losses remaining" which {
-
-        "should have the question text for an in year loss" in {
-          doc.select("#allowableLossRemaining-question").text() shouldBe messages.remainingAllowableLoss("2013/14")
-        }
-
-        "should have the value £1000" in {
-          doc.select("#allowableLossRemaining-amount").text() should include("£1,000")
-        }
-
-        "should have the correct help text" in {
-          doc.select("#allowableLossRemaining-amount div span").text() should
-            include(s"${messages.remainingLossHelp} ${messages.remainingLossLink} ${messages.remainingAllowableLossHelp}")
         }
       }
 
@@ -650,39 +611,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
         "has the class 'heading-large'" in {
           doc.select("section#yourAnswers h2").hasClass("heading-large") shouldBe true
-        }
-      }
-
-      "has an option output row for other properties" which {
-
-        s"should have the question text '${commonMessages.OtherProperties.title("2013/14")}'" in {
-          doc.select("#otherProperties-question").text shouldBe commonMessages.OtherProperties.title("2013/14")
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#otherProperties-option span.bold-medium").text shouldBe "Yes"
-        }
-      }
-
-      "has an option output row for allowable losses" which {
-
-        s"should have the question text '${commonMessages.AllowableLosses.title("2013/14")}'" in {
-          doc.select("#allowableLosses-question").text shouldBe commonMessages.AllowableLosses.title("2013/14")
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#allowableLosses-option span.bold-medium").text shouldBe "Yes"
-        }
-      }
-
-      "has a numeric output row for allowable losses value" which {
-
-        s"should have the question text '${commonMessages.AllowableLossesValue.title("2013/14")}'" in {
-          doc.select("#allowableLossesValue-question").text shouldBe commonMessages.AllowableLossesValue.title("2013/14")
-        }
-
-        "should have the value '£10,000'" in {
-          doc.select("#allowableLossesValue-amount span.bold-medium").text shouldBe "£10,000"
         }
       }
 
@@ -800,35 +728,8 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
       }
     }
 
-    "has a numeric output row for allowable losses remaining" which {
-
-      "should have the question text for an in year loss" in {
-        doc.select("#allowableLossRemaining-question").text() shouldBe messages.remainingAllowableLoss("2015/16")
-      }
-
-      "should have the value £1000" in {
-        doc.select("#allowableLossRemaining-amount").text() should include("£1,000")
-      }
-
-      "should have the correct help text" in {
-        doc.select("#allowableLossRemaining-amount div span").text() should
-          include(s"${messages.remainingLossHelp} ${messages.remainingLossLink} ${messages.remainingAllowableLossHelp}")
-      }
-    }
-
     "has no numeric output row for brought forward losses remaining" in {
       doc.select("#broughtForwardLossRemaining").isEmpty shouldBe true
-    }
-
-    "has a numeric output row for AEA value" should {
-
-      s"should have the question text '${commonMessages.AnnualExemptAmount.title}'" in {
-        doc.select("#annualExemptAmount-question").text shouldBe commonMessages.AnnualExemptAmount.title
-      }
-
-      "should have the value '£1,000'" in {
-        doc.select("#annualExemptAmount-amount span.bold-medium").text shouldBe "£1,000"
-      }
     }
 
     "does not display the section for what to do next" in {
