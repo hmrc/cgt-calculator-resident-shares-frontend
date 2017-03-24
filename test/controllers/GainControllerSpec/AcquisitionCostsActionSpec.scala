@@ -261,8 +261,8 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
         status(result) shouldBe 303
       }
 
-      "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/other-disposals")
+      "redirect to the losses brought forward page" in {
+        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward().url)
       }
     }
 

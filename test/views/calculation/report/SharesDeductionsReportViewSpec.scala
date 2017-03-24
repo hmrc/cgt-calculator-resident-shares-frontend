@@ -47,12 +47,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         acquisitionValue = Some(100000),
         acquisitionCosts = 10000
       )
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
         None)
       lazy val results = ChargeableGainResultModel(BigDecimal(50000),
         BigDecimal(38900),
@@ -138,10 +133,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
           "has a breakdown that" should {
 
-            "include a value for Allowable Losses of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2015/16")} £0")
-            }
-
             "include a value for Capital gains tax allowance used of £11,100" in {
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £11,100")
             }
@@ -150,10 +141,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2015/16")} £0")
             }
           }
-        }
-
-        "has no numeric output row for allowable losses remaining" in {
-          doc.select("#allowableLossRemaining").isEmpty shouldBe true
         }
 
         "has no numeric output row for brought forward losses remaining" in {
@@ -288,17 +275,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
         }
 
-        "has an option output row for other disposals" which {
-
-          s"should have the question text '${commonMessages.OtherProperties.title("2015/16")}'" in {
-            doc.select("#otherProperties-question").text shouldBe commonMessages.OtherProperties.title("2015/16")
-          }
-
-          "should have the value 'No'" in {
-            doc.select("#otherProperties-option span.bold-medium").text shouldBe "No"
-          }
-        }
-
         "has an option output row for brought forward losses" which {
 
           s"should have the question text '${commonMessages.LossesBroughtForward.title("2015/16")}'" in {
@@ -333,11 +309,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         acquisitionCosts = 40
       )
       lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
         Some(LossesBroughtForwardModel(false)),
-        None,
         None)
       lazy val results = ChargeableGainResultModel(BigDecimal(50000),
         BigDecimal(38900),
@@ -427,11 +399,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         acquisitionCosts = 40
       )
       lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(false)),
-        None,
-        None,
         Some(LossesBroughtForwardModel(false)),
-        None,
         None)
       lazy val results = ChargeableGainResultModel(BigDecimal(50000),
         BigDecimal(38900),
@@ -510,12 +478,8 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
       acquisitionCosts = 10000
     )
     lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(true)),
-      Some(AllowableLossesValueModel(10000)),
       Some(LossesBroughtForwardModel(true)),
-      Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)))
+      Some(LossesBroughtForwardValueModel(10000)))
     lazy val results = ChargeableGainResultModel(BigDecimal(50000),
       BigDecimal(-11000),
       BigDecimal(0),
@@ -589,10 +553,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
         "has a breakdown that" should {
 
-          "include a value for Allowable Losses of £10,000" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2013/14")} £10,000")
-          }
-
           "include a value for Capital gains tax allowance used of £0" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
           }
@@ -600,22 +560,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           "include a value for Loss brought forward of £10,000" in {
             doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2013/14")} £10,000")
           }
-        }
-      }
-
-      "has a numeric output row for allowable losses remaining" which {
-
-        "should have the question text for an in year loss" in {
-          doc.select("#allowableLossRemaining-question").text() shouldBe messages.remainingAllowableLoss("2013/14")
-        }
-
-        "should have the value £1000" in {
-          doc.select("#allowableLossRemaining-amount").text() should include("£1,000")
-        }
-
-        "should have the correct help text" in {
-          doc.select("#allowableLossRemaining-amount div span").text() should
-            include(s"${messages.remainingLossHelp} ${messages.remainingLossLink} ${messages.remainingAllowableLossHelp}")
         }
       }
 
@@ -650,39 +594,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
         "has the class 'heading-large'" in {
           doc.select("section#yourAnswers h2").hasClass("heading-large") shouldBe true
-        }
-      }
-
-      "has an option output row for other properties" which {
-
-        s"should have the question text '${commonMessages.OtherProperties.title("2013/14")}'" in {
-          doc.select("#otherProperties-question").text shouldBe commonMessages.OtherProperties.title("2013/14")
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#otherProperties-option span.bold-medium").text shouldBe "Yes"
-        }
-      }
-
-      "has an option output row for allowable losses" which {
-
-        s"should have the question text '${commonMessages.AllowableLosses.title("2013/14")}'" in {
-          doc.select("#allowableLosses-question").text shouldBe commonMessages.AllowableLosses.title("2013/14")
-        }
-
-        "should have the value 'Yes'" in {
-          doc.select("#allowableLosses-option span.bold-medium").text shouldBe "Yes"
-        }
-      }
-
-      "has a numeric output row for allowable losses value" which {
-
-        s"should have the question text '${commonMessages.AllowableLossesValue.title("2013/14")}'" in {
-          doc.select("#allowableLossesValue-question").text shouldBe commonMessages.AllowableLossesValue.title("2013/14")
-        }
-
-        "should have the value '£10,000'" in {
-          doc.select("#allowableLossesValue-amount span.bold-medium").text shouldBe "£10,000"
         }
       }
 
@@ -743,96 +654,6 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
       "should have the value '£10'" in {
         doc.select("#worthWhenSoldForLess-amount span.bold-medium").text shouldBe "£10"
       }
-    }
-  }
-
-  "Deductions Report view with AEA options selected" which {
-
-    lazy val gainAnswers = GainAnswersModel(
-      disposalDate = Dates.constructDate(10, 10, 2016),
-      soldForLessThanWorth = false,
-      disposalValue = Some(200000),
-      worthWhenSoldForLess = None,
-      disposalCosts = 10000,
-      ownerBeforeLegislationStart = false,
-      valueBeforeLegislationStart = None,
-      inheritedTheShares = Some(false),
-      worthWhenInherited = None,
-      acquisitionValue = Some(100000),
-      acquisitionCosts = 10000
-    )
-    lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      Some(AllowableLossesValueModel(10000)),
-      Some(LossesBroughtForwardModel(true)),
-      Some(LossesBroughtForwardValueModel(10000)),
-      Some(AnnualExemptAmountModel(1000)))
-    lazy val results = ChargeableGainResultModel(BigDecimal(50000),
-      BigDecimal(-11000),
-      BigDecimal(0),
-      BigDecimal(11000),
-      BigDecimal(71000),
-      BigDecimal(1000),
-      BigDecimal(0),
-      None,
-      None,
-      10000,
-      10000
-    )
-    lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel)(fakeRequestWithSession, applicationMessages)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "has a numeric output row for the AEA remaining" which {
-
-      "should have the question text 'Capital Gains Tax allowance left for 2015/16" in {
-        doc.select("#aeaRemaining-question").text should include(messages.aeaRemaining("2015/16"))
-      }
-
-      "include a value for Capital gains tax allowance left of £11,000" in {
-        doc.select("#aeaRemaining-amount span.bold-medium").text should include("£11,000")
-      }
-
-      "include the additional help text for AEA" in {
-        doc.select("#aeaRemaining-amount div span").text shouldBe messages.aeaHelp
-      }
-    }
-
-    "has a numeric output row for allowable losses remaining" which {
-
-      "should have the question text for an in year loss" in {
-        doc.select("#allowableLossRemaining-question").text() shouldBe messages.remainingAllowableLoss("2015/16")
-      }
-
-      "should have the value £1000" in {
-        doc.select("#allowableLossRemaining-amount").text() should include("£1,000")
-      }
-
-      "should have the correct help text" in {
-        doc.select("#allowableLossRemaining-amount div span").text() should
-          include(s"${messages.remainingLossHelp} ${messages.remainingLossLink} ${messages.remainingAllowableLossHelp}")
-      }
-    }
-
-    "has no numeric output row for brought forward losses remaining" in {
-      doc.select("#broughtForwardLossRemaining").isEmpty shouldBe true
-    }
-
-    "has a numeric output row for AEA value" should {
-
-      s"should have the question text '${commonMessages.AnnualExemptAmount.title}'" in {
-        doc.select("#annualExemptAmount-question").text shouldBe commonMessages.AnnualExemptAmount.title
-      }
-
-      "should have the value '£1,000'" in {
-        doc.select("#annualExemptAmount-amount span.bold-medium").text shouldBe "£1,000"
-      }
-    }
-
-    "does not display the section for what to do next" in {
-      doc.select("#whatToDoNext").isEmpty shouldBe true
     }
   }
 }

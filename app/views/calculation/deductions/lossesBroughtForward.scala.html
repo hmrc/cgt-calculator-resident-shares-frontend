@@ -5,17 +5,17 @@
 @import views.html.helpers.resident._
 @import play.api.mvc.Call
 
-@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, hasOtherProperties: Boolean, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
+@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
 @hiddenHelpTextContent = {
-<div id="helpInfo">
-    <p>@Messages("calc.resident.lossesBroughtForward.helpInfo.subtitle")</p>
-    <ul class="list-bullet">
-        <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point1")</li>
-        <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point2")</li>
-        <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point3")</li>
-    </ul>
-</div>
+    <div id="helpInfo">
+        <p>@Messages("calc.resident.lossesBroughtForward.helpInfo.subtitle")</p>
+        <ul class="list-bullet">
+            <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point1")</li>
+            <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point2")</li>
+            <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point3")</li>
+        </ul>
+    </div>
 }
 
 @resident_main_template(
@@ -51,6 +51,6 @@
 
     }
 
-    @if(!hasOtherProperties) {@expandableHelpTextHelper(Messages("calc.resident.lossesBroughtForward.helpInfo.title"), hiddenHelpTextContent)}
+    @expandableHelpTextHelper(Messages("calc.resident.lossesBroughtForward.helpInfo.title"), hiddenHelpTextContent)
 
 }

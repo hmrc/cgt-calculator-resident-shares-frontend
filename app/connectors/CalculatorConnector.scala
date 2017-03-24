@@ -140,42 +140,28 @@ trait CalculatorConnector {
   //scalastyle:on
 
   def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[resident.shares.DeductionGainAnswersModel] = {
-    val otherPropertiesModel = fetchAndGetFormData[resident.OtherPropertiesModel](ResidentShareKeys.otherProperties)
-    val allowableLossesModel = fetchAndGetFormData[resident.AllowableLossesModel](ResidentShareKeys.allowableLosses)
-    val allowableLossesValueModel = fetchAndGetFormData[resident.AllowableLossesValueModel](ResidentShareKeys.allowableLossesValue)
     val broughtForwardModel = fetchAndGetFormData[resident.LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
     val broughtForwardValueModel = fetchAndGetFormData[resident.LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
-    val annualExemptAmountModel = fetchAndGetFormData[resident.AnnualExemptAmountModel](ResidentShareKeys.annualExemptAmount)
 
     for {
-      otherProperties <- otherPropertiesModel
-      allowableLosses <- allowableLossesModel
-      allowableLossesValue <- allowableLossesValueModel
       broughtForward <- broughtForwardModel
       broughtForwardValue <- broughtForwardValueModel
-      annualExemptAmount <- annualExemptAmountModel
     } yield {
       resident.shares.DeductionGainAnswersModel(
-        otherProperties,
-        allowableLosses,
-        allowableLossesValue,
         broughtForward,
-        broughtForwardValue,
-        annualExemptAmount)
+        broughtForwardValue)
     }
   }
 
   def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[resident.IncomeAnswersModel] = {
-    val previousTaxableGainsModel = fetchAndGetFormData[resident.income.PreviousTaxableGainsModel](ResidentShareKeys.previousTaxableGains)
     val currentIncomeModel = fetchAndGetFormData[resident.income.CurrentIncomeModel](ResidentShareKeys.currentIncome)
     val personalAllowanceModel = fetchAndGetFormData[resident.income.PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
 
     for {
-      previousGains <- previousTaxableGainsModel
       currentIncome <- currentIncomeModel
       personalAllowance <- personalAllowanceModel
     } yield {
-      resident.IncomeAnswersModel(previousGains, currentIncome, personalAllowance)
+      resident.IncomeAnswersModel(currentIncome, personalAllowance)
     }
   }
 

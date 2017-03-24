@@ -133,92 +133,41 @@ trait DeductionsController extends ValidActiveSession {
 
   private val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
 
-  def otherPropertiesCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[OtherPropertiesModel](keystoreKeys.otherProperties).map {
-      case Some(data) => data.hasOtherProperties
-      case None => false
-    }
-  }
-
-  def allowableLossesCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
-      case Some(data) => data.isClaiming
-      case None => false
-    }
-  }
-
-  def displayAnnualExemptAmountCheck(claimedOtherProperties: Boolean, claimedAllowableLosses: Boolean)(implicit hc: HeaderCarrier): Future[Boolean] = {
-    calcConnector.fetchAndGetFormData[AllowableLossesValueModel](keystoreKeys.allowableLossesValue).map {
-      case Some(result) if claimedAllowableLosses && claimedOtherProperties => result.amount == 0
-      case _ if claimedOtherProperties && !claimedAllowableLosses => true
-      case _ => false
-    }
-  }
-
-  def displayAnnualExemptAmountCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
-    for {
-      disposedOtherProperties <- otherPropertiesCheck
-      claimedAllowableLosses <- allowableLossesCheck
-      displayAnnualExemptAmount <- displayAnnualExemptAmountCheck(disposedOtherProperties, claimedAllowableLosses)
-    } yield displayAnnualExemptAmount
-  }
-
-  def lossesBroughtForwardBackUrl(implicit hc: HeaderCarrier): Future[String] = {
-
-    for {
-      otherPropertiesClaimed <- otherPropertiesCheck
-      allowableLossesClaimed <- allowableLossesCheck
-    } yield (otherPropertiesClaimed, allowableLossesClaimed)
-
-    match {
-      case (false, _) => routes.DeductionsController.otherDisposals().url
-      case (true, false) => routes.DeductionsController.allowableLosses().url
-      case (true, true) => routes.DeductionsController.allowableLossesValue().url
-    }
-  }
+  val lossesBroughtForwardBackUrl: String = controllers.routes.GainController.acquisitionCosts().url
 
   val lossesBroughtForward = ValidateSession.async { implicit request =>
 
-    def routeRequest(backLinkUrl: String, taxYear: TaxYearModel, otherPropertiesClaimed: Boolean): Future[Result] = {
+    def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
         case Some(data) => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
-          backLinkUrl, taxYear, otherPropertiesClaimed, homeLink, navTitle))
+          backLinkUrl, taxYear, homeLink, navTitle))
         case _ => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear,
-          otherPropertiesClaimed, homeLink, navTitle))
+          homeLink, navTitle))
       }
     }
 
     for {
-      backLinkUrl <- lossesBroughtForwardBackUrl
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      otherPropertiesClaimed <- otherPropertiesCheck
-      finalResult <- routeRequest(backLinkUrl, taxYear.get, otherPropertiesClaimed)
+      finalResult <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
     } yield finalResult
-
   }
-
 
   val submitLossesBroughtForward = ValidateSession.async { implicit request =>
 
-    def routeRequest(backUrl: String, taxYearModel: TaxYearModel, otherPropertiesClaimed: Boolean): Future[Result] = {
+    def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       lossesBroughtForwardForm.bindFromRequest.fold(
         errors => Future.successful(BadRequest(commonViews.deductions.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
-          otherPropertiesClaimed, homeLink, navTitle))),
+          homeLink, navTitle))),
         success => {
           calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success)
 
           if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
           else {
-            displayAnnualExemptAmountCheck.flatMap { displayAnnualExemptAmount =>
-              if (displayAnnualExemptAmount) Future.successful(Redirect(routes.DeductionsController.annualExemptAmount()))
-              else {
-                positiveChargeableGainCheck.map { positiveChargeableGain =>
-                  if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-                  else Redirect(routes.SummaryController.summary())
-                }
-              }
+            positiveChargeableGainCheck.map { positiveChargeableGain =>
+              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+              else Redirect(routes.SummaryController.summary())
             }
           }
         }
@@ -226,12 +175,10 @@ trait DeductionsController extends ValidActiveSession {
     }
 
     for {
-      backUrl <- lossesBroughtForwardBackUrl
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      otherPropertiesClaimed <- otherPropertiesCheck
-      route <- routeRequest(backUrl, taxYear.get, otherPropertiesClaimed)
+      route <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
     } yield route
 
   }
@@ -288,14 +235,9 @@ trait DeductionsController extends ValidActiveSession {
       },
       success => {
         calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
-        displayAnnualExemptAmountCheck.flatMap { displayAnnualExemptAmount =>
-          if (displayAnnualExemptAmount) Future.successful(Redirect(routes.DeductionsController.annualExemptAmount()))
-          else {
-            positiveChargeableGainCheck.map { positiveChargeableGain =>
-              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.SummaryController.summary())
-            }
-          }
+          positiveChargeableGainCheck.map { positiveChargeableGain =>
+            if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+            else Redirect(routes.SummaryController.summary())
         }
       }
     )

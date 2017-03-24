@@ -50,15 +50,10 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         acquisitionCosts = 10000
       )
 
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(false)),
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
-        Some(AnnualExemptAmountModel(0)))
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+        None)
 
-      lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
       lazy val results = TotalGainAndTaxOwedModel(
         50000,
@@ -143,10 +138,6 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "has a breakdown that" should {
-
-            "include a value for Allowable Losses of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsAllowableLossesUsed("2015/16")} £0")
-            }
 
             "include a value for Capital gains tax allowance used of £0" in {
               doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
@@ -316,17 +307,6 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
         }
 
-        "has an option output row for other disposals" which {
-
-          s"should have the question text '${commonMessages.OtherProperties.title("2015/16")}'" in {
-            doc.select("#otherDisposals-question").text shouldBe commonMessages.OtherProperties.title("2015/16")
-          }
-
-          "should have the value 'Yes'" in {
-            doc.select("#otherDisposals-option span.bold-medium").text shouldBe "Yes"
-          }
-        }
-
         "has an option output row for brought forward losses" which {
 
           s"should have the question text '${commonMessages.LossesBroughtForward.title("2015/16")}'" in {
@@ -338,17 +318,6 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
         }
 
-        "has an option output row for previous taxable gains" which {
-
-          s"should have the question text '${commonMessages.PreviousTaxableGains.title("2015/16")}'" in {
-            doc.select("#previousTaxableGains-question").text shouldBe commonMessages.PreviousTaxableGains.title("2015/16")
-          }
-
-          "should have the value '£1,000'" in {
-            doc.select("#previousTaxableGains-amount span.bold-medium").text shouldBe "£1,000"
-          }
-        }
-
         "has a numeric output row for current income" which {
 
           s"should have the question text '${commonMessages.CurrentIncome.title("2015/16")}'" in {
@@ -357,17 +326,6 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
 
           "should have the value '£0'" in {
             doc.select("#currentIncome-amount span.bold-medium").text shouldBe "£0"
-          }
-        }
-
-        "has a numeric output row for personal allowance" which {
-
-          s"should have the question text '${commonMessages.PersonalAllowance.question("2015/16")}'" in {
-            doc.select("#personalAllowance-question").text shouldBe commonMessages.PersonalAllowance.question("2015/16")
-          }
-
-          "should have the value '£0'" in {
-            doc.select("#personalAllowance-amount span.bold-medium").text shouldBe "£0"
           }
         }
       }
@@ -388,15 +346,10 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         acquisitionValue = None,
         acquisitionCosts = 40
       )
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(false)),
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
-        Some(AnnualExemptAmountModel(0)))
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+        None)
 
-      lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
       lazy val results = TotalGainAndTaxOwedModel(
         50000,
@@ -488,15 +441,10 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         acquisitionCosts = 40
       )
 
-      lazy val deductionAnswers = DeductionGainAnswersModel(
-        Some(OtherPropertiesModel(true)),
-        Some(AllowableLossesModel(false)),
-        None,
-        Some(LossesBroughtForwardModel(false)),
-        None,
-        Some(AnnualExemptAmountModel(0)))
+      lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+        None)
 
-      lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+      lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
       lazy val results = TotalGainAndTaxOwedModel(
         50000,
@@ -611,15 +559,10 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
       acquisitionValue = Some(100000),
       acquisitionCosts = 10000
     )
-    lazy val deductionAnswers = DeductionGainAnswersModel(
-      Some(OtherPropertiesModel(true)),
-      Some(AllowableLossesModel(false)),
-      None,
-      Some(LossesBroughtForwardModel(false)),
-      None,
-      Some(AnnualExemptAmountModel(0)))
+    lazy val deductionAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
+      None)
 
-    lazy val incomeAnswers = IncomeAnswersModel(Some(PreviousTaxableGainsModel(1000)), Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+    lazy val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
 
     lazy val results = TotalGainAndTaxOwedModel(
       50000,

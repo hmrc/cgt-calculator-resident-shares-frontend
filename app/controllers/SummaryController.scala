@@ -73,13 +73,9 @@ trait SummaryController extends ValidActiveSession {
     }
 
     def buildDeductionsSummaryBackUrl(deductionGainAnswers: DeductionGainAnswersModel)(implicit hc: HeaderCarrier): Future[String] = {
-      (displayAnnualExemptAmountCheck(deductionGainAnswers.otherPropertiesModel.getOrElse(OtherPropertiesModel(false)).hasOtherProperties,
-        deductionGainAnswers.allowableLossesModel.getOrElse(AllowableLossesModel(false)).isClaiming,
-        deductionGainAnswers.allowableLossesValueModel)
-        , deductionGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) match {
-        case (true, _) => Future.successful(routes.DeductionsController.annualExemptAmount().url)
-        case (false, true) => Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
-        case (false, false) => Future.successful(routes.DeductionsController.lossesBroughtForward().url)
+      deductionGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option match {
+        case true => Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
+        case false => Future.successful(routes.DeductionsController.lossesBroughtForward().url)
       }
     }
 

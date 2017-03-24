@@ -137,58 +137,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
       }
     }
 
-    "other shares have been selected and 0 has been entered into the annual exempt amount" should {
-
-      lazy val target = setupTarget(None, allowableLossesModel = Some(AllowableLossesModel(true)), allowableLossesValueModel =
-        Some(AllowableLossesValueModel(BigDecimal(0))), disposalDate = Some(DisposalDateModel(10, 10, 2015)),
-        taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val result = target.currentIncome(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
-
-      "return a 200" in {
-        status(result) shouldBe 200
-      }
-
-      "have a back link with the address /calculate-your-capital-gains/resident/shares/previous-taxable-gains" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/previous-taxable-gains"
-      }
-    }
-
-    "other shares have been selected and non-zero has been entered into the annual exempt amount" should {
-
-      lazy val target = setupTarget(None, annualExemptAmount = 10, allowableLossesModel = Some(AllowableLossesModel(false)),
-                                    allowableLossesValueModel = Some(AllowableLossesValueModel(BigDecimal(0))),
-                                    disposalDate = Some(DisposalDateModel(10, 10, 2015)), taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val result = target.currentIncome(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
-
-      "return a 200" in {
-        status(result) shouldBe 200
-      }
-
-      "have a back link with the address /calculate-your-capital-gains/resident/shares/annual-exempt-amount" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/annual-exempt-amount"
-      }
-    }
-
-    "other shares has been selected but a non-zero value for allowable losses has been entered" should {
-
-      lazy val target = setupTarget(None, otherProperties = true, lossesBroughtForward = false, allowableLossesModel = Some(AllowableLossesModel(true)),
-                                    allowableLossesValueModel = Some(AllowableLossesValueModel(BigDecimal(10000))),
-                                    disposalDate = Some(DisposalDateModel(10, 10, 2015)), taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val result = target.currentIncome(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
-
-      "return a 200" in {
-        status(result) shouldBe 200
-      }
-
-      "have a back link with the address /calculate-your-capital-gains/resident/shares/losses-brought-forward" in {
-        doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/losses-brought-forward"
-      }
-    }
-
-    "other shares has not been selected and neither has brought forward losses" should {
+    "there are no brought forward losses" should {
 
       lazy val target = setupTarget(None, otherProperties = false, lossesBroughtForward = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
                                     taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
@@ -204,7 +153,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
       }
     }
 
-    "other shares has not been selected and brought forward losses has been selected" should {
+    "brought forward losses has been selected" should {
 
       lazy val target = setupTarget(None, otherProperties = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
                                     taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))

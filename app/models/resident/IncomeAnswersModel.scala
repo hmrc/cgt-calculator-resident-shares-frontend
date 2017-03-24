@@ -18,6 +18,5 @@ package models.resident
 
 import models.resident.income._
 
-case class IncomeAnswersModel(previousTaxableGainsModel: Option[PreviousTaxableGainsModel],
-                              currentIncomeModel: Option[CurrentIncomeModel],
+case class IncomeAnswersModel(currentIncomeModel: Option[CurrentIncomeModel],
                               personalAllowanceModel: Option[PersonalAllowanceModel])

@@ -42,33 +42,13 @@ object CalculateRequestConstructor {
   }
 
   def chargeableGainRequestString (answers: DeductionGainAnswersModel, maxAEA: BigDecimal): String = {
-      s"${if (answers.otherPropertiesModel.get.hasOtherProperties && answers.allowableLossesModel.get.isClaiming)
-        s"&allowableLosses=${answers.allowableLossesValueModel.get.amount}"
-      else ""}" +
       s"${if (answers.broughtForwardModel.get.option)
         s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount}"
       else ""}" +
-      s"&annualExemptAmount=${if (isUsingAnnualExemptAmount(answers.otherPropertiesModel, answers.allowableLossesModel, answers.allowableLossesValueModel)) {
-        answers.annualExemptAmountModel.get.amount}
-      else maxAEA}"
-  }
-
-  def isUsingAnnualExemptAmount (otherPropertiesModel: Option[OtherPropertiesModel],
-                                 allowableLossesModel: Option[AllowableLossesModel],
-                                 allowableLossesValueModel: Option[AllowableLossesValueModel]): Boolean = {
-    (otherPropertiesModel, allowableLossesModel, allowableLossesValueModel) match {
-      case (Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(true)), Some(AllowableLossesValueModel(data)))
-        if data == 0 => true
-      case (Some(OtherPropertiesModel(true)), Some(AllowableLossesModel(false)), _) => true
-      case _ => false
-    }
+      s"&annualExemptAmount=$maxAEA"
   }
 
   def incomeAnswersRequestString (deductionsAnswers: DeductionGainAnswersModel, answers: IncomeAnswersModel): String = {
-    s"${if (deductionsAnswers.otherPropertiesModel.get.hasOtherProperties && !deductionsAnswers.allowableLossesModel.get.isClaiming &&
-      deductionsAnswers.annualExemptAmountModel.get.amount == 0)
-      s"&previousTaxableGain=${answers.previousTaxableGainsModel.get.amount}"
-    else ""}" +
       s"&previousIncome=${answers.currentIncomeModel.get.amount}" +
       s"&personalAllowance=${answers.personalAllowanceModel.get.amount}"
   }

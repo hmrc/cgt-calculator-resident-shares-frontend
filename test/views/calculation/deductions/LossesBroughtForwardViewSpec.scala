@@ -33,7 +33,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
   "Reliefs view" should {
 
     lazy val view = views.lossesBroughtForward(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      false, "home-link", "navTitle")(fakeRequest, applicationMessages)
+      "home-link", "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -120,22 +120,18 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
 
   "Losses Brought Forward view with pre-selected value of yes" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "Yes")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"), true,
+    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
       "home", "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
       doc.body.getElementById("option-yes").parent.className should include("selected")
     }
-
-    "not have a drop down button" in {
-      doc.body.select("summary").isEmpty shouldBe true
-    }
   }
 
   "Losses Brought Forward view with pre-selected value of no" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "No")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"), true,
+    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
       "home", "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -146,7 +142,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
 
   "Losses Brought Forward view with errors" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"), true,
+    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
       "home", "navTitle")(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
