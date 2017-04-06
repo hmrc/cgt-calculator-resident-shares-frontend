@@ -28,6 +28,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import play.api.test.Helpers._
 import assets.MessageLookup.{PersonalAllowance => messages}
+import common.Dates
 import models.resident.{DisposalDateModel, TaxYearModel}
 import models.resident.income.PersonalAllowanceModel
 import uk.gov.hmrc.http.cache.client.CacheMap
@@ -95,7 +96,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
     "there is some keystore data" should {
 
       lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
-      lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
+      lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
       lazy val target = setupTarget(Some(PersonalAllowanceModel(1000)), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val result = target.personalAllowance(fakeRequestWithSession)
 

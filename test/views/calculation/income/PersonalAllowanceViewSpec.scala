@@ -192,16 +192,18 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
-      s"have a title ${messages.question("2017/18")}" in {
-        doc.title() shouldBe messages.question("2017/18")
+      val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
+
+      s"have a title ${messages.question(s"$nextTaxYear")}" in {
+        doc.title() shouldBe messages.question(s"$nextTaxYear")
       }
 
-      s"have the page heading '${messages.question("2017/18")}'" in {
-        h1Tag.text shouldBe messages.question("2017/18")
+      s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
+        h1Tag.text shouldBe messages.question(s"$nextTaxYear")
       }
 
-      s"have a legend for an input with text ${messages.question("2017/18")}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question("2017/18")
+      s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
+        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question(s"$nextTaxYear")
       }
 
       s"have the help text '${messages.help("11,000")}'" in {
