@@ -345,7 +345,7 @@ trait GainController extends ValidActiveSession {
         grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       } yield grossGain match {
         case x if x > 0 => Redirect(routes.DeductionsController.lossesBroughtForward())
-        case _ => Redirect(routes.SummaryController.summary())
+        case _ => Redirect(routes.ReviewAnswersController.reviewGainAnswers())
       }
     }
 

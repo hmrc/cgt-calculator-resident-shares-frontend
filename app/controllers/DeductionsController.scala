@@ -167,7 +167,7 @@ trait DeductionsController extends ValidActiveSession {
           else {
             positiveChargeableGainCheck.map { positiveChargeableGain =>
               if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.SummaryController.summary())
+              else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
             }
           }
         }
@@ -237,7 +237,7 @@ trait DeductionsController extends ValidActiveSession {
         calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
           positiveChargeableGainCheck.map { positiveChargeableGain =>
             if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-            else Redirect(routes.SummaryController.summary())
+            else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
         }
       }
     )
@@ -248,7 +248,7 @@ trait DeductionsController extends ValidActiveSession {
   val allowableLosses = ValidateSession.async { implicit request =>
 
     val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.routes.DeductionsController.otherDisposals().toString())
+    val backLink = Some(controllers.routes.DeductionsController.otherDisposals().toString)
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
       calcConnector.fetchAndGetFormData[AllowableLossesModel](keystoreKeys.allowableLosses).map {
@@ -267,7 +267,7 @@ trait DeductionsController extends ValidActiveSession {
   val submitAllowableLosses = ValidateSession.async { implicit request =>
 
     val postAction = controllers.routes.DeductionsController.submitAllowableLosses()
-    val backLink = Some(controllers.routes.DeductionsController.otherDisposals().toString())
+    val backLink = Some(controllers.routes.DeductionsController.otherDisposals().toString)
 
     def routeRequest(taxYear: TaxYearModel): Future[Result] = {
       allowableLossesForm.bindFromRequest.fold(
@@ -402,7 +402,7 @@ trait DeductionsController extends ValidActiveSession {
 
           match {
             case (false, true) => Redirect(routes.IncomeController.previousTaxableGains())
-            case (_, false) => Redirect(routes.SummaryController.summary())
+            case (_, false) => Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
             case _ => Redirect(routes.IncomeController.currentIncome())
           }
         }

@@ -222,7 +222,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/summary")
+        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/review-your-answers-gain")
       }
     }
 
@@ -242,7 +242,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
       }
 
       "redirect to the summary page" in {
-        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/summary")
+        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/review-your-answers-gain")
       }
     }
 

@@ -186,8 +186,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
           status(result) shouldBe 303
         }
 
-        s"redirect to '${controllers.routes.SummaryController.summary().toString}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.SummaryController.summary().toString
+        s"redirect to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().toString}'" in {
+          redirectLocation(result).get shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().toString
         }
       }
 
@@ -204,8 +204,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
           status(result) shouldBe 303
         }
 
-        s"redirect to '${controllers.routes.SummaryController.summary().toString}'" in {
-          redirectLocation(result).get shouldBe controllers.routes.SummaryController.summary().toString
+        s"redirect to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().toString}'" in {
+          redirectLocation(result).get shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().toString
         }
       }
 
