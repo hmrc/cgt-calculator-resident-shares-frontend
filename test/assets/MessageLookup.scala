@@ -534,6 +534,14 @@ object MessageLookup {
       //some of the questions for the shares pages however it will still pull form the same messages location
       //this is to encourage making the changes in the tests first in both places and understanding what changing
       //the message will affect.
+
+      object ReviewAnswers {
+        val title = "Check your answers"
+        val tableHeading = "You've told us"
+        val change = "Change"
+        val hiddenText = "your response to the question"
+      }
+
       object SharesSummaryMessages {
 
         val disposalDateQuestion = "When did you sell or give away the shares?"

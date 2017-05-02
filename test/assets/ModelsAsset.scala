@@ -1,0 +1,65 @@
+/*
+ * Copyright 2017 HM Revenue & Customs
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package assets
+
+import common.Dates
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import models.resident.shares._
+import models.resident._
+
+object ModelsAsset {
+
+  val gainAnswersMostPossibles = GainAnswersModel(Dates.constructDate(10, 10, 2016),
+    soldForLessThanWorth = false,
+    Some(3000),
+    None,
+    200,
+    ownerBeforeLegislationStart = false,
+    None,
+    inheritedTheShares = Some(true),
+    worthWhenInherited = Some(4000),
+    None,
+    10000
+  )
+
+  val gainAnswersLeastPossibles = GainAnswersModel(Dates.constructDate(10, 10, 2016),
+    soldForLessThanWorth = true,
+    None,
+    Some(3000),
+    200,
+    ownerBeforeLegislationStart = true,
+    Some(5000),
+    None,
+    None,
+    None,
+    10000)
+
+  val deductionAnswersMostPossibles = DeductionGainAnswersModel(
+    Some(LossesBroughtForwardModel(true)),
+    Some(LossesBroughtForwardValueModel(10000))
+  )
+
+  val deductionAnswersLeastPossibles = DeductionGainAnswersModel(
+    Some(LossesBroughtForwardModel(false)),
+    None
+  )
+
+  val incomeAnswers = IncomeAnswersModel(Some(CurrentIncomeModel(0)), Some(PersonalAllowanceModel(0)))
+
+  val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+}
