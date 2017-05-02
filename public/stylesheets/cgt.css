@@ -293,3 +293,15 @@
     position: relative;
         bottom: 1.0em
 }
+
+.grid-layout__column--1-2 {
+    padding-right: 1.5em;
+}
+
+.grid-layout {
+    margin-left: 0px;
+}
+
+.you-told-us-title {
+    padding-bottom: 1em;
+}

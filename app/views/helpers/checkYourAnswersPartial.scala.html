@@ -12,7 +12,7 @@
     <h2 class="bold-medium you-told-us-title">@Messages("calc.checkYourAnswers.tableHeading")</h2>
 
     <!--Gain Answers Section-->
-    @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate().toString))
+    @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate().toString), extraClass = "summary-overline")
 
     @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), gainAnswers.soldForLessThanWorth, Some(gainRoutes.sellForLess().toString))
 
