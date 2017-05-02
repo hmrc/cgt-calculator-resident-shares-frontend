@@ -100,54 +100,6 @@
     )
 </section>
 
-<!-- Your Answers Section -->
-<section id="yourAnswers">
-    <!-- Header -->
-    @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
-
-    <!-- Data Rows-->
-    @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate().toString))
-    <!-- Shares updated disposal value section -->
-    @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), gainAnswers.soldForLessThanWorth, Some(gainRoutes.sellForLess().toString))
-
-    @{if(!gainAnswers.soldForLessThanWorth)
-        summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), gainAnswers.disposalValue.get, Some(gainRoutes.disposalValue().toString))
-    }
-
-    @{if(gainAnswers.soldForLessThanWorth)
-        summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, Some(gainRoutes.worthWhenSoldForLess().toString))
-    }
-    <!-- Ends -->
-    @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),gainAnswers.disposalCosts,Some(gainRoutes.disposalCosts().toString))
-    @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),gainAnswers.ownerBeforeLegislationStart,Some(gainRoutes.ownerBeforeLegislationStart().url))
-    @{if(gainAnswers.ownerBeforeLegislationStart)
-        summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,Some(gainRoutes.valueBeforeLegislationStart().toString))
-    }
-
-    @{if (!gainAnswers.ownerBeforeLegislationStart)
-        summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),gainAnswers.inheritedTheShares.get,Some(gainRoutes.didYouInheritThem().url))
-    }
-
-    @{if(gainAnswers.displayWorthWhenInherited)
-        summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),gainAnswers.worthWhenInherited.get,Some(gainRoutes.worthWhenInherited().url))
-    }
-
-    @{if(gainAnswers.displayWorthWhenBought)
-            summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),gainAnswers.acquisitionValue.get,Some(gainRoutes.acquisitionValue().url))
-    }
-
-    @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,Some(gainRoutes.acquisitionCosts().toString))
-
-    @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString))
-
-    @{if (deductionAnswers.broughtForwardModel.get.option)
-        summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title",
-        taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))
-    }
-</section>
-
-
-
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
             <section id="whatToDoNext" class="summary-underline summary-overline">
                 <h2 id="whatToDoNextNoLossTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
