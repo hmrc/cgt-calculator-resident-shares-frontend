@@ -26,7 +26,7 @@ object MessageLookup {
   trait Common {
 
     val externalLink = "(opens in a new window)"
-    val change = "change"
+    val change = "Change"
     val back = "Back"
     val continue = "Continue"
     val yes = "Yes"

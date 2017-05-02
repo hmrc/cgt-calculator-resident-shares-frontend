@@ -1,16 +1,27 @@
-@(rowId: String, question: String, answer: Boolean, link: Option[String] = None)(implicit messages: Messages)
+@(rowId: String, question: String, answer: Boolean, link: Option[String] = None, displayLink: Boolean = true)(implicit messages: Messages)
 
-<div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
+@if(link.isDefined && displayLink) {
+<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
+    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+        @question
+    </div>
+    <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-4">
+        @{if (answer) "Yes" else "No"}
+    </div>
+    <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
+        <a href="@link" class="bold-small">
+            @Messages("calc.base.change")
+            <span class="visuallyhidden">@question</span>
+        </a>
+    </div>
+</div>
+} else {
+<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
     <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
         @question
     </div>
     <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-2">
-        <span class="bold-medium">
-            @{if (answer) "Yes"
-            else "No"}
-        </span>
-        @if(link.isDefined){<br><a id="@{rowId}-change-link" href="@link" class="font-xsmall">@Messages("calc.base.change")
-        <span class="visuallyhidden">@question</span>
-    </a>}
+        @{if (answer) "Yes" else "No"}
     </div>
 </div>
+}

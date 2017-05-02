@@ -49,10 +49,6 @@ class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
       "has the class 'form-group'" in {
         outerDiv.hasClass("form-group") shouldBe true
       }
-
-      "has the class 'font-medium'" in {
-        outerDiv.hasClass("font-medium") shouldBe true
-      }
     }
 
     "have an inner question div" which {
@@ -94,7 +90,7 @@ class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
       }
 
       "has a span with the text 'testQ'" in {
-        amountDiv.select("span").text shouldBe "Yes"
+        amountDiv.text shouldBe "Yes"
       }
 
     }
@@ -116,10 +112,6 @@ class SummaryOptionRowHelperSpec extends UnitSpec with WithFakeApplication {
 
         "has the question visually hidden as part of the link" in {
           link.select("span.visuallyhidden").text shouldBe "testQ"
-        }
-
-        "has the id testID-change-link" in {
-          link.attr("id") shouldBe "testID-change-link"
         }
       }
     }

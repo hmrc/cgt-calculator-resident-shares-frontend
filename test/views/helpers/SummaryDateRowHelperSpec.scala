@@ -50,10 +50,6 @@ class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
       "has the class 'form-group'" in {
         outerDiv.hasClass("form-group") shouldBe true
       }
-
-      "has the class 'font-medium'" in {
-        outerDiv.hasClass("font-medium") shouldBe true
-      }
     }
 
     "have an inner question div" which {
@@ -95,7 +91,7 @@ class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
       }
 
       "has a span with the text '12 September 1990'" in {
-        amountDiv.select("span").text shouldBe "12 September 1990"
+        amountDiv.text shouldBe "12 September 1990"
       }
 
     }
@@ -117,10 +113,6 @@ class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
 
         "has the question visually hidden as part of the link" in {
           link.select("span.visuallyhidden").text shouldBe "testQ"
-        }
-
-        "has the id testID-change-link" in {
-          link.attr("id") shouldBe "testID-change-link"
         }
       }
     }

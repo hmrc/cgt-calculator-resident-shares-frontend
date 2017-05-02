@@ -128,7 +128,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value '£11,100'" in {
-            doc.select("#deductions-amount span.bold-medium").text should include("£11,100")
+            doc.select("#deductions-amount").text should include("£11,100")
           }
 
           "has a breakdown that" should {
@@ -154,7 +154,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "include a value for Capital gains tax allowance left of £0" in {
-            doc.select("#aeaRemaining-amount span.bold-medium").text should include("£0")
+            doc.select("#aeaRemaining-amount").text should include("£0")
           }
 
           "not include the additional help text for AEA" in {
@@ -189,7 +189,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value '10 October 2016'" in {
-            doc.select("#disposalDate-date span.bold-medium").text shouldBe "10 October 2016"
+            doc.select("#disposalDate-date").text shouldBe "10 October 2016"
           }
         }
 
@@ -200,7 +200,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value '£200,000'" in {
-            doc.select("#disposalValue-amount span.bold-medium").text shouldBe "£200,000"
+            doc.select("#disposalValue-amount").text shouldBe "£200,000"
           }
         }
 
@@ -211,7 +211,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value '£10,000'" in {
-            doc.select("#disposalCosts-amount span.bold-medium").text shouldBe "£10,000"
+            doc.select("#disposalCosts-amount").text shouldBe "£10,000"
           }
         }
 
@@ -222,7 +222,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value 'No'" in {
-            doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+            doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
           }
 
           s"should not have a change link" in {
@@ -241,7 +241,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value 'No'" in {
-            doc.select("#inheritedTheShares-option span.bold-medium").text shouldBe "No"
+            doc.select("#inheritedTheShares-option").text shouldBe "No"
           }
 
           s"should not have a change link" in {
@@ -260,7 +260,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value '£100,000'" in {
-            doc.select("#acquisitionValue-amount span.bold-medium").text shouldBe "£100,000"
+            doc.select("#acquisitionValue-amount").text shouldBe "£100,000"
           }
         }
 
@@ -271,7 +271,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value '£10,000'" in {
-            doc.select("#acquisitionCosts-amount span.bold-medium").text shouldBe "£10,000"
+            doc.select("#acquisitionCosts-amount").text shouldBe "£10,000"
           }
         }
 
@@ -282,7 +282,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
           }
 
           "should have the value 'No'" in {
-            doc.select("#broughtForwardLosses-option span.bold-medium").text shouldBe "No"
+            doc.select("#broughtForwardLosses-option").text shouldBe "No"
           }
         }
       }
@@ -335,7 +335,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'No'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
         }
 
         s"should not have a change link" in {
@@ -354,7 +354,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#inheritedTheShares-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#inheritedTheShares-option").text shouldBe "Yes"
         }
 
         s"should not have a change link" in {
@@ -369,7 +369,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '5000'" in {
-          doc.select("#worthWhenInherited-amount span.bold-medium").text shouldBe "£5,000"
+          doc.select("#worthWhenInherited-amount").text shouldBe "£5,000"
         }
 
         s"should not have a change link" in {
@@ -426,7 +426,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
         }
 
         s"should not have a change link" in {
@@ -441,7 +441,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£700'" in {
-          doc.select("#valueBeforeLegislationStart-amount span.bold-medium").text shouldBe "£700"
+          doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£700"
         }
 
         s"should not have a change link" in {
@@ -548,7 +548,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£71,000'" in {
-          doc.select("#deductions-amount span.bold-medium").text should include("£71,000")
+          doc.select("#deductions-amount").text should include("£71,000")
         }
 
         "has a breakdown that" should {
@@ -604,7 +604,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#broughtForwardLosses-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#broughtForwardLosses-option").text shouldBe "Yes"
         }
       }
 
@@ -615,7 +615,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         }
 
         "should have the value '£10,000'" in {
-          doc.select("#broughtForwardLossesValue-amount span.bold-medium").text shouldBe "£10,000"
+          doc.select("#broughtForwardLossesValue-amount").text shouldBe "£10,000"
         }
       }
     }
@@ -652,7 +652,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
       }
 
       "should have the value '£10'" in {
-        doc.select("#worthWhenSoldForLess-amount span.bold-medium").text shouldBe "£10"
+        doc.select("#worthWhenSoldForLess-amount").text shouldBe "£10"
       }
     }
   }

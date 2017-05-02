@@ -49,10 +49,6 @@ class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
       "has the class 'form-group'" in {
         outerDiv.hasClass("form-group") shouldBe true
       }
-
-      "has the class 'font-medium'" in {
-        outerDiv.hasClass("font-medium") shouldBe true
-      }
     }
 
     "have an inner question div" which {
@@ -74,7 +70,6 @@ class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
       "has the text 'testQ'" in {
         questionDiv.text shouldBe "testQ"
       }
-
     }
 
     "have an inner amount div" which {
@@ -94,9 +89,8 @@ class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
       }
 
       "has a span with the text 'testQ'" in {
-        amountDiv.select("span").text shouldBe "£2,000"
+        amountDiv.text shouldBe "£2,000"
       }
-
     }
 
     "have no link" in {
@@ -117,11 +111,9 @@ class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
         "has the text 'change'" in {
           link.text shouldBe commonMessages.change + " testQ"
         }
-        "has the id testID-change-link" in {
-          link.attr("id") shouldBe "testID-change-link"
-        }
+
         "has a span" which {
-          "contains the queston text" in {
+          "contains the question text" in {
             link.select("span").text shouldEqual "testQ"
           }
 
