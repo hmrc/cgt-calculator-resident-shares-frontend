@@ -16,14 +16,19 @@
 
 package controllers
 
+import java.time.LocalDate
+
 import common.Dates
+import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
-import models.resident.shares.GainAnswersModel
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import models.resident.{LossesBroughtForwardModel, TaxYearModel}
+import play.api.mvc.{Action, AnyContent}
+import uk.gov.hmrc.play.http.HeaderCarrier
+import views.html.calculation.checkYourAnswers.checkYourAnswers
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Call}
-import views.html.calculation.checkYourAnswers.checkYourAnswers
 
 import scala.concurrent.Future
 
@@ -33,29 +38,54 @@ object ReviewAnswersController extends ReviewAnswersController {
 
 trait ReviewAnswersController extends ValidActiveSession {
 
-
-  private val dummyGainAnswers = GainAnswersModel(
-    disposalDate = Dates.constructDate(10, 10, 2016),
-    soldForLessThanWorth = false,
-    disposalValue = Some(200000),
-    worthWhenSoldForLess = None,
-    disposalCosts = 0,
-    ownerBeforeLegislationStart = false,
-    valueBeforeLegislationStart = None,
-    inheritedTheShares = Some(false),
-    worthWhenInherited = None,
-    acquisitionValue = Some(0),
-    acquisitionCosts = 0)
-
-
   val calculatorConnector: CalculatorConnector
 
-  val reviewGainAnswers: Action[AnyContent] = TODO
+  def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
+    calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
+      _.get
+    }
 
-  val reviewDeductionsAnswers: Action[AnyContent] = TODO
+  def getGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = calculatorConnector.getShareGainAnswers
 
-  val reviewFinalAnswers: Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(checkYourAnswers(Call("POST", "test-route"), "back-url", dummyGainAnswers)))
+  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = calculatorConnector.getShareDeductionAnswers
+
+  val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit request =>
+      getGainAnswers.map { answers =>
+        Ok(checkYourAnswers(routes.SummaryController.summary(), controllers.routes.GainController.acquisitionCosts().url, answers, None, None))
+      }
   }
 
+  val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
+    def generateBackUrl(deductionGainAnswers: DeductionGainAnswersModel): Future[String] = {
+      if (deductionGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) {
+        Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
+      } else {
+        Future.successful(routes.DeductionsController.lossesBroughtForward().url)
+      }
+    }
+
+    implicit request =>
+      for {
+        gainAnswers <- getGainAnswers
+        deductionsAnswers <- getDeductionsAnswers
+        taxYear <- getTaxYear(gainAnswers.disposalDate)
+        url <- generateBackUrl(deductionsAnswers)
+      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
+  }
+
+  val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit request =>
+      val getCurrentTaxYear = Dates.getCurrentTaxYear
+      val getIncomeAnswers = calculatorConnector.getShareIncomeAnswers
+
+      for {
+        gainAnswers <- getGainAnswers
+        deductionsAnswers <- getDeductionsAnswers
+        incomeAnswers <- getIncomeAnswers
+        taxYear <- getTaxYear(gainAnswers.disposalDate)
+        currentTaxYear <- getCurrentTaxYear
+      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
+        Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
+  }
 }
