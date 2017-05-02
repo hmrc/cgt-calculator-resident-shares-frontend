@@ -96,6 +96,11 @@ POST    /current-income                   controllers.IncomeController.submitCur
 GET     /personal-allowance               controllers.IncomeController.personalAllowance
 POST    /personal-allowance               controllers.IncomeController.submitPersonalAllowance
 
+#Review Answers Routes
+GET     /review-your-answers-gain         controllers.ReviewAnswersController.reviewGainAnswers
+GET     /review-your-answers-deduction    controllers.ReviewAnswersController.reviewDeductionsAnswers
+GET     /review-your-answers-final        controllers.ReviewAnswersController.reviewFinalAnswers
+
 #Summary Routes
 GET     /summary                          controllers.SummaryController.summary
 

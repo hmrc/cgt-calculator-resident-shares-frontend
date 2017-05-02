@@ -122,7 +122,7 @@ navTitle = Messages("calc.base.resident.shares.home")
     @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString))
 
     @{if (deductionAnswers.broughtForwardModel.get.option)
-        summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))}
+    summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,Some(deductionRoutes.lossesBroughtForwardValue().toString))}
 
     @summaryNumericRowHelper("currentIncome",if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}else{Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},incomeAnswers.currentIncomeModel.get.amount,Some(incomeRoutes.currentIncome().toString))
 
