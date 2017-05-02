@@ -25,14 +25,14 @@ object ModelsAsset {
 
   val gainAnswersMostPossibles = GainAnswersModel(Dates.constructDate(10, 10, 2016),
     soldForLessThanWorth = false,
-    Some(3000),
+    Some(200000),
     None,
-    200,
+    10000,
     ownerBeforeLegislationStart = false,
     None,
-    inheritedTheShares = Some(true),
-    worthWhenInherited = Some(4000),
+    inheritedTheShares = Some(false),
     None,
+    Some(100000),
     10000
   )
 
