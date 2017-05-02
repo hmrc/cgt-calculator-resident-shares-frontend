@@ -263,7 +263,7 @@ trait IncomeController extends ValidActiveSession {
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear))),
         success => {
           calcConnector.saveFormData(keystoreKeys.personalAllowance, success)
-          Future.successful(Redirect(routes.SummaryController.summary()))
+          Future.successful(Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
         }
       )
     }

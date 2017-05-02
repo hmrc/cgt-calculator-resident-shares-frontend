@@ -167,8 +167,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         doc.title() shouldBe messages.title
       }
 
-      s"has a back link to '${routes.DeductionsController.lossesBroughtForward().toString()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.DeductionsController.lossesBroughtForward().toString
+      s"has a back link to '${routes.ReviewAnswersController.reviewDeductionsAnswers().toString}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().toString
       }
     }
 
@@ -213,8 +213,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         doc.title() shouldBe messages.title
       }
 
-      s"has a link to '${routes.DeductionsController.lossesBroughtForwardValue().toString()}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.DeductionsController.lossesBroughtForwardValue().toString
+      s"has a link to '${routes.ReviewAnswersController.reviewDeductionsAnswers().toString}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().toString
       }
     }
   }
