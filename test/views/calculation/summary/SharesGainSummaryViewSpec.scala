@@ -156,19 +156,19 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '12 December 2019'" in {
-            doc.select("#disposalDate-date span.bold-medium").text shouldBe "12 December 2019"
+            doc.select("#disposalDate-date").text shouldBe "12 December 2019"
           }
 
           s"should have a change link to ${routes.GainController.disposalDate().url}" in {
-            doc.select("#disposalDate-date a").attr("href") shouldBe routes.GainController.disposalDate().url
+            doc.select("#disposalDate-change-link a").attr("href") shouldBe routes.GainController.disposalDate().url
           }
 
           "has the question as part of the link" in {
-            doc.select("#disposalDate-date a").text shouldBe s"${commonMessages.change} ${pages.SharesDisposalDate.title}"
+            doc.select("#disposalDate-change-link a").text shouldBe s"${commonMessages.change} ${pages.SharesDisposalDate.title}"
           }
 
           "has the question component of the link is visuallyhidden" in {
-            doc.select("#disposalDate-date a span.visuallyhidden").text shouldBe pages.SharesDisposalDate.title
+            doc.select("#disposalDate-change-link a span.visuallyhidden").text shouldBe pages.SharesDisposalDate.title
           }
         }
 
@@ -179,11 +179,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£10'" in {
-            doc.select("#disposalValue-amount span.bold-medium").text shouldBe "£10"
+            doc.select("#disposalValue-amount").text shouldBe "£10"
           }
 
           s"should have a change link to ${routes.GainController.disposalValue().url}" in {
-            doc.select("#disposalValue-amount a").attr("href") shouldBe routes.GainController.disposalValue().url
+            doc.select("#disposalValue-change-link a").attr("href") shouldBe routes.GainController.disposalValue().url
           }
 
         }
@@ -195,11 +195,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£20'" in {
-            doc.select("#disposalCosts-amount span.bold-medium").text shouldBe "£20"
+            doc.select("#disposalCosts-amount").text shouldBe "£20"
           }
 
           s"should have a change link to ${routes.GainController.disposalCosts().url}" in {
-            doc.select("#disposalCosts-amount a").attr("href") shouldBe routes.GainController.disposalCosts().url
+            doc.select("#disposalCosts-change-link a").attr("href") shouldBe routes.GainController.disposalCosts().url
           }
 
         }
@@ -211,11 +211,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value 'No'" in {
-            doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+            doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
           }
 
           s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-            doc.select("#ownerBeforeLegislationStart-option a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
+            doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
           }
         }
 
@@ -230,11 +230,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value 'No'" in {
-            doc.select("#inheritedTheShares-option span.bold-medium").text shouldBe "No"
+            doc.select("#inheritedTheShares-option").text shouldBe "No"
           }
 
           s"should have a change link to ${routes.GainController.didYouInheritThem().url}" in {
-            doc.select("#inheritedTheShares-option a").attr("href") shouldBe routes.GainController.didYouInheritThem().url
+            doc.select("#inheritedTheShares-change-link a").attr("href") shouldBe routes.GainController.didYouInheritThem().url
           }
         }
 
@@ -249,11 +249,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£30'" in {
-            doc.select("#acquisitionValue-amount span.bold-medium").text shouldBe "£30"
+            doc.select("#acquisitionValue-amount").text shouldBe "£30"
           }
 
           s"should have a change link to ${routes.GainController.acquisitionValue().url}" in {
-            doc.select("#acquisitionValue-amount a").attr("href") shouldBe routes.GainController.acquisitionValue().url
+            doc.select("#acquisitionValue-change-link a").attr("href") shouldBe routes.GainController.acquisitionValue().url
           }
 
         }
@@ -265,11 +265,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£40'" in {
-            doc.select("#acquisitionCosts-amount span.bold-medium").text shouldBe "£40"
+            doc.select("#acquisitionCosts-amount").text shouldBe "£40"
           }
 
           s"should have a change link to ${routes.GainController.acquisitionCosts().url}" in {
-            doc.select("#acquisitionCosts-amount a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
+            doc.select("#acquisitionCosts-change-link a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
           }
 
         }
@@ -288,7 +288,7 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
             doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
           }
 
-          s"with an href to ${routes.ReportController.gainSummaryReport.toString}" in {
+          s"with an href to ${routes.ReportController.gainSummaryReport().toString}" in {
             doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/gain-report"
           }
 
@@ -327,11 +327,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value 'No'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
         }
 
         s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-          doc.select("#ownerBeforeLegislationStart-option a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
+          doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
         }
       }
 
@@ -346,11 +346,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#inheritedTheShares-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#inheritedTheShares-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.GainController.didYouInheritThem().url}" in {
-          doc.select("#inheritedTheShares-option a").attr("href") shouldBe routes.GainController.didYouInheritThem().url
+          doc.select("#inheritedTheShares-change-link a").attr("href") shouldBe routes.GainController.didYouInheritThem().url
         }
       }
 
@@ -361,11 +361,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value '5000'" in {
-          doc.select("#worthWhenInherited-amount span.bold-medium").text shouldBe "£5,000"
+          doc.select("#worthWhenInherited-amount").text shouldBe "£5,000"
         }
 
         s"should have a change link to ${routes.GainController.worthWhenInherited().url}" in {
-          doc.select("#worthWhenInherited-amount a").attr("href") shouldBe routes.GainController.worthWhenInherited().url
+          doc.select("#worthWhenInherited-change-link a").attr("href") shouldBe routes.GainController.worthWhenInherited().url
         }
       }
 
@@ -402,11 +402,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
         }
 
         s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-          doc.select("#ownerBeforeLegislationStart-option a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
+          doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
         }
       }
 
@@ -417,11 +417,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value '£700'" in {
-          doc.select("#valueBeforeLegislationStart-amount span.bold-medium").text shouldBe "£700"
+          doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£700"
         }
 
         s"should have a change link to ${routes.GainController.valueBeforeLegislationStart().url}" in {
-          doc.select("#valueBeforeLegislationStart-amount a").attr("href") shouldBe routes.GainController.valueBeforeLegislationStart().url
+          doc.select("#valueBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.valueBeforeLegislationStart().url
         }
 
       }
@@ -502,7 +502,7 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
       }
 
-      s"with an href to ${routes.ReportController.gainSummaryReport.toString}" in {
+      s"with an href to ${routes.ReportController.gainSummaryReport().toString}" in {
         doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/gain-report"
       }
 
@@ -611,20 +611,20 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
       }
 
       "should have the value '£200,000'" in {
-        doc.select("#worthWhenSoldForLess-amount span.bold-medium").text shouldBe "£200,000"
+        doc.select("#worthWhenSoldForLess-amount").text shouldBe "£200,000"
       }
 
       s"should have a change link to ${routes.GainController.worthWhenSoldForLess().url}" in {
-        doc.select("#worthWhenSoldForLess-amount a").attr("href") shouldBe routes.GainController.worthWhenSoldForLess().url
+        doc.select("#worthWhenSoldForLess-change-link a").attr("href") shouldBe routes.GainController.worthWhenSoldForLess().url
       }
 
       "has the question as part of the link" in {
-        doc.select("#worthWhenSoldForLess-amount a").text shouldBe s"${commonMessages.change} " +
+        doc.select("#worthWhenSoldForLess-change-link a").text shouldBe s"${commonMessages.change} " +
           s"${SharesMessages.WorthWhenSoldForLess.question}"
       }
 
       "has the question component of the link as visuallyhidden" in {
-        doc.select("#worthWhenSoldForLess-amount a span.visuallyhidden").text shouldBe
+        doc.select("#worthWhenSoldForLess-change-link a span.visuallyhidden").text shouldBe
           SharesMessages.WorthWhenSoldForLess.question
       }
     }

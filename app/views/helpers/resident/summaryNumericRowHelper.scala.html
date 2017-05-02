@@ -1,33 +1,45 @@
 @import uk.gov.hmrc.play.views.helpers._
 
-@(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Seq[(String, String)]] = None)(implicit messages: Messages)
+@(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Seq[(String, String)]] = None, displayLink: Boolean = true)(implicit messages: Messages)
 
 @additionalDetails(additionalText: String, additionalAmount: String) = {
-    <div>
-        <span class="form-hint font-small">@additionalText &pound;@additionalAmount</span>
-    </div>
+<div>
+    <span class="form-hint font-small">@additionalText &pound;@additionalAmount</span>
+</div>
 }
 
-<div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
+@if(link.isDefined && displayLink) {
+<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
+    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+        @question
+    </div>
+    <div id="@{rowId}-amount" class="grid-layout__column grid-layout__column--1-4">
+        &pound;@{amount.scale match {
+        case 0 => MoneyPounds(amount, 0).quantity
+        case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => MoneyPounds(amount, 0).quantity
+        case _ => MoneyPounds(amount, 2).quantity
+        }}
+        @{if(additionalContent.isDefined){additionalContent.get.map{ case (additionalText, additionalAmount) => additionalDetails(additionalText, additionalAmount)}}}
+    </div>
+    <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
+        <a href="@link" class="bold-small">
+            @Messages("calc.base.change")
+            <span class="visuallyhidden">@question</span>
+        </a>
+    </div>
+</div>
+} else {
+<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
     <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
         @question
     </div>
     <div id="@{rowId}-amount" class="grid-layout__column grid-layout__column--1-2">
-        @amount.scale match {
-            case 0 => {
-                <span class="bold-medium">&pound;@MoneyPounds(amount, 0).quantity</span>
-            }
-            case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
-                <span class="bold-medium">&pound;@MoneyPounds(amount, 0).quantity</span>
-            }
-            case _ => {
-                <span class="bold-medium">&pound;@MoneyPounds(amount, 2).quantity</span>
-            }
-        }
-        @if(link.isDefined){<br><a id="@{rowId}-change-link" href="@link" class="font-xsmall">
-            @Messages("calc.base.change")
-            <span class="visuallyhidden">@question</span>
-        </a>}
+        &pound;@{amount.scale match {
+        case 0 => MoneyPounds(amount, 0).quantity
+        case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => MoneyPounds(amount, 0).quantity
+        case _ => MoneyPounds(amount, 2).quantity
+        }}
         @{if(additionalContent.isDefined){additionalContent.get.map{ case (additionalText, additionalAmount) => additionalDetails(additionalText, additionalAmount)}}}
     </div>
 </div>
+}

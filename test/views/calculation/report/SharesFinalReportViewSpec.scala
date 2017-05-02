@@ -221,7 +221,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the date '10 October 2015'" in {
-            doc.select("#disposalDate-date span.bold-medium").text shouldBe "10 October 2015"
+            doc.select("#disposalDate-date").text shouldBe "10 October 2015"
           }
         }
 
@@ -232,7 +232,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£200,000'" in {
-            doc.select("#disposalValue-amount span.bold-medium").text shouldBe "£200,000"
+            doc.select("#disposalValue-amount").text shouldBe "£200,000"
           }
         }
 
@@ -243,7 +243,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£10,000'" in {
-            doc.select("#disposalCosts-amount span.bold-medium").text shouldBe "£10,000"
+            doc.select("#disposalCosts-amount").text shouldBe "£10,000"
           }
         }
 
@@ -254,7 +254,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value 'No'" in {
-            doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+            doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
           }
 
           s"should not have a change link" in {
@@ -273,7 +273,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value 'No'" in {
-            doc.select("#inheritedTheShares-option span.bold-medium").text shouldBe "No"
+            doc.select("#inheritedTheShares-option").text shouldBe "No"
           }
 
           s"should not have a change link" in {
@@ -292,7 +292,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£100,000'" in {
-            doc.select("#acquisitionValue-amount span.bold-medium").text shouldBe "£100,000"
+            doc.select("#acquisitionValue-amount").text shouldBe "£100,000"
           }
         }
 
@@ -303,7 +303,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£10,000'" in {
-            doc.select("#acquisitionCosts-amount span.bold-medium").text shouldBe "£10,000"
+            doc.select("#acquisitionCosts-amount").text shouldBe "£10,000"
           }
         }
 
@@ -314,7 +314,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value 'No'" in {
-            doc.select("#broughtForwardLosses-option span.bold-medium").text shouldBe "No"
+            doc.select("#broughtForwardLosses-option").text shouldBe "No"
           }
         }
 
@@ -325,7 +325,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "should have the value '£0'" in {
-            doc.select("#currentIncome-amount span.bold-medium").text shouldBe "£0"
+            doc.select("#currentIncome-amount").text shouldBe "£0"
           }
         }
       }
@@ -378,7 +378,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value 'No'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "No"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
         }
 
         s"should not have a change link" in {
@@ -397,7 +397,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#inheritedTheShares-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#inheritedTheShares-option").text shouldBe "Yes"
         }
 
         s"should not have a change link" in {
@@ -412,7 +412,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value '5000'" in {
-          doc.select("#worthWhenInherited-amount span.bold-medium").text shouldBe "£5,000"
+          doc.select("#worthWhenInherited-amount").text shouldBe "£5,000"
         }
 
         s"should not have a change link" in {
@@ -473,7 +473,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value 'Yes'" in {
-          doc.select("#ownerBeforeLegislationStart-option span.bold-medium").text shouldBe "Yes"
+          doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
         }
 
         s"should not have a change link" in {
@@ -488,7 +488,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         }
 
         "should have the value '£700'" in {
-          doc.select("#valueBeforeLegislationStart-amount span.bold-medium").text shouldBe "£700"
+          doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£700"
         }
 
         s"should not have a change link" in {
@@ -537,7 +537,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
       }
 
       "should have the value '£10'" in {
-        doc.select("#worthWhenSoldForLess-amount span.bold-medium").text shouldBe "£10"
+        doc.select("#worthWhenSoldForLess-amount").text shouldBe "£10"
       }
     }
   }

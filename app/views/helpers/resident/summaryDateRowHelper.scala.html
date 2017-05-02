@@ -1,16 +1,30 @@
 @import common.Dates._
 @import java.time.LocalDate
 
-@(rowId: String, question: String, date: LocalDate, link: Option[String] = None)(implicit messages: Messages)
+@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages)
 
-<div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
-    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
-        @question
+
+@if(displayLink && link.isDefined) {
+    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
+        <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+            @question
+        </div>
+        <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-4">
+            @datePageFormatNoZero.format(date)
+        </div>
+        <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
+            <a href="@link" class="bold-small">@Messages("calc.base.change")
+                <span class="visuallyhidden">@question</span>
+            </a>
+        </div>
     </div>
-    <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-2">
-        <span class="bold-medium">@datePageFormatNoZero.format(date)</span>
-        @if(link.isDefined){<br><a id="@{rowId}-change-link" href="@link" class="font-xsmall">@Messages("calc.base.change")
-        <span class="visuallyhidden">@question</span>
-    </a>}
+} else {
+    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
+        <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+            @question
+        </div>
+        <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-2">
+            @datePageFormatNoZero.format(date)
+        </div>
     </div>
-</div>
+}
