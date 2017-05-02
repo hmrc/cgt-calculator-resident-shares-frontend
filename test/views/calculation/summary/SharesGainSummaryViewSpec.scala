@@ -75,8 +75,8 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           backLink.text shouldBe commonMessages.back
         }
 
-        s"has the url ${routes.GainController.acquisitionCosts().toString}" in {
-          backLink.attr("href") shouldEqual routes.GainController.acquisitionCosts().toString
+        s"has the url ${routes.ReviewAnswersController.reviewGainAnswers().toString}" in {
+          backLink.attr("href") shouldEqual routes.ReviewAnswersController.reviewGainAnswers().toString
         }
       }
 

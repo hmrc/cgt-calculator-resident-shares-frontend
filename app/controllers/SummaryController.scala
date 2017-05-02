@@ -73,10 +73,7 @@ trait SummaryController extends ValidActiveSession {
     }
 
     def buildDeductionsSummaryBackUrl(deductionGainAnswers: DeductionGainAnswersModel)(implicit hc: HeaderCarrier): Future[String] = {
-      deductionGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option match {
-        case true => Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
-        case false => Future.successful(routes.DeductionsController.lossesBroughtForward().url)
-      }
+      Future.successful(routes.ReviewAnswersController.reviewDeductionsAnswers().url)
     }
 
     def getTotalTaxableGain(chargeableGain: Option[ChargeableGainResultModel] = None,
@@ -105,7 +102,7 @@ trait SummaryController extends ValidActiveSession {
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(views.finalSummary(totalGainAnswers, deductionGainAnswers, incomeAnswers,
-          totalGainAndTax.get, routes.IncomeController.personalAllowance().url, taxYear.get, homeLink, taxYear.get.taxYearSupplied == currentTaxYear)))
+          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, taxYear.get.taxYearSupplied == currentTaxYear)))
 
       else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, deductionGainAnswers,
         chargeableGain.get, backUrl, taxYear.get, homeLink)))

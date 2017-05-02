@@ -73,7 +73,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         0
       )
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val backLink = "/calculate-your-capital-gains/resident/shares/personal-allowance"
+      lazy val backLink = "back-link"
       lazy val homeLink = "home-link"
       lazy val view = views.finalSummary(gainAnswers, deductionAnswers, incomeAnswers, results, backLink, taxYearModel, homeLink, false)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
@@ -98,8 +98,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
           backLink.text shouldBe commonMessages.back
         }
 
-        s"has a link to '${routes.IncomeController.personalAllowance().toString()}'" in {
-          backLink.attr("href") shouldBe routes.IncomeController.personalAllowance().toString
+        s"has a link to 'back-link'" in {
+          backLink.attr("href") shouldBe "back-link"
         }
       }
 
