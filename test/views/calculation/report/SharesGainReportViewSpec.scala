@@ -69,7 +69,7 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
       }
 
       "have the hmrc logo with the hmrc name" in {
-        doc.select("div.logo span").text shouldBe "HM Revenue & Customs"
+        doc.select("div.logo span").first().text shouldBe "HM Revenue & Customs"
       }
 
       "does not have a notice summary" in {
