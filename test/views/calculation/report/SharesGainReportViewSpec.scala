@@ -24,10 +24,10 @@ import controllers.helpers.FakeRequestHelper
 import models.resident.TaxYearModel
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{report => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper{
 

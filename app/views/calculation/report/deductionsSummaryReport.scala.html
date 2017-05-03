@@ -7,6 +7,7 @@
 @import constructors.SummaryConstructor._
 @import constructors.CalculateRequestConstructor._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
+@import views.html.helpers.checkYourAnswersPartial
 
 @(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
 
@@ -99,50 +100,6 @@
 
     </section>
 
-
     <!-- Your Answers Section -->
-    <section id="yourAnswers">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
-
-        <!-- Data Rows-->
-        @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,None)
-
-        <!-- Shares updated disposal value section -->
-        @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), gainAnswers.soldForLessThanWorth, None)
-
-        @{if(!gainAnswers.soldForLessThanWorth)
-            summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), gainAnswers.disposalValue.get, None)
-        }
-
-        @{if(gainAnswers.soldForLessThanWorth)
-            summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, None)
-        }
-        <!-- Ends -->
-
-        @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),gainAnswers.disposalCosts,None)
-        @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),gainAnswers.ownerBeforeLegislationStart,None)
-        @{if(gainAnswers.ownerBeforeLegislationStart)
-            summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,None)
-        }
-
-        @{if (!gainAnswers.ownerBeforeLegislationStart)
-            summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),gainAnswers.inheritedTheShares.get,None)
-        }
-
-        @{if(gainAnswers.displayWorthWhenInherited)
-            summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),gainAnswers.worthWhenInherited.get,None)
-        }
-
-        @{if(gainAnswers.displayWorthWhenBought)
-            summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),gainAnswers.acquisitionValue.get,None)
-        }
-
-        @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,None)
-
-        @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, None)
-
-        @{if (deductionAnswers.broughtForwardModel.get.option)
-        summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,None)}
-    </section>
+    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), None, displayLinks = false)
 </div>
