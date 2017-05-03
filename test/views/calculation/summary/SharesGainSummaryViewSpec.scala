@@ -162,44 +162,27 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
     }
 
     s"display the text ${messages.whatToDoNextText}" in {
-      doc.select("#whatToDoNextText").text shouldEqual s"${messages.whatNextYouCan}${messages.whatNextLink}${commonMessages.externalLink} ${messages.whatNextText}"
-    }
-
-    "have a link" which {
-
-      "should have a href attribute" in {
-        doc.select("#whatToDoNextLink").hasAttr("href") shouldEqual true
-      }
-
-      "should link to the what-you-pay-on-it govuk page" in {
-        doc.select("#whatToDoNextLink").attr("href") shouldEqual "https://www.gov.uk/capital-gains-tax/losses"
-      }
-
-      "have the externalLink attribute" in {
-        doc.select("#whatToDoNextLink").hasClass("external-link") shouldEqual true
-      }
-
-      "has a visually hidden span with the text opens in a new tab" in {
-        doc.select("span#opensInANewTab").text shouldEqual commonMessages.externalLink
-      }
+      doc.select("#whatToDoNext p").text shouldEqual messages.whatToDoNextText
     }
 
     "display the save as PDF Button" which {
 
       "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
+        doc.select("a.save-pdf-link").size() shouldEqual 1
       }
 
       s"with an href to ${routes.ReportController.gainSummaryReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/gain-report"
+        doc.select("a.save-pdf-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/gain-report"
       }
 
       s"have the text ${messages.saveAsPdf}" in {
-        doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+        doc.select("a.save-pdf-link").text shouldEqual messages.saveAsPdf
+      }
+    }
+
+    "has a continue button" which {
+      s"has the text ${commonMessages.continue}" in {
+        doc.select("button").text shouldBe commonMessages.continue
       }
     }
   }
@@ -229,23 +212,7 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
     }
 
     s"display the title ${messages.whatToDoNextTitle}" in {
-      doc.select("h2#whatToDoNextNoLossTitle").text shouldEqual messages.whatToDoNextTitle
-    }
-
-    s"display the text ${messages.whatToDoNextText}" in {
-      doc.select("div#whatToDoNextNoLossText").text shouldBe s"${messages.whatToDoNextNoLossText} ${messages.whatToDoNextNoLossLinkShares} ${commonMessages.externalLink}."
-    }
-
-    s"have the link text ${messages.whatToDoNextNoLossLinkShares}${commonMessages.externalLink}" in {
-      doc.select("div#whatToDoNextNoLossText a").text should include(s"${messages.whatToDoNextNoLossLinkShares}")
-    }
-
-    s"have a link to https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax" in {
-      doc.select("div#whatToDoNextNoLossText a").attr("href") shouldBe "https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
-    }
-
-    s"have the visually hidden text ${commonMessages.externalLink}" in {
-      doc.select("div#whatToDoNextNoLossText span#opensInANewTab2").text shouldBe s"${commonMessages.externalLink}"
+      doc.select("h2#whatToDoNextTitle").text shouldEqual messages.whatToDoNextTitle
     }
   }
 

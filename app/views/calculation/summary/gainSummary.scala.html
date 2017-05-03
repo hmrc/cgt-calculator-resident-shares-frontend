@@ -61,33 +61,24 @@
     </section>
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(answers.disposalDate), getMonth(answers.disposalDate), getYear(answers.disposalDate))) {
-
-        @if(gain < 0) {
-            <section id="whatToDoNext" class="summary-underline summary-overline">
-                <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
-                <div id="whatToDoNextText" class="font-medium what-to-do-next-text">@Messages("calc.resident.summary.whatNext.youCan") <a id="whatToDoNextLink"
-                                                                                               class="external-link"
-                                                                                               rel="external"
-                                                                                               href="https://www.gov.uk/capital-gains-tax/losses"
-                                                                                               target="_blank"
-                                                                                               data-journey-click="help:govUK:rtt-shares-whatToDoNext">@Messages("calc.resident.summary.whatNext.link")  <span id="opensInANewTab">@Messages("calc.base.externalLink")</span></a>
-                    @Messages("calc.resident.summary.whatNext.text")</div>
-
-            </section>
-        } else {
-            <section id="whatToDoNext" class="summary-underline summary-overline">
-                <h2 id="whatToDoNextNoLossTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
-                <div id="whatToDoNextNoLossText" class="font-medium what-to-do-next-text">
-                    @Messages("calc.resident.summary.whatNext.noLossOrGain")
-                    <a href="https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax" target="_blank" rel="external"
-                       data-journey-click="help:govUK:rtt-shares-whatToDoNext">
-                        @Messages("calc.resident.summary.whatNext.noLossOrGainLinkShares")
-                        <span id="opensInANewTab2">@Messages("calc.base.externalLink")</span>.
-                    </a>
-                </div>
-            </section>
-        }
+        <section id="whatToDoNext">
+            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+        </section>
     }
-    <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.gainSummaryReport.toString"
-       data-journey-click="rtt-shares-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+
+    <div id="save-as-a-pdf" class="notice download-pdf">
+        <div class="icon-file-download">
+            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
+        </div>
+
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.gainSummaryReport()"
+        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+    </div>
+
+    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(answers.disposalDate), getMonth(answers.disposalDate), getYear(answers.disposalDate))) {
+        <div class="summary-details-padding">
+            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+        </div>
+    }
 }

@@ -305,3 +305,21 @@
 .you-told-us-title {
     padding-bottom: 1em;
 }
+
+.save-pdf-link {
+    padding-left: 0.5em;
+    text-decoration: none;
+    position: absolute;
+    left: 30px;
+    top: 10px;
+}
+
+.icon-file-download {
+    background: url("/calculate-your-capital-gains/resident/shares/assets/images/icon-file-download.png");
+    background-repeat: no-repeat;
+    padding-bottom: 1.0em;
+    padding-top; -0.5em;
+    width: 30px;
+    height: 39px;
+    display: inline-block;
+}
