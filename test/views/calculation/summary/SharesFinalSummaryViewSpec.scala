@@ -211,22 +211,24 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         }
       }
 
-      "display the save as PDF Button" which {
+      "display the save as PDF Links" which {
 
-        "should render only one button" in {
-          doc.select("a.save-pdf-button").size() shouldEqual 1
-        }
-
-        "with the class save-pdf-button" in {
-          doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
+        "should render only one link" in {
+          doc.select("a.save-pdf-link").size() shouldEqual 1
         }
 
         s"with an href to ${controllers.routes.ReportController.finalSummaryReport().toString}" in {
-          doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/final-report"
+          doc.select("a.save-pdf-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/final-report"
         }
 
         s"have the text ${messages.saveAsPdf}" in {
-          doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+          doc.select("a.save-pdf-link").text shouldEqual messages.saveAsPdf
+        }
+      }
+
+      "has a continue button" which {
+        s"has the text ${commonMessages.continue}" in {
+          doc.select("button").text shouldBe commonMessages.continue
         }
       }
     }
@@ -369,31 +371,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
       doc.select("#whatToDoNextTitle").text shouldEqual messages.whatToDoNextTitle
     }
 
-    s"display the text ${messages.whatToDoNextSharesLiabilityMessage}" in {
-      doc.select("#whatToDoNextText").text shouldEqual s"${messages.whatToDoNextSharesLiabilityMessage} ${commonMessages.externalLink}."
-    }
-
-    s"display the additional text ${messages.whatToDoNextLiabilityAdditionalMessage}" in {
-      doc.select("#whatToDoNext p").text shouldEqual messages.whatToDoNextLiabilityAdditionalMessage
-    }
-
-    "have a link" which {
-
-      "should have a href attribute" in {
-        doc.select("#whatToDoNextLink").hasAttr("href") shouldEqual true
-      }
-
-      "should link to the work-out-need-to-pay govuk page" in {
-        doc.select("#whatToDoNextLink").attr("href") shouldEqual "https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
-      }
-
-      "have the externalLink attribute" in {
-        doc.select("#whatToDoNextLink").hasClass("external-link") shouldEqual true
-      }
-
-      "has a visually hidden span with the text opens in a new tab" in {
-        doc.select("span#opensInANewTab").text shouldEqual commonMessages.externalLink
-      }
+    s"display the text ${messages.whatToDoNextText}" in {
+      doc.select("#whatToDoNext p").text shouldEqual messages.whatToDoNextText
     }
   }
 
