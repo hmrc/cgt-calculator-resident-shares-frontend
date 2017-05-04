@@ -184,22 +184,24 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
         }
       }
 
-      "display the save as PDF Button" which {
+      "display the save as PDF Link" which {
 
         "should render only one button" in {
-          doc.select("a.save-pdf-button").size() shouldEqual 1
-        }
-
-        "with the class save-pdf-button" in {
-          doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
+          doc.select("a.save-pdf-link").size() shouldEqual 1
         }
 
         s"with an href to ${controllers.routes.ReportController.deductionsReport().toString}" in {
-          doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/deductions-report"
+          doc.select("a.save-pdf-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/deductions-report"
         }
 
         s"have the text ${messages.saveAsPdf}" in {
-          doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+          doc.select("a.save-pdf-link").text shouldEqual messages.saveAsPdf
+        }
+      }
+
+      "has a continue button" which {
+        s"has the text ${commonMessages.continue}" in {
+          doc.select("button").text shouldBe commonMessages.continue
         }
       }
     }
@@ -367,19 +369,15 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     "display the save as PDF Button" which {
 
       "should render only one button" in {
-        doc.select("a.save-pdf-button").size() shouldEqual 1
-      }
-
-      "with the class save-pdf-button" in {
-        doc.select("a.button").hasClass("save-pdf-button") shouldEqual true
+        doc.select("a.save-pdf-link").size() shouldEqual 1
       }
 
       s"with an href to ${controllers.routes.ReportController.deductionsReport().toString}" in {
-        doc.select("a.save-pdf-button").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/deductions-report"
+        doc.select("a.save-pdf-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/deductions-report"
       }
 
       s"have the text ${messages.saveAsPdf}" in {
-        doc.select("a.save-pdf-button").text shouldEqual messages.saveAsPdf
+        doc.select("a.save-pdf-link").text shouldEqual messages.saveAsPdf
       }
     }
   }
@@ -427,23 +425,11 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     }
 
     s"display the title ${messages.whatToDoNextTitle}" in {
-      doc.select("h2#whatToDoNextNoLossTitle").text shouldEqual messages.whatToDoNextTitle
+      doc.select("#whatToDoNextTitle").text shouldEqual messages.whatToDoNextTitle
     }
 
     s"display the text ${messages.whatToDoNextText}" in {
-      doc.select("div#whatToDoNextNoLossText").text shouldBe s"${messages.whatToDoNextNoLossText} ${messages.whatToDoNextNoLossLinkShares} ${commonMessages.externalLink}."
-    }
-
-    s"have the link text ${messages.whatToDoNextNoLossLinkShares}${commonMessages.externalLink}" in {
-      doc.select("div#whatToDoNextNoLossText a").text should  include(s"${messages.whatToDoNextNoLossLinkShares}")
-    }
-
-    s"have a link to https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax" in {
-      doc.select("div#whatToDoNextNoLossText a").attr("href") shouldBe "https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
-    }
-
-    s"have the visually hidden text ${commonMessages.externalLink}" in {
-      doc.select("div#whatToDoNextNoLossText span#opensInANewWindow").text shouldBe s"${commonMessages.externalLink}"
+      doc.select("#whatToDoNext p").text shouldBe messages.whatToDoNextText
     }
   }
 

@@ -101,20 +101,25 @@
 </section>
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
-            <section id="whatToDoNext" class="summary-underline summary-overline">
-                <h2 id="whatToDoNextNoLossTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
-                <div id="whatToDoNextNoLossText" class="font-medium what-to-do-next-text">
-                    @Messages("calc.resident.summary.whatNext.noLossOrGain")
-                    <a href="https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax" target="_blank" rel="external"
-                       data-journey-click="help:govUK:rtt-shares-whatToDoNext">
-                        @Messages("calc.resident.summary.whatNext.noLossOrGainLinkShares")
-                        <span id="opensInANewWindow">@Messages("calc.base.externalLink")</span>.
-                    </a>
-                </div>
-            </section>
+        <section id="whatToDoNext">
+            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+        </section>
     }
 
-    <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.deductionsReport.toString"
-       data-journey-click="rtt-shares-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+    <div id="save-as-a-pdf" class="notice download-pdf">
+        <div class="icon-file-download">
+            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
+        </div>
+
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.deductionsReport()"
+        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+    </div>
+
+    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <div class="summary-details-padding">
+            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+        </div>
+    }
 
 }
