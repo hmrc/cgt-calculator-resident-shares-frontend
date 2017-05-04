@@ -33,7 +33,7 @@
     <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
         @question
     </div>
-    <div id="@{rowId}-amount" class="grid-layout__column grid-layout__column--1-2">
+    <div id="@{rowId}-amount" class="grid-layout__column grid-layout__column--1-2 text--right">
         &pound;@{amount.scale match {
         case 0 => MoneyPounds(amount, 0).quantity
         case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => MoneyPounds(amount, 0).quantity
