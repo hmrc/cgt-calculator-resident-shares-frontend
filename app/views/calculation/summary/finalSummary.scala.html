@@ -23,64 +23,9 @@ articleLayout = false,
 homeLink = navHomeLink,
 navTitle = Messages("calc.base.resident.shares.home")
 ){
+    //TODO: Update with base rate and higher rate from controller
+    @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, 0, 0)
 
-<h1 class="heading-xlarge">
-    <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-    &pound;@MoneyPounds(result.taxOwed, 2).quantity
-</h1>
-
-@{if (!taxYear.isValidYear) {
-<div class="notice-wrapper">
-    <div class="notice">
-        <i class="icon icon-important">
-            <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-        </i>
-        <strong class="bold-small">
-            {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-        </strong>
-    </div>
-</div>
-}
-}
-
-<!-- Google Analytics -->
-<div id="ga-reporting" class="visuallyhidden">
-
-    <!-- Tax Year -->
-    <span data-metrics="rtt-shares-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
-
-    <!-- Gain Stats -->
-    <span data-metrics="rtt-shares-summary:result:gain"></span>
-
-    <!-- Claiming Brought Forward Losses Stats -->
-    @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
-        <span data-metrics="rtt-shares-summary:broughtForwardLosses:yes"></span>
-    } else {
-        <span data-metrics="rtt-shares-summary:broughtForwardLosses:no"></span>
-    }
-</div>
-
-<!-- Calculation Details Section -->
-<section id="calcDetails">
-    <!-- Header -->
-    @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-    <!-- Data Rows -->
-    @summaryNumericRowHelper("gain", gainMessage(result.gain), result.gain)
-    @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-    (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-    (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-    )))
-    @summaryNumericRowHelper("chargeableGain", if(result.chargeableGain < 0) {
-    Messages("calc.resident.summary.chargeableLoss")} else {Messages("calc.resident.summary.chargeableGain")}, result.chargeableGain)
-
-    @if(!result.secondRate.isDefined && !result.secondBand.isDefined) {
-    @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand, result.firstRate, None, None)
-    } else {
-    @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand, result.firstRate, result.secondBand, result.secondRate)
-    }
-    @summaryNumericRowHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), 0)
-</section>
 
 @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
 
@@ -99,7 +44,21 @@ navTitle = Messages("calc.base.resident.shares.home")
 
 }
 
-    <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.finalSummaryReport.toString"
-       data-journey-click="rtt-shares-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+    <div id="save-as-a-pdf" class="notice download-pdf">
 
+        <div class="icon-file-download">
+            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
+        </div>
+
+        <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.finalSummaryReport.toString"
+           data-journey-click="rtt-shares-summary:pdf:save"> @Messages("calc.resident.summary.saveAsPdf")</a>
+
+    </div>
+
+    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <div class="summary-details-padding">
+            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+        </div>
+    }
 }
+
