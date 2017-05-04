@@ -5,6 +5,7 @@
 @import common.Dates._
 @import constructors.SummaryConstructor._
 @import controllers.routes.{GainController => routes}
+@import views.html.helpers.checkYourAnswersPartial
 
 @(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
 
@@ -20,14 +21,27 @@
 
 
 <div class="pdf">
+    <span id="logos">
+        <div class="govuk-logo">
+            <span class="govuk-logo-medium">
+                <span class="govuk-logo-text">GOV.UK</span>
+            </span>
+            <span class="calculate-your-cgt">
+                Calculate your Capital Gains Tax
+            </span>
+        </div>
+
+        <div class="logo">
+            <span class="organisation-logo organisation-logo-medium">
+                <span class="organisation-logo-text">HM Revenue &amp; Customs</span>
+            </span>
+        </div>
+    </span>
     <div class="header-container">
         <h1 class="heading-xlarge">
             <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
             &pound;0.00
         </h1>
-        <div class="logo">
-            <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
-        </div>
     </div>
 
     @{if (!taxYear.isValidYear) {
@@ -51,41 +65,5 @@
     </section>
 
     <!-- Your Answers Section -->
-    <section id="yourAnswers">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
-
-        <!-- Data Rows-->
-        @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),answers.disposalDate,None)
-        <!-- Shares updated disposal value section -->
-        @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), answers.soldForLessThanWorth, None)
-
-        @{if(!answers.soldForLessThanWorth)
-            summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), answers.disposalValue.get, None)
-        }
-
-        @{if(answers.soldForLessThanWorth)
-            summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), answers.worthWhenSoldForLess.get, None)
-        }
-        <!-- Ends -->
-        @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),answers.disposalCosts,None)
-        @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),answers.ownerBeforeLegislationStart,None)
-        @if(answers.ownerBeforeLegislationStart){
-            @summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),answers.valueBeforeLegislationStart.get,None)
-        }
-
-        @if(!answers.ownerBeforeLegislationStart) {
-            @summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),answers.inheritedTheShares.get,None)
-        }
-
-        @if(answers.displayWorthWhenInherited){
-            @summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),answers.worthWhenInherited.get,None)
-        }
-
-        @if(answers.displayWorthWhenBought){
-                @summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),answers.acquisitionValue.get,None)
-        }
-        
-        @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),answers.acquisitionCosts,None)
-    </section>
+    @checkYourAnswersPartial(answers, None, None, None, displayLinks = false)
 </div>

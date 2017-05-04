@@ -228,6 +228,16 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
     }
   }
 
+  "The check your answers partial with display links set to false" should {
+    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(applicationMessages)
+    lazy val doc: Document = Jsoup.parse(view.body)
+
+    "have no links" in {
+      doc.select("a").size() shouldBe 0
+    }
+  }
+
   "The check your answers partial with as little filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersLeastPossibles,

@@ -7,6 +7,7 @@
 @import constructors.SummaryConstructor._
 @import constructors.CalculateRequestConstructor._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
+@import views.html.helpers.checkYourAnswersPartial
 
 @(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, incomeAnswers: IncomeAnswersModel, result: TotalGainAndTaxOwedModel, taxYear: TaxYearModel, isCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
 
@@ -21,14 +22,27 @@
 </head>
 
 <div class="pdf">
+    <span id="logos">
+        <div class="govuk-logo">
+            <span class="govuk-logo-medium">
+                <span class="govuk-logo-text">GOV.UK</span>
+            </span>
+            <span class="calculate-your-cgt">
+                Calculate your Capital Gains Tax
+            </span>
+        </div>
+
+        <div class="logo">
+            <span class="organisation-logo organisation-logo-medium">
+                <span class="organisation-logo-text">HM Revenue &amp; Customs</span>
+            </span>
+        </div>
+    </span>
     <div class="header-container">
         <h1 class="heading-xlarge">
             <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
             &pound;@MoneyPounds(result.taxOwed, 2).quantity
         </h1>
-        <div class="logo">
-            <span class="organisation-logo organisation-logo-medium">HM Revenue &amp; Customs</span>
-        </div>
     </div>
 
     @{if (!taxYear.isValidYear) {
@@ -70,59 +84,5 @@
     </section>
 
     <!-- Your Answers Section -->
-    <section id="yourAnswers">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.yourAnswersHeading"))
-
-        <!-- Data Rows-->
-        @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,None)
-        <!-- Shares updated disposal value section -->
-        @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), gainAnswers.soldForLessThanWorth, None)
-
-        @{if(!gainAnswers.soldForLessThanWorth)
-            summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), gainAnswers.disposalValue.get, None)
-        }
-
-        @{if(gainAnswers.soldForLessThanWorth)
-            summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, None)
-        }
-        <!-- Ends -->
-        @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),gainAnswers.disposalCosts,None)
-
-        @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),gainAnswers.ownerBeforeLegislationStart,None)
-
-        @if(gainAnswers.ownerBeforeLegislationStart){
-            @summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,None)
-        }
-
-        @if(!gainAnswers.ownerBeforeLegislationStart) {
-            @summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),gainAnswers.inheritedTheShares.get,None)
-        }
-
-        @if(gainAnswers.displayWorthWhenInherited) {
-            @summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),gainAnswers.worthWhenInherited.get,None)
-        }
-
-        @if(gainAnswers.displayWorthWhenBought) {
-            @summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),gainAnswers.acquisitionValue.get,None)
-        }
-
-        @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,None)
-
-        @summaryOptionRowHelper("broughtForwardLosses",Messages("calc.resident.lossesBroughtForward.title",
-        taxYear.taxYearSupplied),deductionAnswers.broughtForwardModel.get.option, None)
-
-        @{if (deductionAnswers.broughtForwardModel.get.option)
-        summaryNumericRowHelper("broughtForwardLossesValue",Messages("calc.resident.lossesBroughtForwardValue.title",
-        taxYear.taxYearSupplied),deductionAnswers.broughtForwardValueModel.get.amount,None)}
-
-        @summaryNumericRowHelper("currentIncome",if(isCurrentTaxYear) {
-        Messages("calc.resident.currentIncome.questionCurrentYear")}else{Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)
-        },incomeAnswers.currentIncomeModel.get.amount, None)
-
-        @summaryNumericRowHelper("personalAllowance", {if(isCurrentTaxYear) {Messages("calc.resident.personalAllowance.currentYearQuestion")}
-        else {Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)}
-        },
-        incomeAnswers.personalAllowanceModel.get.amount,None)
-    </section>
+    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), isCurrentTaxYear = isCurrentTaxYear, displayLinks = false)
 </div>

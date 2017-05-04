@@ -418,6 +418,9 @@ calc.summary.calculation.details.flatCalculation = How much you''ve gained on th
 calc.summary.calculation.details.rebasedCalculation = How much you''ve gained on the property since 5 April 2015
 calc.summary.calculation.details.lossCarriedForward = Loss carried forward
 calc.summary.warning.taxYear = Your total might be less accurate because you didn't sell or give away your property in this tax year
+calc.summary.whatToDoNext.heading = What to do next
+calc.summary.whatToDoNext.details = Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax.
+
 
 ## Check Your Answers ##
 calc.checkYourAnswers.title = Check your answers
@@ -572,7 +575,7 @@ calc.resident.summary.whatNext.shares.liabilityMessage = You can tell HMRC about
 calc.resident.summary.whatNext.properties.liabilityMessage = You can tell HMRC about the property and pay your tax using our
 calc.resident.summary.whatNext.liabilityLink = online service
 calc.resident.summary.whatNext.liabilityMessageTwo = You can use the figures on this page to help you do this.
-calc.resident.summary.saveAsPdf = Save as PDF
+calc.resident.summary.saveAsPdf = Download your Capital Gains Tax calculation (PDF, under ...)
 calc.resident.summary.remainingAllowableLoss = Remaining loss from {0} tax year
 calc.resident.summary.remainingBroughtForwardLoss = Remaining loss from tax years before {0}
 calc.resident.summary.remainingLossHelp = You can
@@ -580,6 +583,8 @@ calc.resident.summary.remainingLossLink = use this loss
 calc.resident.summary.remainingAllowableLossHelp = to reduce your Capital Gains Tax if you sell something in the same tax year
 calc.resident.summary.remainingBroughtForwardLossHelp = to reduce your Capital Gains Tax in the future
 calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your tax if you sell something else that''s covered by Capital Gains Tax in the same tax year.
+calc.resident.summary.download = Download
+
 
 ## Private Residence Relief Value messages
 calc.resident.privateResidenceReliefValue.title = How much Private Residence Relief are you entitled to?
