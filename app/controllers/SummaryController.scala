@@ -101,8 +101,8 @@ trait SummaryController extends ValidActiveSession {
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
-        Ok(views.finalSummary(totalGainAnswers, deductionGainAnswers, incomeAnswers,
-          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, taxYear.get.taxYearSupplied == currentTaxYear)))
+        Ok(views.finalSummary(totalGainAnswers, deductionGainAnswers,
+          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, 100, 100)))
 
       else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, deductionGainAnswers,
         chargeableGain.get, backUrl, taxYear.get, homeLink)))

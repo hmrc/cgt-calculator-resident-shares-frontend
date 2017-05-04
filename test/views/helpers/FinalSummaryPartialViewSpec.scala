@@ -32,13 +32,8 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
   "FinalSummaryPartial" when {
 
-    val incomeAnswers = IncomeAnswersModel(
-      currentIncomeModel = Some(CurrentIncomeModel(0)),
-      personalAllowanceModel = Some(PersonalAllowanceModel(0))
-    )
-
-    "the property was sold inside tax years, bought after legislation start," +
-      " with no reliefs or brought forward losses and taxed at 18%" should {
+    "the share was sold inside tax years, bought after legislation start," +
+      " with no brought forward losses and taxed at 18%" should {
 
       val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
@@ -319,7 +314,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       }
     }
 
-    "the property was sold for less than worth" should {
+    "the share was sold for less than worth" should {
       val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
         disposalValue = None,
@@ -497,7 +492,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
     }
 
-    "the property was bought before 31 March 1982" should {
+    "the share was bought before 31 March 1982" should {
 
       val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
@@ -550,7 +545,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
     }
 
-    "the property was inherited" should {
+    "the share was inherited" should {
       val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
         disposalValue = Some(100000),
@@ -601,7 +596,7 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       }
     }
 
-    "property was sold outside known tax years" should {
+    "share was sold outside known tax years" should {
 
       val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(10, 10, 2015),

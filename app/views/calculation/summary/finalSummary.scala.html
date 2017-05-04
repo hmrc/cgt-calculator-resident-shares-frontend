@@ -12,9 +12,15 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation._
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel,
-    incomeAnswers: IncomeAnswersModel, result: TotalGainAndTaxOwedModel,
-    backUrl: String, taxYear: TaxYearModel, navHomeLink: String, isCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
+@(gainAnswers:
+        GainAnswersModel,
+        deductionAnswers: DeductionGainAnswersModel,
+        result: TotalGainAndTaxOwedModel,
+        backUrl: String,
+        taxYear: TaxYearModel,
+        navHomeLink: String,
+        totalCosts: BigDecimal,
+        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
 title = Messages("calc.resident.summary.title"),
@@ -24,35 +30,41 @@ homeLink = navHomeLink,
 navTitle = Messages("calc.base.resident.shares.home")
 ){
     //TODO: Update with base rate and higher rate from controller
-    @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, 0, 0)
+    @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 
 
 @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
 
 <section id="whatToDoNext" class="summary-underline summary-overline">
     <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
-    <div id="whatToDoNextText" class="font-medium what-to-do-next-text">@Messages("calc.resident.summary.whatNext.shares.liabilityMessage") <a id="whatToDoNextLink"
+    <div id="whatToDoNextText" class="font-medium what-to-do-next-text">@Messages("calc.summary.whatToDoNext.heading") <a id="whatToDoNextLink"
                                                                                                                                  class="external-link"
                                                                                                                                  rel="external"
                                                                                                                                  href="https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
                                                                                                                                  target="_blank"
                                                                                                                                  data-journey-click="help:govUK:rtt-shares-whatToDoNext">@Messages("calc.resident.summary.whatNext.liabilityLink")<span id="opensInANewTab"> @Messages("calc.base.externalLink")</span></a>.
     </div>
-    <p class="font-medium">@Messages("calc.resident.summary.whatNext.liabilityMessageTwo")</p>
+    <p class="font-medium">@Messages("calc.resident.summary.whatToDoNext.details")</p>
 
 </section>
 
 }
 
-    <div id="save-as-a-pdf" class="notice download-pdf">
 
+    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+        <section id="whatToDoNext">
+            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+        </section>
+    }
+
+    <div id="save-as-a-pdf" class="notice download-pdf">
         <div class="icon-file-download">
             <span class="visuallyhidden">@Messages("calc.summary.download")</span>
         </div>
 
-        <a type="submit" class="button save-pdf-button" href="@controllers.routes.ReportController.finalSummaryReport.toString"
-           data-journey-click="rtt-shares-summary:pdf:save"> @Messages("calc.resident.summary.saveAsPdf")</a>
-
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport">
+        @Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
