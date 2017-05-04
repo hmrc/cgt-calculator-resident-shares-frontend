@@ -25,30 +25,11 @@
 @resident_main_template(
 title = Messages("calc.resident.summary.title"),
 backLink = Some(backUrl),
-articleLayout = false,
 homeLink = navHomeLink,
 navTitle = Messages("calc.base.resident.shares.home")
 ){
     //TODO: Update with base rate and higher rate from controller
     @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
-
-
-@if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
-
-<section id="whatToDoNext" class="summary-underline summary-overline">
-    <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.resident.summary.whatNext")</h2>
-    <div id="whatToDoNextText" class="font-medium what-to-do-next-text">@Messages("calc.summary.whatToDoNext.heading") <a id="whatToDoNextLink"
-                                                                                                                                 class="external-link"
-                                                                                                                                 rel="external"
-                                                                                                                                 href="https://www.gov.uk/capital-gains-tax/report-and-pay-capital-gains-tax"
-                                                                                                                                 target="_blank"
-                                                                                                                                 data-journey-click="help:govUK:rtt-shares-whatToDoNext">@Messages("calc.resident.summary.whatNext.liabilityLink")<span id="opensInANewTab"> @Messages("calc.base.externalLink")</span></a>.
-    </div>
-    <p class="font-medium">@Messages("calc.resident.summary.whatToDoNext.details")</p>
-
-</section>
-
-}
 
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {

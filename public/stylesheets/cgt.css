@@ -250,6 +250,14 @@
     margin-bottom: 1em;
 }
 
+.transaction-banner--complete h1 {
+    color: #ffffff;
+}
+
+.transaction-banner--complete h2 {
+    color: #ffffff;
+}
+
 .pdf div {
     page-break-inside: avoid
 }
@@ -304,4 +312,26 @@
 
 .you-told-us-title {
     padding-bottom: 1em;
+}
+
+.save-pdf-link {
+    padding-left: 0.5em;
+    text-decoration: none;
+    position: absolute;
+    left: 30px;
+    top: 10px;
+}
+
+.icon-file-download {
+    background: url("/calculate-your-capital-gains/resident/properties/assets/images/icon-file-download.png");
+    background-repeat: no-repeat;
+    padding-bottom: 1.0em;
+    padding-top; -0.5em;
+    width: 30px;
+    height: 39px;
+    display: inline-block;
+}
+
+.download-pdf {
+    display: block;
 }
