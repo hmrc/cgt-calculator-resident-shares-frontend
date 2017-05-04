@@ -164,25 +164,83 @@
     margin-bottom: 0.9375em;
 }
 
-.pdf .organisation-logo-medium {
+.pdf .govuk-logo {
+    position: absolute;
+    left: 0;
+    top: 1em;
+    width: 100%;
+    height: 4em;
+}
+
+#logos{
     display: block;
-    font-size: 32px;
+    margin-bottom: 9em;
+}
+
+.pdf .govuk-logo-medium {
+    display: block;
     line-height: 1em;
-    padding: 0 0 0 80px;
+    padding: 0 0 0 0;
     vertical-align: top;
-    background-image: url("/calculate-your-capital-gains/resident/shares/assets/images/hmrc-logo-120px.png");
-    background-size: 2em 2em;
+    background-image: url("/calculate-your-capital-gains/resident/shares/assets/images/govuk_logo.png");
     background-position: 6px center;
     background-repeat: no-repeat;
-    border-left: 4px solid #009390;
+    background-size: 33px 25px;
+    font-weight: 900;
+    height: 50px;
+}
+
+.pdf .calculate-your-cgt {
+    display: block;
+    position: absolute;
+    top: 0.8em;
+    bottom: 1.25em;
+    right: 0em;
+    font-size: 15px;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.pdf .govuk-logo-text {
+    position: absolute;
+    top: 0.6em;
+    bottom: 1.8em;
+    left: 1.7em;
+    font-weight: 700;
+    font-size: 28px;
 }
 
 .pdf .logo {
     position: absolute;
-    right: 0;
-    top: 1em;
-    width: 18em;
-    height: 3em;
+    left: 0;
+    top: 5em;
+    width: 20em;
+    height: 4em;
+}
+
+.pdf .organisation-logo-medium {
+    display: block;
+    font-size: 18px;
+    line-height: 1em;
+    vertical-align: center;
+    padding: 0 0 0 0;
+    background-image: url("/calculate-your-capital-gains/resident/shares/assets/images/hmrc-logo-120px.png");
+    background-size: 1.8em 1.8em;
+    background-position: 6px center;
+    background-repeat: no-repeat;
+    text-align: center;
+    font-weight: bold;
+    border-left: 4px solid #009390;
+    margin-left: 7px;
+    height: 50px;
+}
+
+.pdf .organisation-logo-medium .organisation-logo-text {
+    position: absolute;
+    left: 3.2em;
+    top: 0.7em;
+    bottom: 1.25em;
 }
 
 .pdf .summary-underline {
