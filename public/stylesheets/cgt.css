@@ -285,8 +285,8 @@
 }
 
 .pdf .grid-layout {
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 0px;
+    margin-right: 0px;
     display: table;
 }
 
@@ -354,6 +354,10 @@
 
 .grid-layout__column--1-2 {
     padding-right: 1.5em;
+}
+
+.pdf .grid-layout__column--1-2 {
+    padding-right: 0em;
 }
 
 .grid-layout {
