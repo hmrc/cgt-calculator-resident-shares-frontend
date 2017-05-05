@@ -1,0 +1,99 @@
+@import models.resident._
+@import models.resident.shares._
+@import config.ApplicationConfig
+@import views.html.helpers.resident._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+
+
+@(gainAnswers: GainAnswersModel,
+        taxYear: TaxYearModel,
+        gain: BigDecimal,
+        totalCosts: BigDecimal,
+        maxAEA: BigDecimal = 0)(implicit request: Request[_], messages: Messages)
+
+<div id="tax-owed-banner" class="transaction-banner--complete">
+  <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(0, 2).quantity</span></h1>
+  <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</h2>
+</div>
+
+@{if (!taxYear.isValidYear) {
+    <div id="notice-summary" class="notice-wrapper">
+    <div class="notice">
+    <i class="icon icon-important">
+    <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
+    </i>
+    <strong class="bold-small">
+    {Messages("calc.summary.noticeSummary")}
+    </strong>
+    </div>
+    </div>
+}
+}
+
+  <!-- Calculation Details Section -->
+<section id="calcDetails">
+    <!-- Header -->
+  <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
+
+  <div id="yourTotalLoss" class="resident summary-underline summary-details-padding">
+    <h3>@Messages("calc.summary.calculationDetails.yourTotalLoss")</h3>
+
+    @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
+      case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
+      case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+      case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+    }
+
+    @{if(gainAnswers.ownerBeforeLegislationStart)
+      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+    }
+
+    @{if(gainAnswers.displayWorthWhenBought)
+      summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+    }
+
+    @{if(gainAnswers.displayWorthWhenBoughtForLess)
+      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
+    }
+
+    @{if(gainAnswers.displayWorthWhenGifted)
+      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
+    }
+
+    @{if(gainAnswers.displayWorthWhenInherited)
+      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+    }
+
+    @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
+    @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), gain, isTotal = true)
+  </div>
+
+  <div id="yourDeductions" class="resident summary-underline summary-details-padding">
+    <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
+    @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), 0)
+    @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), 0, isTotal = true)
+  </div>
+
+  <div id="yourTaxableGain" class="resident summary-underline">
+  @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), 0, isTotal = true)
+  </div>
+
+  <div id="yourTaxRate" class="resident summary-underline">
+  @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), 0, isTotal = true)
+  </div>
+
+</section>
+
+  <!--Remaining Details Section-->
+<section id="remainingDeductions">
+
+    <!-- Header -->
+  <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
+  <div id="aeaLeft" class="summary-details-padding">
+  @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
+  </div>
+  <div id="lossesToCarryForward" class="summary-details-padding">
+  @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
+  </div>
+
+</section>
