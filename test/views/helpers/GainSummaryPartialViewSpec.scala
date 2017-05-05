@@ -539,4 +539,35 @@ class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with 
     }
 
   }
+
+  "The shares were inherited" should {
+    val gainAnswers = GainAnswersModel(
+      disposalDate = Dates.constructDate(10, 10, 2015),
+      soldForLessThanWorth = false,
+      disposalValue = Some(100000),
+      worthWhenSoldForLess = None,
+      disposalCosts = BigDecimal(10000),
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
+      inheritedTheShares = Some(true),
+      worthWhenInherited = Some(1000),
+      acquisitionValue = Some(0),
+      acquisitionCosts = BigDecimal(100000)
+    )
+
+    val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+    lazy val view = views.gainSummaryPartial(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
+
+    "has a row for acquisition value" which {
+      s"has the text '${summaryMessages.acquisitionValue}'" in {
+        doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+      }
+
+      "has the value '£1,000'" in {
+        doc.select("#acquisitionValue-amount").text shouldBe "£1,000"
+      }
+    }
+  }
 }
