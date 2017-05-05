@@ -747,3 +747,29 @@ calc.resident.shares.currentIncome.helpText = Include your salary before tax, an
 ## Other Disposals messages
 calc.resident.shares.otherDisposals.bullet.one = UK residential properties
 calc.resident.shares.otherDisposals.bullet.three = other shares
+
+## Summary messages ##
+calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
+calc.summary.calculationDetails.heading = How we''ve worked this out
+calc.summary.calculationDetails.yourTotalGain = Your total gain
+calc.summary.calculationDetails.disposalValue = Value when you sold the property
+calc.summary.calculationDetails.acquisitionValue = Minus the value of the property when you acquired it
+calc.summary.calculationDetails.acquisitionValueBeforeLegislation = Minus the value of the property at 31 March 1982
+calc.summary.calculationDetails.totalCosts = Minus all costs, including improvements
+calc.summary.calculationDetails.totalGain = Total gain
+calc.summary.calculationDetails.yourDeductions = Your deductions
+calc.summary.calculationDetails.lossesUsed = Loss used from previous tax years
+calc.summary.calculationDetails.aeaUsed = Capital Gains Tax Annual Exempt Amount used
+calc.summary.calculationDetails.totalDeductions = Total deductions
+calc.summary.calculationDetails.yourTaxableGain = Your taxable gain
+calc.summary.calculationDetails.minusDeductions = Minus deductions
+calc.summary.calculationDetails.taxableGain = Taxable gain
+calc.summary.calculationDetails.taxToPay = Tax to pay
+calc.summary.remainingDeductions.heading = Your remaining deductions
+calc.summary.remainingDeductions.aeaLeft = Annual Exempt Amount left for the {0} tax year
+calc.summary.remainingDeductions.broughtForwardLossesRemaining = Losses to carry forward from previous tax years
+calc.summary.noticeSummary = Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax.
+
+
+
+

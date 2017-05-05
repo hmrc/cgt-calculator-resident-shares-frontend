@@ -89,6 +89,10 @@ trait SummaryController extends ValidActiveSession {
 
     def getTaxYear(disposalDate: LocalDate): Future[Option[TaxYearModel]] = calculatorConnector.getTaxYear(disposalDate.format(requestFormatter))
 
+//    def getTotalCosts(gainAnswersModel: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
+//      calculatorConnector.getTotalCosts(gainAnswersModel)
+//    }
+
     def routeRequest(totalGainAnswers: GainAnswersModel,
                      grossGain: BigDecimal,
                      deductionGainAnswers: DeductionGainAnswersModel,
@@ -105,11 +109,17 @@ trait SummaryController extends ValidActiveSession {
           totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, taxYear.get.taxYearSupplied == currentTaxYear)))
 
       else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, deductionGainAnswers,
-        chargeableGain.get, backUrl, taxYear.get, homeLink)))
+        chargeableGain.get, backUrl, taxYear.get, homeLink,
+
+        //TODO replace this with the actual total costs
+        4000
+
+      )))
       else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get, homeLink)))
     }
     for {
       answers <- calculatorConnector.getShareGainAnswers
+//      totalCosts <- getTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
