@@ -36,9 +36,13 @@
   <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
   <div id="yourTotalLoss" class="resident summary-underline summary-details-padding">
-    <h3>@Messages("calc.summary.calculationDetails.yourTotalLoss")</h3>
+    @if(gain == 0){
+      <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
+    } else {
+      <h3>@Messages("calc.summary.calculationDetails.yourTotalLoss")</h3>
+    }
 
-    @(gainAnswers.soldForLessThanWorth) match {
+    @gainAnswers.soldForLessThanWorth match {
       case (true) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
       case (false) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
     }
@@ -56,7 +60,13 @@
     }
 
     @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
-    @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), gain, isTotal = true)
+
+    @if(gain == 0){
+      @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), gain, isTotal = true)
+    } else {
+      @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), gain, isTotal = true)
+    }
+
   </div>
 
   <div id="yourDeductions" class="resident summary-underline summary-details-padding">

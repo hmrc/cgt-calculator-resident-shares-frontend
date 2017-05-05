@@ -85,7 +85,7 @@ class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with 
 
       "has a div for total loss" which {
 
-        lazy val div = doc.select("#yourTotalLoss").get(0)
+        lazy val div = doc.select("#yourTotalLoss")
 
         "has a h3 tag" which {
 
@@ -267,6 +267,49 @@ class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with 
         }
       }
     }
+  }
+
+  "The shares sale price is equal to the losses" should {
+
+    val gainAnswers = GainAnswersModel(
+      disposalDate = Dates.constructDate(10, 10, 2015),
+      soldForLessThanWorth = true,
+      disposalValue = Some(100),
+      worthWhenSoldForLess = Some(10),
+      disposalCosts = BigDecimal(100000),
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
+      inheritedTheShares = Some(false),
+      worthWhenInherited = None,
+      acquisitionValue = Some(10000),
+      acquisitionCosts = BigDecimal(100000)
+    )
+
+    val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+    lazy val view = views.gainSummaryPartial(gainAnswers, taxYearModel, 0, 150, 11000)(fakeRequestWithSession, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
+
+    "has a h3 tag" which {
+
+      lazy val div = doc.select("#yourTotalLoss")
+
+
+      s"has the text '${summaryMessages.yourTotalGain}'" in {
+        div.select("h3").text shouldBe summaryMessages.yourTotalGain
+      }
+
+      "has a row for total gain" which {
+        s"has the text '${summaryMessages.totalGain}'" in {
+          div.select("#totalGain-text").text shouldBe summaryMessages.totalGain
+        }
+
+        "has the value '£0'" in {
+          div.select("#totalGain-amount").text shouldBe "£0"
+        }
+      }
+    }
+
   }
 
   "The shares were bought before 31st March 1982" should {
