@@ -38,10 +38,9 @@
   <div id="yourTotalLoss" class="resident summary-underline summary-details-padding">
     <h3>@Messages("calc.summary.calculationDetails.yourTotalLoss")</h3>
 
-    @(gainAnswers.givenAway, gainAnswers.sellForLess) match {
-      case (true, _) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.marketValue"), gainAnswers.worthWhenGaveAway.getOrElse(0))}
-      case (false, Some(true)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
-      case (false, Some(false)) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+    @(gainAnswers.soldForLessThanWorth) match {
+      case (true) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+      case (false) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
     }
 
     @{if(gainAnswers.ownerBeforeLegislationStart)
@@ -50,14 +49,6 @@
 
     @{if(gainAnswers.displayWorthWhenBought)
       summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
-    }
-
-    @{if(gainAnswers.displayWorthWhenBoughtForLess)
-      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenBoughtForLess.get)
-    }
-
-    @{if(gainAnswers.displayWorthWhenGifted)
-      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenGifted.get)
     }
 
     @{if(gainAnswers.displayWorthWhenInherited)
