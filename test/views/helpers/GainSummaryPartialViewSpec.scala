@@ -146,10 +146,6 @@ class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with 
           }
         }
 
-        "not have a row for reliefs used" in {
-          div.select("#reliefsUsed-text") shouldBe empty
-        }
-
         "has a row for AEA used" which {
 
           s"has the text '${summaryMessages.aeaUsed}'" in {
@@ -515,5 +511,32 @@ class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with 
         }
       }
     }
+  }
+
+  "The shares sold outside of known tax years" should {
+
+    val gainAnswers = GainAnswersModel(
+      disposalDate = Dates.constructDate(10, 10, 2015),
+      soldForLessThanWorth = false,
+      disposalValue = Some(100000),
+      worthWhenSoldForLess = None,
+      disposalCosts = BigDecimal(10000),
+      ownerBeforeLegislationStart = true,
+      valueBeforeLegislationStart = Some(1000),
+      inheritedTheShares = Some(false),
+      worthWhenInherited = None,
+      acquisitionValue = Some(0),
+      acquisitionCosts = BigDecimal(100000)
+    )
+
+    val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
+
+    lazy val view = views.gainSummaryPartial(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, applicationMessages)
+    lazy val doc = Jsoup.parse(view.body)
+
+    s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
+      doc.select("div.notice-wrapper").text should include(summaryMessages.noticeSummary)
+    }
+
   }
 }
