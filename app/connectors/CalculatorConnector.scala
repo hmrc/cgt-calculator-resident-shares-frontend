@@ -21,6 +21,8 @@ import common.KeystoreKeys.ResidentShareKeys
 import config.{CalculatorSessionCache, WSHttp}
 import constructors.CalculateRequestConstructor
 import models._
+import models.resident.shares.GainAnswersModel
+import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
 import play.api.libs.json.Format
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.config.ServicesConfig
@@ -191,5 +193,9 @@ trait CalculatorConnector {
       CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
       CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
     )
+  }
+
+  def getSharesTotalCosts(input: GainAnswersModel): Future[BigDecimal] = {
+    http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/calculate-total-costs" + CalculateRequestConstructor.totalGainRequestString(input))
   }
 }
