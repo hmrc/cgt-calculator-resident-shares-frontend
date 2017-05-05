@@ -769,7 +769,7 @@ calc.summary.remainingDeductions.heading = Your remaining deductions
 calc.summary.remainingDeductions.aeaLeft = Annual Exempt Amount left for the {0} tax year
 calc.summary.remainingDeductions.broughtForwardLossesRemaining = Losses to carry forward from previous tax years
 calc.summary.noticeSummary = Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax.
-
+calc.summary.download = Download
 
 
 

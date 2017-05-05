@@ -967,6 +967,7 @@ object MessageLookup {
     val yourTaxRate = "Your tax rate"
     def taxRate(amount: String, rate: String): String = s"$amount taxable gain multiplied by $rate% tax rate"
     val taxToPay = "Tax to pay"
+    val saveAsPdf = "Download your Capital Gains Tax calculation (PDF, under ...)"
     val remainingDeductions = "Your remaining deductions"
     def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
