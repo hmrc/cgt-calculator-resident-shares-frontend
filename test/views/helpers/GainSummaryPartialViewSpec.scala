@@ -21,9 +21,11 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
+import play.api.Play.current
 import play.api.i18n.Messages.Implicits.applicationMessages
 import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.html.{helpers => views}
 
 class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -97,8 +99,8 @@ class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with 
             div.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
           }
 
-          "has the value '£10,000'" in {
-            div.select("#disposalValue-amount").text shouldBe "£10,000"
+          "has the value '£100'" in {
+            div.select("#disposalValue-amount").text shouldBe "£100"
           }
         }
 
