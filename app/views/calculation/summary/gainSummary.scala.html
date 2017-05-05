@@ -13,29 +13,10 @@
 @resident_main_template(
     title = Messages("calc.resident.summary.title"),
     backLink = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().toString),
-    articleLayout = false,
     homeLink = navHomeLink,
     navTitle = Messages("calc.base.resident.shares.home")
     ) {
 
-    <h1 class="heading-xlarge">
-        <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-        &pound;0.00
-    </h1>
-
-    @{if (!taxYear.isValidYear) {
-        <div class="notice-wrapper">
-            <div class="notice">
-                <i class="icon icon-important">
-                    <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-                </i>
-                <strong class="bold-small">
-                    {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-                </strong>
-            </div>
-        </div>
-        }
-    }
 
     <!-- Google Analytics -->
     <div id="ga-reporting" class="visuallyhidden">
@@ -51,14 +32,13 @@
         }
     </div>
 
-    <!-- Calculation Details Section -->
-    <section id="calcDetails">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-        <!-- Data Rows -->
-        @summaryNumericRowHelper("gain",gainMessage(gain),gain)
-    </section>
+    @gainSummaryPartial(
+        answers,
+        gains,
+        taxYear,
+        totalCosts,
+        maxAEA
+    )
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(answers.disposalDate), getMonth(answers.disposalDate), getYear(answers.disposalDate))) {
         <section id="whatToDoNext">
