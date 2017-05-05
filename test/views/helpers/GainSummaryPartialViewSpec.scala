@@ -309,7 +309,6 @@ class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with 
         }
       }
     }
-
   }
 
   "The shares were bought before 31st March 1982" should {
