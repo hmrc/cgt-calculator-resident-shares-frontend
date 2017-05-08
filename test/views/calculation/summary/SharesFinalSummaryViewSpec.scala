@@ -456,6 +456,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
               "has a continue button" which {
                 s"has the text ${summaryMessages.continue}" in {
                   doc.select("button").text shouldBe summaryMessages.continue
+                }
               }
             }
           }
