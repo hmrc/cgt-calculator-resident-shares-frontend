@@ -951,7 +951,6 @@ object MessageLookup {
     val howWeWorkedThisOut = "How we've worked this out"
     val yourTotalGain = "Your total gain"
     val disposalValue = "Value when you sold the shares"
-    val marketValue = "Value when you gave away the shares"
     val acquisitionValue = "Minus the value of the shares when you acquired them"
     val acquisitionValueBeforeLegislation = "Minus the value of the shares at 31 March 1982"
     val totalCosts = "Minus all costs"
@@ -970,8 +969,8 @@ object MessageLookup {
     def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
     val broughtForwardLossesRemaining = "Losses to carry forward from previous tax years"
-    val whatToDoNext = "What to do next"
-    val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
+    val whatToDoNextWhatToDoNext = "What to do next"
+    val whatToDoNextContinue = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
     val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
   }

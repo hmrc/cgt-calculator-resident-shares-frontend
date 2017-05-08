@@ -54,16 +54,6 @@ trait SummaryController extends ValidActiveSession {
       Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
     }
 
-    def displayAnnualExemptAmountCheck(claimedOtherDisposals: Boolean,
-                                       claimedAllowableLosses: Boolean,
-                                       allowableLossesValueModel: Option[AllowableLossesValueModel])(implicit hc: HeaderCarrier): Boolean = {
-      allowableLossesValueModel match {
-        case Some(result) if claimedAllowableLosses && claimedOtherDisposals => result.amount == 0
-        case _ if claimedOtherDisposals && !claimedAllowableLosses => true
-        case _ => false
-      }
-    }
-
     def getChargeableGain(grossGain: BigDecimal,
                           totalGainAnswers: GainAnswersModel,
                           deductionGainAnswers: DeductionGainAnswersModel,
