@@ -71,7 +71,7 @@
 }
 
 .grid-layout__column--1-3 {
-    padding: 0 15px
+    padding: 0 0px
 }
 
 .summary-answer {
@@ -114,7 +114,7 @@
 }
 
 .resident .summary-underline {
-    padding-bottom: 1.5em;
+    padding-bottom: 2.0em;
     border-bottom: 2px solid #BFC1C3;
 }
 
@@ -380,11 +380,35 @@
 
 .pdf-non-resident p.lede {
     position: relative;
-        bottom: 1.0em
+    bottom: 1.0em;
+}
+
+.transaction-banner--complete h2 {
+    color: #ffffff;
+}
+
+.transaction-banner--complete h1 {
+    color: #ffffff;
+}
+
+.pdf-grid-layout__column--1-2 {
+    width: 50%;
+    vertical-align: top;
+    display: table-cell;
+    box-sizing: border-box;
+    text-align: left;
 }
 
 .grid-layout__column--1-2 {
     padding-right: 1.5em;
+}
+
+.summary-details-padding {
+    padding-top: 1.0em;
+}
+
+.summary-total-margin-top {
+    margin-top: 0.8em;
 }
 
 .pdf .grid-layout__column--1-2 {

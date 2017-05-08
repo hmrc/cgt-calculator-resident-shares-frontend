@@ -1,4 +1,5 @@
 @import views.html.helpers.resident._
+@import views.html.helpers._
 @import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.shares._
@@ -11,7 +12,7 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation._
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String)(implicit request: Request[_], messages: Messages)
+@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @broughtForwardLossesHelpText() = {
     <span>
@@ -32,73 +33,35 @@
 @resident_main_template(
     title = Messages("calc.resident.summary.title"),
     backLink = Some(backUrl),
-    articleLayout = false,
     homeLink = navHomeLink,
     navTitle = Messages("calc.base.resident.shares.home")
 ) {
 
-<h1 class="heading-xlarge">
-    <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-    &pound;0.00
-</h1>
+    <!-- Google Analytics -->
+    <div id="ga-reporting" class="visuallyhidden">
 
-@{if (!taxYear.isValidYear) {
-    <div class="notice-wrapper">
-        <div class="notice">
-            <i class="icon icon-important">
-                <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-            </i>
-            <strong class="bold-small">
-                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-            </strong>
-        </div>
-    </div>
-    }
-}
+        <!-- Tax Year -->
+        <span data-metrics="rtt-shares-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
 
-<!-- Google Analytics -->
-<div id="ga-reporting" class="visuallyhidden">
+        <!-- No Gain Stats -->
+        <span data-metrics="rtt-shares-summary:result:no-gain"></span>
 
-    <!-- Tax Year -->
-    <span data-metrics="rtt-shares-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
-
-    <!-- No Gain Stats -->
-    <span data-metrics="rtt-shares-summary:result:no-gain"></span>
-
-    <!-- Claiming Brought Forward Losses Stats -->
-    @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
-        <span data-metrics="rtt-shares-summary:broughtForwardLosses:yes"></span>
-    } else {
-        <span data-metrics="rtt-shares-summary:broughtForwardLosses:no"></span>
-    }
-</div>
-
-<!-- Calculation Details Section -->
-<section id="calcDetails">
-    <!-- Header -->
-    @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-    <!-- Data Rows -->
-    @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
-    @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-        (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-        (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-    )))
-    @if(result.chargeableGain == 0){
-        @summaryNumericRowHelper("chargeableGain", Messages("calc.resident.summary.chargeableGain"), result.chargeableGain)
-    }
-    @if(result.broughtForwardLossesRemaining > 0) {
-        @{summaryNumericHelpTextHelper("broughtForwardLossRemaining", Messages("calc.resident.summary.remainingBroughtForwardLoss", taxYear.taxYearSupplied),
-            result.broughtForwardLossesRemaining,
-            None,
-            Some(broughtForwardLossesHelpText()))
+        <!-- Claiming Brought Forward Losses Stats -->
+        @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
+            <span data-metrics="rtt-shares-summary:broughtForwardLosses:yes"></span>
+        } else {
+            <span data-metrics="rtt-shares-summary:broughtForwardLosses:no"></span>
         }
-    }
-    @summaryNumericHelpTextHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), result.aeaRemaining, None,
-        if(result.aeaRemaining > 0) {Some(annualExemptAmountHelpText())}
-        else {None}
+    </div>
+
+    <!-- Deductions Summary -->
+    @deductionsSummaryPartial(gainAnswers,
+        deductionAnswers,
+        result,
+        taxYear,
+        totalCosts
     )
-</section>
+
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
         <section id="whatToDoNext">

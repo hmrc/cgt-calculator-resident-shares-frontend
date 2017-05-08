@@ -21,11 +21,11 @@ import java.time.LocalDate
 import common.Dates.{constructDate, formatter}
 
 object TaxDates {
-  val legislationDate = LocalDate.parse("1/4/1982", formatter)
-  val taxStartDate = LocalDate.parse("5/4/2015", formatter)
-  val taxStartDatePlus18Months = LocalDate.parse("5/10/2016", formatter)
-  val taxYearStartDate = LocalDate.parse("5/4/2016", formatter)
-  val taxYearEndDate = LocalDate.parse("5/4/2017", formatter)
+  val legislationDate: LocalDate = LocalDate.parse("1/4/1982", formatter)
+  val taxStartDate: LocalDate = LocalDate.parse("5/4/2015", formatter)
+  val taxStartDatePlus18Months: LocalDate = LocalDate.parse("5/10/2016", formatter)
+  val taxYearStartDate: LocalDate = LocalDate.parse("5/4/2016", formatter)
+  val taxYearEndDate: LocalDate = LocalDate.parse("5/4/2017", formatter)
 
   def dateAfterStart(date: LocalDate): Boolean = date.isAfter(taxStartDate)
 

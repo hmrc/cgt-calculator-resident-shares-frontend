@@ -30,7 +30,7 @@ case class GainAnswersModel(disposalDate: LocalDate,
                             acquisitionValue: Option[BigDecimal],
                             acquisitionCosts: BigDecimal){
 
-  val displayWorthWhenBought = !ownerBeforeLegislationStart && !inheritedTheShares.get
-  val displayWorthWhenInherited = !ownerBeforeLegislationStart && inheritedTheShares.get
+  val displayWorthWhenBought: Boolean = !ownerBeforeLegislationStart && !inheritedTheShares.get
+  val displayWorthWhenInherited: Boolean = !ownerBeforeLegislationStart && inheritedTheShares.get
 
 }
