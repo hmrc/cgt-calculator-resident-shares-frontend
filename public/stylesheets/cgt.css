@@ -266,6 +266,12 @@
     text-align: left;
 }
 
+.pdf .grid-layout__column--1-3 {
+    vertical-align: top;
+    display: table-cell;
+    box-sizing: border-box;
+}
+
 .pdf .font-medium {
     font-size: 16px;
     line-height: 1.25;
@@ -314,6 +320,15 @@
 .nr.save-pdf-button {
     margin-top: 0;
     margin-bottom: 1em;
+}
+
+.pdf .transaction-banner--complete {
+    display: block;
+    background-color:#28a197;
+    color:#fff;
+    padding:30px;
+    margin-bottom:30px;
+    text-align:center
 }
 
 .transaction-banner--complete h1 {
@@ -373,7 +388,24 @@
 }
 
 .pdf .grid-layout__column--1-2 {
+    width: 50%;
+    vertical-align: top;
+    display: table-cell;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.pdf .grid-layout__column--1-2 {
     padding-right: 0em;
+}
+
+.pdf .pdf-result-row {
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+}
+
+.pdf .summary-end-block {
+    padding-bottom: 2em;
 }
 
 .grid-layout {
@@ -384,10 +416,10 @@
     padding-bottom: 1em;
 }
 
-
 .pdf .you-told-us-title {
-    font-weight: 700;
-    font-size: 18px;
+    padding-top: 2em;
+    font-size: 1.5em;
+    font-weight: bold;
 }
 
 .pdf .text--right {
