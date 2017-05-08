@@ -21,8 +21,8 @@ import akka.stream.ActorMaterializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import connectors.CalculatorConnector
-import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
+import controllers.helpers.FakeRequestHelper
 import models.resident.TaxYearModel
 import models.resident.shares.GainAnswersModel
 import org.mockito.ArgumentMatchers
@@ -57,9 +57,13 @@ class GainSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeR
     when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    new ReportController{
+    when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(BigDecimal(1000)))
+
+    new ReportController {
       override val calcConnector: CalculatorConnector = mockCalculatorConnector
-      override def host(implicit request: RequestHeader): String  = "http://localhost:9977/"
+
+      override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }
 

@@ -6,8 +6,9 @@
 @import constructors.SummaryConstructor._
 @import controllers.routes.{GainController => routes}
 @import views.html.helpers.checkYourAnswersPartial
+@import views.html.helpers.gainSummaryPartial
 
-@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 <!DOCTYPE html>
 <html>
@@ -37,32 +38,8 @@
             </span>
         </div>
     </span>
-    <div class="header-container">
-        <h1 class="heading-xlarge">
-            <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-            &pound;0.00
-        </h1>
-    </div>
 
-    @{if (!taxYear.isValidYear) {
-    <div class="notice-wrapper">
-        <div class="notice">
-            <strong class="bold-small">
-                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-            </strong>
-        </div>
-    </div>
-    }
-    }
-
-    <!-- Calculation Details Section -->
-    <section id="calcDetails">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-        <!-- Data Rows -->
-        @summaryNumericRowHelper("gain",gainMessage(gain),gain)
-    </section>
+    @gainSummaryPartial(answers, taxYear, gain, 0)
 
     <!-- Your Answers Section -->
     @checkYourAnswersPartial(answers, None, None, None, displayLinks = false)
