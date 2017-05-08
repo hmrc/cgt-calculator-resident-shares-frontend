@@ -195,7 +195,7 @@ trait CalculatorConnector {
     )
   }
 
-  def getSharesTotalCosts(input: GainAnswersModel): Future[BigDecimal] = {
+  def getSharesTotalCosts(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/shares/calculate-total-costs" + CalculateRequestConstructor.totalGainRequestString(input))
   }
 }
