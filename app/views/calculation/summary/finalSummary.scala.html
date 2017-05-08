@@ -12,75 +12,24 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation._
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel,
-    incomeAnswers: IncomeAnswersModel, result: TotalGainAndTaxOwedModel,
-    backUrl: String, taxYear: TaxYearModel, navHomeLink: String, isCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
+@(gainAnswers:
+        GainAnswersModel,
+        deductionAnswers: DeductionGainAnswersModel,
+        result: TotalGainAndTaxOwedModel,
+        backUrl: String,
+        taxYear: TaxYearModel,
+        navHomeLink: String,
+        totalCosts: BigDecimal,
+        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
 title = Messages("calc.resident.summary.title"),
 backLink = Some(backUrl),
-articleLayout = false,
 homeLink = navHomeLink,
 navTitle = Messages("calc.base.resident.shares.home")
 ){
+    @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 
-<h1 class="heading-xlarge">
-    <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-    &pound;@MoneyPounds(result.taxOwed, 2).quantity
-</h1>
-
-@{if (!taxYear.isValidYear) {
-<div class="notice-wrapper">
-    <div class="notice">
-        <i class="icon icon-important">
-            <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-        </i>
-        <strong class="bold-small">
-            {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-        </strong>
-    </div>
-</div>
-}
-}
-
-<!-- Google Analytics -->
-<div id="ga-reporting" class="visuallyhidden">
-
-    <!-- Tax Year -->
-    <span data-metrics="rtt-shares-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
-
-    <!-- Gain Stats -->
-    <span data-metrics="rtt-shares-summary:result:gain"></span>
-
-    <!-- Claiming Brought Forward Losses Stats -->
-    @if(deductionAnswers.broughtForwardModel.fold(false)(_.option)){
-        <span data-metrics="rtt-shares-summary:broughtForwardLosses:yes"></span>
-    } else {
-        <span data-metrics="rtt-shares-summary:broughtForwardLosses:no"></span>
-    }
-</div>
-
-<!-- Calculation Details Section -->
-<section id="calcDetails">
-    <!-- Header -->
-    @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-    <!-- Data Rows -->
-    @summaryNumericRowHelper("gain", gainMessage(result.gain), result.gain)
-    @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None, Some(Seq(
-    (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-    (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-    )))
-    @summaryNumericRowHelper("chargeableGain", if(result.chargeableGain < 0) {
-    Messages("calc.resident.summary.chargeableLoss")} else {Messages("calc.resident.summary.chargeableGain")}, result.chargeableGain)
-
-    @if(!result.secondRate.isDefined && !result.secondBand.isDefined) {
-    @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand, result.firstRate, None, None)
-    } else {
-    @summaryGainAndRateHelper("gainAndRate", Messages("calc.resident.summary.taxRate"), result.firstBand, result.firstRate, result.secondBand, result.secondRate)
-    }
-    @summaryNumericRowHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), 0)
-</section>
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
         <section id="whatToDoNext">
@@ -94,8 +43,8 @@ navTitle = Messages("calc.base.resident.shares.home")
             <span class="visuallyhidden">@Messages("calc.summary.download")</span>
         </div>
 
-        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport()"
-        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+        <a type="submit" class="bold-small save-pdf-link" href="@controllers.routes.ReportController.finalSummaryReport">
+        @Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
@@ -103,5 +52,4 @@ navTitle = Messages("calc.base.resident.shares.home")
             <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
         </div>
     }
-
 }

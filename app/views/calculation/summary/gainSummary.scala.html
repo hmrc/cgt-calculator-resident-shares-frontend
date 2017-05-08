@@ -8,7 +8,7 @@
 @import controllers.routes.{GainController => routes}
 @import views.html.calculation._
 
-@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String)(implicit request: Request[_], messages: Messages)
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, maxAEA: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
     title = Messages("calc.resident.summary.title"),
@@ -34,7 +34,7 @@
 
     @gainSummaryPartial(
         answers,
-        gains,
+        gain,
         taxYear,
         totalCosts,
         maxAEA

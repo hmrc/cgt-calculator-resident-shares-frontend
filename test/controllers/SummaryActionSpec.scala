@@ -50,13 +50,17 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
     chargeableGainResultModel: Option[ChargeableGainResultModel] = None,
     taxYearModel: Option[TaxYearModel],
     incomeAnswers: IncomeAnswersModel,
-    totalGainAndTaxOwedModel: Option[TotalGainAndTaxOwedModel] = None
+    totalGainAndTaxOwedModel: Option[TotalGainAndTaxOwedModel] = None,
+    totalCosts: BigDecimal = 100
     ): SummaryController = {
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
 
     when(mockCalculatorConnector.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
+
+    when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(totalCosts))
 
     when(mockCalculatorConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
@@ -79,6 +83,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
     when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
+
 
     new SummaryController {
       override val calculatorConnector: CalculatorConnector = mockCalculatorConnector

@@ -294,6 +294,14 @@
     width: 100%;
 }
 
+.pdf-grid-layout__column--1-2 {
+    width: 50%;
+    vertical-align: top;
+    display: table-cell;
+    box-sizing: border-box;
+    text-align: left;
+}
+
 .pdf .notice strong {
     padding-left: 0
 }
@@ -306,6 +314,14 @@
 .nr.save-pdf-button {
     margin-top: 0;
     margin-bottom: 1em;
+}
+
+.transaction-banner--complete h1 {
+    color: #ffffff;
+}
+
+.transaction-banner--complete h2 {
+    color: #ffffff;
 }
 
 .pdf div {
@@ -368,6 +384,7 @@
     padding-bottom: 1em;
 }
 
+
 .pdf .you-told-us-title {
     font-weight: 700;
     font-size: 18px;
@@ -376,6 +393,7 @@
 .pdf .text--right {
     text-align: right;
 }
+
 .save-pdf-link {
     padding-left: 0.5em;
     text-decoration: none;
@@ -392,4 +410,20 @@
     width: 30px;
     height: 39px;
     display: inline-block;
+}
+
+.download-pdf {
+    display: block;
+}
+
+.summary-total-margin-top {
+    margin-top: 0.8em;
+}
+
+.summary-details-padding {
+    padding-top: 1.0em;
+}
+
+.pdf .summary-end-block {
+    padding-bottom: 2em;
 }
