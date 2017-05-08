@@ -9,7 +9,7 @@
 @import views.html.calculation._
 @import views.html.helpers.gainSummaryPartial
 
-@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String)(implicit request: Request[_], messages: Messages)
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, maxAea: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
     title = Messages("calc.resident.summary.title"),
@@ -38,7 +38,7 @@
         taxYear,
         gain,
         totalCosts,
-        maxAEA
+        maxAea
     )
 
     @if(taxYear.isValidYear) {
