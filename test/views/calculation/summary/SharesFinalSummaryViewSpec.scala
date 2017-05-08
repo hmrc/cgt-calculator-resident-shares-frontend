@@ -441,8 +441,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
                 lazy val section = doc.select("#whatToDoNext")
 
                 "has a h2 tag" which {
-                  s"has the text ${summaryMessages.whatToDoNextWhatToDoNext}" in {
-                    section.select("h2").text shouldBe summaryMessages.whatToDoNextWhatToDoNext
+                  s"has the text ${summaryMessages.whatToDoNextHeading}" in {
+                    section.select("h2").text shouldBe summaryMessages.whatToDoNextHeading
                   }
                 }
 
