@@ -952,7 +952,7 @@ object MessageLookup {
     val yourTotalGain = "Your total gain"
     val disposalValue = "Value when you sold the shares"
     val marketValue = "Value when you gave away the shares"
-    val acquisitionValue = "Minus the value of the shares when you acquired it"
+    val acquisitionValue = "Minus the value of the shares when you acquired them"
     val acquisitionValueBeforeLegislation = "Minus the value of the shares at 31 March 1982"
     val totalCosts = "Minus all costs"
     val totalGain = "Total gain"
