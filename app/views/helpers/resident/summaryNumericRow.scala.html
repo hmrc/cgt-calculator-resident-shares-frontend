@@ -6,10 +6,10 @@
   case (true, _) => {
 
     <div id="@rowId" class="grid-layout grid-layout--no-margin font-small summary-total-margin-top pdf-result-row">
-      <div id="@{rowId}-text" class="pdf-grid-layout__column--1-2">
+      <div id="@{rowId}-text" class="">
         <strong>@question</strong>
       </div>
-      <div id="@{rowId}-amount" class="pdf-grid-layout__column--1-3 text--right">
+      <div id="@{rowId}-amount" class="grid-layout__column--1-3 text--right">
       @amount.scale match {
         case 0 => {
           <strong>&pound;@MoneyPounds(amount, 0).quantity</strong>
@@ -26,7 +26,7 @@
   }
   case (_, true) => {
     <div id="@rowId" class="grid-layout grid-layout--no-margin font-small pdf-result-row">
-      <div id="@{rowId}-text" class="pdf-grid-layout__column--1-2 form-hint">
+      <div id="@{rowId}-text" class=" form-hint">
       @question
       </div>
       <div id="@{rowId}-amount" class="grid-layout__column--1-3 text--right">
@@ -46,7 +46,7 @@
   }
   case (_, false) => {
     <div id="@rowId" class="grid-layout grid-layout--no-margin font-small pdf-result-row">
-      <div id="@{rowId}-text" class="pdf-grid-layout__column--1-2">
+      <div id="@{rowId}-text" class="">
       @question
       </div>
       <div id="@{rowId}-amount" class="grid-layout__column--1-3 text--right">
