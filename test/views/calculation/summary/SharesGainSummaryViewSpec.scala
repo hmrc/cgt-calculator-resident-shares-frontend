@@ -20,6 +20,7 @@ import assets.{MessageLookup => pages}
 import assets.MessageLookup.{SummaryPage => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.{Shares => SharesMessages}
+import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import common.Dates._
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
@@ -47,12 +48,12 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         valueBeforeLegislationStart = None,
         inheritedTheShares = Some(false),
         worthWhenInherited = None,
-        acquisitionValue = Some(30),
+        acquisitionValue = Some(10000),
         acquisitionCosts = 40
       )
 
-      lazy val taxYearModel = TaxYearModel("2019/20", false, "2016/17")
-      lazy val view = views.gainSummary(testModel, -2000, taxYearModel, "home-link")(fakeRequest, applicationMessages)
+      lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
+      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -98,8 +99,8 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
         "contains a h2" which {
           lazy val h2 = banner.select("h2")
 
-          s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
-            h2.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
+          s"has the text ${summaryMessages.cgtToPay("2016 to 2017")}" in {
+            h2.text() shouldEqual summaryMessages.cgtToPay("2016 to 2017")
           }
         }
       }
@@ -277,8 +278,8 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
 
           "has a row for annual exempt amount left" which {
-            s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
-              div.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+            s"has the text ${summaryMessages.remainingAnnualExemptAmount("2016 to 2017")}" in {
+              div.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2016 to 2017")
             }
 
             "has the value '£11,000'" in {
