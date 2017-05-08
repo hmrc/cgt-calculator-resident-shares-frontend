@@ -7,6 +7,7 @@
 @import constructors.SummaryConstructor._
 @import controllers.routes.{GainController => routes}
 @import views.html.calculation._
+@import views.html.helpers.gainSummaryPartial
 
 @(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, maxAEA: BigDecimal)(implicit request: Request[_], messages: Messages)
 
@@ -34,13 +35,13 @@
 
     @gainSummaryPartial(
         answers,
-        gain,
         taxYear,
+        gain,
         totalCosts,
         maxAEA
     )
 
-    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(answers.disposalDate), getMonth(answers.disposalDate), getYear(answers.disposalDate))) {
+    @if(taxYear.isValidYear) {
         <section id="whatToDoNext">
             <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
             <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
@@ -56,7 +57,7 @@
         data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
 
-    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(answers.disposalDate), getMonth(answers.disposalDate), getYear(answers.disposalDate))) {
+    @if(taxYear.isValidYear) {
         <div class="summary-details-padding">
             <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
         </div>
