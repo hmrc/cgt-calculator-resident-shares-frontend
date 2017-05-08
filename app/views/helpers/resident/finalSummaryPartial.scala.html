@@ -1,0 +1,103 @@
+@import views.html.calculation.gain.resident_shares_main_template
+@import models.resident._
+@import models.resident.shares._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+@import views.html.helpers.resident._
+
+@(gainAnswers: GainAnswersModel,
+        deductionAnswers: DeductionGainAnswersModel,
+        result: TotalGainAndTaxOwedModel,
+        taxYear: TaxYearModel,
+        totalCosts: BigDecimal,
+        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
+
+    <div id="tax-owed-banner" class="transaction-banner--complete">
+        <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(result.taxOwed, 2).quantity</span></h1>
+        <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</h2>
+    </div>
+
+    @if(!taxYear.isValidYear) {
+        <div id="notice-summary" class="notice-wrapper">
+            <div class="notice">
+                <i class="icon icon-important">
+                    <span class="visuallyhidden">@{Messages("calc.resident.summary.warning")}</span>
+                </i>
+                <strong class="bold-small">
+                    @{Messages("calc.summary.noticeSummary")}
+                </strong>
+            </div>
+        </div>
+    }
+
+    <!-- Calculation Details Section -->
+<section id="calcDetails">
+        <!-- Header -->
+    <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
+
+    <div id="yourTotalGain" class="resident summary-underline summary-details-padding">
+        <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
+
+        @(gainAnswers.soldForLessThanWorth) match {
+            case (true) => {@summaryNumericRowPartial("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+            case (false) => {@summaryNumericRowPartial("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+        }
+
+        @if(gainAnswers.ownerBeforeLegislationStart){
+            @summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+        }
+
+        @{if(gainAnswers.displayWorthWhenBought)
+            summaryNumericRowPartial("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+        }
+
+        @{if(gainAnswers.displayWorthWhenInherited)
+            summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+        }
+
+        @summaryNumericRowPartial("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
+        @summaryNumericRowPartial("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
+
+    </div>
+
+    <div id="yourDeductions" class="resident summary-underline summary-details-padding">
+        <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
+
+        @summaryNumericRowPartial("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
+        @if(result.broughtForwardLossesUsed > 0) {
+            @summaryNumericRowPartial("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
+        }
+        @summaryNumericRowPartial("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
+    </div>
+
+    <div id="yourTaxableGain" class="resident summary-underline">
+        <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
+
+        @summaryNumericRowPartial("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
+        @summaryNumericRowPartial("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
+        @summaryNumericRowPartial("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
+    </div>
+
+    <div id="yourTaxRate" class="resident summary-underline">
+        <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
+
+        @summaryNumericRowPartial("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
+            result.baseRateTotal)
+
+        @if(result.secondRate.isDefined && result.secondBand.isDefined) {
+            @summaryNumericRowPartial("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
+                result.upperRateTotal)
+        }
+        @summaryNumericRowPartial("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
+    </div>
+
+</section>
+
+    <!--Remaining Details Section-->
+<section id="remainingDeductions">
+
+        <!-- Header -->
+    <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
+
+    @summaryNumericRowPartial("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), 0, hintText = false)
+
+</section>

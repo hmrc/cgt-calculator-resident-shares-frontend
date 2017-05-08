@@ -104,12 +104,12 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     "should display the what to do next section" which {
       lazy val whatToDoNext = doc.select("section#whatToDoNext")
 
-      "should have a h2 with the text ..." in {
-        whatToDoNext.select("h2").text shouldBe messages.whatToDoNext
+      s"should have a h2 with the text ${messages.whatToDoNextHeading}" in {
+        whatToDoNext.select("h2").text shouldBe messages.whatToDoNextHeading
       }
 
-      "should have a p with the text ..." in {
-        whatToDoNext.select("p").text shouldBe messages.whatToDoNextDetails
+      s"should have a p with the text ${messages.whatToDoNextContinue}" in {
+        whatToDoNext.select("p").text shouldBe messages.whatToDoNextContinue
       }
 
     }

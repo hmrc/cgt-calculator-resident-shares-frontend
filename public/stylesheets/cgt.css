@@ -244,7 +244,7 @@
 }
 
 .pdf .summary-underline {
-    padding-bottom: 0.5em;
+    padding-bottom: 0.75em;
     border-bottom: 2px solid #BFC1C3;
 }
 
@@ -281,7 +281,7 @@
 }
 
 .pdf .form-group {
-    margin-bottom: 30px;
+    margin-bottom: 0.75em;
 }
 
 .pdf .grid-layout {
@@ -292,6 +292,14 @@
 
 .pdf .grid-layout {
     width: 100%;
+}
+
+.pdf-grid-layout__column--1-2 {
+    width: 50%;
+    vertical-align: top;
+    display: table-cell;
+    box-sizing: border-box;
+    text-align: left;
 }
 
 .pdf .notice strong {
@@ -306,6 +314,14 @@
 .nr.save-pdf-button {
     margin-top: 0;
     margin-bottom: 1em;
+}
+
+.transaction-banner--complete h1 {
+    color: #ffffff;
+}
+
+.transaction-banner--complete h2 {
+    color: #ffffff;
 }
 
 .pdf div {
@@ -380,12 +396,26 @@
     margin-top: 0.8em;
 }
 
+.pdf .grid-layout__column--1-2 {
+    padding-right: 0em;
+}
+
 .grid-layout {
     margin-left: 0px;
 }
 
 .you-told-us-title {
     padding-bottom: 1em;
+}
+
+
+.pdf .you-told-us-title {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.pdf .text--right {
+    text-align: right;
 }
 
 .save-pdf-link {
@@ -404,4 +434,20 @@
     width: 30px;
     height: 39px;
     display: inline-block;
+}
+
+.download-pdf {
+    display: block;
+}
+
+.summary-total-margin-top {
+    margin-top: 0.8em;
+}
+
+.summary-details-padding {
+    padding-top: 1.0em;
+}
+
+.pdf .summary-end-block {
+    padding-bottom: 2em;
 }
