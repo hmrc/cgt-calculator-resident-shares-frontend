@@ -62,9 +62,10 @@ trait ReportController extends ValidActiveSession {
   val gainSummaryReport = ValidateSession.async { implicit request =>
     for {
       answers <- calcConnector.getShareGainAnswers
+      costs <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
-    } yield {pdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get), host).asScala()
+    } yield {pdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get, costs), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
   }
 

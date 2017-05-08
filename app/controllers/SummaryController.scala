@@ -24,11 +24,11 @@ import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.{summary => views}
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 
 import scala.concurrent.Future
 
@@ -92,7 +92,8 @@ trait SummaryController extends ValidActiveSession {
                      backUrl: String,
                      taxYear: Option[TaxYearModel],
                      currentTaxYear: String,
-                     totalCosts: BigDecimal)(implicit hc: HeaderCarrier): Future[Result] = {
+                     totalCosts: BigDecimal,
+                     maxAea: BigDecimal)(implicit hc: HeaderCarrier): Future[Result] = {
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
@@ -101,8 +102,9 @@ trait SummaryController extends ValidActiveSession {
 
       else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, deductionGainAnswers,
         chargeableGain.get, backUrl, taxYear.get, homeLink, totalCosts)))
-      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get, homeLink)))
+      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get, homeLink, totalCosts, maxAea)))
     }
+
     for {
       answers <- calculatorConnector.getShareGainAnswers
       totalCosts <- calculatorConnector.getSharesTotalCosts(answers)
@@ -117,7 +119,7 @@ trait SummaryController extends ValidActiveSession {
       totalGain <- getTotalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
-        backLink, taxYear, currentTaxYear, totalCosts)
+        backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get)
     } yield routeRequest
   }
 }

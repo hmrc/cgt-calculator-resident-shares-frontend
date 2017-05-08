@@ -17,7 +17,7 @@
 package views.calculation.report
 
 import assets.MessageLookup.Resident.{Shares => SharesMessages}
-import assets.MessageLookup.{SummaryPage => messages}
+import assets.MessageLookup.{SummaryDetails => messages}
 import assets.{MessageLookup => commonMessages}
 import common.Dates._
 import controllers.helpers.FakeRequestHelper
@@ -50,61 +50,27 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
       )
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel)(fakeRequest, applicationMessages)
+      lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
         doc.title() shouldBe messages.title
       }
 
-      s"have a page heading" which {
-
-        s"includes a secondary heading with text '${messages.pageHeading}'" in {
-          doc.select("h1 span.pre-heading").text shouldBe messages.pageHeading
-        }
-
-        "includes an amount of tax due of £0.00" in {
-          doc.select("h1").text should include("£0.00")
-        }
-      }
-
       "have the hmrc logo with the hmrc name" in {
-        doc.select("div.logo span").first().text shouldBe "HM Revenue & Customs"
+        doc.select("span.organisation-logo-text").text shouldBe "HM Revenue & Customs"
       }
 
-      "does not have a notice summary" in {
-        doc.select("div.notice-wrapper").isEmpty shouldBe true
+      "have a banner for tax owed" in {
+        doc.select("#tax-owed-banner").size() shouldBe 1
       }
 
-      s"have a section for the Calculation details" which {
+      "have no tax year notice" in {
+        doc.select("#notice-summary").size() shouldBe 0
+      }
 
-        "has the class 'summary-section' to underline the heading" in {
-
-          doc.select("section#calcDetails h2").hasClass("summary-underline") shouldBe true
-
-        }
-
-        s"has a h2 tag" which {
-
-          s"should have the title '${messages.calcDetailsHeadingDate("2015/16")}'" in {
-            doc.select("section#calcDetails h2").text shouldBe messages.calcDetailsHeadingDate("2015/16")
-          }
-
-          "has the class 'heading-large'" in {
-            doc.select("section#calcDetails h2").hasClass("heading-large") shouldBe true
-          }
-        }
-
-        "has a numeric output row for the gain" which {
-
-          "should have the question text 'Loss'" in {
-            doc.select("#gain-question").text shouldBe messages.totalLoss
-          }
-
-          "should have the value '£2,000'" in {
-            doc.select("#gain-amount").text shouldBe "£2,000"
-          }
-        }
+      "have a calculation details section" in {
+        doc.select("#calcDetails").size() shouldBe 1
       }
 
       s"have a section for Your answers" which {
@@ -141,19 +107,15 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
       acquisitionValue = Some(30),
       acquisitionCosts = 40
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 500)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
-
-    "should have the question text 'Total gain'" in {
-      doc.select("#gain-question").text shouldBe messages.totalGain
-    }
 
     "have the class notice-wrapper" in {
       doc.select("div.notice-wrapper").isEmpty shouldBe false
     }
 
-    s"have the text ${messages.noticeWarning("2016/17")}" in {
-      doc.select("strong.bold-small").text shouldBe messages.noticeWarning("2016/17")
+    s"have the text ${messages.noticeSummary}" in {
+      doc.select("strong.bold-small").text shouldBe messages.noticeSummary
     }
   }
 }
