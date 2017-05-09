@@ -47,9 +47,9 @@
             &pound;@MoneyPounds(result.taxOwed, 2).quantity
         </h1>
     </div>
+    <!--Calculation Details Section-->
+    @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 
-    @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, 100, 100)
-
-    <!-- Your Answers Section -->
+        <!-- Your Answers Section -->
     @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), isCurrentTaxYear = isCurrentTaxYear, displayLinks = false)
 </div>
