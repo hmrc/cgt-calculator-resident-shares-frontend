@@ -41,12 +41,7 @@
             </span>
         </div>
     </span>
-    <div class="header-container">
-        <h1 class="heading-xlarge">
-            <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-            &pound;@MoneyPounds(result.taxOwed, 2).quantity
-        </h1>
-    </div>
+
     <!--Calculation Details Section-->
     @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 
