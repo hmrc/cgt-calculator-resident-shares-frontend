@@ -56,6 +56,9 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalculatorConnector.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
+    when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(BigDecimal(10000)))
+
     when(mockCalculatorConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 

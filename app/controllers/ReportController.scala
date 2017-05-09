@@ -91,6 +91,7 @@ trait ReportController extends ValidActiveSession {
   val finalSummaryReport = ValidateSession.async { implicit request =>
     for {
       answers <- calcConnector.getShareGainAnswers
+      totalCosts <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
@@ -106,7 +107,9 @@ trait ReportController extends ValidActiveSession {
         incomeAnswers,
         totalGain.get,
         taxYear.get,
-        taxYear.get.taxYearSupplied == currentTaxYear
+        taxYear.get.taxYearSupplied == currentTaxYear,
+        totalCosts,
+        chargeableGain.get.deductions
       ),
         host).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
     }

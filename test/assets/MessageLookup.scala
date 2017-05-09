@@ -735,6 +735,7 @@ object MessageLookup {
     val remainingAllowableLossHelp = "to reduce your Capital Gains Tax if you sell something in the same tax year"
     val remainingBroughtForwardLossHelp = "to reduce your Capital Gains Tax in the future"
     val lettingReliefsUsed = "Letting Relief used"
+    val noticeSummary = "Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax."
     def deductionsDetailsAllowableLosses(taxYear: String): String = s"Loss from $taxYear tax year"
     val deductionsDetailsCapitalGainsTax = "Capital Gains Tax allowance used"
     def deductionsDetailsLossBeforeYear(taxYear: String): String = s"Loss from tax years before $taxYear"
