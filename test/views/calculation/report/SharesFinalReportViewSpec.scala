@@ -73,7 +73,8 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
+        false, 100, 100)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
@@ -99,118 +100,11 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
         doc.select("div.notice-wrapper").isEmpty shouldBe true
       }
 
-      "have a section for the Calculation Details" which {
-
-        "has the class 'summary-section' to underline the heading" in {
-          doc.select("section#calcDetails h2").hasClass("summary-underline") shouldBe true
-        }
-
-        "has a h2 tag" which {
-
-          s"should have the title '${messages.calcDetailsHeadingDate("2015/16")}'" in {
-            doc.select("section#calcDetails h2").text shouldBe messages.calcDetailsHeadingDate("2015/16")
-          }
-
-          "has the class 'heading-large'" in {
-            doc.select("section#calcDetails h2").hasClass("heading-large") shouldBe true
-          }
-        }
-
-        "has a numeric output row for the gain" which {
-
-          "should have the question text 'Total Gain'" in {
-            doc.select("#gain-question").text shouldBe messages.totalGain
-          }
-
-          "should have the value '£50,000'" in {
-            doc.select("#gain-amount").text shouldBe "£50,000"
-          }
-        }
-
-        "has a numeric output row for the deductions" which {
-
-          "should have the question text 'Deductions'" in {
-            doc.select("#deductions-question").text shouldBe messages.deductions
-          }
-
-          "should have the value '£0'" in {
-            doc.select("#deductions-amount").text should include("£0")
-          }
-
-          "has a breakdown that" should {
-
-            "include a value for Capital gains tax allowance used of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
-            }
-
-            "include a value for Loss brought forward of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2015/16")} £0")
-            }
-          }
-        }
-
-        "has a numeric output row for the chargeable gain" which {
-
-          "should have the question text 'Taxable Gain'" in {
-            doc.select("#chargeableGain-question").text shouldBe messages.chargeableGain
-          }
-
-          "should have the value '£20,000'" in {
-            doc.select("#chargeableGain-amount").text should include("£20,000")
-          }
-        }
-
-        "has a numeric output row and a tax rate" which {
-
-          "should have the question text 'Tax Rate'" in {
-            doc.select("#gainAndRate-question").text shouldBe messages.taxRate
-          }
-
-          "should have the value £30,000" in {
-            doc.select("#firstBand").text should include("£30,000")
-          }
-
-          "should have the tax rate 18%" in {
-            doc.select("#firstBand").text should include("18%")
-          }
-
-          "should have the value £10,000 in the second band" in {
-            doc.select("#secondBand").text should include("£10,000")
-          }
-
-          "should have the tax rate 28% for the first band" in {
-            doc.select("#secondBand").text should include("28%")
-          }
-        }
-
-        "has a numeric output row for the AEA remaining" which {
-
-          "should have the question text 'Capital Gains Tax allowance left for 2015/16" in {
-            doc.select("#aeaRemaining-question").text should include(messages.aeaRemaining("2015/16"))
-          }
-
-          "include a value for Capital gains tax allowance left of £0" in {
-            doc.select("#aeaRemaining-amount").text should include("£0")
-          }
-        }
-      }
-
-      s"have a section for Your answers" which {
-
-        "has an entry for disposal date" in {
-          doc.select("#disposalDate-question").size() shouldBe 1
-        }
-
-        "has an entry for brought forward losses" in {
-          doc.select("#broughtForwardLosses-question").size() shouldBe 1
-        }
-
-        "has an entry for personal allowance" in {
-          doc.select("#personalAllowance-question").size() shouldBe 1
-        }
-      }
+      "have a calculation detail section" in {
+        doc.select("#calcDetails").size() shouldBe 1
+      }}
     }
-  }
+
 
   "Final Summary when supplied with a date above the known tax years" should {
 
@@ -250,7 +144,8 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
       0
     )
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false)(fakeRequestWithSession, applicationMessages)
+    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false,
+    100, 100)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {
@@ -258,7 +153,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
     }
 
     s"have the text ${messages.noticeWarning(Dates.getCurrentTaxYear)}" in {
-      doc.select("strong.bold-small").text shouldBe messages.noticeWarning(Dates.getCurrentTaxYear)
+      doc.select("strong.bold-small").text shouldBe messages.noticeSummary
     }
   }
 }
