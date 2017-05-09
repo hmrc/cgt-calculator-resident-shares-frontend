@@ -8,8 +8,9 @@
 @import constructors.CalculateRequestConstructor._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.helpers.checkYourAnswersPartial
+@import views.html.helpers.deductionsSummaryPartial
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages)
+@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, taxYear: TaxYearModel, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
 
 @broughtForwardLossesHelpText() = {
     <span>
@@ -53,52 +54,13 @@
             </span>
         </div>
     </span>
-    <div class="header-container">
-        <h1 class="heading-xlarge">
-            <span class="pre-heading">@Messages("calc.resident.summary.pageHeading")</span>
-            &pound;0.00
-        </h1>
-    </div>
 
-    @{if (!taxYear.isValidYear) {
-    <div class="notice-wrapper">
-        <div class="notice">
-            <strong class="bold-small">
-                {Messages("calc.base.summary.dateWarning", taxYear.calculationTaxYear)}
-            </strong>
-        </div>
-    </div>
-    }
-    }
-
-    <!-- Calculation Details Section -->
-    <section id="calcDetails">
-        <!-- Header -->
-        @summarySectionHeaderHelper(Messages("calc.resident.summary.calcDetailsHeadingDate", taxYear.taxYearSupplied))
-
-        <!-- Data Rows -->
-        @summaryNumericRowHelper("gain",gainMessage(result.gain),result.gain)
-        @summaryNumericRowHelper("deductions", Messages("calc.resident.summary.deductions"), result.deductions, None,
-        Some(Seq(
-        (Messages("calc.resident.summary.deductionsDetails.aeaUsed"), MoneyPounds(result.aeaUsed, 0).quantity),
-        (Messages("calc.resident.summary.deductionsDetails.broughtForwardLossesUsed", taxYear.taxYearSupplied), MoneyPounds(result.broughtForwardLossesUsed, 0).quantity)
-        )))
-        @if(result.chargeableGain == 0){
-            @summaryNumericRowHelper("chargeableGain", Messages("calc.resident.summary.chargeableGain"), result.chargeableGain)
-        }
-        @if(result.broughtForwardLossesRemaining > 0) {
-            @{summaryNumericHelpTextHelper("broughtForwardLossRemaining", Messages("calc.resident.summary.remainingBroughtForwardLoss", taxYear.taxYearSupplied),
-                result.broughtForwardLossesRemaining,
-                None,
-                Some(broughtForwardLossesHelpText()))
-            }
-        }
-        @summaryNumericHelpTextHelper("aeaRemaining", Messages("calc.resident.summary.aeaRemaining", taxYear.calculationTaxYear), result.aeaRemaining, None,
-            if(result.aeaRemaining > 0) {Some(annualExemptAmountHelpText())}
-            else {None}
-        )
-
-    </section>
+    @deductionsSummaryPartial(gainAnswers,
+        deductionAnswers,
+        result,
+        taxYear,
+        totalCosts
+    )
 
     <!-- Your Answers Section -->
     @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), None, displayLinks = false)

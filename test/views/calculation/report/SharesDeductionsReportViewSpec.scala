@@ -17,17 +17,17 @@
 package views.calculation.report
 
 import assets.MessageLookup.Resident.{Shares => SharesMessages}
-import assets.MessageLookup.{SummaryPage => messages}
+import assets.MessageLookup.{SummaryDetails => messages}
 import assets.{MessageLookup => commonMessages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{report => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -64,7 +64,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -75,92 +75,20 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         doc.title() shouldBe messages.title
       }
 
-
-      s"have a page heading" which {
-
-        s"includes a secondary heading with text '${messages.pageHeading}'" in {
-          doc.select("h1 span.pre-heading").text shouldBe messages.pageHeading
-        }
-
-        "includes an amount of tax due of £0.00" in {
-          doc.select("h1").text should include("£0.00")
-        }
+      "have the hmrc logo with the hmrc name" in {
+        doc.select("span.organisation-logo-text").text shouldBe "HM Revenue & Customs"
       }
 
-      "does not have a notice summary" in {
-        doc.select("div.notice-wrapper").isEmpty shouldBe true
+      "have a banner for tax owed" in {
+        doc.select("#tax-owed-banner").size() shouldBe 1
       }
 
-      s"have a section for the Calculation details" which {
+      "have no tax year notice" in {
+        doc.select("#notice-summary").size() shouldBe 0
+      }
 
-        "has the class 'summary-section' to underline the heading" in {
-
-          doc.select("section#calcDetails h2").hasClass("summary-underline") shouldBe true
-
-        }
-
-        s"has a h2 tag" which {
-
-          s"should have the title '${messages.calcDetailsHeadingDate("2015/16")}'" in {
-            doc.select("section#calcDetails h2").text shouldBe messages.calcDetailsHeadingDate("2015/16")
-          }
-
-          "has the class 'heading-large'" in {
-            doc.select("section#calcDetails h2").hasClass("heading-large") shouldBe true
-          }
-        }
-
-        "has a numeric output row for the gain" which {
-
-          "should have the question text 'Total Gain'" in {
-            doc.select("#gain-question").text shouldBe messages.totalGain
-          }
-
-          "should have the value '£50,000'" in {
-            doc.select("#gain-amount").text shouldBe "£50,000"
-          }
-        }
-
-        "has a numeric output row for the deductions" which {
-
-          "should have the question text 'Deductions'" in {
-            doc.select("#deductions-question").text shouldBe messages.deductions
-          }
-
-          "should have the value '£11,100'" in {
-            doc.select("#deductions-amount").text should include("£11,100")
-          }
-
-          "has a breakdown that" should {
-
-            "include a value for Capital gains tax allowance used of £11,100" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £11,100")
-            }
-
-            "include a value for Loss brought forward of £0" in {
-              doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2015/16")} £0")
-            }
-          }
-        }
-
-        "has no numeric output row for brought forward losses remaining" in {
-          doc.select("#broughtForwardLossRemaining").isEmpty shouldBe true
-        }
-
-        "has a numeric output row for the AEA remaining" which {
-
-          "should have the question text 'Capital Gains Tax allowance left for 2015/16" in {
-            doc.select("#aeaRemaining-question").text should include(messages.aeaRemaining("2015/16"))
-          }
-
-          "include a value for Capital gains tax allowance left of £0" in {
-            doc.select("#aeaRemaining-amount").text should include("£0")
-          }
-
-          "not include the additional help text for AEA" in {
-            doc.select("#aeaRemaining-amount div span").isEmpty shouldBe true
-          }
-        }
+      "have a calculation details section" in {
+        doc.select("#calcDetails").size() shouldBe 1
       }
 
       s"have a section for Your answers" which {
@@ -216,7 +144,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
     lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel)(fakeRequestWithSession, applicationMessages)
+    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
 
@@ -226,79 +154,10 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
         doc.select("div.notice-wrapper").isEmpty shouldBe false
       }
 
-      s"have the text ${messages.noticeWarning("2015/16")}" in {
-        doc.select("strong.bold-small").text shouldBe messages.noticeWarning("2015/16")
+      s"have the text ${messages.noticeSummary}" in {
+        doc.select("strong.bold-small").text shouldBe messages.noticeSummary
       }
 
-    }
-
-    s"have a section for the Calculation details" which {
-
-      "has the class 'summary-section' to underline the heading" in {
-
-        doc.select("section#calcDetails h2").hasClass("summary-underline") shouldBe true
-
-      }
-
-      s"has a h2 tag" which {
-
-        s"should have the title '${messages.calcDetailsHeadingDate("2013/14")}'" in {
-          doc.select("section#calcDetails h2").text shouldBe messages.calcDetailsHeadingDate("2013/14")
-        }
-
-        "has the class 'heading-large'" in {
-          doc.select("section#calcDetails h2").hasClass("heading-large") shouldBe true
-        }
-      }
-
-      "has a numeric output row for the gain" which {
-
-        "should have the question text 'Total Gain'" in {
-          doc.select("#gain-question").text shouldBe messages.totalGain
-        }
-
-        "should have the value '£50,000'" in {
-          doc.select("#gain-amount").text shouldBe "£50,000"
-        }
-      }
-
-      "has a numeric output row for the deductions" which {
-
-        "should have the question text 'Deductions'" in {
-          doc.select("#deductions-question").text shouldBe messages.deductions
-        }
-
-        "should have the value '£71,000'" in {
-          doc.select("#deductions-amount").text should include("£71,000")
-        }
-
-        "has a breakdown that" should {
-
-          "include a value for Capital gains tax allowance used of £0" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsCapitalGainsTax} £0")
-          }
-
-          "include a value for Loss brought forward of £10,000" in {
-            doc.select("#deductions-amount").text should include(s"${messages.deductionsDetailsLossBeforeYearUsed("2013/14")} £10,000")
-          }
-        }
-      }
-
-      "has a numeric output row for brought forward losses remaining" which {
-
-        "should have the question text for an out of year loss" in {
-          doc.select("#broughtForwardLossRemaining-question").text() shouldBe messages.remainingBroughtForwardLoss("2013/14")
-        }
-
-        "should have the value £2000" in {
-          doc.select("#broughtForwardLossRemaining-amount").text() should include("£2,000")
-        }
-
-        "should have the correct help text" in {
-          doc.select("#broughtForwardLossRemaining-amount div span").text() should
-            include(s"${messages.remainingLossHelp} ${messages.remainingLossLink} ${messages.remainingBroughtForwardLossHelp}")
-        }
-      }
     }
 
     "does not display the section for what to do next" in {

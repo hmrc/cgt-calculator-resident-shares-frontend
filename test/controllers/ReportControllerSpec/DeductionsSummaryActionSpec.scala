@@ -21,8 +21,8 @@ import akka.stream.ActorMaterializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import connectors.CalculatorConnector
-import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
+import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.mockito.ArgumentMatchers
@@ -68,8 +68,12 @@ class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with
     when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
+    when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(BigDecimal(1000)))
+
     new ReportController {
       override val calcConnector: CalculatorConnector = mockCalculatorConnector
+
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }
