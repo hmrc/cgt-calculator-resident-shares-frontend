@@ -642,5 +642,66 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
         doc.select("div.notice-wrapper").text should include(summaryMessages.noticeSummary)
       }
     }
+
+    "the shares only have tax on the upper band" should {
+      val gainAnswers = GainAnswersModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = Some(0),
+        worthWhenInherited = None,
+        acquisitionCosts = BigDecimal(10000),
+        soldForLessThanWorth = false,
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        inheritedTheShares = Some(false)
+      )
+      val deductionAnswers = DeductionGainAnswersModel(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = None
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 0,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 0,
+        firstRate = 0,
+        secondBand = Some(10000),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(0)),
+        prrUsed = Some(BigDecimal(0)),
+        broughtForwardLossesUsed = 0,
+        allowableLossesUsed = 0,
+        baseRateTotal = 101,
+        upperRateTotal = 100
+      )
+
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+
+      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results, taxYearModel,
+        100, 100)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "has a numeric output row and a tax rate" which {
+
+        "has no row for first band" in {
+            doc.select("#firstBand-amount").size() shouldBe 0
+        }
+
+        "has row for second band" which {
+
+          s"has the text '${summaryMessages.taxRate("£10,000", "28")}'" in {
+            doc.select("#secondBand-text").text shouldBe summaryMessages.taxRate("£10,000", "28")
+          }
+
+          "has the value '£100'" in {
+            doc.select("#secondBand-amount").text shouldBe "£100"
+          }
+        }
+      }
+    }
   }
 }

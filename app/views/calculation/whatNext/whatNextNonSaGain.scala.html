@@ -1,0 +1,25 @@
+@import views.html.calculation._
+
+@(iFormUrl: String)(implicit request: Request[_], messages: Messages)
+
+@resident_main_template(
+    Messages("calc.resident.whatNextNonSa.gain.title"),
+    //TODO: update back link
+    backLink = Some("dummy-link"),
+    homeLink = controllers.routes.GainController.disposalDate().url,
+    navTitle = Messages("calc.base.resident.properties.home")
+) {
+
+    <h1 class="heading-large">@Messages("calc.resident.whatNextNonSa.gain.title")</h1>
+
+    <p id="details-one">@Messages("calc.resident.whatNextNonSa.gain.detailsOne")</p>
+    <p id="details-two">@Messages("calc.resident.whatNextNonSa.gain.detailsTwo")</p>
+
+    <p id="report-now">
+        <a class="button" href=@iFormUrl>@Messages("calc.resident.whatNextNonSa.gain.reportNow")</a>
+    </p>
+
+    <p id="govUk">
+        <a href="http://www.gov.uk">@Messages("calc.resident.whatNextNonSa.gain.govUk")</a>
+    </p>
+}
