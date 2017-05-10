@@ -778,6 +778,7 @@ calc.summary.whatToDoNext.heading = What to do next
 calc.summary.whatToDoNext.details = Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax.
 calc.summary.noticeSummary = Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax.
 calc.summary.download = Download
+calc.summary.ratesHelp = These rates are based on your Income Tax bands:
 
 #WhatToDoNext
 calc.whatToDoNext.title = What to do next

@@ -79,6 +79,7 @@
 
     <div id="yourTaxRate" class="resident summary-underline">
         <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
+        <h2>@Messages("calc.summary.taxRateHelp")</h2>
 
         @if(result.firstBand != 0 && result.firstRate != 0){
             @summaryNumericRowPartial("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),

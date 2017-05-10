@@ -410,6 +410,12 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
 
       "has a numeric output row and a tax rate" which {
 
+        "has heading text" which {
+          s"has the text '${summaryMessages.yourTaxRate}' as a h2" in {
+            doc.select("#yourTaxRate.h2").text shouldBe summaryMessages.yourTaxRate
+          }
+        }
+
         "has row for first band" which {
 
           s"has the text '${summaryMessages.taxRate("£30,000", "18")}'" in {
