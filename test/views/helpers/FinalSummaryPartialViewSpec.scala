@@ -250,6 +250,10 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
             s"has the text ${summaryMessages.yourTaxRate}" in {
               div.select("h3").text shouldBe summaryMessages.yourTaxRate
             }
+
+            s"has the text ${summaryMessages.ratesHelp}" in {
+              div.select("h4").text shouldBe summaryMessages.ratesHelp
+            }
           }
 
           "has row for first band" which {
@@ -409,12 +413,6 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
       lazy val doc = Jsoup.parse(view.body)
 
       "has a numeric output row and a tax rate" which {
-
-        "has heading text" which {
-          s"has the text '${summaryMessages.yourTaxRate}' as a h2" in {
-            doc.select("#yourTaxRate.h2").text shouldBe summaryMessages.yourTaxRate
-          }
-        }
 
         "has row for first band" which {
 
