@@ -339,4 +339,19 @@ class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
       path shouldEqual "/calculate-your-capital-gains/resident/shares/deductions-report"
     }
   }
+
+  /* What Next Non-SA routes */
+  "The URL for the whatNextNonSaGain action" should {
+    "be equal to /calculate-your-capital-gains/resident/shares/what-next-non-sa-gain" in {
+      val path = WhatNextNonSaController.whatNextNonSaGain().url
+      path shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-non-sa-gain"
+    }
+  }
+
+  "The URL for the whatNextNonSaLoss action" should {
+    "be equal to /calculate-your-capital-gains/resident/shares/what-next-non-sa-loss" in {
+      val path = WhatNextNonSaController.whatNextNonSaLoss().url
+      path shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-non-sa-loss"
+    }
+  }
 }

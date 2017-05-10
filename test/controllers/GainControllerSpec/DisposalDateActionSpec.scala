@@ -37,7 +37,6 @@ import scala.concurrent.Future
 class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
 

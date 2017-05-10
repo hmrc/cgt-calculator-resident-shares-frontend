@@ -18,6 +18,7 @@ package controllers.utils
 
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
+import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.{Action, AnyContent}
@@ -26,10 +27,9 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 
-class TimeoutControllerSpec extends UnitSpec with WithFakeApplication {
+class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   class fakeRequestTo(url: String, controllerAction: Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)

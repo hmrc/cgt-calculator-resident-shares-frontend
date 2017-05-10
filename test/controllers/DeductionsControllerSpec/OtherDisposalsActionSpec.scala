@@ -36,7 +36,6 @@ import scala.concurrent.Future
 class OtherDisposalsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   def setupTarget(getData: Option[OtherPropertiesModel],
                   disposalDate: Option[DisposalDateModel],

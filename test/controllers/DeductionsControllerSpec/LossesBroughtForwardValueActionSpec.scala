@@ -37,7 +37,6 @@ import scala.concurrent.Future
 class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar{
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 

@@ -40,7 +40,6 @@ import scala.concurrent.Future
 class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   val gainAnswersModel = mock[GainAnswersModel]
 

@@ -37,7 +37,6 @@ import scala.concurrent.Future
 class PreviousTaxableGainsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   def setupTarget(getData: Option[PreviousTaxableGainsModel], otherProperties: Boolean = true, lossesBroughtForward: Boolean = true,
                   allowableLossesModel: Option[AllowableLossesModel] = None, allowableLossesValueModel: Option[AllowableLossesValueModel] = None,

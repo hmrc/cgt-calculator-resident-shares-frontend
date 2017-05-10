@@ -37,7 +37,6 @@ import scala.concurrent.Future
 class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   def setupTarget(getData: Option[DidYouInheritThemModel]): GainController= {
 
