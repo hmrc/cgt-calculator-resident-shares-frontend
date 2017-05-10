@@ -1003,5 +1003,14 @@ object MessageLookup {
         "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
     }
 
+    object WhatNextNoGain {
+      val bulletPointTitle = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can either:"
+      val bulletPointOne: String => String = year => s"report it on your Self Assessment return for the $year tax year"
+      val bulletPointTwo = "report it now using our online form"
+      val importantInformation = s"If you report it now, you'll still need to declare your capital gains through Self Assessment."
+      val whatNextInformation =
+        "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+    }
+
   }
 }
