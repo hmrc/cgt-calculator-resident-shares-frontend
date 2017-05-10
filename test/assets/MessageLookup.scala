@@ -982,4 +982,16 @@ object MessageLookup {
     val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
   }
+
+  object WhatNextPages {
+    val title = "What to do next"
+    val finish = "Return to GOV.UK"
+    val reportNow = "Report now"
+    val yourOptionsTitle = "Your options"
+
+    object FourTimesAEA {
+      val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
+      val paragraphTwo = "You must do this, even though there's no tax to pay."
+    }
+  }
 }
