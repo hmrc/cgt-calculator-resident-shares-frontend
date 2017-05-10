@@ -121,3 +121,7 @@ GET     /what-next-sa-gain                controllers.WhatNextSAController.whatN
 #What Next Non-SA Gain Routes
 GET     /what-next-non-sa-gain            controllers.WhatNextNonSaController.whatNextNonSaGain
 GET     /what-next-non-sa-loss            controllers.WhatNextNonSaController.whatNextNonSaLoss
+
+#Sa user Routes
+GET     /confirm-self-assessment          controllers.SaUserController.saUser
+POST    /confirm-self-assessment          controllers.SaUserController.submitSaUser

@@ -16,6 +16,7 @@
 
 package routes
 
+import controllers.SaUserController
 import controllers.routes._
 import org.scalatest._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -371,6 +372,21 @@ class RoutesSpec extends UnitSpec with WithFakeApplication with Matchers {
   "The URL for the whatNextSAGain action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/what-next-gain" in {
       WhatNextSAController.whatNextSAGain().url shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-sa-gain"
+    }
+  }
+
+  /* SA user routes */
+  "The URL for the saUser action" should {
+    "be equal to /calculate-your-capital-gains/resident/shares/confirm-self-assessment" in {
+      val path = SaUserController.saUser().url
+      path shouldEqual "/calculate-your-capital-gains/resident/shares/confirm-self-assessment"
+    }
+  }
+
+  "The URL for the submitSaUser action" should {
+    "be equal to /calculate-your-capital-gains/resident/shares/confirm-self-assessment" in {
+      val path = SaUserController.submitSaUser().url
+      path shouldEqual "/calculate-your-capital-gains/resident/shares/confirm-self-assessment"
     }
   }
 }
