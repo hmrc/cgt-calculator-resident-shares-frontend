@@ -1,0 +1,36 @@
+@import views.html.calculation.resident.resident_main_template
+@import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
+@import models.resident.SaUserModel
+@import views.html.helpers.errorSummary
+
+@(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages)
+
+@resident_main_template(
+  title = Messages("calc.resident.saUser.title"),
+  homeLink = "",
+  navTitle = "",
+  backLink = Some(controllers.routes.SummaryController.summary().url)) {
+
+  @errorSummary(saUserForm, "isInSa")
+
+  <h1 class="heading-large">@Messages("calc.resident.saUser.title")</h1>
+
+  @form(action = controllers.routes.SaUserController.submitSaUser()) {
+    @inputRadioGroup(
+      saUserForm("isInSa"),
+      Seq(
+        "Yes" -> Messages("calc.base.yes"),
+        "No" -> Messages("calc.base.no")),
+      '_legend -> Messages("calc.resident.saUser.title"),
+      '_legendID -> "isClaiming",
+      '_legendClass -> "visuallyhidden",
+      '_labelAfter -> true,
+      '_labelClass -> "block-label",
+      '_groupClass -> "inline form-group radio-list",
+      '_fieldsetAttributes -> "aria-details = help"
+    )
+
+    <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+  }
+}
