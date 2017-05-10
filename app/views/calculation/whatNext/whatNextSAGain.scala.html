@@ -1,0 +1,25 @@
+@import views.html.calculation.gain._
+
+@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
+
+@resident_shares_main_template(title = Messages("calc.yourOptions.title"), backLink = Some(backUrl)) {
+
+    <h1>@Messages("calc.yourOptions.title")</h1>
+
+    <div class="form-group">
+        <p id="bullet-list-title">@Messages("calc.whatToDoNext.gain.bulletTitle")</p>
+
+        <ul class="bullets">
+            <li>@Messages("calc.whatToDoNext.gain.bulletPointOne", disposalTaxYear)</li>
+            <li>@Messages("calc.whatToDoNext.gain.bulletPointTwo")</li>
+        </ul>
+
+        <p id="important-information" class="panel-indent panel-indent--gutter">@Messages("calc.whatToDoNext.gain.reportImportant")</p>
+
+        <p id="report-now-information">@Messages("calc.whatToDoNext.gain.reportNowInfo")</p>
+
+        <a id="report-now-button" class="button" href="@iFormUrl">@Messages("calc.whatToDoNext.reportNow")</a>
+    </div>
+
+    <a id="finish" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
+}
