@@ -58,4 +58,22 @@ class DatesSpec extends UnitSpec {
       } yield date.length shouldEqual 7
     }
   }
+
+  "Calling taxYearOfDateLongHand" should {
+    "when called with 2016/4/6 return 2016 to 2017" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(2016, 4, 6)) shouldBe "2016 to 2017"
+    }
+
+    "when called with a date of 2016/4/5 return 2015 to 2016" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(2016, 4, 5)) shouldBe "2015 to 2016"
+    }
+
+    "when called with 1999/4/6 return 1999 to 2000" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(1999, 4, 6)) shouldBe "1999 to 2000"
+    }
+
+    "when called with 1999/4/5 return 1999 to 2000" in {
+      Dates.taxYearOfDateLongHand(LocalDate.of(1999, 4, 5)) shouldBe "1998 to 1999"
+    }
+  }
 }

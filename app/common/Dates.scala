@@ -43,6 +43,15 @@ object Dates {
     s"$startYear/$endYear"
   }
 
+  def taxYearOfDateLongHand(date: LocalDate): String = {
+    if (date.isAfter(LocalDate.parse(s"${date.getYear.toString}-$taxYearEnd"))) {
+      s"${date.getYear} to ${date.plusYears(1L).getYear}"
+    }
+    else {
+      s"${date.minusYears(1L).getYear} to ${date.getYear}"
+    }
+  }
+
   def getCurrentTaxYear: Future[String] = {
     val now = LocalDate.now()
     val year = now.getYear
