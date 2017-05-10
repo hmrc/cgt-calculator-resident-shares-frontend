@@ -993,5 +993,15 @@ object MessageLookup {
       val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
       val paragraphTwo = "You must do this, even though there's no tax to pay."
     }
+
+    object WhatNextGain {
+      val bulletPointTitle = "You can either:"
+      val bulletPointOne: String => String = year => s"report and pay on your Self Assessment return for the $year tax year"
+      val bulletPointTwo = "report and pay now using our online form"
+      val importantInformation = s"If you report and pay now, you'll still need to declare your capital gains through Self Assessment."
+      val whatNextInformation =
+        "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+    }
+
   }
 }

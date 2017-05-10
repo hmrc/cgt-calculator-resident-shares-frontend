@@ -785,3 +785,9 @@ calc.whatToDoNext.finish = Return to GOV.UK
 
 calc.whatToDoNext.fourAEA.information = You''ll have to report your Capital Gains Tax figures through Self Assessment.
 calc.whatToDoNext.fourAEA.youMustDoThis = You must do this, even though there''s no tax to pay.
+
+calc.whatToDoNext.gain.bulletTitle = You can either:
+calc.whatToDoNext.gain.bulletPointOne = report and pay on your Self Assessment return for the {0} tax year
+calc.whatToDoNext.gain.bulletPointTwo = report and pay now using our online form
+calc.whatToDoNext.gain.reportImportant = If you report and pay now, you''ll still need to declare your capital gains through Self Assessment.
+calc.whatToDoNext.gain.reportNowInfo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
