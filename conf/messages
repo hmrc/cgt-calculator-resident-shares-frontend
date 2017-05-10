@@ -782,6 +782,8 @@ calc.summary.download = Download
 #WhatToDoNext
 calc.whatToDoNext.title = What to do next
 calc.whatToDoNext.finish = Return to GOV.UK
+calc.whatToDoNext.reportNow = Report now
+calc.yourOptions.title = Your options
 
 calc.whatToDoNext.fourAEA.information = You''ll have to report your Capital Gains Tax figures through Self Assessment.
 calc.whatToDoNext.fourAEA.youMustDoThis = You must do this, even though there''s no tax to pay.
