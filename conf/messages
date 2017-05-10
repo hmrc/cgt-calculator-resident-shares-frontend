@@ -778,3 +778,17 @@ calc.summary.whatToDoNext.heading = What to do next
 calc.summary.whatToDoNext.details = Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax.
 calc.summary.noticeSummary = Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax.
 calc.summary.download = Download
+
+## What Next Non-SA Gain messages
+calc.resident.whatNextNonSa.gain.title = What to do next
+calc.resident.whatNextNonSa.gain.reportNow = Report now
+calc.resident.whatNextNonSa.gain.govUk = Return to GOV.UK
+calc.resident.whatNextNonSa.gain.detailsOne = Use our online form to report and pay your Capital Gains Tax.
+calc.resident.whatNextNonSa.gain.detailsTwo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
+
+## What Next Non-SA Loss messages
+calc.resident.whatNextNonSa.loss.title = What to do next
+calc.resident.whatNextNonSa.loss.reportNow = Report now
+calc.resident.whatNextNonSa.loss.govUk = Return to GOV.UK
+calc.resident.whatNextNonSa.loss.detailsOne = If you''ve made a loss that you''d like to use against any future Capital Gains Tax, you can report it using our online form.
+calc.resident.whatNextNonSa.loss.detailsTwo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
