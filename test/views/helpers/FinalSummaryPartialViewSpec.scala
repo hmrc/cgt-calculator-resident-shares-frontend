@@ -250,6 +250,10 @@ class FinalSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with
             s"has the text ${summaryMessages.yourTaxRate}" in {
               div.select("h3").text shouldBe summaryMessages.yourTaxRate
             }
+
+            s"has the text ${summaryMessages.ratesHelp}" in {
+              div.select("h4").text shouldBe summaryMessages.ratesHelp
+            }
           }
 
           "has row for first band" which {

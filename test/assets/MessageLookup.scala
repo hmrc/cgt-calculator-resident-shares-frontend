@@ -1042,6 +1042,7 @@ object MessageLookup {
     val whatToDoNextContinue = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
     val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
+    val ratesHelp = "These rates are based on your Income Tax bands:"
   }
 
   object WhatNextPages {
@@ -1074,19 +1075,19 @@ object MessageLookup {
     }
   }
 
-  object WhatNextNonSaGain {
-    val title = "What to do next"
-    val reportNow = "Report now"
-    val govUk = "Return to GOV.UK"
-    val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
-    val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
-  }
+    object WhatNextNonSaGain {
+      val title = "What to do next"
+      val reportNow = "Report now"
+      val govUk = "Return to GOV.UK"
+      val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
+      val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+    }
 
-  object WhatNextNonSaLoss {
-    val title = "What to do next"
-    val reportNow = "Report now"
-    val govUk = "Return to GOV.UK"
-    val detailsOne = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can report it using our online form."
-    val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
-  }
+    object WhatNextNonSaLoss {
+      val title = "What to do next"
+      val reportNow = "Report now"
+      val govUk = "Return to GOV.UK"
+      val detailsOne = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can report it using our online form."
+      val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+    }
 }
