@@ -112,3 +112,7 @@ GET     /deductions-report                controllers.ReportController.deduction
 
 #Final Summary PDF Routes
 GET     /final-report                     controllers.ReportController.finalSummaryReport
+
+#What Next Non-SA Gain Routes
+GET     /what-next-non-sa-gain            controllers.WhatNextNonSaController.whatNextNonSaGain
+GET     /what-next-non-sa-loss            controllers.WhatNextNonSaController.whatNextNonSaLoss
