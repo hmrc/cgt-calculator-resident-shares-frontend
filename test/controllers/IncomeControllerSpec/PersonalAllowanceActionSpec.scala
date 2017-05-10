@@ -39,7 +39,6 @@ import scala.concurrent.Future
 class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),

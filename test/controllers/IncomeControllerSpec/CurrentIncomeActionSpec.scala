@@ -38,7 +38,6 @@ import scala.concurrent.Future
 class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   def setupTarget(storedData: Option[CurrentIncomeModel],
                   otherProperties: Boolean = true,

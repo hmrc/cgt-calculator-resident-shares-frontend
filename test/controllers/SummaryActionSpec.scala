@@ -39,7 +39,6 @@ import scala.concurrent.Future
 class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
   implicit val hc = new HeaderCarrier()
 
   def setupTarget

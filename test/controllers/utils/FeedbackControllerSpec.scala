@@ -38,7 +38,6 @@ import scala.concurrent.Future
 class FeedbackControllerSpec extends UnitSpec with MockitoSugar with WithFakeApplication {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   val fakeRequest = FakeRequest("GET", "/")
 

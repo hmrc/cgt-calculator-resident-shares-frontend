@@ -39,7 +39,6 @@ import scala.concurrent.Future
 class AnnualExemptAmountActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   val gainModel = mock[GainAnswersModel]
   val summaryModel = mock[DeductionGainAnswersModel]

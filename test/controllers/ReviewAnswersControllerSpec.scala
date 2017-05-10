@@ -55,7 +55,6 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
   val incomeAnswersModel: IncomeAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(25000)), Some(PersonalAllowanceModel(11000)))
   implicit val timeout: Timeout = Timeout.apply(Duration.create(20, "seconds"))
   implicit val hc: HeaderCarrier = new HeaderCarrier()
-  implicit def mat: Materializer = Play.materializer
 
   def setupController(gainResponse: GainAnswersModel,
                       deductionsResponse: DeductionGainAnswersModel,

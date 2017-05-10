@@ -16,14 +16,14 @@
 
 package controllers
 
-import akka.util.Timeout
 import assets.MessageLookup
 import config.AppConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
-import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers.redirectLocation
 import uk.gov.hmrc.play.test.UnitSpec
+import akka.util.Timeout
+import org.scalatestplus.play.OneAppPerSuite
 
 import scala.concurrent.duration.Duration
 

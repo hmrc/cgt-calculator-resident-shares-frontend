@@ -18,9 +18,10 @@ package controllers.helpers
 
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.FakeRequest
+import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
 import uk.gov.hmrc.play.http.SessionKeys
 
-trait FakeRequestHelper {
+trait FakeRequestHelper extends MicroserviceFilterSupport {
   lazy val fakeRequest = FakeRequest()
   lazy val fakeRequestWithSession = fakeRequest.withSession((SessionKeys.sessionId, ""))
 

@@ -39,7 +39,6 @@ import scala.concurrent.Future
 class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  implicit lazy val mat = ActorMaterializer()
 
   def setupTarget(getData: Option[WorthWhenSoldForLessModel]): GainController = {
 
