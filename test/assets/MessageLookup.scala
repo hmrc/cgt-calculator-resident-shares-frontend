@@ -1073,6 +1073,7 @@ object MessageLookup {
       val whatNextInformation =
         "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
     }
+  }
 
     object WhatNextNonSaGain {
       val title = "What to do next"
