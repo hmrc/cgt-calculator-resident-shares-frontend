@@ -109,77 +109,77 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
       }
     }
 
-//    "a non-sa user is submitted" when {
-//      val form = "isInSa" -> "No"
-//
-//      "there is no tax liability" should {
-//        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
-//        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
-//
-//        "return a status of 303" in {
-//          status(result) shouldBe 303
-//        }
-//
-//        "redirect to the nonSa loss what next page" in {
-//          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss().url)
-//        }
-//      }
-//
-//      "there is a tax liability" should {
-//        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
-//        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
-//
-//        "return a status of 303" in {
-//          status(result) shouldBe 303
-//        }
-//
-//        "redirect to the nonSa gain what next page" in {
-//          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain().url)
-//        }
-//      }
-//    }
-//
-//    "a sa user is submitted" when {
-//      val form = "isInSa" -> "Yes"
-//
-//      "there is a tax liability" should {
-//        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
-//        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
-//
-//        "return a status of 303" in {
-//          status(result) shouldBe 303
-//        }
-//
-//        "redirect to the nonSa gain what next page" in {
-//          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAGain().url)
-//        }
-//      }
-//
-//      "there is no tax liability and a disposal value less than 4*AEA" should {
-//        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
-//        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
-//
-//        "return a status of 303" in {
-//          status(result) shouldBe 303
-//        }
-//
-//        "redirect to the nonSa loss what next page" in {
-//          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSANoGain().url)
-//        }
-//      }
-//
-//      "there is no tax liability and a disposal value greater than 4*AEA" should {
-//        lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
-//        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
-//
-//        "return a status of 303" in {
-//          status(result) shouldBe 303
-//        }
-//
-//        "redirect to the nonSa loss with value greater than what next page" in {
-//          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA().url)
-//        }
-//      }
-//    }
+    "a non-sa user is submitted" when {
+      val form = "isInSa" -> "No"
+
+      "there is no tax liability" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa loss what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss().url)
+        }
+      }
+
+      "there is a tax liability" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa gain what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextNonSaController.whatNextNonSaGain().url)
+        }
+      }
+    }
+
+    "a sa user is submitted" when {
+      val form = "isInSa" -> "Yes"
+
+      "there is a tax liability" should {
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa gain what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAGain().url)
+        }
+      }
+
+      "there is no tax liability and a disposal value less than 4*AEA" should {
+        lazy val controller = setupController(ModelsAsset.gainLowDisposalValue, 0, -10000, 0)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa loss what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSANoGain().url)
+        }
+      }
+
+      "there is no tax liability and a disposal value greater than 4*AEA" should {
+        lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+
+        "return a status of 303" in {
+          status(result) shouldBe 303
+        }
+
+        "redirect to the nonSa loss with value greater than what next page" in {
+          redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA().url)
+        }
+      }
+    }
   }
 }

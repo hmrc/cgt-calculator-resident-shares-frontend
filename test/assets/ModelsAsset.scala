@@ -48,6 +48,32 @@ object ModelsAsset {
     None,
     10000)
 
+  val gainLargeDisposalValue = GainAnswersModel(Dates.constructDate(10, 10, 2016),
+    soldForLessThanWorth = false,
+    disposalValue = Some(100000),
+    worthWhenSoldForLess = None,
+    disposalCosts = BigDecimal(1000000),
+    ownerBeforeLegislationStart = false,
+    valueBeforeLegislationStart = None,
+    inheritedTheShares = Some(false),
+    worthWhenInherited = None,
+    acquisitionValue = None,
+    acquisitionCosts = 30000
+  )
+
+  val gainLowDisposalValue = GainAnswersModel(Dates.constructDate(10, 10, 2016),
+    soldForLessThanWorth = false,
+    disposalValue = Some(1000),
+    worthWhenSoldForLess = None,
+    disposalCosts = BigDecimal(1000000),
+    ownerBeforeLegislationStart = false,
+    valueBeforeLegislationStart = None,
+    inheritedTheShares = Some(false),
+    worthWhenInherited = None,
+    acquisitionValue = None,
+    acquisitionCosts = 30000
+  )
+
   val deductionAnswersMostPossibles = DeductionGainAnswersModel(
     Some(LossesBroughtForwardModel(true)),
     Some(LossesBroughtForwardValueModel(10000))
