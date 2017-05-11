@@ -13,9 +13,11 @@
     navTitle = Messages("calc.base.resident.shares.home")
 ){
 
-@errorSummary(ownerBeforeLegislationStart, "ownerBeforeLegislationStart")
+    @errorSummary(ownerBeforeLegislationStart, "ownerBeforeLegislationStart")
 
-<h1 class="heading-large">@Messages("calc.resident.shares.ownerBeforeLegislationStart.title")</h1>
+    <h1 class="heading-large">@Messages("calc.resident.shares.ownerBeforeLegislationStart.title")</h1>
+
+    <p>@Messages("calc.resident.shares.ownerBeforeLegislationStart.help")</p>
 
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
@@ -33,7 +35,7 @@
             )
         </div>
 
-        <input type="hidden" name="ownerBeforeLegislationStart" value="" />
+        <input type="hidden" name="ownerBeforeLegislationStart" value=""/>
         <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
     }
 }

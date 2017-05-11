@@ -720,6 +720,7 @@ calc.resident.shares.valueBeforeLegislationStart.question = What were the shares
 
 ## Owner Before Legislation Start Messages
 calc.resident.shares.ownerBeforeLegislationStart.title = Did you own the shares before 1 April 1982?
+calc.resident.shares.ownerBeforeLegislationStart.help = This is when the current Capital Gains Tax system came into effect.
 calc.resident.shares.ownerBeforeLegislationStart.noSelectError = Tell us if you owned the shares before 1 April 1982
 
 ## Worth When Inherited
