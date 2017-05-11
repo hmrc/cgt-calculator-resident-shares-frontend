@@ -19,12 +19,10 @@ package controllers
 import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import constructors.CalculateRequestConstructor
-import constructors.resident.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
 import forms.SaUserForm
-import forms.resident.SaUserForm
 import models.resident._
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel, YourAnswersSummaryModel}
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.mvc.{Action, AnyContent, Result}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -96,7 +94,7 @@ trait SaUserController extends ValidActiveSession {
     }
 
     def errorAction(form: Form[SaUserModel]) = {
-      Future.successful(BadRequest(views.html.calculation.resident.properties.whatNext.saUser(form)))
+      Future.successful(BadRequest(views.html.calculation.whatNext.saUser(form)))
     }
 
     def successAction(model: SaUserModel) = {

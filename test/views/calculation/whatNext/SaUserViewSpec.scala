@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package views.resident.shares.whatNext
+package views.calculation.whatNext
 
 import assets.MessageLookup
 import controllers.helpers.FakeRequestHelper
@@ -22,7 +22,6 @@ import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.UnitSpec
 import assets.MessageLookup.{SaUser => messages}
 import forms.SaUserForm
-import forms.resident.SaUserForm
 import org.jsoup.Jsoup
 import views.html.calculation.whatNext.saUser
 import play.api.i18n.Messages.Implicits._

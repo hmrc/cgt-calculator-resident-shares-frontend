@@ -16,7 +16,6 @@
 
 package routes
 
-import controllers.SaUserController
 import controllers.routes._
 import org.scalatest._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package forms.shares
+package forms
 
 import models.resident.SaUserModel
 import org.scalatestplus.play.OneAppPerSuite
 import uk.gov.hmrc.play.test.UnitSpec
-import forms.resident.SaUserForm._
+import forms.SaUserForm._
 import assets.MessageLookup.{SaUser => messages}
 
 class SaUserFormSpec extends UnitSpec with OneAppPerSuite {

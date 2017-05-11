@@ -78,7 +78,7 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
       }
 
       "redirect to the missing session page" in {
-        redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
+        redirectLocation(result).get should include("/calculate-your-capital-gains/resident/shares/session-timeout")
       }
     }
 
@@ -105,7 +105,7 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
       }
 
       "redirect to the missing session page" in {
-        redirectLocation(result).get should include("/calculate-your-capital-gains/resident/properties/session-timeout")
+        redirectLocation(result).get should include("/calculate-your-capital-gains/resident/shares/session-timeout")
       }
     }
 
