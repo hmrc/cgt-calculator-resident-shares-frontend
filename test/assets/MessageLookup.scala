@@ -1075,7 +1075,7 @@ object MessageLookup {
     }
   }
 
-  object WhatNextNonSaGain {
+  object WhatNextNonSaGain extends Common {
     val title = "What to do next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
@@ -1083,7 +1083,7 @@ object MessageLookup {
     val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
   }
 
-  object WhatNextNonSaLoss {
+  object WhatNextNonSaLoss extends Common {
     val title = "What to do next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"

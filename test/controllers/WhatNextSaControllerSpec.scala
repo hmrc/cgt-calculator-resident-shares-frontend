@@ -87,7 +87,7 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe "dummy-back-link"
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }
@@ -120,7 +120,7 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe "dummy-back-link"
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }
@@ -153,7 +153,7 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe "dummy-back-link"
+        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }

@@ -333,132 +333,118 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
               div.select("#taxToPay-amount").text shouldBe "£3,600"
             }
           }
-          "display the save as PDF Links" which {
+        }
 
-            "should render only one link" in {
-              doc.select("a.save-pdf-link").size() shouldEqual 1
+        "have a section for the You remaining deductions" which {
+
+          "has a div for remaining deductions" which {
+
+            lazy val div = doc.select("#remainingDeductions")
+
+            "has a h2 tag" which {
+
+              s"has the text ${summaryMessages.remainingDeductions}" in {
+                div.select("h2").text shouldBe summaryMessages.remainingDeductions
+              }
             }
 
-            s"with an href to ${controllers.routes.ReportController.finalSummaryReport().toString}" in {
-              doc.select("a.save-pdf-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/final-report"
+            "has a row for annual exempt amount left" which {
+              s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
+                div.select("#aeaRemaining-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+              }
+
+              "has the value '£0'" in {
+                div.select("#aeaRemaining-amount").text shouldBe "£0"
+              }
             }
 
-            s"have the text ${messages.saveAsPdf}" in {
-              doc.select("a.save-pdf-link").text shouldEqual messages.saveAsPdf
+            "not have a row for brought forward losses remaining" in {
+              div.select("#broughtForwardLossesRemaining-text") shouldBe empty
+            }
+
+            "not have a row for losses to carry forward" in {
+              div.select("#lossesToCarryForward-text") shouldBe empty
             }
           }
+        }
 
-          "has a continue button" which {
-            s"has the text ${commonMessages.continue}" in {
-              doc.select("button").text shouldBe commonMessages.continue
+      }
+
+      "has a section for the What to do next details" which {
+
+        lazy val section = doc.select("#whatToDoNext")
+
+        "has a h2 tag" which {
+          s"has the text ${summaryMessages.whatToDoNextHeading}" in {
+            section.select("h2").text shouldBe summaryMessages.whatToDoNextHeading
+          }
+        }
+
+        "has a paragraph" which {
+          s"has the text ${summaryMessages.whatToDoNextContinue}" in {
+            section.select("p.font-small").text shouldBe summaryMessages.whatToDoNextContinue
+          }
+        }
+
+        "has a save as PDF section" which {
+
+          lazy val savePDFSection = doc.select("#save-as-a-pdf")
+
+          "contains an internal div which" should {
+
+            lazy val icon = savePDFSection.select("div")
+
+            "has class icon-file-download" in {
+              icon.hasClass("icon-file-download") shouldBe true
             }
 
-            "has a save as PDF Button" which {
+            "contains a span" which {
 
-              lazy val savePDFSection = doc.select("#save-as-a-pdf")
+              lazy val informationTag = icon.select("span")
 
-              "contains an internal div which" should {
-
-                lazy val icon = savePDFSection.select("div")
-
-                "has class icon-file-download" in {
-                  icon.hasClass("icon-file-download") shouldBe true
-                }
-
-                "contains a span" which {
-
-                  lazy val informationTag = icon.select("span")
-
-                  "has the class visuallyhidden" in {
-                    informationTag.hasClass("visuallyhidden") shouldBe true
-                  }
-
-                  "has the text Download" in {
-                    informationTag.text shouldBe "Download"
-                  }
-                }
-
-                "contains a link" which {
-
-                  lazy val link = savePDFSection.select("a")
-
-                  "has the type submit" in {
-                    link.attr("type").equals("submit") shouldBe true
-                  }
-
-                  "has the class bold-small" in {
-                    link.hasClass("bold-small") shouldBe true
-                  }
-
-                  "has the class save-pdf-link" in {
-                    link.hasClass("save-pdf-link") shouldBe true
-                  }
-
-                  s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
-                    link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString()
-                  }
-
-                  s"has the text ${messages.saveAsPdf}" in {
-                    link.text shouldBe messages.saveAsPdf
-                  }
-                }
+              "has the class visuallyhidden" in {
+                informationTag.hasClass("visuallyhidden") shouldBe true
               }
 
-              "have a section for the You remaining deductions" which {
-
-                "has a div for remaining deductions" which {
-
-                  lazy val div = doc.select("#remainingDeductions")
-
-                  "has a h2 tag" which {
-
-                    s"has the text ${summaryMessages.remainingDeductions}" in {
-                      div.select("h2").text shouldBe summaryMessages.remainingDeductions
-                    }
-                  }
-
-                  "has a row for annual exempt amount left" which {
-                    s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
-                      div.select("#aeaRemaining-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
-                    }
-
-                    "has the value '£0'" in {
-                      div.select("#aeaRemaining-amount").text shouldBe "£0"
-                    }
-                  }
-
-                  "not have a row for brought forward losses remaining" in {
-                    div.select("#broughtForwardLossesRemaining-text") shouldBe empty
-                  }
-
-                  "not have a row for losses to carry forward" in {
-                    div.select("#lossesToCarryForward-text") shouldBe empty
-                  }
-                }
-              }
-
-              "have a section for What to do next" which {
-                lazy val section = doc.select("#whatToDoNext")
-
-                "has a h2 tag" which {
-                  s"has the text ${summaryMessages.whatToDoNextHeading}" in {
-                    section.select("h2").text shouldBe summaryMessages.whatToDoNextHeading
-                  }
-                }
-
-                "has a paragraph" which {
-                  s"has the text ${summaryMessages.whatToDoNextContinue}" in {
-                    section.select("p.font-small").text shouldBe summaryMessages.whatToDoNextContinue
-                  }
-                }
-              }
-
-              "has a continue button" which {
-                s"has the text ${summaryMessages.continue}" in {
-                  doc.select("button").text shouldBe summaryMessages.continue
-                }
+              "has the text Download" in {
+                informationTag.text shouldBe "Download"
               }
             }
+
+            "contains a link" which {
+
+              lazy val link = savePDFSection.select("a")
+
+              "has the type submit" in {
+                link.attr("type").equals("submit") shouldBe true
+              }
+
+              "has the class bold-small" in {
+                link.hasClass("bold-small") shouldBe true
+              }
+
+              "has the class save-pdf-link" in {
+                link.hasClass("save-pdf-link") shouldBe true
+              }
+
+              s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
+                link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString()
+              }
+
+              s"has the text ${messages.saveAsPdf}" in {
+                link.text shouldBe messages.saveAsPdf
+              }
+            }
+          }
+        }
+
+        "has a continue button" which {
+          s"has the text ${summaryMessages.continue}" in {
+            doc.select("a.button").text shouldBe summaryMessages.continue
+          }
+
+          s"has a link to ${controllers.routes.SaUserController.saUser().url}" in {
+            doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
           }
         }
       }

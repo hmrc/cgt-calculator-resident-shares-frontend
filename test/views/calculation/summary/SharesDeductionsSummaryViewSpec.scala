@@ -167,7 +167,11 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     }
 
     "display the continue button" in {
-      doc.select("#continue-button").size() shouldBe 1
+      doc.select("a.button").size() shouldBe 1
+    }
+
+    s"the continue button has a link to ${controllers.routes.SaUserController.saUser().url}" in {
+      doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
     }
   }
 
