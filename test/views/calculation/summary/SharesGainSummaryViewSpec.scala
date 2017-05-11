@@ -321,7 +321,11 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
 
       "has a continue button" which {
         s"has the text ${summaryMessages.continue}" in {
-          doc.select("button").text shouldBe summaryMessages.continue
+          doc.select("a.button").text shouldBe summaryMessages.continue
+        }
+
+        s"has a link to ${controllers.routes.SaUserController.saUser().url}" in {
+          doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
         }
       }
 

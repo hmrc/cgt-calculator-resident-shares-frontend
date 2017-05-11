@@ -57,4 +57,24 @@ object Validation {
     case "" => true
     case _ => false
   }
+
+  val optionalMandatoryCheck: Option[String] => Boolean = {
+    case Some(input) => mandatoryCheck(input)
+    case _ => false
+  }
+
+  val optionalYesNoCheck: Option[String] => Boolean = {
+    case Some(input) => yesNoCheck(input)
+    case _ => true
+  }
+
+  val optionStringToBoolean: Option[String] => Boolean = {
+    case Some("Yes") => true
+    case _ => false
+  }
+
+  val booleanToOptionString: Boolean => Option[String] = input => {
+    if (input) Some("Yes")
+    else Some("No")
+  }
 }

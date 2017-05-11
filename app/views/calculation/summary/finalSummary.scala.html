@@ -49,7 +49,7 @@ navTitle = Messages("calc.base.resident.shares.home")
 
     @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
         <div class="summary-details-padding">
-            <button class="submit" id="continue-button">@Messages("calc.base.button.continue")</button>
+            <a class="button" href="@controllers.routes.SaUserController.saUser.url" id="continue-button">@Messages("calc.base.button.continue")</a>
         </div>
     }
 }

@@ -42,7 +42,7 @@ trait WhatNextSAController extends ValidActiveSession {
   val appConfig: AppConfig
 
   //TODO: replace this with the sa user back link
-  val backLink: String = "dummy-back-link"
+  val backLink: String = controllers.routes.SaUserController.saUser().url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {

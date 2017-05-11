@@ -39,6 +39,24 @@ class WhatNextNonSaLossViewSpec extends UnitSpec with WithFakeApplication with F
       doc.title shouldBe messages.title
     }
 
+    "have a back button that" should {
+
+      lazy val backLink = doc.select("a#back-link")
+
+      "have the correct back link text" in {
+        backLink.text shouldBe messages.back
+      }
+
+      "have the back-link class" in {
+        backLink.hasClass("back-link") shouldBe true
+      }
+
+      "have a link to Confirm self assessment" in {
+        backLink.attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+      }
+    }
+
+
     s"have a heading of ${messages.title}" in {
       doc.select("h1").text shouldBe messages.title
     }
