@@ -137,6 +137,7 @@ calc.acquisitionDate.questionTwo = What was the date you signed the contract tha
 
 ## Acquisition Value ##
 calc.acquisitionValue.question = How much did you pay for the property?
+
 calc.acquisitionValue.errorNegative = Enter a positive number for the amount you paid
 calc.acquisitionValue.errorDecimalPlaces = The amount you paid has too many numbers after the decimal point
 calc.acquisitionValue.bullet.title = Put the market value of the property instead if you:
@@ -732,6 +733,7 @@ calc.resident.shares.didYouInheritThem.question = Did you inherit the shares?
 
 ## Acquisition Value messages
 calc.resident.shares.acquisitionValue.question = How much did you pay for the shares?
+calc.resident.shares.acquisitionValue.hintText = If you owned them with someone else, only enter your share of the purchase.
 calc.resident.shares.acquisitionValue.bulletListTitle = Put the market value of the shares instead if you:
 calc.resident.shares.acquisitionValue.bulletListOne = inherited them
 calc.resident.shares.acquisitionValue.bulletListTwo = owned them before 1 April 1982

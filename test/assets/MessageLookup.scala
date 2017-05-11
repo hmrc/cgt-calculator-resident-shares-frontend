@@ -556,6 +556,7 @@ object MessageLookup {
         val disposalValueQuestion = "How much did you sell the shares for?"
         val disposalCostsQuestion = "How much did you pay in costs when you sold the shares?"
         val acquisitionValueQuestion = "How much did you pay for the shares?"
+        val hintText = "If you owned them with someone else, only enter your share of the purchase."
         val acquisitionCostsQuestion = "How much did you pay in costs when you got the shares?"
 
       }
@@ -977,6 +978,7 @@ object MessageLookup {
 
   object SharesAcquisitionValue {
     val title = "How much did you pay for the shares?"
+    val hintText = "If you owned them with someone else, only enter your share of the purchase."
     val bulletListTitle = "Put the market value of the shares instead if you:"
     val bulletListOne = "inherited them"
     val bulletListTwo = "owned them before 1 April 1982"
