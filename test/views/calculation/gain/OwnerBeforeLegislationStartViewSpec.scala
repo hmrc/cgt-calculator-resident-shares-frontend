@@ -77,6 +77,10 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
       }
     }
 
+    s"have a help section with the text ${Messages.help}" in {
+      doc.select("article > p").text shouldEqual Messages.help
+    }
+
     "render a form tag with a submit action" in {
       doc.select("form").attr("action") shouldEqual controllers.routes.GainController.submitOwnerBeforeLegislationStart().toString
     }
