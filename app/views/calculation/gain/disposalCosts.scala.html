@@ -18,6 +18,8 @@
 
     @form(action = controllers.routes.GainController.submitDisposalCosts){
 
+        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.disposalCosts.jointOwnership")</p>
+
         @formInputMoney(disposalCostsForm, "amount", Messages("calc.resident.shares.disposalCosts.question"), Some(Messages("calc.resident.shares.disposalCosts.helpText")), hideLabel = true)
 
         <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>

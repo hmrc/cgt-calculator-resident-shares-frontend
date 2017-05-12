@@ -975,7 +975,8 @@ object MessageLookup {
 
   object SharesDisposalCosts {
     val title = "How much did you pay in costs when you sold the shares?"
-    val helpText = "For example, stockbroker fees"
+    val helpText = "This includes costs for stockbroker fees."
+    val jointOwnership = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
   }
 
   object SharesAcquisitionValue {

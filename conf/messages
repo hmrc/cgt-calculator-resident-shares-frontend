@@ -716,7 +716,8 @@ calc.resident.shares.worthWhenSoldForLess.jointOwnershipText = If you owned the 
 
 ## Disposal Costs messages
 calc.resident.shares.disposalCosts.question = How much did you pay in costs when you sold the shares?
-calc.resident.shares.disposalCosts.helpText = For example, stockbroker fees
+calc.resident.shares.disposalCosts.helpText = This includes costs for stockbroker fees.
+calc.resident.shares.disposalCosts.jointOwnership = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
 
 ## Worth On messages
 calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?

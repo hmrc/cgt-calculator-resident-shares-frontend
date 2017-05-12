@@ -94,6 +94,10 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
         "have the class 'visuallyhidden'" in {
           label.select("span.visuallyhidden").size shouldBe 1
         }
+
+        s"has a p taf with the text ${messages.jointOwnership}" in {
+          doc.select("p.panel-indent").text shouldBe messages.jointOwnership
+        }
       }
 
       "has help text that" should {
