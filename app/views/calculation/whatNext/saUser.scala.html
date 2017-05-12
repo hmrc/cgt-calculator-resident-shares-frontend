@@ -8,8 +8,8 @@
 
 @resident_main_template(
   title = Messages("calc.resident.saUser.title"),
-  homeLink = "",
-  navTitle = "",
+  homeLink = controllers.routes.GainController.disposalDate().url,
+  navTitle = Messages("calc.base.resident.properties.home"),
   backLink = Some(controllers.routes.SummaryController.summary().url)) {
 
   @errorSummary(saUserForm, "isInSa")
