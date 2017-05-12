@@ -562,6 +562,10 @@ object MessageLookup {
 
       object ValueBeforeLegislationStart {
         val question = "What were the shares worth on 31 March 1982?"
+        val information = "31 March 1982 is when the current Capital Gains Tax system came into effect."
+        val helpText = "Get valuation information from the stock exchange or talk to your stockbroker or fund manager."
+        val hintText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
+
       }
 
       object DisposalValue {
@@ -971,8 +975,6 @@ object MessageLookup {
     val title = "How much did you pay in costs when you got the shares?"
     val helpText = "This includes costs for stockbroker fees and Stamp Duty."
     val hintText = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
-
-
   }
 
   object SharesDisposalCosts {

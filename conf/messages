@@ -718,6 +718,9 @@ calc.resident.shares.disposalCosts.helpText = For example, stockbroker fees
 
 ## Worth On messages
 calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?
+calc.resident.shares.valueBeforeLegislationStart.information = 31 March 1982 is when the current Capital Gains Tax system came into effect.
+calc.resident.shares.valueBeforeLegislationStart.help = Get valuation information from the stock exchange or talk to your stockbroker or fund manager.
+calc.resident.shares.valueBeforeLegislationStart.hintText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 
 ## Owner Before Legislation Start Messages
 calc.resident.shares.ownerBeforeLegislationStart.title = Did you own the shares before 1 April 1982?
