@@ -589,6 +589,8 @@ object MessageLookup {
       //############ Worth When Inherited messages #################//
       object WorthWhenInherited {
         val question = "What were the shares worth when you inherited them?"
+        val helpText = "Use information from the stock exchange or talk to your stockbroker or fund manager."
+        val hintText = "If you owned the shares with someone else, only enter the market value for your portion of the shares."
       }
 
       //############ Worth When Sold For Less messages #################//
@@ -969,6 +971,8 @@ object MessageLookup {
     val title = "How much did you pay in costs when you got the shares?"
     val helpText = "This includes costs for stockbroker fees and Stamp Duty."
     val hintText = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
+
+
   }
 
   object SharesDisposalCosts {

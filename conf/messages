@@ -726,6 +726,9 @@ calc.resident.shares.ownerBeforeLegislationStart.noSelectError = Tell us if you 
 
 ## Worth When Inherited
 calc.resident.shares.worthWhenInherited.question = What were the shares worth when you inherited them?
+calc.resident.shares.worthWhenInherited.help = Use information from the stock exchange or talk to your stockbroker or fund manager.
+calc.resident.shares.worthWhenInherited.hintText = If you owned the shares with someone else, only enter the market value for your portion of the shares.
+
 
 ## Inherited Shares Messages
 calc.resident.shares.didYouInheritThem.errorSelect = Tell us if you inherited the shares
