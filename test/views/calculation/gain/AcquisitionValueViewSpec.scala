@@ -64,6 +64,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
 
     "have a H1 tag that" should {
       lazy val heading = doc.select("h1")
+      lazy val form = doc.select("form")
 
       s"have the page heading '${messages.title}'" in {
         heading.text shouldBe messages.title
@@ -71,6 +72,12 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
 
       "have the heading-large class" in {
         heading.hasClass("heading-large") shouldBe true
+      }
+
+      "have a p tag" which {
+        s"with the extra text ${messages.hintText}" in {
+          form.select("p.panel-indent").text shouldBe messages.hintText
+        }
       }
     }
 

@@ -137,6 +137,7 @@ calc.acquisitionDate.questionTwo = What was the date you signed the contract tha
 
 ## Acquisition Value ##
 calc.acquisitionValue.question = How much did you pay for the property?
+
 calc.acquisitionValue.errorNegative = Enter a positive number for the amount you paid
 calc.acquisitionValue.errorDecimalPlaces = The amount you paid has too many numbers after the decimal point
 calc.acquisitionValue.bullet.title = Put the market value of the property instead if you:
@@ -717,6 +718,9 @@ calc.resident.shares.disposalCosts.helpText = For example, stockbroker fees
 
 ## Worth On messages
 calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?
+calc.resident.shares.valueBeforeLegislationStart.information = 31 March 1982 is when the current Capital Gains Tax system came into effect.
+calc.resident.shares.valueBeforeLegislationStart.help = Get valuation information from the stock exchange or talk to your stockbroker or fund manager.
+calc.resident.shares.valueBeforeLegislationStart.hintText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 
 ## Owner Before Legislation Start Messages
 calc.resident.shares.ownerBeforeLegislationStart.title = Did you own the shares before 1 April 1982?
@@ -725,6 +729,9 @@ calc.resident.shares.ownerBeforeLegislationStart.noSelectError = Tell us if you 
 
 ## Worth When Inherited
 calc.resident.shares.worthWhenInherited.question = What were the shares worth when you inherited them?
+calc.resident.shares.worthWhenInherited.help = Use information from the stock exchange or talk to your stockbroker or fund manager.
+calc.resident.shares.worthWhenInherited.hintText = If you owned the shares with someone else, only enter the market value for your portion of the shares.
+
 
 ## Inherited Shares Messages
 calc.resident.shares.didYouInheritThem.errorSelect = Tell us if you inherited the shares
@@ -732,13 +739,15 @@ calc.resident.shares.didYouInheritThem.question = Did you inherit the shares?
 
 ## Acquisition Value messages
 calc.resident.shares.acquisitionValue.question = How much did you pay for the shares?
+calc.resident.shares.acquisitionValue.hintText = If you owned them with someone else, only enter your share of the purchase.
 calc.resident.shares.acquisitionValue.bulletListTitle = Put the market value of the shares instead if you:
 calc.resident.shares.acquisitionValue.bulletListOne = inherited them
 calc.resident.shares.acquisitionValue.bulletListTwo = owned them before 1 April 1982
 
 ## Acquisition Costs messages
 calc.resident.shares.acquisitionCosts.question = How much did you pay in costs when you got the shares?
-calc.resident.shares.acquisitionCosts.help = Costs include stockbroker fees and Stamp Duty tax
+calc.resident.shares.acquisitionCosts.help = This includes costs for stockbroker fees and Stamp Duty.
+calc.resident.shares.acquisitionCosts.hintText = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
 
 ## Current Income messages
 calc.resident.shares.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares.

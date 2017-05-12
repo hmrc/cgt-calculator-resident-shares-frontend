@@ -13,7 +13,11 @@
 
     @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
 
-        @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.shares.acquisitionCosts.question"), Some(Messages("calc.resident.shares.acquisitionCosts.help")), hideLabel = true)
+        <p class="form-hint"> @Messages("calc.resident.shares.acquisitionCosts.help")</p>
+
+        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.acquisitionCosts.hintText")</p>
+
+        @formInputMoney(acquisitionCostsForm, "amount", Messages("calc.resident.shares.acquisitionCosts.question"), hideLabel = true)
 
         <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
     }
