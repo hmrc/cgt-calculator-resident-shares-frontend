@@ -556,7 +556,6 @@ object MessageLookup {
         val disposalValueQuestion = "How much did you sell the shares for?"
         val disposalCostsQuestion = "How much did you pay in costs when you sold the shares?"
         val acquisitionValueQuestion = "How much did you pay for the shares?"
-        val hintText = "If you owned them with someone else, only enter your share of the purchase."
         val acquisitionCostsQuestion = "How much did you pay in costs when you got the shares?"
 
       }
@@ -968,7 +967,8 @@ object MessageLookup {
 
   object SharesAcquisitionCosts {
     val title = "How much did you pay in costs when you got the shares?"
-    val helpText = "Costs include stockbroker fees and Stamp Duty tax"
+    val helpText = "This includes costs for stockbroker fees and Stamp Duty."
+    val hintText = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
   }
 
   object SharesDisposalCosts {

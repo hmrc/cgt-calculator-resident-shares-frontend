@@ -740,7 +740,8 @@ calc.resident.shares.acquisitionValue.bulletListTwo = owned them before 1 April 
 
 ## Acquisition Costs messages
 calc.resident.shares.acquisitionCosts.question = How much did you pay in costs when you got the shares?
-calc.resident.shares.acquisitionCosts.help = Costs include stockbroker fees and Stamp Duty tax
+calc.resident.shares.acquisitionCosts.help = This includes costs for stockbroker fees and Stamp Duty.
+calc.resident.shares.acquisitionCosts.hintText = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
 
 ## Current Income messages
 calc.resident.shares.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares.
