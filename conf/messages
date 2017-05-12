@@ -616,6 +616,7 @@ calc.resident.lettingsRelief.errorSelect = Tell us if you want to claim Letting 
 
 ## Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are there any previous losses you want to bring forward?
+calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you’ve already reported to HMRC.
 
 ## Other Properties messages
 calc.resident.otherProperties.title = In the {0} tax year, did you sell or give away anything else that''s covered by Capital Gains Tax?
