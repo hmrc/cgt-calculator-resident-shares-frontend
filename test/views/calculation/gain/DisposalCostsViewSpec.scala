@@ -16,15 +16,14 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.{SharesDisposalCosts => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{Resident => commonMessages, SharesDisposalCosts => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalCostsForm._
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -97,6 +96,13 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
         s"has a p taf with the text ${messages.jointOwnership}" in {
           doc.select("p.panel-indent").text shouldBe messages.jointOwnership
+        }
+
+        "has help text that" should {
+
+          s"have the text ${messages.helpText}" in {
+            doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+          }
         }
       }
 

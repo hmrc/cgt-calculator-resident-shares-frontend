@@ -20,11 +20,11 @@ import assets.MessageLookup.Resident.Shares.{WorthWhenSoldForLess => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
 import forms.WorthWhenSoldForLessForm._
+import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
-import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -102,6 +102,10 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
 
         s"has a p tag with the text ${messages.informationText}" in {
           doc.getElementById("information").text shouldBe messages.informationText
+        }
+
+        s"has a p taf with the text ${messages.jointOwnershipText}" in {
+          doc.select("p.panel-indent").text shouldBe messages.jointOwnershipText
         }
 
         "renders in input tags" in {
