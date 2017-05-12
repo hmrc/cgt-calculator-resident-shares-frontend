@@ -566,6 +566,7 @@ object MessageLookup {
 
       object DisposalValue {
         val question = "How much did you sell the shares for?"
+        val jointOwnership = "If you owned the shares with someone else, only enter your portion of the sale value."
       }
 
       //############ Owner Before Legislation Start messages #################//
@@ -594,6 +595,8 @@ object MessageLookup {
       //############ Worth When Sold For Less messages #################//
       object WorthWhenSoldForLess {
         val question = "What were the shares worth when you sold them?"
+        val informationText = "Get information from the stock exchange or talk to your stockbroker or fund manager."
+        val jointOwnershipText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
       }
 
     }

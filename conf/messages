@@ -703,6 +703,7 @@ calc.resident.shares.disposalDate.question = When did you sell or give away the 
 
 ## Disposal Value messages
 calc.resident.shares.disposalValue.question = How much did you sell the shares for?
+calc.resident.shares.disposalValue.jointOwnership = If you owned the shares with someone else, only enter your portion of the sale value.
 
 ## Sell for Less messages
 calc.resident.shares.sellForLess.question = Did you sell the shares for less than they were worth to help the buyer?
@@ -710,6 +711,8 @@ calc.resident.shares.sellForLess.noSelectError = Tell us if you sold the shares 
 
 ## Worth When Sold For Less messages
 calc.resident.shares.worthWhenSoldForLess.question = What were the shares worth when you sold them?
+calc.resident.shares.worthWhenSoldForLess.informationText = Get information from the stock exchange or talk to your stockbroker or fund manager.
+calc.resident.shares.worthWhenSoldForLess.jointOwnershipText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 
 ## Disposal Costs messages
 calc.resident.shares.disposalCosts.question = How much did you pay in costs when you sold the shares?

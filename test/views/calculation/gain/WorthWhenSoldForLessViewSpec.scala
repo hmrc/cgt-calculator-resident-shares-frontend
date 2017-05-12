@@ -100,6 +100,10 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
           }
         }
 
+        s"has a p tag with the text ${messages.informationText}" in {
+          doc.getElementById("information").text shouldBe messages.informationText
+        }
+
         "renders in input tags" in {
           input.is("input") shouldEqual true
         }

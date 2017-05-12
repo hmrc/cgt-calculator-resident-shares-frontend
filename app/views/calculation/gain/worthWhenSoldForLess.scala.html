@@ -16,7 +16,11 @@
 
     <h1 class="heading-large">@Messages("calc.resident.shares.worthWhenSoldForLess.question")</h1>
 
+    <p id="information">@Messages("calc.resident.shares.worthWhenSoldForLess.informationText")</p>
+
     @form(action = controllers.routes.GainController.submitWorthWhenSoldForLess) {
+
+        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.worthWhenSoldForLess.jointOwnership")</p>
 
         @formInputMoney(worthWhenSoldForLessForm, "amount", Messages("calc.resident.shares.worthWhenSoldForLess.question"), hideLabel = true)
 
