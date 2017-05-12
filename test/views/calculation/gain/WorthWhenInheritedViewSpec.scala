@@ -78,6 +78,20 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
       doc.body.getElementById("amount").tagName() shouldEqual "input"
     }
 
+    "has help text that" should {
+
+      s"have the text ${Messages.helpText}" in {
+        doc.body.getElementsByClass("form-hint").text shouldBe Messages.helpText
+      }
+    }
+
+    "have a p tag" which {
+      lazy val form = doc.getElementsByTag("form")
+      s"with the extra text ${Messages.hintText}" in {
+        form.select("p.panel-indent").text shouldBe Messages.hintText
+      }
+    }
+
     "have a continue button " in {
       doc.select("#continue-button").text shouldBe commonMessages.continue
     }

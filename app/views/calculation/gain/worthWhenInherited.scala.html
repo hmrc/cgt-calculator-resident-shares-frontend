@@ -17,6 +17,10 @@
 
     @form(action = controllers.routes.GainController.submitWorthWhenInherited) {
 
+        <p class="form-hint"> @Messages("calc.resident.shares.worthWhenInherited.help")</p>
+
+        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.worthWhenInherited.hintText")</p>
+
         @formInputMoney(
             worthWhenInheritedForm,
             "amount",

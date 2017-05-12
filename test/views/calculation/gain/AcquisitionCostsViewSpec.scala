@@ -16,15 +16,14 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.{SharesAcquisitionCosts => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{Resident => commonMessages, SharesAcquisitionCosts => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.AcquisitionCostsForm._
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -104,6 +103,12 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
 
         s"have the text ${messages.helpText}" in {
           doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+        }
+      }
+
+      "have a p tag" which {
+        s"with the extra text ${messages.hintText}" in {
+          form.select("p.panel-indent").text shouldBe messages.hintText
         }
       }
 

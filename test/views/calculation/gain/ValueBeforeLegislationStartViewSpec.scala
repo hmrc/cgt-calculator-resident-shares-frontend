@@ -21,10 +21,10 @@ import assets.MessageLookup.{Resident => commonMessages}
 import controllers.helpers.FakeRequestHelper
 import forms.ValueBeforeLegislationStartForm._
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -89,6 +89,19 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
 
           "is tied to the input field" in {
             label.attr("for") shouldEqual "amount"
+          }
+        }
+
+        "has help text that" should {
+
+          s"have the text ${messages.helpText}" in {
+            doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+          }
+        }
+
+        "have a p tag" which {
+          s"with the extra text ${messages.hintText}" in {
+            form.select("p.panel-indent").text shouldBe messages.hintText
           }
         }
 

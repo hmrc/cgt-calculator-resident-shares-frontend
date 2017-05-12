@@ -562,6 +562,10 @@ object MessageLookup {
 
       object ValueBeforeLegislationStart {
         val question = "What were the shares worth on 31 March 1982?"
+        val information = "31 March 1982 is when the current Capital Gains Tax system came into effect."
+        val helpText = "Get valuation information from the stock exchange or talk to your stockbroker or fund manager."
+        val hintText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
+
       }
 
       object DisposalValue {
@@ -590,6 +594,8 @@ object MessageLookup {
       //############ Worth When Inherited messages #################//
       object WorthWhenInherited {
         val question = "What were the shares worth when you inherited them?"
+        val helpText = "Use information from the stock exchange or talk to your stockbroker or fund manager."
+        val hintText = "If you owned the shares with someone else, only enter the market value for your portion of the shares."
       }
 
       //############ Worth When Sold For Less messages #################//
@@ -970,7 +976,8 @@ object MessageLookup {
 
   object SharesAcquisitionCosts {
     val title = "How much did you pay in costs when you got the shares?"
-    val helpText = "Costs include stockbroker fees and Stamp Duty tax"
+    val helpText = "This includes costs for stockbroker fees and Stamp Duty."
+    val hintText = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
   }
 
   object SharesDisposalCosts {
@@ -981,6 +988,7 @@ object MessageLookup {
 
   object SharesAcquisitionValue {
     val title = "How much did you pay for the shares?"
+    val hintText = "If you owned them with someone else, only enter your share of the purchase."
     val bulletListTitle = "Put the market value of the shares instead if you:"
     val bulletListOne = "inherited them"
     val bulletListTwo = "owned them before 1 April 1982"
