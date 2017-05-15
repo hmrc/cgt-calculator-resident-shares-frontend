@@ -75,6 +75,10 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
     "have continue button " in {
       doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
     }
+
+    "have the joint ownership text" in {
+      doc.select("p.panel-indent").text shouldBe messages.jointOwnership
+    }
   }
 
   "Disposal Value View with form without errors" should {
