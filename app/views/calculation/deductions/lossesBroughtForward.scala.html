@@ -29,7 +29,7 @@
     @errorSummary(lossesBroughtForwardForm, "option")
 
     <h1 class="heading-large">@Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied)</h1>
-
+    <p class="form-hint"> @Messages("calc.resident.lossesBroughtForward.helpText")</p>
     @form(action = postAction) {
 
         @formInputRadioGroup(
@@ -51,6 +51,6 @@
 
     }
 
-    @expandableHelpTextHelper(Messages("calc.resident.lossesBroughtForward.helpInfo.title"), hiddenHelpTextContent)
+
 
 }
