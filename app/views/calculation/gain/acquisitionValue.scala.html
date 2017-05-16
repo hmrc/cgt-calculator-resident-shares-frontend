@@ -7,7 +7,7 @@
 
 @resident_main_template(
     Messages("calc.resident.shares.acquisitionValue.question"),
-    backLink = Some(controllers.routes.GainController.disposalCosts().toString),
+    backLink = Some(controllers.routes.GainController.didYouInheritThem().url),
     homeLink = navHomeLink,
     navTitle = Messages("calc.base.resident.shares.home")
 ) {

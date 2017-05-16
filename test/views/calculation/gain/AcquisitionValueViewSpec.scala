@@ -58,7 +58,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
       }
 
       "have a link to Disposal Costs" in {
-        backLink.attr("href") shouldBe controllers.routes.GainController.disposalCosts().toString
+        backLink.attr("href") shouldBe controllers.routes.GainController.didYouInheritThem().url
       }
     }
 
