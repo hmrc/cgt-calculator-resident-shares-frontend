@@ -148,7 +148,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
       doc.select("div.notice-wrapper").isEmpty shouldBe false
     }
 
-    s"have the text ${messages.noticeWarning(Dates.getCurrentTaxYear)}" in {
+    s"have the text ${messages.noticeSummary}" in {
       doc.select("strong.bold-small").text shouldBe messages.noticeSummary
     }
   }
