@@ -103,7 +103,6 @@ calc.currentIncome.errorDecimalPlaces = Your current income has too many numbers
 
 ## Personal Allowance ##
 calc.personalAllowance.question = What was your UK Personal Allowance in the tax year when you stopped owning the property?
-calc.personalAllowance.help = This the amount of your income that you don''t pay tax on. Find out more about
 calc.personalAllowance.link = Personal Allowances
 calc.personalAllowance.errorNegative = Enter a positive number for your Personal Allowance
 calc.personalAllowance.errorDecimalPlaces = Enter a whole number for your Personal Allowance
@@ -679,9 +678,14 @@ calc.resident.currentIncome.linkText = Income tax
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
+calc.resident.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
+calc.resident.personalAllowance.help = This the amount of your income that you don''t pay tax on.
+calc.resident.personalAllowance.list.one = earned more than £100,000
+calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
+calc.resident.personalAllowance.link.text = Find out more about
+calc.resident.personalAllowance.link = Income tax rates and Personal Allowances
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
 calc.resident.personalAllowance.link.one = Personal Allowance
-calc.resident.personalAllowance.currentYearHelpText = This is the amount of your income you don''t pay tax on. It''s £{0} unless you''re claiming other allowances.
 calc.resident.personalAllowance.helpText = This is the amount of your income you don''t pay tax on. It was £{0} unless you were claiming other allowances.
 
 ###############################################################################################

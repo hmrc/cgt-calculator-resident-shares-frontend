@@ -73,23 +73,47 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
         doc.select("#homeNavHref").attr("href") shouldEqual "home"
       }
 
-      "have a H1 tag that" should {
-        lazy val h1Tag = doc.select("H1")
+      s"have the page heading '${messages.question("2015/16")}'" in {
+        doc.select("h1").text shouldBe messages.question("2015/16")
+      }
 
-        s"have the page heading '${messages.question("2015/16")}'" in {
-          h1Tag.text shouldBe messages.question("2015/16")
+      s"have the help text ${messages.help}" in {
+        doc.select("form p").get(0).text() shouldBe messages.help
+      }
+
+      s"have a list title of ${messages.listTitle("2015", "2016", "")}" in {
+        doc.select("form p").get(1).text() shouldBe messages.listTitle("2015", "2016", "£10,600")
+      }
+
+      s"have a list with the first entry of ${messages.listOne}" in {
+        doc.select("form li").get(0).text() shouldBe messages.listOne
+      }
+
+      s"have a list with the second entry of ${messages.listTwo}" in {
+        doc.select("form li").get(1).text() shouldBe messages.listTwo
+      }
+
+      "have a link" which {
+        lazy val link = doc.select("form div").first()
+
+        s"has the initial text ${messages.linkText}" in {
+          link.select("span").text() shouldBe messages.linkText
         }
 
-        "have the heading-large class" in {
-          h1Tag.hasClass("heading-large") shouldBe true
+        "has the href to the gov uk rates page" in {
+          link.select("a").attr("href") shouldBe "https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
+        }
+
+        s"has the link text ${messages.link}" in {
+          link.select("a").text() shouldBe messages.link
         }
       }
 
       "have a form" which {
         lazy val form = doc.getElementsByTag("form")
 
-        s"has the action '${controllers.routes.IncomeController.submitPersonalAllowance().toString}'" in {
-          form.attr("action") shouldBe controllers.routes.IncomeController.submitPersonalAllowance().toString
+        s"has the action '${controllers.routes.IncomeController.submitPersonalAllowance().url}'" in {
+          form.attr("action") shouldBe controllers.routes.IncomeController.submitPersonalAllowance().url
         }
 
         "has the method of POST" in {
@@ -99,33 +123,23 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
         s"have a legend for an input with text ${messages.question("2015/16")}" in {
           doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question("2015/16")
         }
-
-
-        "has help text that" should {
-          s"have the text ${messages.help("10,600")}" in {
-            doc.body().select("div.form-group span.form-hint").text() shouldBe messages.help("10,600")
-          }
-        }
-
-
-      }
-
-      s"the Personal Allowance Help link ${messages.helpLinkOne} should " +
-        "have the address Some(https://www.gov.uk/income-tax-rates/current-rates-and-allowances)" in {
-        doc.select("a#personalAllowanceLink").attr("href") shouldEqual "https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
       }
 
       "has a numeric input field" which {
         lazy val input = doc.body.getElementsByTag("input")
+
         "has the id 'amount'" in {
           input.attr("id") shouldBe "amount"
         }
+
         "has the name 'amount'" in {
           input.attr("name") shouldBe "amount"
         }
+
         "is of type number" in {
           input.attr("type") shouldBe "number"
         }
+
         "has a step value of '1'" in {
           input.attr("step") shouldBe "1"
         }
@@ -159,31 +173,6 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
       }
     }
 
-    "supplied with the current tax year" should {
-
-      lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
-      lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
-      lazy val doc = Jsoup.parse(view.body)
-      lazy val h1Tag = doc.select("H1")
-
-      s"have a title ${messages.inYearQuestion}" in {
-        doc.title() shouldBe messages.inYearQuestion
-      }
-
-      s"have the page heading '${messages.inYearQuestion}'" in {
-        h1Tag.text shouldBe messages.inYearQuestion
-      }
-
-      s"have a legend for an input with text ${messages.inYearQuestion}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.inYearQuestion
-      }
-
-      s"have the help text '${messages.inYearHelp("11,000")}'" in {
-        doc.body().select("div.form-group span.form-hint").text() shouldBe messages.inYearHelp("11,000")
-      }
-    }
-
     "supplied with a tax year a year after the current tax year" should {
 
       lazy val taxYearModel = TaxYearModel(DateAsset.getYearAfterCurrentTaxYear, false, Dates.getCurrentTaxYear)
@@ -204,10 +193,6 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
         doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question(s"$nextTaxYear")
-      }
-
-      s"have the help text '${messages.help("11,000")}'" in {
-        doc.body().select("div.form-group span.form-hint").text() shouldBe messages.help("11,000")
       }
     }
 
