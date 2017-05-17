@@ -945,14 +945,13 @@ object MessageLookup {
   //Personal Allowance messages
   object PersonalAllowance {
     def question(input: String): String = s"In the $input tax year, what was your Personal Allowance?"
-
-    val inYearQuestion = "How much is your Personal Allowance?"
-
-    def help(input: String): String = s"This is the amount of your income you don't pay tax on. It was £$input unless you were claiming other allowances."
-
-    def inYearHelp(input: String): String = s"This is the amount of your income you don't pay tax on. It's £$input unless you're claiming other allowances."
-
-    val helpLinkOne = "Personal Allowance"
+    val link = "Income tax rates and Personal Allowances"
+    val linkText = "Find out more about"
+    val help = "This the amount of your income that you don't pay tax on."
+    def listTitle(yearOne: String, yearTwo: String, value: String): String =
+      s"In the tax year $yearOne to $yearTwo the UK Personal Allowance was $value unless you:"
+    val listOne = "earned more than £100,000"
+    val listTwo = "claimed Blind Person's Allowance"
   }
 
   //############ Private Residence Relief messages #################//
