@@ -132,56 +132,6 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
           continueButton.hasClass("button") shouldBe true
         }
       }
-
-      "have a sidebar that" should {
-
-        lazy val sidebar = doc.select("a#incomeTaxLink")
-
-        "have the address https://www.gov.uk/income-tax" in {
-          sidebar.attr("href") shouldEqual "https://www.gov.uk/income-tax"
-        }
-
-        s"have the text ${messages.linkText}" in {
-          sidebar.text() should include(messages.linkText)
-        }
-
-        s"have a span with the text ${commonMessages.externalLink}" in {
-          sidebar.select("span").text() shouldEqual commonMessages.externalLink
-        }
-
-        "has the properties to open a link in a new tab" which {
-
-          "has the external link class" in {
-            sidebar.hasClass("external-link") shouldEqual true
-          }
-
-          "has the attribute rel" in {
-            sidebar.hasAttr("rel") shouldEqual true
-          }
-
-          "rel has the value of external" in {
-            sidebar.attr("rel") shouldEqual "external"
-          }
-
-          "has a target attribute" in {
-            sidebar.hasAttr("target") shouldEqual true
-          }
-
-          "has a target value of _blank" in {
-            sidebar.attr("target") shouldEqual "_blank"
-          }
-        }
-
-        "record GA statistics" which {
-          "has a data-journey-click attribute" in {
-            sidebar.hasAttr("data-journey-click") shouldEqual true
-          }
-
-          "with the GA value of help:govUK:rtt-shares-incomeTax" in {
-            sidebar.attr("data-journey-click") shouldEqual "help:govUK:rtt-shares-incomeTax"
-          }
-        }
-      }
     }
   }
 

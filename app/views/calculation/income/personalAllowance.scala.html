@@ -7,22 +7,13 @@
 
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
 
-@sidebar = {
-
-    <a id="personalAllowanceLink" class="external-link" rel="external" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
-       target="_blank" data-journey-click="help:govUK:rtt-@{journey}-currentRatesAndAllowances">
-        @Messages("calc.resident.personalAllowance.link.one")
-        <span>@Messages("calc.base.externalLink")</span>
-    </a>
-}
-
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
         if(taxYearValid) Messages("calc.resident.personalAllowance.currentYearQuestion")
         else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
 
 
-        @resident_main_template(title = question, backLink = backLink, sidebarLinks = Some(sidebar), homeLink = homeLink, navTitle = navTitle) {
+        @resident_main_template(title = question, backLink = backLink, homeLink = homeLink, navTitle = navTitle) {
 
             @errorSummary(personalAllowanceForm, "amount")
 

@@ -86,27 +86,6 @@ class PreviousTaxableGainsViewSpec extends UnitSpec with WithFakeApplication wit
       label.hasClass("visuallyhidden") shouldBe true
     }
 
-    "have a sidebar" in {
-      lazy val sidebar = doc.select("aside")
-      sidebar.hasClass("sidebar") shouldBe true
-    }
-
-    "have an external link" which {
-      lazy val link = doc.select("a#helpLink1")
-
-      s"has the text ${messages.helpLinkOne}" in {
-        link.text() should include(messages.helpLinkOne)
-      }
-
-      s"has a visually hidden external link message" in {
-        link.select("span#opensInANewTab").text() shouldBe commonMessages.externalLink
-      }
-
-      "links to https://www.gov.uk/capital-gains-tax/work-out-need-to-pay" in {
-        link.attr("href") shouldBe "https://www.gov.uk/capital-gains-tax/work-out-need-to-pay"
-      }
-    }
-
     "not display an error summary message for the amount" in {
       doc.body.select("#amount-error-summary").size shouldBe 0
     }
