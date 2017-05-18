@@ -16,46 +16,56 @@
     </a>
 }
 
-@resident_main_template(title = Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied), backLink = backLink, sidebarLinks = Some(sidebar), homeLink = homeLink, navTitle = navTitle) {
+@defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
+    @defining(
+        if(taxYearValid) Messages("calc.resident.personalAllowance.currentYearQuestion")
+        else Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
 
-    @errorSummary(personalAllowanceForm, "amount")
 
-    <h1 class="heading-large">@Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)</h1>
+        @resident_main_template(title = question, backLink = backLink, sidebarLinks = Some(sidebar), homeLink = homeLink, navTitle = navTitle) {
 
-    @form(action = postAction) {
+            @errorSummary(personalAllowanceForm, "amount")
 
-        <p>@Messages("calc.resident.personalAllowance.help")</p>
+            <h1 class="heading-large">@question</h1>
 
-        <p>
-            @{
-                val splitYear = taxYear.taxYearSupplied.split("/")
-                Messages("calc.resident.personalAllowance.list.title",
-                    splitYear.apply(0),
-                    splitYear.apply(0).substring(0, 2) + splitYear.apply(1),
-                    MoneyPounds(standardPA, 0).quantity)
+            @form(action = postAction) {
+
+                <p>@Messages("calc.resident.personalAllowance.help")</p>
+
+                <p>
+                @{
+                    val splitYear = taxYear.taxYearSupplied.split("/")
+                    Messages("calc.resident.personalAllowance.list.title",
+                        splitYear.apply(0),
+                        splitYear.apply(0).substring(0, 2) + splitYear.apply(1),
+                        MoneyPounds(standardPA, 0).quantity)
+                }
+                </p>
+
+                <ul class="list list-bullet">
+                    <li>@Messages("calc.resident.personalAllowance.list.one")</li>
+                    <li>@Messages("calc.resident.personalAllowance.list.two")</li>
+                </ul>
+
+                <div class="form-group">
+                    <span>@Messages("calc.resident.personalAllowance.link.text")</span>
+                    <a class="external-link" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" rel="external">
+                    @Messages("calc.resident.personalAllowance.link")
+                    </a>
+                </div>
+
+                @formInputMoney(
+                    personalAllowanceForm,
+                    "amount",
+                    question,
+                    None,
+                    hideLabel = true,
+                    step = "1")
+
+                <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
             }
-        </p>
+        }
 
-        <ul class="list list-bullet">
-            <li>@Messages("calc.resident.personalAllowance.list.one")</li>
-            <li>@Messages("calc.resident.personalAllowance.list.two")</li>
-        </ul>
-
-        <div class="form-group">
-            <span>@Messages("calc.resident.personalAllowance.link.text")</span>
-            <a class="external-link" href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" rel="external">
-            @Messages("calc.resident.personalAllowance.link")
-            </a>
-        </div>
-
-        @formInputMoney(
-            personalAllowanceForm,
-            "amount",
-            Messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied),
-            None,
-            hideLabel = true,
-            step = "1")
-
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
     }
 }
+

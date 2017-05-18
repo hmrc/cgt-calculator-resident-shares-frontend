@@ -952,6 +952,7 @@ object MessageLookup {
       s"In the tax year $yearOne to $yearTwo the UK Personal Allowance was $value unless you:"
     val listOne = "earned more than £100,000"
     val listTwo = "claimed Blind Person's Allowance"
+    val inYearQuestion = "How much is your Personal Allowance?"
   }
 
   //############ Private Residence Relief messages #################//

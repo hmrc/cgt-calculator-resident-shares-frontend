@@ -39,7 +39,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", "2015/16")(fakeRequest, applicationMessages)
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -171,6 +171,27 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
           input.`val` shouldBe "1000"
         }
       }
+    }
+
+    "supplied with the current tax year" should {
+
+      lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
+      lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+      lazy val h1Tag = doc.select("H1")
+
+        s"have a title ${messages.inYearQuestion}" in {
+          doc.title() shouldBe messages.inYearQuestion
+        }
+
+        s"have the page heading '${messages.inYearQuestion}'" in {
+          h1Tag.text shouldBe messages.inYearQuestion
+        }
+
+        s"have a legend for an input with text ${messages.inYearQuestion}" in {
+          doc.body.getElementsByClass("heading-large").text() shouldEqual messages.inYearQuestion
+        }
     }
 
     "supplied with a tax year a year after the current tax year" should {
