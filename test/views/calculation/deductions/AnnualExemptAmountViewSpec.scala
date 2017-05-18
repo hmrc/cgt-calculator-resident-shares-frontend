@@ -102,11 +102,6 @@ class AnnualExemptAmountViewSpec extends UnitSpec with WithFakeApplication with 
         }
       }
 
-      s"the Annual Exempt Amount Help link ${messages.helpLinkOne} should " +
-        "have the address Some(https://www.gov.uk/capital-gains-tax/losses)" in {
-        doc.select("a#annualExemptAmountLink").attr("href") shouldEqual "https://www.gov.uk/capital-gains-tax/allowances"
-      }
-
       "has a numeric input field" which {
         lazy val input = doc.body.getElementsByTag("input")
         "has the id 'amount'" in {

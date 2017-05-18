@@ -5,17 +5,9 @@
 
 @(previousTaxableGainsForm: Form[PreviousTaxableGainsModel], backUrl: String, postAction: Call, homeLink: String, journey: String, taxYear: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
-@sidebar =  {
-    <a id="helpLink1" class="external-link" rel="external" href="https://www.gov.uk/capital-gains-tax/work-out-need-to-pay" target="_blank"
-       data-journey-click="help:govUK:rtt-@{journey}-previousTaxableGains">
-        @Messages("calc.resident.previousTaxableGain.link.one")
-        <span id="opensInANewTab">@Messages("calc.base.externalLink")</span>
-    </a>
-}
-
 @resident_main_template(
     Messages("calc.resident.previousTaxableGains.title", taxYear),
-    backLink = Some(backUrl), sidebarLinks = Some(sidebar),
+    backLink = Some(backUrl),
     homeLink = homeLink,
     navTitle = navTitle
 ) {
