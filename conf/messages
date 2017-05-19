@@ -57,30 +57,6 @@ calc.common.error.maximumAmount = Enter an amount that''s £1,000,000,000 or les
 calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 10000.00
 calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format e.g. 10000
 
-## Introduction ##
-calc.introduction.title = Introduction
-calc.introduction.header = Capital Gains Tax calculator for non-residents
-calc.introduction.lede = Capital Gains Tax for non-residents came into effect from
-calc.introduction.textOne = If you''ve made or lost money on a UK residential property since then you can use this calculator to work out how much tax you owe.
-calc.introduction.textTwo = You should tell HMRC less than 30 days after you stop owning a property.
-calc.introduction.listOneTitle = Before you start
-calc.introduction.listOneText = Make sure you know:
-calc.introduction.listOneBulletOne = when you became the owner of the property
-calc.introduction.listOneBulletTwo = when you stopped owning it
-calc.introduction.listOneBulletThree = how much you paid for it, if anything
-calc.introduction.listTwoTitle = Residential properties
-calc.introduction.listTwoText = Residential properties can be:
-calc.introduction.listTwoBulletOne = houses
-calc.introduction.listTwoBulletTwo = apartments
-calc.introduction.listTwoBulletThree = properties that haven''t been built yet
-calc.introduction.listThreeTitle = Changing owners
-calc.introduction.listThreeText = You no longer own a property when you either:
-calc.introduction.listThreeBulletOne = sell it
-calc.introduction.listThreeBulletTwo = give it away
-calc.introduction.listThreeBulletThree = swap it
-calc.introduction.listThreeBulletFour = get compensation if it''s destroyed
-calc.introduction.start = Start
-
 ## Customer Type ##
 calc.customerType.question = Who owned the property?
 calc.customerType.individual = I owned it
@@ -92,208 +68,14 @@ calc.disabledTrustee.question = Are you a trustee for someone who''s vulnerable?
 calc.disabledTrustee.helptext = A person''s vulnerable if they''re disabled, or if they''re under 18 and their parents have died
 calc.disabledTrustee.linkOne = Trusts and Capital Gains Tax
 
-## Current Income ##
-calc.currentIncome.question = What was your total UK income in the tax year when you stopped owning the property?
-calc.currentIncome.link.one = Income Tax
-calc.currentIncome.link.two = Previous tax years
-calc.currentIncome.helpText.line1 = Give a realistic estimate if this was in the current tax year.
-calc.currentIncome.helpText.line2 = Include your UK salary before tax, and anything else you pay UK income tax on. Do not include the money you made from selling the property.
-calc.currentIncome.errorNegative = Enter a positive number for your current income
-calc.currentIncome.errorDecimalPlaces = Your current income has too many numbers after the decimal point
-
-## Personal Allowance ##
-calc.personalAllowance.question = What was your UK Personal Allowance in the tax year when you stopped owning the property?
-calc.personalAllowance.link = Personal Allowances
-calc.personalAllowance.errorNegative = Enter a positive number for your Personal Allowance
-calc.personalAllowance.errorDecimalPlaces = Enter a whole number for your Personal Allowance
-calc.personalAllowance.errorMaxLimit = Enter a Personal Allowance that''s £
-calc.personalAllowance.errorMaxLimitEnd = or less
-
-## Other Properties ##
-calc.otherProperties.question = Did you sell or give away other UK residential properties in the tax year when you stopped owning the property?
-calc.otherProperties.questionTwo = What was your taxable gain?
-calc.otherProperties.questionTwo.helpText.start = How to
-calc.otherProperties.questionTwo.helpText.linkText = work out your total taxable gains
-calc.otherProperties.errorNegative = Enter a positive number for your taxable gain
-calc.otherProperties.errorDecimalPlaces = Your taxable gain has too many numbers after the decimal point
-calc.otherProperties.errorQuestion = Enter a value for your taxable gain
-calc.otherProperties.link.one = Capital Gains Tax
-calc.otherProperties.link.two = Previous tax years
-
-## Annual Exempt Amount ##
-calc.annualExemptAmount.question = How much of your Capital Gains Tax allowance have you got left?
-calc.annualExemptAmount.link.one = Capital Gains Tax allowances
-calc.annualExemptAmount.helpOne = Your Capital Gains Tax allowance is
-calc.annualExemptAmount.helpTwo = a year. It''s the amount of capital gains you can make before you have to pay tax.
-calc.annualExemptAmount.errorMax = Enter a Capital Gains Tax allowance that''s £
-calc.annualExemptAmount.errorMaxEnd = or less
-calc.annualExemptAmount.errorNegative = Enter a positive number for your allowance
-calc.annualExemptAmount.errorDecimalPlaces = Your allowance has too many numbers after the decimal point
-
-## Acquisition Date ##
-calc.acquisitionDate.question = Do you know the date you signed the contract that made you the owner?
-calc.acquisitionDate.questionTwo = What was the date you signed the contract that made you the owner?
-
-## Acquisition Value ##
-calc.acquisitionValue.question = How much did you pay for the property?
-
-calc.acquisitionValue.errorNegative = Enter a positive number for the amount you paid
-calc.acquisitionValue.errorDecimalPlaces = The amount you paid has too many numbers after the decimal point
-calc.acquisitionValue.bullet.title = Put the market value of the property instead if you:
-calc.acquisitionValue.bullet.titleOne = Put the
-calc.acquisitionValue.bullet.titleTwo = market value
-calc.acquisitionValue.bullet.titleThree = of the property instead if you:
-calc.acquisitionValue.bullet.one = inherited it
-calc.acquisitionValue.bullet.two = got it as a gift
-calc.acquisitionValue.bullet.three = bought it from a relative, business partner or
-calc.acquisitionValue.bullet.three.link = someone else you''re connected to
-calc.acquisitionValue.bullet.four = bought it for less than it''s worth because the seller wanted to help you
-calc.acquisitionValue.bullet.five = became the owner before 1 April 1982
-
-
-## Rebased Value ##
-calc.nonResident.rebasedValue.question = What was the market value of the property on
-calc.nonResident.rebasedValue.date = 5 April 2015?
-calc.nonResident.rebasedValue.questionAndDate = What was the market value of the property on 5 April 2015?
-calc.nonResident.rebasedValue.helpText = This value lets us calculate your tax in different ways, which means you may have less tax to pay.
-calc.nonResident.rebasedValue.helpHidden.title = Why we''re asking for this
-calc.nonResident.rebasedValue.hintText = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
-calc.nonResident.rebasedValue.optionalLine = Only tell us if you owned the property on that date
-calc.nonResident.rebasedValue.errorNegative = Enter a positive value for your property on 5 April 2015
-calc.nonResident.rebasedValue.error.no.value.supplied = Enter a value for your property on 5 April 2015
-calc.nonResident.rebasedValue.errorDecimalPlaces = The value for your property on 5 April 2015 has too many numbers after the decimal point
-
-## Mandatory Rebased Value ##
-calc.nonResident.mandatoryRebasedValue.question = What was the market value of the property on
-calc.nonResident.mandatoryRebasedValue.date = 5 April 2015?
-calc.nonResident.mandatoryRebasedValue.questionAndDate = What was the market value of the property on 5 April 2015?
-calc.nonResident.mandatoryRebasedValue.helpText = This value lets us calculate your tax in different ways, which means you may have less tax to pay.
-calc.nonResident.mandatoryRebasedValue.hintText = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
-
-## Rebased Costs ##
-calc.rebasedCosts.question = Did you pay to have the property valued at 5 April 2015?
-calc.rebasedCosts.questionTwo = How much did it cost to get the property valued?
-calc.rebasedCosts.errorNegative = Enter a positive number for your costs
-calc.rebasedCosts.error.no.value.supplied = Enter the value for your costs
-calc.rebasedCosts.errorDecimalPlaces = There are too many numbers after the decimal point in your costs
-
-## Improvements ##
-calc.improvements.question = Did you make any improvements to the property?
-calc.improvements.helpOne = Improvements are permanent changes that increase the value of a property, like adding extensions or garages.
-calc.improvements.helpTwo = Normal maintenance costs don''t count.
-calc.improvements.exampleTitle = Show me an example
-calc.improvements.exampleOne = Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement.
-calc.improvements.exampleTwo = Replacing them with something of a similar standard is normally not an improvement.
-calc.improvements.questionTwo = How much did the improvements cost?
-calc.improvements.questionThree = How much did you spend on improvements before 6 April 2015?
-calc.improvements.questionFour = How much have you spent on improvements since 6 April 2015?
-calc.improvements.error.no.value.supplied = Enter the value of your improvements
-calc.improvements.errorNegative = Enter a positive number for the cost of your improvements
-calc.improvements.errorDecimalPlaces = The cost of your improvements has too many numbers after the decimal point
-
 ## Disposal Date ##
 calc.disposalDate.question = When did you sign the contract that made someone else the owner?
 calc.disposalDate.error.disposalDateAfterAcquisition = This can''t be before the date you became the owner
-
-## No Capital Gains Tax ##
-nocgt.invaliddate.title = You have no tax to pay
-nocgt.content.one = This is because Capital Gains Tax for non-residents only applies to properties which were sold or given away after 5 April 2015.
-nocgt.content.two = You''ve told us that you sold or gave away the property on
-nocgt.content.change = Change
-nocgt.sidebar.linkone = Capital Gains Tax for non-residents
-
-## Disposal Value ##
-calc.disposalValue.question = How much did you sell the property for?
-calc.disposalValue.errorNegative = Enter a positive number for the amount you sold the property for
-calc.disposalValue.errorDecimalPlaces = The amount you sold the property for has too many numbers after the decimal point
 
 ## How Much Gain ##
 calc.howMuchGain.question = What was your taxable gain?
 calc.howMuchGain.errorNegative = Enter a positive number for the amount on your taxable gain
 calc.howMuchGain.errorDecimalPlaces = Taxable Gain for has too many numbers after the decimal point
-
-## Sold For Less Non-resident ##
-calc.nonResident.soldForLess.question = Did you sell the property for less than it was worth to help the buyer?
-
-## Acquisition Costs ##
-calc.acquisitionCosts.question = How much did you pay in costs when you became the property owner?
-calc.acquisitionCosts.helpText = Costs include agent fees, legal fees and surveys
-calc.acquisitionCosts.errorNegative = Enter a positive number for your costs
-calc.acquisitionCosts.errorDecimalPlaces = There are too many numbers after the decimal point in your costs
-calc.acquisitionCosts.bulletTitle = This is what you paid for:
-calc.acquisitionCosts.bulletOne = estate agents or auctioneers
-calc.acquisitionCosts.bulletTwo = solicitors or conveyancers, including Stamp Duty Land Tax
-calc.acquisitionCosts.bulletThree = any professional help to value the property, eg surveyor or valuer
-
-## Disposal Costs ##
-calc.disposalCosts.question = How much did you pay in costs when you stopped owning the property?
-calc.disposalCosts.helpTitle = This is what you paid for:
-calc.disposalCosts.helpBulletOne = estate agents or auctioneers
-calc.disposalCosts.helpBulletTwo = solicitors or conveyancers
-calc.disposalCosts.helpBulletThree = any professional help to value your property, eg surveyor or valuer
-calc.disposalCosts.helpBulletFour = advertising to find a buyer
-
-calc.disposalCosts.errorNegativeNumber = Enter a positive number for your selling costs
-calc.disposalCosts.errorDecimalPlaces = There are too many numbers after the decimal point in your selling costs
-
-## Market Value ##
-calc.marketValue.gaveItAway.question = What was the property worth when you gave it away?
-calc.marketValue.sold.question = What was the market value of the property when you sold it?
-
-calc.marketValue.error.gaveItAway.decimalPlaces = There are too many numbers after the decimal point in your market value at the point of giving away
-calc.marketValue.error.sold.decimalPlaces = There are too many numbers after the decimal point in your market value at the point of being sold
-
-calc.marketValue.error.gaveItAway.negative = Enter a positive number for the market value at the point of being given away
-calc.marketValue.error.sold.negative  = Enter a positive number for the market value at the point of being sold
-
-calc.marketValue.helpText = You can use a valuation from a surveyor. If you don''t know the exact value, you must provide a realistic estimate.
-calc.marketValue.helpTextAdditional = You might have to pay more if we think your estimate is unrealistic.
-
-## Private Residence Relief ##
-calc.privateResidenceRelief.question = Are you claiming Private Residence Relief?
-calc.privateResidenceRelief.questionBetween.partOne = How many days between 5 April 2015 and
-calc.privateResidenceRelief.questionBetween.partTwo = are you claiming relief for?
-calc.privateResidenceRelief.questionBefore.partOne = How many days before
-calc.privateResidenceRelief.questionBefore.partTwo = are you claiming relief for?
-calc.privateResidenceRelief.helpLink = Private Residence Relief
-calc.privateResidenceRelief.error.noValueProvided = Enter the value for your days claimed
-calc.privateResidenceRelief.error.errorNegative = Enter a positive number for your days claimed
-calc.privateResidenceRelief.error.errorDecimalPlaces = There are too many numbers after the decimal point in your days claimed
-calc.privateResidenceRelief.error.maxNumericExceeded = Enter a value for your days claimed that''s
-calc.privateResidenceRelief.error.maxNumericExceeded.OrLess = or less
-
-## Previous Loss Or Gain ##
-calc.previousLossOrGain.question = Did your previous properties result in a Capital Gains Tax loss or gain?
-calc.previousLossOrGain.errors.required = Please tell us whether you made a gain or loss
-calc.previousLossOrGain.loss = Loss
-calc.previousLossOrGain.gain = Gain
-calc.previousLossOrGain.neither = Neither, I broke even
-calc.previousLossOrGain.CGTLink = Capital Gains Tax
-calc.previousLossOrGain.previousTaxLink = Previous tax years
-
-## Who did you give the property to ##
-calc.resident.whoDidYouGiveThePropertyTo.title = Who did you give the property to?
-calc.resident.whoDidYouGiveThePropertyTo.spouse = Your spouse or a civil partner
-calc.resident.whoDidYouGiveThePropertyTo.charity = A charity
-calc.resident.whoDidYouGiveThePropertyTo.other = Someone else
-calc.resident.whoDidYouGiveThePropertyTo.errormandatory = Please tell us who you gave the property to
-
-
-## Entrepreneurs Relief ##
-calc.entrepreneursRelief.question = Are you claiming Entrepreneurs'' Relief?
-calc.entrepreneursRelief.link = Entrepreneurs'' Relief
-
-## Allowable Losses ##
-calc.allowableLosses.question.one = Are you claiming any allowable losses from the 2016/2017 tax year?
-calc.allowableLosses.question.two = What''s the total value of your allowable losses?
-calc.allowableLosses.helpText.title = What are allowable losses?
-calc.allowableLosses.helpText.paragraph.one = They''re losses you''ve made on UK properties that:
-calc.allowableLosses.helpText.bullet.one = are covered by Capital Gains Tax
-calc.allowableLosses.helpText.bullet.two = you''ve declared to HMRC within 4 years of making the loss
-calc.allowableLosses.helpText.bullet.three = you haven''t already used in an allowable losses claim
-calc.allowableLosses.errorQuestion = Enter the value of your allowable losses
-calc.allowableLosses.errorMinimum = Enter a positive number for your allowable losses
-calc.allowableLosses.errorDecimal = There are too many numbers after the decimal point in your allowable losses
 
 ## How Became Owner messages
 calc.howBecameOwner.errors.required = Tell us how you became the owner
@@ -302,123 +84,10 @@ calc.howBecameOwner.bought = Bought it
 calc.howBecameOwner.gifted = Got it as a gift
 calc.howBecameOwner.inherited= Inherited it
 
-## Bought For Less ##
-calc.boughtForLess.question = Did you buy the property for less than it was worth because the seller wanted to help you?
-
 ## Previous Loss ##
 calc.howMuchLoss.question = How much loss did you report?
 calc.howMuchLoss.errorMinimum = Enter a positive number for your loss
 calc.howMuchLoss.errorDecimal = There are too many numbers after the decimal point in your loss
-
-## Brought Forward Loss ##
-calc.broughtForwardLosses.question = Do you have losses you want to bring forward from previous tax years?
-calc.broughtForwardLosses.inputQuestion = How much would you like to bring forward?
-calc.broughtForwardLosses.helpTitle = These are losses on UK properties that:
-calc.broughtForwardLosses.helpListOne = are covered by Capital Gains Tax
-calc.broughtForwardLosses.helpListTwo = you''ve declared within 4 years of making them
-calc.broughtForwardLosses.helpListThree = you''ve not already used to reduce the amount of Capital Gains Tax you had to pay
-calc.broughtForwardLosses.linkOne = Capital Gains Tax
-calc.broughtForwardLosses.linkTwo = Previous tax years
-calc.broughtForwardLosses.errorDecimal = There are too many numbers after the decimal point in your brought forward loss
-calc.broughtForwardLosses.errorNegative = Enter a positive number for your brought forward loss
-
-## Calculation Election ##
-calc.calculationElection.pageHeading = Working out your total
-calc.calculationElection.question = Which method of calculation would you like?
-calc.calculationElection.h2 = How this affects your tax
-calc.calculationElection.paragraph.one = We can work out your tax in a number of ways. Before we give you a final total you have a choice about what to base it on.
-calc.calculationElection.paragraph.two = Because the options take different things into account they''ll usually give you different totals. Some totals may be much larger than others.
-calc.calculationElection.paragraph.three = Unless you want to add more tax reliefs, the total you choose is the amount of tax you''ll pay.
-calc.calculationElection.legend = Tax you''ll owe
-calc.calculationElection.based = Based on
-calc.calculationElection.link.one = Different ways of working out Capital Gains Tax
-calc.calculationElection.otherRelief = Add other tax relief
-calc.calculationElection.someOtherRelief = Other tax relief
-calc.calculationElection.message.time = Working out your total gain, then taxing you on the percentage of it you''ve made since
-calc.calculationElection.message.timeDate = 5 April 2015
-calc.calculationElection.message.rebased = How much you''ve gained on the property since
-calc.calculationElection.message.rebasedDate = 5 April 2015
-calc.calculationElection.message.flat = How much you''ve gained on the property since you became the owner
-calc.calculationElection.message.whyMore = Why you might choose a higher total
-calc.calculationElection.whyMoreDetails.one = You might pick a higher total if you''re planning to add more tax reliefs.
-calc.calculationElection.whyMoreDetails.two = Higher totals sometimes qualify for larger reliefs, which can reduce the amount you owe.
-
-## Other Reliefs ##
-calc.otherReliefs.question = How much extra tax relief are you claiming?
-calc.otherReliefs.questionTwo = Do you want to add other tax relief?
-calc.otherReliefs.totalGain = Total gain
-calc.otherReliefs.totalLoss = Total loss
-calc.otherReliefs.taxableGain = Taxable gain
-calc.otherReliefs.button.addRelief = Add relief
-calc.otherReliefs.button.updateRelief = Update relief
-calc.otherReliefs.errorMinimum = Enter a positive number for your other reliefs
-calc.otherReliefs.errorDecimal = There are too many numbers after the decimal point in your other reliefs
-calc.otherReliefs.errorNoValue = Enter the value for your relief
-calc.otherReliefs.help = For example, lettings relief.
-calc.otherReliefs.helpTwo = Don''t include any Private Residence Relief.
-calc.otherReliefs.gainInfo.part1 = We''ve calculated that you''ve made a taxable gain of
-calc.otherReliefs.gainInfo.part1.loss = We''ve calculated that you''ve made an allowable loss of
-calc.otherReliefs.gainInfo.part2 = and a total gain of
-calc.otherReliefs.gainInfo.part2.loss = and a total loss of
-calc.otherReliefs.gainInfo.part3 = on your property. You''ll need these figures to calculate other reliefs.
-## Sold Or Given Away##
-calc.soldOrGivenAway.question = Did you sell or give away the property?
-calc.soldOrGivenAway.sold = I sold it
-calc.soldOrGivenAway.gave = I gave it away
-
-## Acquisition Market Value ##
-calc.acquisitionMarketValue.errorDecimalPlaces = The market value of the property has too many numbers after the decimal point
-calc.acquisitionMarketValue.errorNegative = Enter a positive number for the market value of the property
-calc.acquisitionMarketValue.hintOne = You can use a valuation from a surveyor.
-calc.acquisitionMarketValue.hintTwo = If you don''t know the exact value, you must provide a realistic estimate. You might have to pay more if we think your estimate is unrealistic.
-
-## Worth When Gifted To ##
-calc.worthWhenGiftedTo.question = What was the market value of the property when you got it as a gift?
-
-## Worth When Inherited ##
-calc.worthWhenInherited.question = What was the market value of the property when you inherited it?
-
-## Worth When Bought For Less ##
-calc.worthWhenBoughtForLess.question = What was the market value of the property when you bought it?
-
-## Worth Before Legislation Start ##
-calc.worthBeforeLegislationStart.question = What was the market value of the property on 31 March 1982?
-calc.worthBeforeLegislationStart.expandableText = You only need to pay tax on gains made after this date
-calc.worthBeforeLegislationStart.expandableTitle = Why we''re asking for this
-
-## Summary ##
-calc.summary.title = Summary
-calc.summary.amount.you.owe = Amount you owe
-calc.summary.secondaryHeading = You owe
-calc.summary.calculation.details.title = Calculation details
-calc.summary.calculation.details.totalGain = Your total gain
-calc.summary.calculation.details.totalLoss = Loss
-calc.summary.calculation.details.allowableLossesUsed = Loss used from {0} tax year
-calc.summary.calculation.details.prrUsed = Private resident relief used
-calc.summary.calculation.details.usedAEA = Capital Gains Tax allowance used
-calc.summary.calculation.details.remainingAEA = Capital Gains Tax allowance remaining
-calc.summary.calculation.details.broughtForwardLossesUsed = Loss used from tax years before {0}
-calc.summary.calculation.details.taxableGain = Your taxable gain
-calc.summary.calculation.details.lossesRemaining = Carried forward loss
-calc.summary.calculation.details.taxRate = Tax rate
-calc.summary.calculation.details.taxRateValue = {0} at {1}%
-calc.summary.personal.details.title = Personal details
-calc.summary.purchase.details.title = Owning the property
-calc.summary.property.details.title = Property details
-calc.summary.sale.details.title = Selling or giving away the property
-calc.summary.deductions.title = Deductions
-calc.summary.next.actions.text = You need to
-calc.summary.next.actions.link = tell HMRC about the property
-calc.summary.next.fullMessage = You need to tell HMRC about the property
-calc.summary.link.message = Further details on how to tell HMRC about this property can be found at
-calc.summary.startAgain = Start again
-calc.summary.calculation.details.calculationElection = What would you like to base your tax on?
-calc.summary.calculation.details.timeCalculation = The percentage of your total gain you''ve made since
-calc.summary.calculation.details.flatCalculation = How much you''ve gained on the property since you became the owner
-calc.summary.calculation.details.rebasedCalculation = How much you''ve gained on the property since 5 April 2015
-calc.summary.calculation.details.lossCarriedForward = Loss carried forward
-calc.summary.warning.taxYear = Your total might be less accurate because you didn't sell or give away your property in this tax year
-
 
 ## Check Your Answers ##
 calc.checkYourAnswers.title = Check your answers
@@ -429,13 +98,6 @@ calc.checkYourAnswers.hidden.text =  your response to the question
 ###############################################################################################
 ## Resident messages ##
 ###############################################################################################
-
-## Introduction messages
-calc.resident.properties.introduction.title = Work out how much Capital Gains Tax you owe
-calc.resident.properties.introduction.subheading = Do you need to use this calculator?
-calc.resident.properties.introduction.paragraph = You probably don''t need to pay Capital Gains Tax if the property you''ve sold is your own home. You''ll be entitled to a tax relief called Private Residence Relief.
-calc.resident.properties.introduction.entitledLinkText = Find out if you''re entitled to Private Residence Relief (opens in a new window).
-calc.resident.properties.introduction.continuationInstructions = Continue to use this calculator if you''ve never lived at the property, or you''re entitled to only some or no Private Residence Relief.
 
 ## Disposal Date messages
 calc.resident.disposalDate.question = When did you sell or give away the property?
@@ -450,89 +112,6 @@ calc.resident.outsideTaxYears.message = You can continue to use it, but we''ll u
 calc.resident.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold a property since 5 April 2015.
 calc.resident.shares.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold shares since 5 April 2015.
 calc.resident.outsideTaxYears.changeDate = Change your date
-
-## Sell For Less messages ##
-calc.resident.properties.sellForLess.title = Did you sell the property for less than it was worth to help the buyer?
-calc.resident.properties.sellForLess.question = Did you sell the property for less than it was worth to help the buyer?
-calc.resident.properties.sellForLess.noSelectError = Tell us if you have ever sold the property for less than its worth
-
-## Buy For Less messages ##
-calc.resident.properties.boughtForLessThanWorth.title = Did you buy the property for less than it was worth because the seller wanted to help you?
-calc.resident.properties.boughtForLessThanWorth.noSelectError = Tell us if you have bought the property for less than its worth
-
-## Sell Or Give Away messages
-calc.resident.sellOrGiveAway.title = Did you sell the property or give it away?
-calc.resident.sellOrGiveAway.errors.mandatory = Tell us if you sold the property or gave it away
-calc.resident.sellOrGiveAway.given = Gave it away
-calc.resident.sellOrGiveAway.sold = Sold it
-
-##Worth When Gave Away messages
-calc.resident.properties.worthWhenGaveAway.title = What was the property worth when you gave it away?
-calc.resident.properties.worthWhenGaveAway.help = You can use a valuation from a surveyor or a property website.
-
-## No Tax To Pay messages
-calc.resident.noTaxToPay.title = You have no tax to pay
-calc.resident.noTaxToPay.spouseText = This is because Capital Gains Tax doesn''t apply if you give a property to your spouse or civil partner.
-calc.resident.noTaxToPay.charityText = This is because Capital Gains Tax doesn''t apply if you give a property to a charity.
-
-## Disposal Value messages
-calc.resident.disposal.value.question = How much did you sell the property for?
-
-## Property Worth when you sold it messages
-calc.resident.properties.worthWhenSoldForLess.question = What was the property worth when you sold it?
-calc.resident.properties.worthWhenSoldForLess.extraText = You can use a valuation from a surveyor or a property website.
-
-
-## Disposal Costs messages
-calc.resident.disposalCosts.title = How much did you pay in costs when you stopped owning the property?
-calc.resident.disposalCosts.pageHeading = How much did you pay in costs when you stopped owning the property?
-calc.resident.disposalCosts.helpText = Costs include agent fees, legal fees and surveys
-
-
-## Owner Before 1st April 1982 messages
-calc.resident.properties.ownedBeforeLegislationStart.title = Did you become the property owner before 1 April 1982?
-calc.resident.properties.ownedBeforeLegislationStart.noSelectError = Tell us if you became the property owner before 1 April 1982
-
-## How Became Owner messages
-calc.resident.howBecameOwner.errors.mandatory = Tell us how you became the property owner
-calc.resident.howBecameOwner.title = How did you become the property owner?
-calc.resident.howBecameOwner.bought = Bought it
-calc.resident.howBecameOwner.gifted = Got it as a gift
-calc.resident.howBecameOwner.inherited= Inherited it
-
-
-##Worth On messages
-calc.resident.properties.valueBeforeLegislationStart.question = What was the property worth on 31 March 1982?
-
-## Worth When Inherited messages
-calc.resident.properties.worthWhenInherited.question = What was the property worth when you inherited it?
-calc.resident.properties.worthWhenInherited.additionalContent = You can use a valuation from a surveyor or a property website.
-
-## Worth When Bought messages
-calc.resident.properties.worthWhenBoughtForLess.question = What was the property worth when you bought it?
-calc.resident.properties.worthWhenBoughtForLess.additionalContent = You can use a valuation from a surveyor or a property website.
-
-## Worth When Gifted messages
-calc.resident.properties.worthWhenGifted.question = What was the property worth when you got it as a gift?
-calc.resident.properties.worthWhenGifted.additionalContent = You can use a valuation from a surveyor or a property website.
-
-## Acquisition Value messages
-calc.resident.acquisitionValue.title = How much did you pay for the property?
-calc.resident.acquisitionValue.question = How much did you pay for the property?
-
-## Acquisition Costs messages
-calc.resident.acquisitionCosts.title = How much did you pay in costs when you became the property owner?
-calc.resident.acquisitionCosts.question = How much did you pay in costs when you became the property owner?
-calc.resident.acquisitionCosts.helpText = Costs include stamp duty, agent fees, legal fees and surveys
-
-## Improvements messages
-calc.resident.properties.improvements.question = How much have you spent on improvements since you became the property owner?
-calc.resident.properties.improvements.label = How much have you spent on improvements since you became the property owner?
-calc.resident.properties.improvements.questionBefore = How much have you spent on improvements since 31 March 1982?
-calc.resident.properties.improvements.hint = Improvements are permanent changes that raise the value of a property, like adding extensions or garages. Normal maintenance costs don''t count.
-calc.resident.properties.improvements.helpButton = Show me an example
-calc.resident.properties.improvements.additionalContent.one = Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement.
-calc.resident.properties.improvements.additionalContent.two = But replacing them with something of a similar standard is normally not an improvement.
 
 ## Summary messages
 calc.resident.summary.title = Summary
@@ -583,60 +162,9 @@ calc.resident.summary.remainingBroughtForwardLossHelp = to reduce your Capital G
 calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your tax if you sell something else that''s covered by Capital Gains Tax in the same tax year.
 calc.resident.summary.download = Download
 
-
-## Private Residence Relief Value messages
-calc.resident.privateResidenceReliefValue.title = How much Private Residence Relief are you entitled to?
-calc.resident.privateResidenceReliefValue.question = How much Private Residence Relief are you entitled to?
-calc.resident.privateResidenceReliefValue.help = We''ve calculated that you''ve made a gain of £{0} on your property. You''ll need this figure to calculate your Private Residence Relief.
-calc.resident.privateResidenceReliefValue.link = Find out how much you''re entitled to
-
-calc.resident.properties.privateResidenceReliefValue.gainExceededError = Enter an amount that is less than your gain of £{0}
-
-## Reliefs messages
-
-## No PRR Reliefs messages
-
-## Lettings Relief Value messages
-calc.resident.lettingsReliefValue.title = How much Letting Relief are you entitled to?
-calc.resident.lettingsReliefValue.question = How much Letting Relief are you entitled to?
-calc.resident.lettingsReliefValue.additionalContent = We''ve calculated that you''ve made a gain of £{0} on your property. You''ll need this figure to calculate your Letting Relief.
-calc.resident.lettingsReliefValue.error.moreThanCappedAmount = The Letting Relief you''ve entered is more than the maximum amount of £{0}
-calc.resident.lettingsReliefValue.error.moreThanPrr = The Letting Relief amount you''ve entered is more than your Private Residence Relief
-calc.resident.lettingsReliefValue.error.moreThanRemainingGain = The Letting Relief you''ve entered is more than your remaining gain of £{0}
-
-## Reliefs Value messages
-
-## No Prr Reliefs Value messages
-
-## Lettings Relief messages
-calc.resident.lettingsRelief.title = Are you entitled to Letting Relief?
-calc.resident.lettingsRelief.help = You may be able entitled to Letting Relief if you''ve rented out the property. Find out more about
-calc.resident.lettingsRelief.helpOne = Letting Relief
-calc.resident.lettingsRelief.errorSelect = Tell us if you want to claim Letting Relief
-
 ## Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are there any previous losses you want to bring forward?
 calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you’ve already reported to HMRC.
-
-## Other Properties messages
-calc.resident.otherProperties.title = In the {0} tax year, did you sell or give away anything else that''s covered by Capital Gains Tax?
-calc.resident.otherProperties.pageHeading = In the {0} tax year, did you sell or give away anything else that''s covered by Capital Gains Tax?
-calc.resident.otherProperties.bullet.title = This includes things like:
-calc.resident.otherProperties.bullet.one = shares
-calc.resident.otherProperties.bullet.two = antiques
-calc.resident.otherProperties.bullet.three = other UK residential properties
-calc.resident.otherProperties.errorSelect = Tell us if you sold or gave away anything else that''s covered by Capital Gains Tax in the {0} tax year
-
-## Allowable Losses Value messages
-calc.resident.allowableLossesValue.title = What''s the total value of your Capital Gains Tax losses from the {0} tax year?
-calc.resident.allowableLossesValue.question = What''s the total value of your Capital Gains Tax losses from the {0} tax year?
-
-## Annual Exempt Amount messages
-calc.resident.annualExemptAmount.title = How much of your Capital Gains Tax allowance have you got left?
-calc.resident.annualExemptAmount.question = How much of your Capital Gains Tax allowance have you got left?
-calc.resident.annualExemptAmount.link.one = Tax-free allowances for Capital Gains Tax
-calc.resident.annualExemptAmount.helpText.one = This is the amount you can make in capital gains before you have to pay tax.
-calc.resident.annualExemptAmount.helpText.two = It''s £11,100 a year.
 
 ##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
@@ -651,11 +179,6 @@ calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any
 ##Losses Brought Forward Value messages
 calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForwardValue.pageHeading = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
-
-## Previous Taxable Gains messages
-calc.resident.previousTaxableGains.title = What was your taxable gain in the {0} tax year?
-calc.resident.previousTaxableGain.link.one = How to work out your taxable gain
-calc.resident.previousTaxableGains.helpText = This is the amount of taxable gain you made when you sold or gave away something that''s covered by Capital Gains Tax
 
 ## Current Income messages
 calc.resident.currentIncome.title = In the {0} tax year, what was your income?
@@ -676,18 +199,6 @@ calc.resident.personalAllowance.link = Income tax rates and Personal Allowances
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
 calc.resident.personalAllowance.link.one = Personal Allowance
 calc.resident.personalAllowance.helpText = This is the amount of your income you don''t pay tax on. It was £{0} unless you were claiming other allowances.
-
-###############################################################################################
-## Private Residence Relief messages ##
-###############################################################################################
-calc.resident.privateResidenceRelief.errorSelect = Tell us if you want to claim Private Residence Relief
-calc.resident.properties.privateResidenceRelief.title = Are you entitled to Private Residence Relief?
-
-calc.resident.properties.privateResidenceRelief.helpText = You''ll be entitled to Private Residence Relief if you''ve lived in the property as your main home at some point while you owned it. Find out more about
-calc.resident.properties.privateResidenceRelief.helpTextLink = Private Residence Relief
-
-calc.resident.properties.propertyLivedIn.title = Have you ever lived in the property since you became the owner?
-calc.resident.properties.propertyLivedIn.noSelectError = Tell us if you have ever lived in the property since you became the owner
 
 ###############################################################################################
 ## Resident Shares messages ##
@@ -749,10 +260,6 @@ calc.resident.shares.acquisitionCosts.hintText = If you owned the shares with so
 
 ## Current Income messages
 calc.resident.shares.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares.
-
-## Other Disposals messages
-calc.resident.shares.otherDisposals.bullet.one = UK residential properties
-calc.resident.shares.otherDisposals.bullet.three = other shares
 
 ## Final Summary messages
 calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
