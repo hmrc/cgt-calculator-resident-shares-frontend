@@ -35,7 +35,7 @@
     <!-- Header -->
   <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-  <div id="yourTotalLoss" class="resident summary-underline summary-details-padding">
+  <div id="yourTotalLoss" class="resident summary-partial summary-underline summary-details-padding">
     @if(gain == 0){
       <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
     } else {
@@ -69,17 +69,17 @@
 
   </div>
 
-  <div id="yourDeductions" class="resident summary-underline summary-details-padding">
+  <div id="yourDeductions" class="resident summary-partial summary-underline summary-details-padding">
     <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
     @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), 0)
     @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), 0, isTotal = true)
   </div>
 
-  <div id="yourTaxableGain" class="resident summary-underline">
+  <div id="yourTaxableGain" class="resident summary-partial summary-underline summary-details-padding">
   @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), 0, isTotal = true)
   </div>
 
-  <div id="yourTaxRate" class="resident summary-underline">
+  <div id="yourTaxRate" class="resident summary-partial summary-underline summary-details-padding">
   @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), 0, isTotal = true)
   </div>
 
@@ -90,10 +90,10 @@
 
     <!-- Header -->
   <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
-  <div id="aeaLeft" class="summary-details-padding">
+  <div id="aeaLeft" class="summary-partial summary-details-padding">
   @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
   </div>
-  <div id="lossesToCarryForward" class="summary-details-padding">
+  <div id="lossesToCarryForward" class="summary-partial summary-details-padding">
   @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
   </div>
 

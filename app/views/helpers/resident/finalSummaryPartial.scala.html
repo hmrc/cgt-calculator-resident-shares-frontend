@@ -34,7 +34,7 @@
         <!-- Header -->
     <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
 
-    <div id="yourTotalGain" class="resident summary-underline summary-details-padding">
+    <div id="yourTotalGain" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
 
         @(gainAnswers.soldForLessThanWorth) match {
@@ -59,7 +59,7 @@
 
     </div>
 
-    <div id="yourDeductions" class="resident summary-underline summary-details-padding">
+    <div id="yourDeductions" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
 
         @summaryNumericRowPartial("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
@@ -69,7 +69,7 @@
         @summaryNumericRowPartial("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
     </div>
 
-    <div id="yourTaxableGain" class="resident summary-underline">
+    <div id="yourTaxableGain" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
 
         @summaryNumericRowPartial("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
@@ -77,7 +77,7 @@
         @summaryNumericRowPartial("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
     </div>
 
-    <div id="yourTaxRate" class="resident summary-underline">
+    <div id="yourTaxRate" class="resident summary-partial summary-underline summary-details-padding">
         <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
         <h4>@Messages("calc.summary.ratesHelp")</h4>
 
@@ -101,6 +101,7 @@
         <!-- Header -->
     <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
 
-    @summaryNumericRowPartial("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), 0, hintText = false)
-
+    <div class="summary-partial">
+        @summaryNumericRowPartial("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), 0, hintText = false)
+    </div>
 </section>
