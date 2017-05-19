@@ -43,8 +43,6 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
                   otherProperties: Boolean = true,
                   lossesBroughtForward: Boolean = true,
                   annualExemptAmount: BigDecimal = 0,
-                  allowableLossesModel: Option[AllowableLossesModel] = None,
-                  allowableLossesValueModel: Option[AllowableLossesValueModel] = None,
                   disposalDate: Option[DisposalDateModel],
                   taxYear: Option[TaxYearModel]): IncomeController = {
 
@@ -53,22 +51,9 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     when(mockCalcConnector.fetchAndGetFormData[CurrentIncomeModel](ArgumentMatchers.eq(keystoreKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(storedData))
 
-    when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](ArgumentMatchers.eq(keystoreKeys.otherProperties))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(OtherPropertiesModel(otherProperties))))
-
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesModel](ArgumentMatchers.eq(keystoreKeys.allowableLosses))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(allowableLossesModel))
-
-    when(mockCalcConnector.fetchAndGetFormData[AllowableLossesValueModel](ArgumentMatchers.eq(keystoreKeys.allowableLossesValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(allowableLossesValueModel))
-
     when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))(ArgumentMatchers.any(),
       ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(LossesBroughtForwardModel(lossesBroughtForward))))
-
-    when(mockCalcConnector.fetchAndGetFormData[AnnualExemptAmountModel](ArgumentMatchers.eq(keystoreKeys.annualExemptAmount))(ArgumentMatchers.any(),
-      ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(AnnualExemptAmountModel(annualExemptAmount))))
 
     when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDate)

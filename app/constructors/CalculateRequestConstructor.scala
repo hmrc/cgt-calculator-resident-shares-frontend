@@ -18,7 +18,7 @@ package constructors
 
 import common.Dates._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import models.resident.{AllowableLossesModel, AllowableLossesValueModel, IncomeAnswersModel, OtherPropertiesModel}
+import models.resident.IncomeAnswersModel
 
 object CalculateRequestConstructor {
 
