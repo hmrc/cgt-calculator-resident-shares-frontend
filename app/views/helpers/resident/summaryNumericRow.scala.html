@@ -32,13 +32,13 @@
       <div id="@{rowId}-amount" class="grid-layout__column--1-3 text--right">
       @amount.scale match {
         case 0 => {
-          <span class="form-hint">&pound;@MoneyPounds(amount, 0).quantity</span>
+          <span>&pound;@MoneyPounds(amount, 0).quantity</span>
         }
         case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
-          <span class="form-hint">&pound;@MoneyPounds(amount, 0).quantity</span>
+          <span>&pound;@MoneyPounds(amount, 0).quantity</span>
         }
         case _ => {
-          <span class="form-hint">&pound;@MoneyPounds(amount, 2).quantity</span>
+          <span>&pound;@MoneyPounds(amount, 2).quantity</span>
         }
       }
       </div>
