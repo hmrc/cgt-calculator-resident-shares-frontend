@@ -68,15 +68,6 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
     when(mockSessionCache.fetchAndGetEntry[resident.WorthWhenSoldForLessModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.WorthWhenSoldForLessModel])))
 
-    when(mockSessionCache.fetchAndGetEntry[resident.OtherPropertiesModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.otherProperties))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.OtherPropertiesModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.allowableLosses))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AllowableLossesModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.AllowableLossesValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.allowableLossesValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AllowableLossesValueModel])))
-
     when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.lossesBroughtForward))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))
 
@@ -103,9 +94,6 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
     when(mockSessionCache.fetchAndGetEntry[resident.shares.gain.ValueBeforeLegislationStartModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.shares.gain.ValueBeforeLegislationStartModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.AnnualExemptAmountModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.annualExemptAmount))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AnnualExemptAmountModel])))
 
     when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.lossesBroughtForward))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))

@@ -92,18 +92,6 @@ object MessageLookup {
       def errorMaximum(value: String): String = s"Enter an amount that's £$value or less"
     }
 
-    object AnnualExemptAmount {
-      val question = "How much of your Capital Gains Tax allowance have you got left?"
-      val link = "Capital Gains Tax allowances"
-
-      def hint(amount: String): String = s"Your Capital Gains Tax allowance is £$amount a year. It's the amount of capital gains you can make before you have to pay tax."
-
-      val errorMaxStart = "Enter a Capital Gains Tax allowance that's £"
-      val errorMaxEnd = "or less"
-      val errorNegative = "Enter a positive number for your allowance"
-      val errorDecimalPlaces = "Your allowance has too many numbers after the decimal point"
-    }
-
     object BoughtForLess {
       val question = "Did you buy the property for less than it was worth because the seller wanted to help you?"
     }
@@ -210,24 +198,6 @@ object MessageLookup {
       val errorDecimalPlaces = "Taxable Gain for has too many numbers after the decimal point"
     }
 
-    object Improvements {
-      val helpOne = "Improvements are permanent changes that increase the value of a property, like adding extensions or garages."
-      val helpTwo = "Normal maintenance costs don't count."
-      val exampleTitle = "Show me an example"
-      val exampleOne = "Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement."
-      val exampleTwo = "Replacing them with something of a similar standard is normally not an improvement."
-      val question = "Did you make any improvements to the property?"
-      val questionTwo = "How much did the improvements cost?"
-      val questionThree = "How much did you spend on improvements before 6 April 2015?"
-      val questionFour = "How much have you spent on improvements since 6 April 2015?"
-      val noValueSuppliedError = "Enter the value of your improvements"
-      val negativeValueError = "Enter a positive number for the cost of your improvements"
-      val excessDecimalPlacesError = "The cost of your improvements has too many numbers after the decimal point"
-
-      def errorMaximum(value: String): String = s"Enter an amount that's £$value or less"
-
-    }
-
     object NoCapitalGainsTax {
 
       val title = "You have no tax to pay"
@@ -238,18 +208,6 @@ object MessageLookup {
 
     }
 
-    object OtherProperties {
-      val question = "Did you sell or give away other UK residential properties in the tax year when you stopped owning the property?"
-      val questionTwo = "What was your taxable gain?"
-      val questionTwoHelpTextStart = "How to"
-      val questionTwoHelpTextLinkText = "work out your total taxable gains"
-      val errorNegative = "Enter a positive number for your taxable gain"
-      val errorDecimalPlaces = "Your taxable gain has too many numbers after the decimal point"
-      val errorQuestion = "Enter a value for your taxable gain"
-      val linkOne = "Capital Gains Tax"
-      val linkTwo = "Previous tax years"
-    }
-
     object PreviousLossOrGain {
       val question = "Did your previous properties result in a Capital Gains Tax loss or gain?"
       val mandatoryCheck = "Please tell us whether you made a gain or loss"
@@ -258,34 +216,6 @@ object MessageLookup {
       val neither = "Neither, I broke even"
       val CGTlink = "Capital Gains Tax"
       val previousTaxLink = "Previous tax years"
-    }
-
-    object OtherReliefs {
-      val help = "For example, lettings relief."
-      val question = "How much extra tax relief are you claiming?"
-      val totalGain = "Total gain"
-      val taxableGain = "Taxable gain"
-      val lossCarriedForward = "Loss carried forward"
-      val addRelief = "Add relief"
-      val updateRelief = "Update relief"
-      val errorDecimal = "There are too many numbers after the decimal point in your other reliefs"
-      val errorNegative = "Enter a positive number for your other reliefs"
-      val helpTwo = "Don't include any Private Residence Relief."
-
-      def additionalHelp(gain: Int, chargeableGain: Int): String = {
-        val locale = new java.util.Locale("en", "EN")
-        val amount = java.text.NumberFormat.getIntegerInstance(locale)
-
-        val gainText = if (gain < 0) "total loss" else "total gain"
-        val chargeableGainText = if (chargeableGain < 0) "an allowable loss" else "a taxable gain"
-        s"We've calculated that you've made $chargeableGainText of " +
-          s"£${amount.format(chargeableGain.abs)} and a $gainText of £${amount.format(gain.abs)} on your property. " +
-          "You'll need these figures to calculate other reliefs."
-      }
-
-      def totalLoss(value: String): String = s"Total loss $value"
-
-      def errorMaximum(value: String): String = s"Enter an amount that's £$value or less"
     }
 
     object MarketValue {
@@ -313,19 +243,6 @@ object MessageLookup {
       val errorDecimalPlaces = "Enter a whole number for your Personal Allowance"
       val errorMaxLimit = "Enter a Personal Allowance that's £"
       val errorMaxLimitEnd = "or less"
-    }
-
-    object PrivateResidenceRelief {
-      val question = "Are you claiming Private Residence Relief?"
-      val helpLink = "Private Residence Relief"
-      val questionBefore = "How many days before"
-      val questionEnd = "are you claiming relief for?"
-      val questionBetween = "How many days between 5 April 2015 and"
-      val errorNoValue = "Enter the value for your days claimed"
-      val errorNegative = "Enter a positive number for your days claimed"
-      val errorDecimalPlaces = "There are too many numbers after the decimal point in your days claimed"
-
-      def errorMaximum(value: String): String = s"Enter a value for your days claimed that's $value or less"
     }
 
     object RebasedCosts {
@@ -461,80 +378,12 @@ object MessageLookup {
 
       def basedOnYear(year: String): String = s"These figures are based on the tax rates from the $year tax year"
     }
-
-    object AllowableLosses {
-      val yesNoQuestion = "Are you claiming any allowable losses from the 2016/2017 tax year?"
-      val inputQuestion = "What's the total value of your allowable losses?"
-      val helpTextTitle = "What are allowable losses?"
-      val helpTextLead = "They're losses you've made on UK properties that:"
-      val helpTextBulletOne = "are covered by Capital Gains Tax"
-      val helpTextBulletTwo = "you've declared to HMRC within 4 years of making the loss"
-      val helpTextBulletThree = "you haven't already used in an allowable losses claim"
-
-      val errorCompulsoryValue = "Enter the value of your allowable losses"
-      val errorMinimumAmount = "Enter a positive number for your allowable losses"
-      val errorTooManyDecimals = "There are too many numbers after the decimal point in your allowable losses"
-    }
-
   }
 
   object Resident extends Common {
 
     val homeText = "Calculate your Capital Gains Tax"
     val errorInvalidDate = "Enter a real date"
-
-    object Properties {
-
-      object WorthWhenSoldForLess {
-        val question = "What was the property worth when you sold it?"
-        val paragraphText = "You can use a valuation from a surveyor or a property website."
-      }
-
-      object OwnerBeforeLegislationStart {
-        val title = "Did you become the property owner before 1 April 1982?"
-        val errorSelectAnOption = "Tell us if you became the property owner before 1 April 1982"
-      }
-
-      object PropertiesWorthWhenGaveAway {
-        val title = "What was the property worth when you gave it away?"
-        val helpMessage = "You can use a valuation from a surveyor or a property website."
-      }
-
-      object ValueBeforeLegislationStart {
-        val question = "What was the property worth on 31 March 1982?"
-      }
-
-      object WorthWhenInherited {
-        val question = "What was the property worth when you inherited it?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
-      }
-
-      object WorthWhenGifted {
-        val question = "What was the property worth when you got it as a gift?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
-      }
-
-      object WorthWhenBoughtForLess {
-        val question = "What was the property worth when you bought it?"
-        val additionalContent = "You can use a valuation from a surveyor or a property website."
-      }
-
-      object ImprovementsView {
-        val question = "How much have you spent on improvements since you became the property owner?"
-        val label = "How much have you spent on improvements since you became the property owner?"
-        val questionBefore = "How much have you spent on improvements since 31 March 1982?"
-        val hint = "Improvements are permanent changes that raise the value of a property, like adding " +
-          "extensions or garages. Normal maintenance costs don't count."
-        val improvementsHelpButton = "Show me an example"
-        val improvementsAdditionalContentOne = "Replacing a basic kitchen or bathroom with a luxury version is normally considered an improvement."
-        val improvementsAdditionalContentTwo = "But replacing them with something of a similar standard is normally not an improvement."
-      }
-
-      object SellForLess {
-        val title = "Did you sell the property for less than it was worth to help the buyer?"
-      }
-
-    }
 
     object Shares {
 
@@ -778,103 +627,6 @@ object MessageLookup {
     def deductionsDetailsLossBeforeYearUsed(taxYear: String): String = s"Loss used from tax years before $taxYear"
   }
 
-  //Private Residence Relief Value messages
-  object PrivateResidenceReliefValue {
-    val title = "How much Private Residence Relief are you entitled to?"
-    val question = title
-    val link = "Find out how much you're entitled to"
-
-    def help(value: String): String = s"We've calculated that you've made a gain of £$value on your property. " +
-      s"You'll need this figure to calculate your Private Residence Relief."
-
-    def error(value: String): String = s"Enter an amount that is less than your gain of £$value"
-  }
-
-  //Reliefs messages
-  object Reliefs {
-    val title = "Do you want to claim any other tax reliefs?"
-    val questionSummary = "Do you want to claim any other tax reliefs?"
-    val question = s"Do you want to claim any other tax reliefs?"
-    val help = "For example, lettings relief"
-    val helpOne = "Capital Gains Tax reliefs can lower the amount of tax you owe. For example, you might be able to claim"
-    val helpLinkOne = "Private Residence Relief"
-    val errorSelect = s"Tell us if you want to claim any other tax reliefs"
-
-    def errorSelectNoPrr(value: String) = s"Tell us if you want to claim any Capital Gains Tax reliefs on your total gain of £$value"
-
-    val titleNoPrr = "Do you want to claim any Capital Gains Tax reliefs on your total gain of £10,000?"
-    val questionSummaryNoPrr = "Do you want to claim any Capital Gains Tax reliefs on your total gain of £50,000?"
-
-    def questionNoPrr(input: String = "100") = s"Do you want to claim any Capital Gains Tax reliefs on your total gain of £$input?"
-
-    val helpButton = "What are Capital Gains Tax reliefs?"
-    val helpNoPrr = "For example, Private Residence Relief"
-  }
-
-  //Reliefs Value messages
-  object ReliefsValue {
-    def title(input: String): String = s"How much tax relief are you claiming on your total gain of £$input?"
-
-    def question(input: String): String = s"How much tax relief are you claiming on your total gain of £$input?"
-
-    val prrLink = "Private Residence Relief"
-    val lettingsReliefLink = "Lettings Relief"
-  }
-
-  //Lettings Relief Value messages
-  object LettingsReliefValue {
-    val title = s"How much Letting Relief are you entitled to?"
-    val question = s"How much Letting Relief are you entitled to?"
-
-    def additionalContent(input: String): String = s"We've calculated that you've made a gain of £$input on your property. " +
-      s"You'll need this figure to calculate your Letting Relief."
-
-    val maxLettingsReliefExceeded = "The Letting Relief you've entered is more than the maximum amount of £" + MoneyPounds(Constants.maxLettingsRelief, 0).quantity
-    val lettingsReliefMoreThanPRR = "The Letting Relief amount you've entered is more than your Private Residence Relief"
-
-    def lettingsReliefMoreThanRemainingGain(input: BigDecimal): String = s"The Letting Relief you've entered is more than your remaining gain of £" + MoneyPounds(input, 0).quantity
-
-    val reducYourLettingsRelief = "Reduce your Letting Relief amount"
-  }
-
-  //No Prr Reliefs Value messages
-  object ReliefsValueNoPrr {
-    val title = "How much Capital Gains Tax relief are you claiming?"
-    val question = "How much Capital Gains Tax relief are you claiming?"
-    val prrLink = "Private Residence Relief"
-    val lettingsReliefLink = "Lettings Relief"
-  }
-
-  //Lettings Relief messages
-  object LettingsRelief {
-    val title = "Are you entitled to Letting Relief?"
-    val help = "You may be able entitled to Letting Relief if you've rented out the property. Find out more about Letting Relief (opens in a new window)"
-    val helpOne = "Letting Relief (opens in a new window)"
-    val helpLink = "https://www.gov.uk/government/publications/private-residence-relief-hs283-self-assessment-helpsheet/hs283-private-residence-relief-2016#letting-relief"
-    val errorSelect = "Tell us if you want to claim Letting Relief"
-  }
-
-  //Other Properties messages
-  object OtherProperties {
-    def title(input: String): String = s"In the $input tax year, did you sell or give away anything else that's covered by Capital Gains Tax?"
-
-    def pageHeading(input: String): String = s"In the $input tax year, did you sell or give away anything else that's covered by Capital Gains Tax?"
-
-    val help = "This includes things like:"
-    val helpOne = "shares"
-    val helpTwo = "antiques"
-    val helpThree = "other UK residential properties"
-
-    def errorSelect(input: String): String = s"Tell us if you sold or gave away anything else that's covered by Capital Gains Tax in the $input tax year"
-  }
-
-  //Allowable Losses Value messages
-  object AllowableLossesValue {
-    def title(input: String): String = s"What's the total value of your Capital Gains Tax losses from the $input tax year?"
-
-    def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from the $input tax year?"
-  }
-
   //Losses Brought Forward messages
   object LossesBroughtForward {
     def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
@@ -891,42 +643,11 @@ object MessageLookup {
     def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from tax years before $input"
   }
 
-  //Allowable Losses messages
-  object AllowableLosses {
-    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from the $input tax year?"
-
-    val helpInfoTitle = "What are Capital Gains Tax losses?"
-    val helpInfoSubtitle = "They're losses you've made that:"
-    val helpInfoPoint1 = "are covered by Capital Gains Tax"
-    val helpInfoPoint2 = "you've declared within 4 years of making the loss"
-    val helpInfoPoint3 = "you haven't already used to reduce the amount of Capital Gains Tax you had to pay"
-
-    def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from the $input tax year"
-  }
-
   //Losses Brought Forward Value messages
   object LossesBroughtForwardValue {
     def title(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
 
     def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
-  }
-
-  //Annual Exempt Amount messages
-  object AnnualExemptAmount {
-    val title = "How much of your Capital Gains Tax allowance have you got left?"
-    val question = "How much of your Capital Gains Tax allowance have you got left?"
-    val help = "This is the amount you can make in capital gains before you have to pay tax."
-    val helpOne = "It's £11,100 a year."
-    val helpLinkOne = "Tax-free allowances for Capital Gains Tax"
-  }
-
-  //Previous Taxable Gains messages
-  object PreviousTaxableGains {
-    def title(year: String): String = s"What was your taxable gain in the $year tax year?"
-
-    def question(year: String): String = s"What was your taxable gain in the $year tax year?"
-
-    val helpLinkOne = "How to work out your taxable gain"
   }
 
   //Current Income messages

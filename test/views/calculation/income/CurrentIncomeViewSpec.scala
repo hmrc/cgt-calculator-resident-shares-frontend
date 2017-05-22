@@ -32,7 +32,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
   "Current Income view" should {
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-    lazy val backLink = controllers.routes.IncomeController.previousTaxableGains().toString
+    lazy val backLink = controllers.routes.IncomeController.personalAllowance().toString
     lazy val view = views.currentIncome(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -57,7 +57,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
       }
 
       "has a link to Previous Taxable Gains" in {
-        backLink.attr("href") shouldBe controllers.routes.IncomeController.previousTaxableGains().toString
+        backLink.attr("href") shouldBe controllers.routes.IncomeController.personalAllowance().toString
       }
     }
 
@@ -141,7 +141,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val backLink = controllers.routes.DeductionsController.annualExemptAmount().toString
+      lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward().toString
       lazy val view = views.currentIncome(form, backLink, taxYearModel, false)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -166,7 +166,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
         }
 
         "has a link to Annual Exempt Amount" in {
-          backLink.attr("href") shouldBe controllers.routes.DeductionsController.annualExemptAmount().toString
+          backLink.attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward().toString
         }
       }
     }

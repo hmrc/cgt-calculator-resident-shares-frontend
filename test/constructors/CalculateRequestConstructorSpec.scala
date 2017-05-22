@@ -21,7 +21,7 @@ import java.time.LocalDate
 import common.Dates
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel, PreviousTaxableGainsModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import models.resident.{AllowableLossesValueModel, AnnualExemptAmountModel, _}
+import models.resident._
 import uk.gov.hmrc.play.test.UnitSpec
 
 class CalculateRequestConstructorSpec extends UnitSpec {

@@ -17,7 +17,6 @@
 package controllers.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import connectors.CalculatorConnector
@@ -122,30 +121,15 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
     val gainModel = mock[GainAnswersModel]
     val summaryModel = mock[DeductionGainAnswersModel]
 
-    def setPostTarget(otherPropertiesModel: Option[OtherPropertiesModel],
-                      gainAnswers: GainAnswersModel,
+    def setPostTarget(gainAnswers: GainAnswersModel,
                       chargeableGainAnswers: DeductionGainAnswersModel,
                       chargeableGain: ChargeableGainResultModel,
-                      allowableLossesModel: Option[AllowableLossesModel] = None,
-                      allowableLossesValueModel: Option[AllowableLossesValueModel] = None,
                       disposalDateModel: DisposalDateModel,
                       taxYearModel: TaxYearModel,
                       maxAnnualExemptAmount: Option[BigDecimal] = Some(BigDecimal(11100))
                      ): DeductionsController = {
 
       val mockCalcConnector = mock[CalculatorConnector]
-
-      when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](ArgumentMatchers.eq(keystoreKeys.otherProperties))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(otherPropertiesModel)
-
-      when(mockCalcConnector.fetchAndGetFormData[AllowableLossesModel](ArgumentMatchers.eq(keystoreKeys.allowableLosses))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(allowableLossesModel)
-
-      when(mockCalcConnector.fetchAndGetFormData[AllowableLossesValueModel](ArgumentMatchers.eq(keystoreKeys.allowableLossesValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(allowableLossesValueModel)
-
-      when(mockCalcConnector.fetchAndGetFormData[OtherPropertiesModel](ArgumentMatchers.eq(keystoreKeys.otherProperties))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(otherPropertiesModel)
 
       when(mockCalcConnector.getShareGainAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(gainAnswers))
@@ -175,7 +159,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       "the user has zero chargeable gain" should {
         lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val target = setPostTarget(Some(OtherPropertiesModel(false)), gainModel, summaryModel,
+        lazy val target = setPostTarget(gainModel, summaryModel,
           ChargeableGainResultModel(2000, 0, 0, 0, 2000, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
           disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
         lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
@@ -193,7 +177,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       "the user has negative chargeable gain" should {
         lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val target = setPostTarget(Some(OtherPropertiesModel(false)), gainModel, summaryModel,
+        lazy val target = setPostTarget(gainModel, summaryModel,
           ChargeableGainResultModel(2000, -1000, 0, 0, 3000, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
           disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
         lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
@@ -211,7 +195,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       "the user has positive chargeable gain of £1,000" should {
         lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-        lazy val target = setPostTarget(Some(OtherPropertiesModel(false)), gainModel, summaryModel,
+        lazy val target = setPostTarget(gainModel, summaryModel,
           ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
           disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
         lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
@@ -230,7 +214,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
     "given an invalid form" should {
       lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val target = setPostTarget(Some(OtherPropertiesModel(false)), gainModel, summaryModel,
+      lazy val target = setPostTarget(gainModel, summaryModel,
         ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
         disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
