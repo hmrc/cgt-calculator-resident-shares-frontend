@@ -36,7 +36,7 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
 
   "Summary view" when {
 
-    "acquired after start of tax (1 April 1982) and not inherited" should {
+    "acquired inside current tax years" should {
 
       val testModel = GainAnswersModel(
         disposalDate = constructDate(12, 12, 2019),
@@ -375,6 +375,30 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
             }
           }
         }
+      }
+    }
+
+    "acquired outside current tax years" should {
+      val testModel = GainAnswersModel(
+        disposalDate = constructDate(12, 12, 2019),
+        soldForLessThanWorth = false,
+        disposalValue = Some(10),
+        worthWhenSoldForLess = None,
+        disposalCosts = 20,
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        inheritedTheShares = Some(false),
+        worthWhenInherited = None,
+        acquisitionValue = Some(10000),
+        acquisitionCosts = 40
+      )
+
+      lazy val taxYearModel = TaxYearModel("2016/17", false, "2016/17")
+      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000)(fakeRequest, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "not display the continue button" in {
+        doc.select("a.button").isEmpty shouldBe true
       }
     }
   }

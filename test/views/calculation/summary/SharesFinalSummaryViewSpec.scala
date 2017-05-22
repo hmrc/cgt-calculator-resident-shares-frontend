@@ -449,5 +449,57 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         }
       }
     }
+
+    "the share was sold outside tax years" should {
+      val gainAnswers = GainAnswersModel(
+        disposalDate = Dates.constructDate(10, 10, 2015),
+        disposalValue = Some(100000),
+        worthWhenSoldForLess = None,
+        disposalCosts = BigDecimal(10000),
+        acquisitionValue = Some(0),
+        worthWhenInherited = None,
+        acquisitionCosts = BigDecimal(10000),
+        soldForLessThanWorth = false,
+        ownerBeforeLegislationStart = false,
+        valueBeforeLegislationStart = None,
+        inheritedTheShares = Some(false)
+      )
+      val deductionAnswers = DeductionGainAnswersModel(
+        broughtForwardModel = Some(LossesBroughtForwardModel(false)),
+        broughtForwardValueModel = Some(LossesBroughtForwardValueModel(36.00))
+      )
+      val results = TotalGainAndTaxOwedModel(
+        gain = 50000,
+        chargeableGain = 20000,
+        aeaUsed = 10,
+        deductions = 30000,
+        taxOwed = 3600,
+        firstBand = 20000,
+        firstRate = 18,
+        secondBand = Some(10000.00),
+        secondRate = Some(28),
+        lettingReliefsUsed = Some(BigDecimal(500)),
+        prrUsed = Some(BigDecimal(125)),
+        broughtForwardLossesUsed = 35,
+        allowableLossesUsed = 0,
+        baseRateTotal = 30000,
+        upperRateTotal = 15000
+      )
+      val taxYearModel = TaxYearModel("2015/16", isValidYear = false, "2015/16")
+
+      lazy val view = views.finalSummary(gainAnswers,
+        deductionAnswers,
+        results,
+        backLinkUrl,
+        taxYearModel,
+        "",
+        100,
+        100)(fakeRequestWithSession, applicationMessages)
+      lazy val doc = Jsoup.parse(view.body)
+
+      "not display the continue button" in {
+        doc.select("a.button").isEmpty shouldBe true
+      }
+    }
   }
 }

@@ -215,12 +215,12 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
       taxYearModel, "home-link", 100)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
-    "should not display the what to do next section" in {
+    "not display the what to do next section" in {
       doc.select("section#whatToDoNext").isEmpty shouldBe true
     }
 
-    "display the continue button" in {
-      doc.select("#continue-button").isEmpty shouldBe true
+    "not display the continue button" in {
+      doc.select("a.button").isEmpty shouldBe true
     }
   }
 }
