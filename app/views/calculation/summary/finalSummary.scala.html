@@ -31,7 +31,7 @@ navTitle = Messages("calc.base.resident.shares.home")
     @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 
 
-    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+    @if(taxYear.isValidYear) {
         <section id="whatToDoNext">
             <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
             <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
@@ -47,7 +47,7 @@ navTitle = Messages("calc.base.resident.shares.home")
         @Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
 
-    @if(TaxDates.dateInsideAcceptedTaxYears(getDay(gainAnswers.disposalDate), getMonth(gainAnswers.disposalDate), getYear(gainAnswers.disposalDate))) {
+    @if(taxYear.isValidYear) {
         <div class="summary-details-padding">
             <a class="button" href="@controllers.routes.SaUserController.saUser.url" id="continue-button">@Messages("calc.base.button.continue")</a>
         </div>
