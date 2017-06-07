@@ -411,7 +411,7 @@ object MessageLookup {
 
       object ValueBeforeLegislationStart {
         val question = "What were the shares worth on 31 March 1982?"
-        val information = "31 March 1982 is when the current Capital Gains Tax system came into effect."
+        val information = "Capital Gains Tax only applies to gains made since 31 March 1982."
         val helpText = "Get valuation information from the stock exchange or talk to your stockbroker or fund manager."
         val hintText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
 
@@ -425,7 +425,7 @@ object MessageLookup {
       //############ Owner Before Legislation Start messages #################//
       object OwnerBeforeLegislationStart {
         val title = "Did you own the shares before 1 April 1982?"
-        val help = "This is when the current Capital Gains Tax system came into effect."
+        val help = "Capital Gains Tax only applies to gains made since 31 March 1982."
         val errorNoSelect = "Tell us if you owned the shares before 1 April 1982"
       }
 
