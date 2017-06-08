@@ -41,7 +41,6 @@ trait WhatNextSAController extends ValidActiveSession {
   val calcConnector: CalculatorConnector
   val appConfig: AppConfig
 
-  //TODO: replace this with the sa user back link
   val backLink: String = controllers.routes.SaUserController.saUser().url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
