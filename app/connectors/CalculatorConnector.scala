@@ -21,17 +21,16 @@ import common.KeystoreKeys.ResidentShareKeys
 import config.{CalculatorSessionCache, WSHttp}
 import constructors.CalculateRequestConstructor
 import models._
-import models.resident.shares.GainAnswersModel
-import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
+import models.resident._
+import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
+import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
 import play.api.libs.json.Format
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.config.ServicesConfig
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import play.api.mvc.Results._
 
 object CalculatorConnector extends CalculatorConnector with ServicesConfig {
   override val sessionCache = CalculatorSessionCache
@@ -72,7 +71,7 @@ trait CalculatorConnector {
     )
   }
 
-  def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[resident.TaxYearModel]] = {
+  def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] = {
     http.GET[Option[resident.TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
   }
 
@@ -82,37 +81,40 @@ trait CalculatorConnector {
 
   //Rtt share calculation methods
   //scalastyle:off
-  def getShareGainAnswers(implicit hc: HeaderCarrier): Future[resident.shares.GainAnswersModel] = {
-    val disposalDate = fetchAndGetFormData[resident.DisposalDateModel](ResidentShareKeys.disposalDate).map(formData =>
-      constructDate(formData.get.day, formData.get.month, formData.get.year))
-    val soldForLessThanWorth = fetchAndGetFormData[resident.SellForLessModel](ResidentShareKeys.sellForLess).map(_.get.sellForLess)
-    val disposalValue = fetchAndGetFormData[resident.DisposalValueModel](ResidentShareKeys.disposalValue).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val worthWhenSoldForLess = fetchAndGetFormData[resident.WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val disposalCosts = fetchAndGetFormData[resident.DisposalCostsModel](ResidentShareKeys.disposalCosts).map(_.get.amount)
-    val ownedBeforeTaxStartDate = fetchAndGetFormData[resident.shares.OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart).map(_.get.ownerBeforeLegislationStart)
-    val valueBeforeLegislationStart = fetchAndGetFormData[resident.shares.gain.ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val inheritedTheShares = fetchAndGetFormData[resident.shares.gain.DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem).map {
-      case Some(data) => Some(data.wereInherited)
-      case _ => None
-    }
-    val worthWhenInherited = fetchAndGetFormData[resident.WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val acquisitionValue = fetchAndGetFormData[resident.AcquisitionValueModel](ResidentShareKeys.acquisitionValue).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val acquisitionCosts = fetchAndGetFormData[resident.AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts).map(_.get.amount)
+  def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {
+
+    val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
+      .map(formData => constructDate(formData.get.day, formData.get.month, formData.get.year))
+
+    val soldForLessThanWorth = fetchAndGetFormData[SellForLessModel](ResidentShareKeys.sellForLess)
+      .map(_.get.sellForLess)
+
+    val disposalValue = fetchAndGetFormData[DisposalValueModel](ResidentShareKeys.disposalValue)
+      .map(_.map(_.amount))
+
+    val worthWhenSoldForLess = fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess)
+      .map(_.map(_.amount))
+
+    val disposalCosts = fetchAndGetFormData[DisposalCostsModel](ResidentShareKeys.disposalCosts)
+      .map(_.get.amount)
+
+    val ownedBeforeTaxStartDate = fetchAndGetFormData[OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart)
+      .map(_.get.ownerBeforeLegislationStart)
+
+    val valueBeforeLegislationStart = fetchAndGetFormData[ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart)
+      .map(_.map(_.amount))
+
+    val inheritedTheShares = fetchAndGetFormData[DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem)
+      .map(_.map(_.wereInherited))
+
+    val worthWhenInherited = fetchAndGetFormData[WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited)
+      .map(_.map(_.amount))
+
+    val acquisitionValue = fetchAndGetFormData[AcquisitionValueModel](ResidentShareKeys.acquisitionValue)
+      .map(_.map(_.amount))
+
+    val acquisitionCosts = fetchAndGetFormData[AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts)
+      .map(_.get.amount)
 
     for {
       disposalDate <- disposalDate
@@ -139,9 +141,6 @@ trait CalculatorConnector {
       acquisitionValue,
       acquisitionCosts
     )
-  }.recover {
-    case e: NoSuchElementException =>
-      throw ApplicationException("cgt", Redirect(controllers.utils.routes.TimeoutController.timeout("", "")), e.getMessage)
   }
 
   //scalastyle:on
