@@ -146,7 +146,7 @@ trait CalculatorConnector {
       acquisitionCosts
     )
   }.recover {
-    case e: CGTClientException =>
+    case e: NoSuchElementException =>
       throw ApplicationException(
         "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
