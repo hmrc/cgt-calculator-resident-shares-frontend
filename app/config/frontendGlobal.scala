@@ -30,9 +30,7 @@ import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
 import uk.gov.hmrc.play.frontend.bootstrap.DefaultFrontendGlobal
 import uk.gov.hmrc.play.http.logging.filters.FrontendLoggingFilter
 
-
-object FrontendGlobal
-  extends DefaultFrontendGlobal {
+object FrontendGlobal extends DefaultFrontendGlobal {
 
   override val auditConnector = FrontendAuditConnector
   override val loggingFilter = LoggingFilter

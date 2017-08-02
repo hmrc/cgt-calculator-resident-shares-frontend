@@ -310,10 +310,10 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Acquisition Costs Actions ########################
-  private def acquisitionCostsBackLink: (OwnerBeforeLegislationStartModel, Option[DidYouInheritThemModel]) => String = {
-      case (x,_) if x.ownerBeforeLegislationStart => routes.GainController.valueBeforeLegislationStart().url
-      case (_,y) if y.get.wereInherited => routes.GainController.worthWhenInherited().url
-      case (_,_) => routes.GainController.acquisitionValue().url
+  private def acquisitionCostsBackLink: (OwnerBeforeLegislationStartModel, DidYouInheritThemModel) => String = {
+    case (x,_) if x.ownerBeforeLegislationStart => routes.GainController.valueBeforeLegislationStart().url
+    case (_,y) if y.wereInherited => routes.GainController.worthWhenInherited().url
+    case (_,_) => routes.GainController.acquisitionValue().url
   }
 
   val acquisitionCosts = ValidateSession.async { implicit request =>
@@ -328,8 +328,9 @@ trait GainController extends ValidActiveSession {
     for {
       ownedBeforeTax <- calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       didYouInheritThem <- calcConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
-      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem))
+      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem.get))
     } yield route
+
   }
 
   val submitAcquisitionCosts = ValidateSession.async { implicit request =>
@@ -359,7 +360,7 @@ trait GainController extends ValidActiveSession {
     for {
       ownedBeforeTax <- calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       didYouInheritThem <- calcConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
-      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem))
+      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem.get))
     } yield route
   }
 }

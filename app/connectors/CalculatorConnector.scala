@@ -22,17 +22,20 @@ import config.{CalculatorSessionCache, WSHttp}
 import constructors.CalculateRequestConstructor
 import models._
 import models.resident._
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
-import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel, OwnerBeforeLegislationStartModel}
 import play.api.libs.json.Format
+import play.api.mvc.Results._
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
-import uk.gov.hmrc.play.config.ServicesConfig
+import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object CalculatorConnector extends CalculatorConnector with ServicesConfig {
+object CalculatorConnector extends CalculatorConnector with ServicesConfig with AppName {
   override val sessionCache = CalculatorSessionCache
   override val http = WSHttp
   override val serviceUrl = baseUrl("capital-gains-calculator")
@@ -43,6 +46,7 @@ trait CalculatorConnector {
   val sessionCache: SessionCache
   val http: HttpGet
   val serviceUrl: String
+  val homeLink = controllers.routes.GainController.disposalDate().url
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
@@ -128,7 +132,7 @@ trait CalculatorConnector {
       worthWhenInherited <- worthWhenInherited
       acquisitionValue <- acquisitionValue
       acquisitionCosts <- acquisitionCosts
-    } yield resident.shares.GainAnswersModel(
+    } yield GainAnswersModel(
       disposalDate,
       soldForLessThanWorth,
       disposalValue,
@@ -141,13 +145,20 @@ trait CalculatorConnector {
       acquisitionValue,
       acquisitionCosts
     )
+  }.recover {
+    case e: CGTClientException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   //scalastyle:on
 
-  def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[resident.shares.DeductionGainAnswersModel] = {
-    val broughtForwardModel = fetchAndGetFormData[resident.LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
-    val broughtForwardValueModel = fetchAndGetFormData[resident.LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
+  def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = {
+    val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
+    val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
 
     for {
       broughtForward <- broughtForwardModel
@@ -159,9 +170,9 @@ trait CalculatorConnector {
     }
   }
 
-  def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[resident.IncomeAnswersModel] = {
-    val currentIncomeModel = fetchAndGetFormData[resident.income.CurrentIncomeModel](ResidentShareKeys.currentIncome)
-    val personalAllowanceModel = fetchAndGetFormData[resident.income.PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
+  def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[IncomeAnswersModel] = {
+    val currentIncomeModel = fetchAndGetFormData[CurrentIncomeModel](ResidentShareKeys.currentIncome)
+    val personalAllowanceModel = fetchAndGetFormData[PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
 
     for {
       currentIncome <- currentIncomeModel
@@ -171,15 +182,15 @@ trait CalculatorConnector {
     }
   }
 
-  def calculateRttShareGrossGain(input: resident.shares.GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
+  def calculateRttShareGrossGain(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/shares/calculate-total-gain" +
       CalculateRequestConstructor.totalGainRequestString(input)
     )
   }
 
-  def calculateRttShareChargeableGain(totalGainInput: resident.shares.GainAnswersModel,
-                                      chargeableGainInput: resident.shares.DeductionGainAnswersModel,
-                                      maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[resident.ChargeableGainResultModel]] = {
+  def calculateRttShareChargeableGain(totalGainInput: GainAnswersModel,
+                                      chargeableGainInput: DeductionGainAnswersModel,
+                                      maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[ChargeableGainResultModel]] = {
     http.GET[Option[resident.ChargeableGainResultModel]](s"$serviceUrl/capital-gains-calculator/shares/calculate-chargeable-gain" +
       CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
       CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
@@ -187,10 +198,10 @@ trait CalculatorConnector {
     )
   }
 
-  def calculateRttShareTotalGainAndTax(totalGainInput: resident.shares.GainAnswersModel,
-                                       chargeableGainInput: resident.shares.DeductionGainAnswersModel,
+  def calculateRttShareTotalGainAndTax(totalGainInput: GainAnswersModel,
+                                       chargeableGainInput: DeductionGainAnswersModel,
                                        maxAEA: BigDecimal,
-                                       incomeAnswers: resident.IncomeAnswersModel)(implicit hc: HeaderCarrier):
+                                       incomeAnswers: IncomeAnswersModel)(implicit hc: HeaderCarrier):
   Future[Option[resident.TotalGainAndTaxOwedModel]] = {
     http.GET[Option[resident.TotalGainAndTaxOwedModel]](s"$serviceUrl/capital-gains-calculator/shares/calculate-resident-capital-gains-tax" +
       CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
