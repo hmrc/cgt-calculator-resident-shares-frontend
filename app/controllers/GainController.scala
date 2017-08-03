@@ -22,6 +22,7 @@ import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{Dates, TaxDates}
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.AcquisitionCostsForm._
 import forms.AcquisitionValueForm._
 import forms.DidYouInheritThemForm._
@@ -36,17 +37,14 @@ import forms.WorthWhenSoldForLessForm._
 import models.resident._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
-import play.api.Logger
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
 import views.html.{calculation => commonViews}
 import views.html.calculation.{gain => views}
-import utils.RecoverableFuture
 
 import scala.concurrent.Future
 
@@ -311,9 +309,9 @@ trait GainController extends ValidActiveSession {
   }
 
   //################# Acquisition Costs Actions ########################
-  private def acquisitionCostsBackLink: (OwnerBeforeLegislationStartModel, DidYouInheritThemModel) => String = {
+  private def acquisitionCostsBackLink: (OwnerBeforeLegislationStartModel, Option[DidYouInheritThemModel]) => String = {
     case (x,_) if x.ownerBeforeLegislationStart => routes.GainController.valueBeforeLegislationStart().url
-    case (_,y) if y.wereInherited => routes.GainController.worthWhenInherited().url
+    case (_,y) if y.get.wereInherited => routes.GainController.worthWhenInherited().url
     case (_,_) => routes.GainController.acquisitionValue().url
   }
 
@@ -329,7 +327,7 @@ trait GainController extends ValidActiveSession {
     (for {
       ownedBeforeTax <- calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       didYouInheritThem <- calcConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
-      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem.get))
+      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem))
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
@@ -361,7 +359,7 @@ trait GainController extends ValidActiveSession {
     (for {
       ownedBeforeTax <- calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       didYouInheritThem <- calcConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
-      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem.get))
+      route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem))
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }

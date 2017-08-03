@@ -44,9 +44,6 @@ class CgtErrorHandler extends HttpErrorHandler {
       case ApplicationException(_, result, _) =>
         Logger.info("INFO: Key-store None.get gracefully handled: " + result)
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
-      case e: NoSuchElementException =>
-        Logger.info(s"Key-store None.get handled from: ${request.uri}, sending user to start")
-        Future.successful(Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)))
       case e => onError(request, e)
     }
   }
