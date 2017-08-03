@@ -16,22 +16,25 @@
 
 package config
 
-import config.FrontendGlobal.{onBadRequest, onError}
+import config.FrontendGlobal.{onBadRequest, onError, onHandlerNotFound}
 import play.api.http.HeaderNames.CACHE_CONTROL
 import models.CGTClientException
 import play.api.Logger
 import play.api.http.HttpErrorHandler
 import play.api.mvc.{RequestHeader, Result}
+import play.api.mvc.Results._
 import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import play.api.http.Status._
 
 import scala.concurrent.Future
 
 class CgtErrorHandler extends HttpErrorHandler {
+  val homeLink = controllers.routes.GainController.disposalDate().url
 
   override def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
     statusCode match {
       case BAD_REQUEST => onBadRequest(request, message)
+      case NOT_FOUND => onHandlerNotFound(request)
       case _ => onError(request, new CGTClientException(s"Client Error Occurred with Status $statusCode and message $message"))
     }
   }
@@ -41,6 +44,9 @@ class CgtErrorHandler extends HttpErrorHandler {
       case ApplicationException(_, result, _) =>
         Logger.info("INFO: Key-store None.get gracefully handled: " + result)
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
+      case e: NoSuchElementException =>
+        Logger.info(s"Key-store None.get handled from: ${request.uri}, sending user to start")
+        Future.successful(Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)))
       case e => onError(request, e)
     }
   }

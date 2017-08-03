@@ -36,14 +36,17 @@ import forms.WorthWhenSoldForLessForm._
 import models.resident._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
+import play.api.Logger
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
 import views.html.{calculation => commonViews}
 import views.html.calculation.{gain => views}
+import utils.RecoverableFuture
 
 import scala.concurrent.Future
 
@@ -83,11 +86,11 @@ trait GainController extends ValidActiveSession {
     disposalDateForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.disposalDate(errors, homeLink))),
       success => {
-        for {
+        (for {
           save <- calcConnector.saveFormData(keystoreKeys.disposalDate, success)
           taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
           route <- routeRequest(taxYearResult)
-        } yield route
+        } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
       }
     )
   }
@@ -111,23 +114,21 @@ trait GainController extends ValidActiveSession {
       Future.successful(Ok(view))
     }
 
-    val soldForLess = calcConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
-
-    for {
-      model <- soldForLess
+    (for {
+      model <- calcConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       backLink <- sellForLessBackLink()
       route <- routeRequest(model, backLink)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
 
   val submitSellForLess = ValidateSession.async { implicit request =>
     sellForLessForm.bindFromRequest.fold(
       errors => {
-        for {
+        (for {
           backLink <- sellForLessBackLink()
           response <- Future.successful(BadRequest(views.sellForLess(errors, homeLink, backLink)))
-        } yield response
+        } yield response).recoverToStart(homeLink, sessionTimeoutUrl)
       },
       success => {
         calcConnector.saveFormData[SellForLessModel](keystoreKeys.sellForLess, success)
@@ -161,7 +162,7 @@ trait GainController extends ValidActiveSession {
 
   //################ Outside Tax Years Actions ######################
   val outsideTaxYears = ValidateSession.async { implicit request =>
-    for {
+    (for {
       disposalDate <- calcConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
       taxYear <- calcConnector.getTaxYear(s"${disposalDate.get.year}-${disposalDate.get.month}-${disposalDate.get.day}")
     } yield {
@@ -174,7 +175,7 @@ trait GainController extends ValidActiveSession {
         continueUrl = routes.GainController.sellForLess().url,
         navTitle = navTitle
       ))
-    }
+    }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //################ Disposal Value Actions ######################
@@ -267,7 +268,7 @@ trait GainController extends ValidActiveSession {
       errors => Future.successful(BadRequest(views.didYouInheritThem(errors))),
       success => {
         calcConnector.saveFormData(keystoreKeys.didYouInheritThem, success)
-        if(success.wereInherited) Future.successful(Redirect(routes.GainController.worthWhenInherited()))
+        if (success.wereInherited) Future.successful(Redirect(routes.GainController.worthWhenInherited()))
         else Future.successful(Redirect(routes.GainController.acquisitionValue()))
       }
     )
@@ -325,11 +326,11 @@ trait GainController extends ValidActiveSession {
       }
     }
 
-    for {
+    (for {
       ownedBeforeTax <- calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       didYouInheritThem <- calcConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
       route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem.get))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
 
@@ -357,10 +358,10 @@ trait GainController extends ValidActiveSession {
       )
     }
 
-    for {
+    (for {
       ownedBeforeTax <- calcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
       didYouInheritThem <- calcConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
       route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem.get))
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }
