@@ -168,6 +168,13 @@ trait CalculatorConnector {
         broughtForward,
         broughtForwardValue)
     }
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[IncomeAnswersModel] = {
@@ -180,12 +187,26 @@ trait CalculatorConnector {
     } yield {
       resident.IncomeAnswersModel(currentIncome, personalAllowance)
     }
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   def calculateRttShareGrossGain(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/shares/calculate-total-gain" +
       CalculateRequestConstructor.totalGainRequestString(input)
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   def calculateRttShareChargeableGain(totalGainInput: GainAnswersModel,
@@ -196,6 +217,13 @@ trait CalculatorConnector {
       CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
 
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   def calculateRttShareTotalGainAndTax(totalGainInput: GainAnswersModel,
@@ -208,9 +236,23 @@ trait CalculatorConnector {
       CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
       CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   def getSharesTotalCosts(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/shares/calculate-total-costs" + CalculateRequestConstructor.totalGainRequestString(input))
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 }

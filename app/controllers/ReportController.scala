@@ -22,6 +22,7 @@ import common.Dates
 import common.Dates._
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
 import models.resident.TaxYearModel
 import play.api.Play.current
@@ -60,18 +61,18 @@ trait ReportController extends ValidActiveSession {
 
   //###### Gain Summary Report ########\\
   val gainSummaryReport = ValidateSession.async { implicit request =>
-    for {
+    (for {
       answers <- calcConnector.getShareGainAnswers
       costs <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
     } yield {pdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get, costs), host).asScala()
-      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
+      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   //#####Deductions summary actions#####\\
   val deductionsReport = ValidateSession.async { implicit request =>
-    for {
+    (for {
       answers <- calcConnector.getShareGainAnswers
       costs <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
@@ -82,14 +83,14 @@ trait ReportController extends ValidActiveSession {
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
     } yield
       {pdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get, costs), host).asScala()
-      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}
+      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
 
   //#####Final summary actions#####\\
 
   val finalSummaryReport = ValidateSession.async { implicit request =>
-    for {
+    (for {
       answers <- calcConnector.getShareGainAnswers
       totalCosts <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
@@ -112,6 +113,6 @@ trait ReportController extends ValidActiveSession {
         chargeableGain.get.deductions
       ),
         host).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }
+    }).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }

@@ -22,6 +22,7 @@ import common.Dates
 import common.Dates._
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Play.current
@@ -79,10 +80,6 @@ trait SummaryController extends ValidActiveSession {
 
     def getTaxYear(disposalDate: LocalDate): Future[Option[TaxYearModel]] = calculatorConnector.getTaxYear(disposalDate.format(requestFormatter))
 
-//    def getTotalCosts(gainAnswersModel: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
-//      calculatorConnector.getTotalCosts(gainAnswersModel)
-//    }
-
     def routeRequest(totalGainAnswers: GainAnswersModel,
                      grossGain: BigDecimal,
                      deductionGainAnswers: DeductionGainAnswersModel,
@@ -105,7 +102,7 @@ trait SummaryController extends ValidActiveSession {
       else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get, homeLink, totalCosts, maxAea)))
     }
 
-    for {
+    (for {
       answers <- calculatorConnector.getShareGainAnswers
       totalCosts <- calculatorConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
@@ -119,7 +116,7 @@ trait SummaryController extends ValidActiveSession {
       totalGain <- getTotalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
-        backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get)
-    } yield routeRequest
+                                   backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get)
+    } yield routeRequest).recoverToStart(homeLink, homeLink)
   }
 }

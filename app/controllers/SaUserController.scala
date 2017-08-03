@@ -23,12 +23,11 @@ import controllers.predicates.ValidActiveSession
 import forms.SaUserForm
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import play.api.mvc.{Action, AnyContent, Result}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.data.Form
+import play.api.i18n.Messages.Implicits._
+import play.api.mvc.{Action, AnyContent, Result}
 import uk.gov.hmrc.play.http.HeaderCarrier
-import views.html.calculation.whatNext.saUser
 
 import scala.concurrent.Future
 
