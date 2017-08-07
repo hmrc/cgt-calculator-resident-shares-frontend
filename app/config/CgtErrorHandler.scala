@@ -41,7 +41,7 @@ class CgtErrorHandler extends HttpErrorHandler {
   override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
     exception match {
       case ApplicationException(_, result, _) =>
-        Logger.info(s"Key-store None.get gracefully handled from: ${request.uri}")
+        Logger.info(s"Key-store None.get handled from: ${request.uri}")
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
       case e => onError(request, e)
     }
