@@ -17,14 +17,13 @@
 package config
 
 import config.FrontendGlobal.{onBadRequest, onError, onHandlerNotFound}
-import play.api.http.HeaderNames.CACHE_CONTROL
 import models.CGTClientException
 import play.api.Logger
+import play.api.http.HeaderNames.CACHE_CONTROL
 import play.api.http.HttpErrorHandler
-import play.api.mvc.{RequestHeader, Result}
-import play.api.mvc.Results._
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import play.api.http.Status._
+import play.api.mvc.{RequestHeader, Result}
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 
 import scala.concurrent.Future
 
@@ -42,7 +41,7 @@ class CgtErrorHandler extends HttpErrorHandler {
   override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
     exception match {
       case ApplicationException(_, result, _) =>
-        Logger.info("INFO: Key-store None.get gracefully handled: " + result)
+        Logger.info(s"Key-store None.get gracefully handled from: ${request.uri}")
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
       case e => onError(request, e)
     }
