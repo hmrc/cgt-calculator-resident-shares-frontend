@@ -30,7 +30,6 @@ import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import config.CgtErrorHandler
 
 import scala.concurrent.Future
 
@@ -38,9 +37,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
 
   implicit lazy val actorSystem = ActorSystem()
 
-  def setupTarget(sellForLess: Option[SellForLessModel],
-                  disposalDate: Option[DisposalDateModel] = Some(DisposalDateModel(1, 1, 1)),
-                  knownTaxYear: Boolean = true): GainController = {
+  def setupTarget(getData: Option[SellForLessModel], knownTaxYear: Boolean = true): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
 
@@ -48,10 +45,10 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
       .thenReturn(Future.successful(Some(TaxYearModel("year", knownTaxYear, "year"))))
 
     when(mockCalcConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(sellForLess))
+      .thenReturn(Future.successful(getData))
 
     when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keyStoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(disposalDate))
+      .thenReturn(Future.successful(Some(DisposalDateModel(1, 1, 1))))
 
     when(mockCalcConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
@@ -167,19 +164,6 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
 
       "render the Sell For Less page" in {
         doc.title() shouldEqual messages.title
-      }
-    }
-
-    "an invalid form with no data in key-store" should {
-
-      lazy val target = setupTarget(None, disposalDate = None)
-      lazy val request = fakeRequestToPOSTWithSession(("sellForLess", ""))
-      lazy val result = target.submitSellForLess(request)
-//      lazy val doc = Jsoup.parse(bodyOf(result))
-
-      "return a status of 303" in {
-        println("############################:-\n" + status(result))
-        status(result) shouldBe 303
       }
     }
   }
