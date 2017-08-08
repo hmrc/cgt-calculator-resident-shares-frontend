@@ -16,6 +16,7 @@
 
 package config
 
+import org.scalatest.MustMatchers._
 import org.scalatestplus.play.OneServerPerSuite
 import play.api.Application
 import play.api.http.Writeable
@@ -27,9 +28,10 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.test.UnitSpec
-import org.scalatest.MustMatchers._
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+
+import scala.concurrent.Future
+
 
 class CgtErrorHandlerSpec extends UnitSpec with OneServerPerSuite {
 
@@ -69,7 +71,7 @@ class CgtErrorHandlerSpec extends UnitSpec with OneServerPerSuite {
     status(response) must equal(OK)
   }
 
-  "Application returns 303 and redirects user to start of journey for application exception, rather than technical difficulties" in {
+  "Application returns 303 and redirects user to start of journey for none.get, rather than technical difficulties" in {
     val request = FakeRequest("GET", "/application-exception")
     val response = routeWithError(app, request).get
     status(response) must equal(SEE_OTHER)

@@ -84,11 +84,11 @@ trait GainController extends ValidActiveSession {
     disposalDateForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.disposalDate(errors, homeLink))),
       success => {
-        (for {
+        for {
           save <- calcConnector.saveFormData(keystoreKeys.disposalDate, success)
           taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
           route <- routeRequest(taxYearResult)
-        } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+        } yield route
       }
     )
   }
