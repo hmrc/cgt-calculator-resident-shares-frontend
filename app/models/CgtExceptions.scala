@@ -14,21 +14,6 @@
  * limitations under the License.
  */
 
-package controllers.utils
+package models
 
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.frontend.controller.FrontendController
-import views.html.warnings._
-
-import scala.concurrent.Future
-
-object TimeoutController extends TimeoutController
-
-trait TimeoutController extends FrontendController {
-
-  def timeout(restartUrl: String, homeLink: String) : Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(sessionTimeout(restartUrl, homeLink)))
-  }
-}
+case class CGTClientException(message: String) extends Exception(message)

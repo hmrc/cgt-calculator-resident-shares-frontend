@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import connectors.CalculatorConnector
@@ -38,7 +37,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
 
   implicit lazy val actorSystem = ActorSystem()
 
-  def setupTarget(getData: Option[SellForLessModel], knownTaxYear: Boolean = true): GainController= {
+  def setupTarget(getData: Option[SellForLessModel], knownTaxYear: Boolean = true): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
 
@@ -86,7 +85,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
     }
 
     "outside a known tax year" should {
-      lazy val target = setupTarget(None, false)
+      lazy val target = setupTarget(None, knownTaxYear = false)
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the outside tax years page" in {

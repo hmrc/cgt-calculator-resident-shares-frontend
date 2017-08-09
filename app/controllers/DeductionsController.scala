@@ -17,13 +17,13 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import common.resident.JourneyKeys
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.LossesBroughtForwardForm._
 import forms.LossesBroughtForwardValueForm._
-import models.resident.shares.GainAnswersModel
 import models.resident._
+import models.resident.shares.GainAnswersModel
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -97,12 +97,12 @@ trait DeductionsController extends ValidActiveSession {
       }
     }
 
-    for {
+    (for {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       finalResult <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
-    } yield finalResult
+    } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitLossesBroughtForward = ValidateSession.async { implicit request =>
@@ -125,12 +125,12 @@ trait DeductionsController extends ValidActiveSession {
       )
     }
 
-    for {
+    (for {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       route <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
 
@@ -158,13 +158,13 @@ trait DeductionsController extends ValidActiveSession {
         navTitle
       )))
     }
-    for {
+    (for {
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       formData <- retrieveKeystoreData()
       route <- routeRequest(taxYear.get, formData)
-    } yield route
+    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
   val submitLossesBroughtForwardValue = ValidateSession.async { implicit request =>

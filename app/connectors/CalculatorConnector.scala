@@ -21,17 +21,21 @@ import common.KeystoreKeys.ResidentShareKeys
 import config.{CalculatorSessionCache, WSHttp}
 import constructors.CalculateRequestConstructor
 import models._
-import models.resident.shares.GainAnswersModel
-import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
+import models.resident._
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel, OwnerBeforeLegislationStartModel}
 import play.api.libs.json.Format
+import play.api.mvc.Results._
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
-import uk.gov.hmrc.play.config.ServicesConfig
+import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object CalculatorConnector extends CalculatorConnector with ServicesConfig {
+object CalculatorConnector extends CalculatorConnector with ServicesConfig with AppName {
   override val sessionCache = CalculatorSessionCache
   override val http = WSHttp
   override val serviceUrl = baseUrl("capital-gains-calculator")
@@ -42,6 +46,7 @@ trait CalculatorConnector {
   val sessionCache: SessionCache
   val http: HttpGet
   val serviceUrl: String
+  val homeLink = controllers.routes.GainController.disposalDate().url
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
@@ -70,7 +75,7 @@ trait CalculatorConnector {
     )
   }
 
-  def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[resident.TaxYearModel]] = {
+  def getTaxYear(taxYear: String)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] = {
     http.GET[Option[resident.TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
   }
 
@@ -80,37 +85,40 @@ trait CalculatorConnector {
 
   //Rtt share calculation methods
   //scalastyle:off
-  def getShareGainAnswers(implicit hc: HeaderCarrier): Future[resident.shares.GainAnswersModel] = {
-    val disposalDate = fetchAndGetFormData[resident.DisposalDateModel](ResidentShareKeys.disposalDate).map(formData =>
-      constructDate(formData.get.day, formData.get.month, formData.get.year))
-    val soldForLessThanWorth = fetchAndGetFormData[resident.SellForLessModel](ResidentShareKeys.sellForLess).map(_.get.sellForLess)
-    val disposalValue = fetchAndGetFormData[resident.DisposalValueModel](ResidentShareKeys.disposalValue).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val worthWhenSoldForLess = fetchAndGetFormData[resident.WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val disposalCosts = fetchAndGetFormData[resident.DisposalCostsModel](ResidentShareKeys.disposalCosts).map(_.get.amount)
-    val ownedBeforeTaxStartDate = fetchAndGetFormData[resident.shares.OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart).map(_.get.ownerBeforeLegislationStart)
-    val valueBeforeLegislationStart = fetchAndGetFormData[resident.shares.gain.ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val inheritedTheShares = fetchAndGetFormData[resident.shares.gain.DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem).map {
-      case Some(data) => Some(data.wereInherited)
-      case _ => None
-    }
-    val worthWhenInherited = fetchAndGetFormData[resident.WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val acquisitionValue = fetchAndGetFormData[resident.AcquisitionValueModel](ResidentShareKeys.acquisitionValue).map {
-      case Some(data) => Some(data.amount)
-      case _ => None
-    }
-    val acquisitionCosts = fetchAndGetFormData[resident.AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts).map(_.get.amount)
+  def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {
+
+    val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
+      .map(formData => constructDate(formData.get.day, formData.get.month, formData.get.year))
+
+    val soldForLessThanWorth = fetchAndGetFormData[SellForLessModel](ResidentShareKeys.sellForLess)
+      .map(_.get.sellForLess)
+
+    val disposalValue = fetchAndGetFormData[DisposalValueModel](ResidentShareKeys.disposalValue)
+      .map(_.map(_.amount))
+
+    val worthWhenSoldForLess = fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess)
+      .map(_.map(_.amount))
+
+    val disposalCosts = fetchAndGetFormData[DisposalCostsModel](ResidentShareKeys.disposalCosts)
+      .map(_.get.amount)
+
+    val ownedBeforeTaxStartDate = fetchAndGetFormData[OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart)
+      .map(_.get.ownerBeforeLegislationStart)
+
+    val valueBeforeLegislationStart = fetchAndGetFormData[ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart)
+      .map(_.map(_.amount))
+
+    val inheritedTheShares = fetchAndGetFormData[DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem)
+      .map(_.map(_.wereInherited))
+
+    val worthWhenInherited = fetchAndGetFormData[WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited)
+      .map(_.map(_.amount))
+
+    val acquisitionValue = fetchAndGetFormData[AcquisitionValueModel](ResidentShareKeys.acquisitionValue)
+      .map(_.map(_.amount))
+
+    val acquisitionCosts = fetchAndGetFormData[AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts)
+      .map(_.get.amount)
 
     for {
       disposalDate <- disposalDate
@@ -124,7 +132,7 @@ trait CalculatorConnector {
       worthWhenInherited <- worthWhenInherited
       acquisitionValue <- acquisitionValue
       acquisitionCosts <- acquisitionCosts
-    } yield resident.shares.GainAnswersModel(
+    } yield GainAnswersModel(
       disposalDate,
       soldForLessThanWorth,
       disposalValue,
@@ -137,13 +145,20 @@ trait CalculatorConnector {
       acquisitionValue,
       acquisitionCosts
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   //scalastyle:on
 
-  def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[resident.shares.DeductionGainAnswersModel] = {
-    val broughtForwardModel = fetchAndGetFormData[resident.LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
-    val broughtForwardValueModel = fetchAndGetFormData[resident.LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
+  def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = {
+    val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
+    val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
 
     for {
       broughtForward <- broughtForwardModel
@@ -153,11 +168,18 @@ trait CalculatorConnector {
         broughtForward,
         broughtForwardValue)
     }
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
-  def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[resident.IncomeAnswersModel] = {
-    val currentIncomeModel = fetchAndGetFormData[resident.income.CurrentIncomeModel](ResidentShareKeys.currentIncome)
-    val personalAllowanceModel = fetchAndGetFormData[resident.income.PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
+  def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[IncomeAnswersModel] = {
+    val currentIncomeModel = fetchAndGetFormData[CurrentIncomeModel](ResidentShareKeys.currentIncome)
+    val personalAllowanceModel = fetchAndGetFormData[PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
 
     for {
       currentIncome <- currentIncomeModel
@@ -165,37 +187,72 @@ trait CalculatorConnector {
     } yield {
       resident.IncomeAnswersModel(currentIncome, personalAllowance)
     }
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
-  def calculateRttShareGrossGain(input: resident.shares.GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
+  def calculateRttShareGrossGain(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/shares/calculate-total-gain" +
       CalculateRequestConstructor.totalGainRequestString(input)
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
-  def calculateRttShareChargeableGain(totalGainInput: resident.shares.GainAnswersModel,
-                                      chargeableGainInput: resident.shares.DeductionGainAnswersModel,
-                                      maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[resident.ChargeableGainResultModel]] = {
+  def calculateRttShareChargeableGain(totalGainInput: GainAnswersModel,
+                                      chargeableGainInput: DeductionGainAnswersModel,
+                                      maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[ChargeableGainResultModel]] = {
     http.GET[Option[resident.ChargeableGainResultModel]](s"$serviceUrl/capital-gains-calculator/shares/calculate-chargeable-gain" +
       CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
       CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA)
 
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
-  def calculateRttShareTotalGainAndTax(totalGainInput: resident.shares.GainAnswersModel,
-                                       chargeableGainInput: resident.shares.DeductionGainAnswersModel,
+  def calculateRttShareTotalGainAndTax(totalGainInput: GainAnswersModel,
+                                       chargeableGainInput: DeductionGainAnswersModel,
                                        maxAEA: BigDecimal,
-                                       incomeAnswers: resident.IncomeAnswersModel)(implicit hc: HeaderCarrier):
+                                       incomeAnswers: IncomeAnswersModel)(implicit hc: HeaderCarrier):
   Future[Option[resident.TotalGainAndTaxOwedModel]] = {
     http.GET[Option[resident.TotalGainAndTaxOwedModel]](s"$serviceUrl/capital-gains-calculator/shares/calculate-resident-capital-gains-tax" +
       CalculateRequestConstructor.totalGainRequestString(totalGainInput) +
       CalculateRequestConstructor.chargeableGainRequestString(chargeableGainInput, maxAEA) +
       CalculateRequestConstructor.incomeAnswersRequestString(chargeableGainInput, incomeAnswers)
     )
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 
   def getSharesTotalCosts(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
     http.GET[BigDecimal](s"$serviceUrl/capital-gains-calculator/shares/calculate-total-costs" + CalculateRequestConstructor.totalGainRequestString(input))
+  }.recover {
+    case e: NoSuchElementException =>
+      throw ApplicationException(
+        "cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        e.getMessage
+      )
   }
 }

@@ -22,6 +22,7 @@ calc.error.summary.heading = This page has errors
 
 ## Session Timeout message ##
 session.timeout.message = Your session has ended
+calc.summary.startAgain = Start again
 
 ## Feature Unavailable message ##
 feature.unavailable.message = This feature is currently unavailable
