@@ -1,21 +1,15 @@
 ## Base ##
-calc.base.pageHeading = Calculate your non-resident Capital Gains Tax
 calc.base.continue = Continue
-calc.base.taxStart = 6 April 2015
 calc.base.calculate.tax.heading = Calculate your Capital Gains Tax
-calc.base.percentage.comp = complete
 calc.base.button.continue = Continue
 calc.base.yes = Yes
 calc.base.no = No
 calc.base.back = Back
 calc.base.optionReqError = Choose one of the options
 calc.base.externalLink = (opens in a new window)
-calc.base.undefinedMessage = Undefined message
 calc.base.change = Change
-calc.base.nonresident.home = Calculate your Capital Gains Tax
 calc.base.resident.properties.home = Calculate your Capital Gains Tax
 calc.base.resident.shares.home = Calculate your Capital Gains Tax
-calc.base.summary.dateWarning = These figures are based on the tax rates from the {0} tax year
 
 ## Error Summary ##
 calc.error.summary.heading = This page has errors
@@ -23,20 +17,6 @@ calc.error.summary.heading = This page has errors
 ## Session Timeout message ##
 session.timeout.message = Your session has ended
 calc.summary.startAgain = Start again
-
-## Feature Unavailable message ##
-feature.unavailable.message = This feature is currently unavailable
-feature.unavailable.text = It will be implemented in the future
-
-## PLAY! Error Overrides ##
-error.number=Enter a number without commas, for example 10000.00
-error.real=Enter a number without commas, for example 10000.00
-
-## Feedback ##
-feedback.title = Feedback
-
-## Feedback Thank You ##
-feedback.thankyou.title = Feedback received
 
 ## Common date Messages ##
 ## Use common messages if some but not all pages use these messages. ##
@@ -47,62 +27,21 @@ calc.common.date.fields.year = Year
 calc.common.date.hint = For example, 4 9 2016
 calc.common.date.error.invalidDate = Enter a real date
 calc.common.readMore = Read more
-calc.common.next.actions.heading = What to do next
-calc.common.invalidError = Invalid customer type
-calc.common.error.maxNumericExceeded = Enter an amount that''s £
-calc.common.error.maxNumericExceeded.OrLess = or less
 calc.common.error.maxAmountExceeded = Enter an amount that''s £{0} or less
-calc.common.error.fieldRequired = This field is required
 calc.common.error.mandatoryAmount = Enter an amount
 calc.common.error.minimumAmount = Enter an amount that''s £0 or more
-calc.common.error.maximumAmount = Enter an amount that''s £1,000,000,000 or less
 calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 10000.00
 calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format e.g. 10000
-
-## Customer Type ##
-calc.customerType.question = Who owned the property?
-calc.customerType.individual = I owned it
-calc.customerType.trustee = I was a trustee
-calc.customerType.personalRep = I was the executor of an estate
-
-## Disabled Trustee ##
-calc.disabledTrustee.question = Are you a trustee for someone who''s vulnerable?
-calc.disabledTrustee.helptext = A person''s vulnerable if they''re disabled, or if they''re under 18 and their parents have died
-calc.disabledTrustee.linkOne = Trusts and Capital Gains Tax
-
-## Disposal Date ##
-calc.disposalDate.question = When did you sign the contract that made someone else the owner?
-calc.disposalDate.error.disposalDateAfterAcquisition = This can''t be before the date you became the owner
-
-## How Much Gain ##
-calc.howMuchGain.question = What was your taxable gain?
-calc.howMuchGain.errorNegative = Enter a positive number for the amount on your taxable gain
-calc.howMuchGain.errorDecimalPlaces = Taxable Gain for has too many numbers after the decimal point
-
-## How Became Owner messages
-calc.howBecameOwner.errors.required = Tell us how you became the owner
-calc.howBecameOwner.question = How did you become the owner?
-calc.howBecameOwner.bought = Bought it
-calc.howBecameOwner.gifted = Got it as a gift
-calc.howBecameOwner.inherited= Inherited it
-
-## Previous Loss ##
-calc.howMuchLoss.question = How much loss did you report?
-calc.howMuchLoss.errorMinimum = Enter a positive number for your loss
-calc.howMuchLoss.errorDecimal = There are too many numbers after the decimal point in your loss
 
 ## Check Your Answers ##
 calc.checkYourAnswers.title = Check your answers
 calc.checkYourAnswers.tableHeading = You''ve told us
-calc.checkYourAnswers.change = Change
-calc.checkYourAnswers.hidden.text =  your response to the question
 
 ###############################################################################################
 ## Resident messages ##
 ###############################################################################################
 
 ## Disposal Date messages
-calc.resident.disposalDate.question = When did you sell or give away the property?
 calc.resident.disposalDate.invalidDayError = Enter a day
 calc.resident.disposalDate.invalidMonthError = Enter a month
 calc.resident.disposalDate.invalidYearError = Enter a year
@@ -117,52 +56,15 @@ calc.resident.outsideTaxYears.changeDate = Change your date
 
 ## Summary messages
 calc.resident.summary.title = Summary
-calc.resident.summary.pageHeading = Tax owed
-calc.resident.summary.calcDetailsHeading = Calculation details
-calc.resident.summary.calcDetailsHeadingDate = Calculation details for {0} tax year
-calc.resident.summary.yourAnswersHeading = Your answers
 calc.resident.summary.totalGain = Total gain
 calc.resident.summary.totalLoss = Loss
-calc.resident.summary.reliefs = Tax reliefs used
-
-calc.resident.summary.deductionsDetails.prrUsed = Private Residence Relief used
-calc.resident.summary.deductionsDetails.lettingReliefsUsed = Letting Relief used
-calc.resident.summary.deductionsDetails.allowableLosses = Loss from {0} tax year
-calc.resident.summary.deductionsDetails.allowableLossesUsed = Loss used from {0} tax year
-calc.resident.summary.deductionsDetails.aeaUsed = Capital Gains Tax allowance used
-calc.resident.summary.deductionsDetails.broughtForwardLoss = Loss from tax years before {0}
-calc.resident.summary.deductionsDetails.broughtForwardLossesUsed = Loss used from tax years before {0}
-calc.resident.summary.aeaRemaining = Capital Gains Tax allowance left for {0}
-
-calc.resident.summary.deductions = Deductions
-calc.resident.summary.chargeableLoss = Carried forward loss
-calc.resident.summary.chargeableGain = Taxable gain
-calc.resident.summary.taxRate = Tax rate
 calc.resident.summary.warning = Warning
-calc.resident.summary.whatNext = What to do next
-calc.resident.summary.whatNext.youCan = You can
-calc.resident.summary.whatNext.link = tell us about this loss
-calc.resident.summary.whatNext.text = so that you might need to pay less tax in the future.
-calc.resident.summary.whatNext.noLossOrGain = Find out whether you need to
-calc.resident.summary.whatNext.noLossOrGainLinkProperties = tell HMRC about the property
-calc.resident.summary.whatNext.noLossOrGainLinkShares = tell HMRC about the shares
-calc.resident.summary.whatNext.youNeedTo = You need to
-calc.resident.summary.whatNext.linkTwo = tell HMRC about the property
-calc.resident.summary.whatNext.sharesLinkTwo =  tell HMRC about the shares
-calc.resident.summary.whatNext.withLossRemaining = so that you might need to pay less tax in the future
-calc.resident.summary.whatNext.shares.liabilityMessage = You can tell HMRC about the shares and pay your tax using our
-calc.resident.summary.whatNext.properties.liabilityMessage = You can tell HMRC about the property and pay your tax using our
-calc.resident.summary.whatNext.liabilityLink = online service
-calc.resident.summary.whatNext.liabilityMessageTwo = You can use the figures on this page to help you do this.
 calc.resident.summary.saveAsPdf = Download your Capital Gains Tax calculation (PDF, under 25kB)
-calc.resident.summary.remainingAllowableLoss = Remaining loss from {0} tax year
 calc.resident.summary.remainingBroughtForwardLoss = Remaining loss from tax years before {0}
 calc.resident.summary.remainingLossHelp = You can
 calc.resident.summary.remainingLossLink = use this loss
-calc.resident.summary.remainingAllowableLossHelp = to reduce your Capital Gains Tax if you sell something in the same tax year
 calc.resident.summary.remainingBroughtForwardLossHelp = to reduce your Capital Gains Tax in the future
 calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your tax if you sell something else that''s covered by Capital Gains Tax in the same tax year.
-calc.resident.summary.download = Download
 
 ## Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are there any previous losses you want to bring forward?
@@ -171,7 +73,6 @@ calc.resident.lossesBroughtForward.helpText =  These are unused losses that are 
 ##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.helpInfo.title = What are Capital Gains Tax losses?
 calc.resident.lossesBroughtForward.helpInfo.subtitle = They''re losses you''ve made that:
 calc.resident.lossesBroughtForward.helpInfo.point1 = are covered by Capital Gains Tax
 calc.resident.lossesBroughtForward.helpInfo.point2 = you''ve declared within 4 years of making the loss
@@ -183,12 +84,8 @@ calc.resident.lossesBroughtForwardValue.title = What''s the total value of your 
 calc.resident.lossesBroughtForwardValue.pageHeading = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
 
 ## Current Income messages
-calc.resident.currentIncome.title = In the {0} tax year, what was your income?
 calc.resident.currentIncome.question = In the {0} tax year, what was your income?
-calc.resident.currentIncome.titleCurrentYear = How much do you expect your income to be in this tax year?
 calc.resident.currentIncome.questionCurrentYear = How much do you expect your income to be in this tax year?
-calc.resident.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property.
-calc.resident.currentIncome.linkText = Income tax
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
@@ -199,8 +96,6 @@ calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
 calc.resident.personalAllowance.link.text = Find out more about
 calc.resident.personalAllowance.link = Income tax rates and Personal Allowances
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
-calc.resident.personalAllowance.link.one = Personal Allowance
-calc.resident.personalAllowance.helpText = This is the amount of your income you don''t pay tax on. It was £{0} unless you were claiming other allowances.
 
 ###############################################################################################
 ## Resident Shares messages ##
@@ -251,9 +146,6 @@ calc.resident.shares.didYouInheritThem.question = Did you inherit the shares?
 ## Acquisition Value messages
 calc.resident.shares.acquisitionValue.question = How much did you pay for the shares?
 calc.resident.shares.acquisitionValue.hintText = If you owned them with someone else, only enter your share of the purchase.
-calc.resident.shares.acquisitionValue.bulletListTitle = Put the market value of the shares instead if you:
-calc.resident.shares.acquisitionValue.bulletListOne = inherited them
-calc.resident.shares.acquisitionValue.bulletListTwo = owned them before 1 April 1982
 
 ## Acquisition Costs messages
 calc.resident.shares.acquisitionCosts.question = How much did you pay in costs when you got the shares?
@@ -269,7 +161,6 @@ calc.summary.calculationDetails.heading = How we''ve worked this out
 calc.summary.calculationDetails.yourTotalGain = Your total gain
 calc.summary.calculationDetails.yourTotalLoss = Your total loss
 calc.summary.calculationDetails.disposalValue = Value when you sold the shares
-calc.summary.calculationDetails.marketValue = Value when you gave away the shares
 calc.summary.calculationDetails.acquisitionValue = Minus the value of the shares when you acquired them
 calc.summary.calculationDetails.acquisitionValueBeforeLegislation = Minus the value of the shares at 31 March 1982
 calc.summary.calculationDetails.totalCosts = Minus all costs
@@ -287,8 +178,6 @@ calc.summary.remainingDeductions.heading = Your remaining deductions
 calc.summary.remainingDeductions.aeaLeft = Annual Exempt Amount left for the {0} tax year
 calc.summary.calculationDetails.yourTaxRate = Your tax rate
 calc.summary.calculationDetails.taxRate = £{0} taxable gain multiplied by {1}% tax rate
-calc.summary.whatToDoNext.whatToDoNext = What to do next
-calc.summary.whatToDoNext.continue = Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax.
 calc.summary.remainingDeductions.broughtForwardLossesRemaining = Losses to carry forward from previous tax years
 calc.summary.remainingDeductions.lossesToCarryForward = Losses you can carry forward from this calculation
 calc.summary.whatToDoNext.heading = What to do next
