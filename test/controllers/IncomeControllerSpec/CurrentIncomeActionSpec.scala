@@ -62,7 +62,8 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYear)
 
-    when(mockCalcConnector.saveFormData[CurrentIncomeModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockCalcConnector.saveFormData[CurrentIncomeModel](ArgumentMatchers.any(),
+      ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(CacheMap("", Map.empty))
 
       )

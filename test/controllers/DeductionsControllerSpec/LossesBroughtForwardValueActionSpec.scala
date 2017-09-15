@@ -150,7 +150,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(maxAnnualExemptAmount))
 
-      when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
+        ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(CacheMap("", Map.empty))
 
         )
