@@ -129,11 +129,12 @@ trait GainController extends ValidActiveSession {
         } yield response).recoverToStart(homeLink, sessionTimeoutUrl)
       },
       success => {
-        calcConnector.saveFormData[SellForLessModel](keystoreKeys.sellForLess, success)
-        success.sellForLess match {
-          case true => Future.successful(Redirect(routes.GainController.worthWhenSoldForLess()))
-          case _ => Future.successful(Redirect(routes.GainController.disposalValue()))
-        }
+        calcConnector.saveFormData[SellForLessModel](keystoreKeys.sellForLess, success).flatMap(
+          _ =>success.sellForLess match {
+            case true => Future.successful(Redirect(routes.GainController.worthWhenSoldForLess()))
+            case _ => Future.successful(Redirect(routes.GainController.disposalValue()))
+          }
+        )
       }
     )
   }
@@ -151,8 +152,9 @@ trait GainController extends ValidActiveSession {
     worthWhenSoldForLessForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.worthWhenSoldForLess(errors, homeLink))),
       success => {
-        calcConnector.saveFormData(keystoreKeys.worthWhenSoldForLess, success)
-        Future.successful(Redirect(routes.GainController.disposalCosts()))
+        calcConnector.saveFormData(keystoreKeys.worthWhenSoldForLess, success).flatMap(
+          _=>Future.successful(Redirect(routes.GainController.disposalCosts()))
+        )
       }
     )
   }
@@ -188,8 +190,9 @@ trait GainController extends ValidActiveSession {
     disposalValueForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.disposalValue(errors, homeLink))),
       success => {
-        calcConnector.saveFormData[DisposalValueModel](keystoreKeys.disposalValue, success)
-        Future.successful(Redirect(routes.GainController.disposalCosts()))
+        calcConnector.saveFormData[DisposalValueModel](keystoreKeys.disposalValue, success).flatMap(
+          _ => Future.successful(Redirect(routes.GainController.disposalCosts()))
+        )
       }
     )
   }
@@ -206,8 +209,10 @@ trait GainController extends ValidActiveSession {
     disposalCostsForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.disposalCosts(errors, homeLink))),
       success => {
-        calcConnector.saveFormData(keystoreKeys.disposalCosts, success)
-        Future.successful(Redirect(routes.GainController.ownerBeforeLegislationStart()))}
+        calcConnector.saveFormData(keystoreKeys.disposalCosts, success).flatMap(
+          _ => Future.successful(Redirect(routes.GainController.ownerBeforeLegislationStart()))
+        )
+      }
     )
   }
 
@@ -226,11 +231,12 @@ trait GainController extends ValidActiveSession {
     ownerBeforeLegislationStartForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.ownerBeforeLegislationStart(errors, homeLink, ownerBeforeLegislationStartBackLink))),
       success => {
-        calcConnector.saveFormData(keystoreKeys.ownerBeforeLegislationStart, success)
-        success.ownerBeforeLegislationStart match {
-          case true => Future.successful(Redirect(routes.GainController.valueBeforeLegislationStart()))
-          case _ => Future.successful(Redirect(routes.GainController.didYouInheritThem()))
-        }
+        calcConnector.saveFormData(keystoreKeys.ownerBeforeLegislationStart, success).flatMap(
+          _ => success.ownerBeforeLegislationStart match {
+            case true => Future.successful(Redirect(routes.GainController.valueBeforeLegislationStart()))
+            case _ => Future.successful(Redirect(routes.GainController.didYouInheritThem()))
+          }
+        )
       }
     )
   }
@@ -247,8 +253,9 @@ trait GainController extends ValidActiveSession {
     valueBeforeLegislationStartForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.valueBeforeLegislationStart(errors))),
       success => {
-        calcConnector.saveFormData[ValueBeforeLegislationStartModel](keystoreKeys.valueBeforeLegislationStart, success)
-        Future.successful(Redirect(routes.GainController.acquisitionCosts()))
+        calcConnector.saveFormData[ValueBeforeLegislationStartModel](keystoreKeys.valueBeforeLegislationStart, success).flatMap(
+          _ => Future.successful(Redirect(routes.GainController.acquisitionCosts()))
+        )
       }
     )
   }
@@ -265,9 +272,10 @@ trait GainController extends ValidActiveSession {
     didYouInheritThemForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.didYouInheritThem(errors))),
       success => {
-        calcConnector.saveFormData(keystoreKeys.didYouInheritThem, success)
-        if (success.wereInherited) Future.successful(Redirect(routes.GainController.worthWhenInherited()))
-        else Future.successful(Redirect(routes.GainController.acquisitionValue()))
+        calcConnector.saveFormData(keystoreKeys.didYouInheritThem, success).flatMap(
+          _ => if (success.wereInherited) Future.successful(Redirect(routes.GainController.worthWhenInherited()))
+          else Future.successful(Redirect(routes.GainController.acquisitionValue()))
+        )
       }
     )
   }
@@ -284,8 +292,9 @@ trait GainController extends ValidActiveSession {
     worthWhenInheritedForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.worthWhenInherited(errors))),
       success => {
-        calcConnector.saveFormData(keystoreKeys.worthWhenInherited, success)
-        Future.successful(Redirect(routes.GainController.acquisitionCosts()))
+        calcConnector.saveFormData(keystoreKeys.worthWhenInherited, success).flatMap(
+          _ => Future.successful(Redirect(routes.GainController.acquisitionCosts()))
+        )
       }
     )
   }
@@ -302,8 +311,9 @@ trait GainController extends ValidActiveSession {
     acquisitionValueForm.bindFromRequest.fold(
       errors => Future.successful(BadRequest(views.acquisitionValue(errors, homeLink))),
       success => {
-        calcConnector.saveFormData(keystoreKeys.acquisitionValue, success)
-        Future.successful(Redirect(routes.GainController.acquisitionCosts()))
+        calcConnector.saveFormData(keystoreKeys.acquisitionValue, success).flatMap(
+          _ => Future.successful(Redirect(routes.GainController.acquisitionCosts()))
+        )
       }
     )
   }

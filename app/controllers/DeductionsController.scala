@@ -112,15 +112,15 @@ trait DeductionsController extends ValidActiveSession {
         errors => Future.successful(BadRequest(commonViews.deductions.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
           homeLink, navTitle))),
         success => {
-          calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success)
-
-          if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
-          else {
-            positiveChargeableGainCheck.map { positiveChargeableGain =>
-              if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-              else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+          calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
+            _ =>if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
+            else {
+              positiveChargeableGainCheck.map { positiveChargeableGain =>
+                if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
+                else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+              }
             }
-          }
+          )
         }
       )
     }
@@ -185,11 +185,12 @@ trait DeductionsController extends ValidActiveSession {
         }
       },
       success => {
-        calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
-          positiveChargeableGainCheck.map { positiveChargeableGain =>
+        calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
+          _ => positiveChargeableGainCheck.map { positiveChargeableGain =>
             if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
             else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
-        }
+          }
+        )
       }
     )
   }

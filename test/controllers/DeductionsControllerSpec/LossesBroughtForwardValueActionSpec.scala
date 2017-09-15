@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
@@ -39,11 +40,11 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
+    val mockCalcConnector = mock[CalculatorConnector]
+
     def setGetTarget(getData: Option[LossesBroughtForwardValueModel],
                      disposalDateModel: DisposalDateModel,
                      taxYearModel: TaxYearModel): DeductionsController = {
-
-      val mockCalcConnector = mock[CalculatorConnector]
 
       when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -118,6 +119,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
   "Calling .submitLossesBroughtForwardValue from the resident DeductionsController" when {
 
+    val mockCalcConnector = mock[CalculatorConnector]
+
     val gainModel = mock[GainAnswersModel]
     val summaryModel = mock[DeductionGainAnswersModel]
 
@@ -128,8 +131,6 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
                       taxYearModel: TaxYearModel,
                       maxAnnualExemptAmount: Option[BigDecimal] = Some(BigDecimal(11100))
                      ): DeductionsController = {
-
-      val mockCalcConnector = mock[CalculatorConnector]
 
       when(mockCalcConnector.getShareGainAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(gainAnswers))
@@ -148,6 +149,11 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
       when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(maxAnnualExemptAmount))
+
+      when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.successful(CacheMap("", Map.empty))
+
+        )
 
       new DeductionsController {
         override val calcConnector = mockCalcConnector
