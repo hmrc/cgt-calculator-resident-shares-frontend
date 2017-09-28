@@ -103,8 +103,9 @@ trait IncomeController extends ValidActiveSession {
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(views.income.currentIncome(errors, url,
           taxYearModel, inCurrentTaxYear)))),
         success => {
-          calcConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success)
-          Future.successful(Redirect(routes.IncomeController.personalAllowance()))
+          calcConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success).flatMap(
+            _ => Future.successful(Redirect(routes.IncomeController.personalAllowance()))
+          )
         }
       )
     }
@@ -168,8 +169,9 @@ trait IncomeController extends ValidActiveSession {
         errors => Future.successful(BadRequest(views.income.personalAllowance(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear))),
         success => {
-          calcConnector.saveFormData(keystoreKeys.personalAllowance, success)
-          Future.successful(Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
+          calcConnector.saveFormData(keystoreKeys.personalAllowance, success).flatMap(
+            _ => Future.successful(Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
+          )
         }
       )
     }

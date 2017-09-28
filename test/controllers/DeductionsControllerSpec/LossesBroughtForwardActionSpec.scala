@@ -30,6 +30,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import play.api.test.Helpers._
+import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
@@ -72,6 +73,12 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxAnnualExemptAmount))
+
+    when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
+      ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future.successful(CacheMap("", Map.empty))
+
+      )
 
     new DeductionsController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
