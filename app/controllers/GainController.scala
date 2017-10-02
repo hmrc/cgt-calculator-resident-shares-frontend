@@ -42,11 +42,11 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
-import uk.gov.hmrc.play.http.{HeaderCarrier, SessionKeys}
 import views.html.{calculation => commonViews}
 import views.html.calculation.{gain => views}
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ HeaderCarrier, SessionKeys }
 
 object GainController extends GainController {
   val calcConnector = CalculatorConnector

@@ -90,7 +90,7 @@ class SaUserViewSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper
         }
 
         s"has a value of ${MessageLookup.Resident.yes}" in {
-          doc.select("label input").get(0).attr("value") shouldBe MessageLookup.Resident.yes
+          doc.select("div.multiple-choice input").get(0).attr("value") shouldBe MessageLookup.Resident.yes
         }
       }
 
@@ -101,7 +101,7 @@ class SaUserViewSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper
         }
 
         s"has a value of ${MessageLookup.Resident.no}" in {
-          doc.select("label input").get(1).attr("value") shouldBe MessageLookup.Resident.no
+          doc.select("div.multiple-choice input").get(1).attr("value") shouldBe MessageLookup.Resident.no
         }
       }
 

@@ -30,10 +30,10 @@ import play.api.mvc.Results._
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
 import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
-import uk.gov.hmrc.play.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
+import uk.gov.hmrc.http.{ HeaderCarrier, HttpGet, HttpResponse }
 
 object CalculatorConnector extends CalculatorConnector with ServicesConfig with AppName {
   override val sessionCache = CalculatorSessionCache
