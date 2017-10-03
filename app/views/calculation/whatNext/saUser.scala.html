@@ -3,6 +3,8 @@
 @import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 @import models.resident.SaUserModel
 @import views.html.helpers.errorSummary
+@import views.html.helpers.formInputRadioGroup
+
 
 @(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages)
 
@@ -17,7 +19,7 @@
   <h1 class="heading-large">@Messages("calc.resident.saUser.title")</h1>
 
   @form(action = controllers.routes.SaUserController.submitSaUser()) {
-    @inputRadioGroup(
+    @formInputRadioGroup(
       saUserForm("isInSa"),
       Seq(
         "Yes" -> Messages("calc.base.yes"),
