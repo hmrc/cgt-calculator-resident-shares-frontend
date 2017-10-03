@@ -34,11 +34,11 @@ import org.scalatest.mock.MockitoSugar
 import org.scalatestplus.play.OneAppPerSuite
 import play.api.Play
 import play.api.test.Helpers.redirectLocation
-import uk.gov.hmrc.play.http.HeaderCarrier
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
+import uk.gov.hmrc.http.HeaderCarrier
 
 class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
 

@@ -28,10 +28,10 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
-import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.{summary => views}
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object SummaryController extends SummaryController {
   val calculatorConnector = CalculatorConnector

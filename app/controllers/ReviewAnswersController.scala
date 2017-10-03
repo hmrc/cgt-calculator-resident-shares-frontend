@@ -25,12 +25,12 @@ import controllers.predicates.ValidActiveSession
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.mvc.{Action, AnyContent}
-import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object ReviewAnswersController extends ReviewAnswersController {
   val calculatorConnector = CalculatorConnector

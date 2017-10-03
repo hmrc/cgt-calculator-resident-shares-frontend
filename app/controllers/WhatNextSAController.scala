@@ -27,9 +27,9 @@ import connectors.CalculatorConnector
 import models.resident.DisposalDateModel
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-import uk.gov.hmrc.play.http.HeaderCarrier
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object WhatNextSAController extends WhatNextSAController {
   val calcConnector = CalculatorConnector

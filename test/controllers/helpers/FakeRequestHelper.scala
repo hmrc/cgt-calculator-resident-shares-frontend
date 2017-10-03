@@ -18,8 +18,8 @@ package controllers.helpers
 
 import play.api.mvc.AnyContentAsFormUrlEncoded
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.filters.MicroserviceFilterSupport
-import uk.gov.hmrc.play.http.SessionKeys
+import uk.gov.hmrc.http.SessionKeys
+import uk.gov.hmrc.play.frontend.filters.MicroserviceFilterSupport
 
 trait FakeRequestHelper extends MicroserviceFilterSupport {
   lazy val fakeRequest = FakeRequest()

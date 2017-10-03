@@ -20,7 +20,7 @@ import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import config.FrontendGlobal._
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.http.SessionKeys
+import uk.gov.hmrc.http.SessionKeys
 
 class FrontendGlobalSpec extends UnitSpec with WithFakeApplication {
 

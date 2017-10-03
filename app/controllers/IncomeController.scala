@@ -31,10 +31,10 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
-import uk.gov.hmrc.play.http.HeaderCarrier
 import views.html.{calculation => views}
 
 import scala.concurrent.Future
+import uk.gov.hmrc.http.HeaderCarrier
 
 object IncomeController extends IncomeController {
   val calcConnector = CalculatorConnector
