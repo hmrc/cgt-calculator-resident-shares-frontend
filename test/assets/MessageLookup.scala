@@ -411,7 +411,8 @@ object MessageLookup {
 
       object ValueBeforeLegislationStart {
         val question = "What were the shares worth on 31 March 1982?"
-        val information = "If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost."
+        val information = "If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work " +
+          "out your Capital Gains Tax. After this date, use the original cost."
         val helpText = "Get valuation information from the stock exchange or talk to your stockbroker or fund manager."
         val hintText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
 
