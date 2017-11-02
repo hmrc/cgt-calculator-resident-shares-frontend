@@ -360,10 +360,6 @@ class ValidationSpec extends UnitSpec {
               Validation.dateAfterMinimum(7, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
             }
 
-            "provided with form data for the supplied minimum date" in {
-              Validation.dateAfterMinimum(7, 7, 2015, LocalDate.parse("2015-04-06")) shouldBe true
-            }
-
             "provided with an invalid date" in {
               Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
             }

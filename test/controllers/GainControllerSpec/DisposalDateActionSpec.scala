@@ -181,7 +181,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       lazy val dateResponse = TaxYearModel("2013/14", false, "2015/16")
       lazy val request = FakePOSTRequest(dateResponse, ("disposalDateDay", "12"), ("disposalDateMonth", "4"), ("disposalDateYear", "2013"))
 
-      "return a status of 303" in {
+      "return a status of 400" in {
         status(request.result) shouldBe 400
       }
 
