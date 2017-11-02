@@ -16,6 +16,8 @@
 
 package forms
 
+import java.time.LocalDate
+
 import assets.MessageLookup.{DisposalDate => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalDateForm._
@@ -27,13 +29,13 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Creating the form for the disposal date" should {
     "return a populated form using .fill" in {
       lazy val model = DisposalDateModel(10, 10, 2016)
-      lazy val form = disposalDateForm.fill(model)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).fill(model)
       form.value.get shouldBe DisposalDateModel(10, 10, 2016)
     }
 
     "return a Some if a model with valid inputs is supplied using .bind" in {
       lazy val map = Map(("disposalDateDay", "10"), ("disposalDateMonth", "10"), ("disposalDateYear", "2016"))
-      lazy val form = disposalDateForm.bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
       form.value shouldBe Some(DisposalDateModel(10, 10, 2016))
     }
   }
@@ -41,7 +43,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
 
     "empty fields are entered" should {
       lazy val map = Map(("disposalDateDay", ""), ("disposalDateMonth", ""), ("disposalDateYear", ""))
-      lazy val form = disposalDateForm.bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -62,7 +64,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
 
     "non-numeric fields are entered" should {
       lazy val map = Map(("disposalDateDay", "a"), ("disposalDateMonth", "b"), ("disposalDateYear", "c"))
-      lazy val form = disposalDateForm.bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -83,7 +85,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
 
     "an invalid date is entered" should {
       lazy val map = Map(("disposalDateDay", "32"), ("disposalDateMonth", "4"), ("disposalDateYear", "2016"))
-      lazy val form = disposalDateForm.bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -96,7 +98,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
 
     "a year which is less than 1900" should {
       lazy val map = Map(("disposalDateDay", "1"), ("disposalDateMonth", "1"), ("disposalDateYear", "1899"))
-      lazy val form = disposalDateForm.bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true
@@ -109,7 +111,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
 
     "a year which is greater than 9999" should {
       lazy val map = Map(("disposalDateDay", "1"), ("disposalDateMonth", "1"), ("disposalDateYear", "10000"))
-      lazy val form = disposalDateForm.bind(map)
+      lazy val form = disposalDateForm(LocalDate.parse("2015-04-06")).bind(map)
 
       "return a form with errors" in {
         form.hasErrors shouldBe true

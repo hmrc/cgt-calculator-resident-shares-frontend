@@ -19,6 +19,7 @@ package forms
 import common.Transformers._
 import common.Validation._
 import models.resident.DisposalDateModel
+import java.time.LocalDate
 import play.api.data.Forms._
 import play.api.data._
 import play.api.i18n.Messages
@@ -27,7 +28,7 @@ import play.api.Play.current
 
 object DisposalDateForm {
 
-  lazy val disposalDateForm = Form(
+  def disposalDateForm(minimumDate: LocalDate = LocalDate.now()): Form[DisposalDateModel] = Form(
     mapping(
       "disposalDateDay" -> text
         .verifying(Messages("calc.resident.disposalDate.invalidDayError"), mandatoryCheck)
@@ -44,5 +45,7 @@ object DisposalDateForm {
         .verifying(Messages("calc.resident.disposalDate.invalidYearRangeError"), validYearRangeCheck)
     )(DisposalDateModel.apply)(DisposalDateModel.unapply)
       .verifying(Messages("calc.common.date.error.invalidDate"), fields => isValidDate(fields.day, fields.month, fields.year))
+      .verifying(Messages("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonth} ${minimumDate.getYear}"),
+        fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate))
   )
 }

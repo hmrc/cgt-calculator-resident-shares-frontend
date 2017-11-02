@@ -16,6 +16,9 @@
 
 package connectors
 
+import java.time.LocalDate
+
+import common.Validation
 import common.Validation._
 import uk.gov.hmrc.play.test.UnitSpec
 
@@ -348,4 +351,31 @@ class ValidationSpec extends UnitSpec {
       booleanToOptionString(false) shouldBe Some("No")
     }
   }
+
+  "Calling .dateAfterMinimum" should {
+
+        "return a true" when {
+
+            "provided with form data after the supplied minimum date" in {
+              Validation.dateAfterMinimum(7, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
+            }
+
+            "provided with an invalid date" in {
+              Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
+            }
+        }
+
+        "return a false" when {
+
+            "provided with form data before the supplied minimum date" in {
+              Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe false
+            }
+
+            "provided with a different minimum date making the form date invalid" in {
+              Validation.dateAfterMinimum(7, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe false
+            }
+        }
+    }
+
+
 }
