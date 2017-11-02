@@ -40,13 +40,14 @@ import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislati
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
+import java.time.LocalDate
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
 import views.html.{calculation => commonViews}
 import views.html.calculation.{gain => views}
 
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ HeaderCarrier, SessionKeys }
+import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 
 object GainController extends GainController {
   val calcConnector = CalculatorConnector
@@ -64,12 +65,12 @@ trait GainController extends ValidActiveSession {
   val disposalDate = Action.async { implicit request =>
     if (request.session.get(SessionKeys.sessionId).isEmpty) {
       val sessionId = UUID.randomUUID.toString
-      Future.successful(Ok(views.disposalDate(disposalDateForm, homeLink)).withSession(request.session + (SessionKeys.sessionId -> s"session-$sessionId")))
+      Future.successful(Ok(views.disposalDate(disposalDateForm(), homeLink)).withSession(request.session + (SessionKeys.sessionId -> s"session-$sessionId")))
     }
     else {
       calcConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate).map {
-        case Some(data) => Ok(views.disposalDate(disposalDateForm.fill(data), homeLink))
-        case None => Ok(views.disposalDate(disposalDateForm, homeLink))
+        case Some(data) => Ok(views.disposalDate(disposalDateForm().fill(data), homeLink))
+        case None => Ok(views.disposalDate(disposalDateForm(), homeLink))
       }
     }
   }
@@ -81,16 +82,23 @@ trait GainController extends ValidActiveSession {
       else Future.successful(Redirect(routes.GainController.sellForLess()))
     }
 
-    disposalDateForm.bindFromRequest.fold(
-      errors => Future.successful(BadRequest(views.disposalDate(errors, homeLink))),
-      success => {
-        for {
-          save <- calcConnector.saveFormData(keystoreKeys.disposalDate, success)
-          taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
-          route <- routeRequest(taxYearResult)
-        } yield route
-      }
-    )
+    def bindForm(minimumDate: LocalDate) = {
+      disposalDateForm(minimumDate).bindFromRequest.fold(
+        errors => Future.successful(BadRequest(views.disposalDate(errors, homeLink))),
+        success => {
+          (for {
+            save <- calcConnector.saveFormData(keystoreKeys.disposalDate, success)
+            taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
+            route <- routeRequest(taxYearResult)
+          } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+        }
+      )
+    }
+
+    for {
+      minimumDate <- calcConnector.getMinimumDate()
+      result <- bindForm(minimumDate)
+    } yield result
   }
 
   //################ Sell for Less Actions ######################

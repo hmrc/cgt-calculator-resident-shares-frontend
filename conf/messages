@@ -40,6 +40,7 @@ feedback.thankyou.title = Feedback received
 
 ## Common date Messages ##
 ## Use common messages if some but not all pages use these messages. ##
+calc.common.date.error.beforeMinimum = Enter a date which is after {0}
 calc.common.date.fields.day = Day
 calc.common.date.fields.month = Month
 calc.common.date.fields.year = Year

@@ -482,6 +482,7 @@ object MessageLookup {
     val invalidYearError = "Enter a year"
     val realDateError = "Enter a real date"
     val invalidYearRange = "Enter a date in the correct format e.g. 9 12 2015"
+    def invalidMinimumDate(minimumDate: String) = s"Enter a date which is after $minimumDate"
   }
 
   //Outside Tax Years messages

@@ -25,6 +25,8 @@ import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel, OwnerBeforeLegislationStartModel}
+import org.joda.time.{DateTime}
+import java.time.LocalDate
 import play.api.libs.json.Format
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
@@ -33,7 +35,7 @@ import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.{ HeaderCarrier, HttpGet, HttpResponse }
+import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 object CalculatorConnector extends CalculatorConnector with ServicesConfig with AppName {
   override val sessionCache = CalculatorSessionCache
@@ -49,6 +51,12 @@ trait CalculatorConnector {
   val homeLink = controllers.routes.GainController.disposalDate().url
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
+
+  def getMinimumDate()(implicit  hc : HeaderCarrier): Future[LocalDate] = {
+    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/minimum-date").map { date =>
+      LocalDate.of(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
+    }
+  }
 
   def saveFormData[T](key: String, data: T)(implicit hc: HeaderCarrier, formats: Format[T]): Future[CacheMap] = {
     sessionCache.cache(key, data)

@@ -16,6 +16,8 @@
 
 package controllers.GainControllerSpec
 
+import java.time.LocalDate
+
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import controllers.GainController
@@ -48,6 +50,10 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalcConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
+
+    when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
+      .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
+
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
     }
@@ -64,6 +70,10 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
 
       when(mockCalcConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(mock[CacheMap]))
+
+
+      when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
+        .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
       new GainController {
         override val calcConnector: CalculatorConnector = mockCalcConnector
@@ -172,11 +182,11 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       lazy val request = FakePOSTRequest(dateResponse, ("disposalDateDay", "12"), ("disposalDateMonth", "4"), ("disposalDateYear", "2013"))
 
       "return a status of 303" in {
-        status(request.result) shouldBe 303
+        status(request.result) shouldBe 400
       }
 
-      "redirect to the outside know years page" in {
-        redirectLocation(request.result) shouldBe Some("/calculate-your-capital-gains/resident/shares/outside-tax-years")
+      "return a page with the title 'When did you sell or give away the shares?'" in {
+        Jsoup.parse(bodyOf(request.result)).title shouldBe messages.title
       }
     }
   }
