@@ -37,10 +37,9 @@ private object AppDependencies {
 
   val compile = Seq(
     ws,
-    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.7.0",
+    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.14.0",
     "uk.gov.hmrc" %% "play-partials" % "6.1.0",
-    "uk.gov.hmrc" %% "http-caching-client" % "7.0.0",
-    "uk.gov.hmrc" %% "mongo-caching" % "4.1.0",
+    "uk.gov.hmrc" %% "http-caching-client" % "7.1.0",
     "it.innove" % "play2-pdf" % "1.5.1"
   )
 
@@ -52,7 +51,7 @@ private object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "uk.gov.hmrc" %% "hmrctest" % "2.3.0" % scope,
+        "uk.gov.hmrc" %% "hmrctest" % "3.0.0" % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "2.0.0" % scope,
         "org.mockito" % "mockito-core" % "2.6.2" % scope,
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
