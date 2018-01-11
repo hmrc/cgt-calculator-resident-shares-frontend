@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,8 @@ import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislati
 import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneId}
+
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
 import views.html.{calculation => commonViews}
@@ -83,7 +84,7 @@ trait GainController extends ValidActiveSession {
     }
 
     def bindForm(minimumDate: LocalDate) = {
-      disposalDateForm(minimumDate).bindFromRequest.fold(
+      disposalDateForm(minimumDate.atStartOfDay(ZoneId.of("Europe/London"))).bindFromRequest.fold(
         errors => Future.successful(BadRequest(views.disposalDate(errors, homeLink))),
         success => {
           (for {

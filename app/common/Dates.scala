@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,9 +53,9 @@ object Dates {
   }
 
   def getCurrentTaxYear: Future[String] = {
-    val now = LocalDate.now()
+    val now = ZonedDateTime.now(ZoneId.of("Europe/London"))
     val year = now.getYear
-    if (now.isAfter(LocalDate.parse(s"${year.toString}-$taxYearEnd"))) {
+    if (now.isAfter(LocalDate.parse(s"${year.toString}-$taxYearEnd").atStartOfDay(ZoneId.of("Europe/London")))) {
       Future.successful(taxYearToString(year + 1))
     }
     else {

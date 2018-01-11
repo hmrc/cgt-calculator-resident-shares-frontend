@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 HM Revenue & Customs
+ * Copyright 2018 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,8 @@ package forms
 import common.Transformers._
 import common.Validation._
 import models.resident.DisposalDateModel
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneId, ZonedDateTime}
+
 import play.api.data.Forms._
 import play.api.data._
 import play.api.i18n.Messages
@@ -28,7 +29,7 @@ import play.api.Play.current
 
 object DisposalDateForm {
 
-  def disposalDateForm(minimumDate: LocalDate = LocalDate.now()): Form[DisposalDateModel] = Form(
+  def disposalDateForm(minimumDate: ZonedDateTime = ZonedDateTime.now(ZoneId.of("Europe/London"))): Form[DisposalDateModel] = Form(
     mapping(
       "disposalDateDay" -> text
         .verifying(Messages("calc.resident.disposalDate.invalidDayError"), mandatoryCheck)
@@ -46,6 +47,6 @@ object DisposalDateForm {
     )(DisposalDateModel.apply)(DisposalDateModel.unapply)
       .verifying(Messages("calc.common.date.error.invalidDate"), fields => isValidDate(fields.day, fields.month, fields.year))
       .verifying(Messages("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonth} ${minimumDate.getYear}"),
-        fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate))
+        fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate.toLocalDate))
   )
 }
