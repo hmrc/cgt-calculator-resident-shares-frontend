@@ -8,7 +8,6 @@ calc.base.back = Back
 calc.base.optionReqError = Choose one of the options
 calc.base.externalLink = (opens in a new window)
 calc.base.change = Change
-calc.base.resident.properties.home = Calculate your Capital Gains Tax
 calc.base.resident.shares.home = Calculate your Capital Gains Tax
 calc.base.govUk = GOV.UK
 calc.base.hmrc = HM Revenue &amp; Customs
