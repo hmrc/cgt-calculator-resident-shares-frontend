@@ -27,7 +27,7 @@
 @resident_main_template(
   title = Messages("calc.resident.saUser.title"),
   homeLink = controllers.routes.GainController.disposalDate().url,
-  navTitle = Messages("calc.base.resident.properties.home"),
+  navTitle = Messages("calc.base.resident.shares.home"),
   backLink = Some(controllers.routes.SummaryController.summary().url)) {
 
   @errorSummary(saUserForm, "isInSa")
