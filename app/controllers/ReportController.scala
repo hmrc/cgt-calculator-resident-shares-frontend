@@ -29,6 +29,7 @@ import play.api.Play.current
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.RequestHeader
+import services.SessionCacheService
 import views.html.calculation.{report => views}
 
 import scala.concurrent.Future
@@ -36,11 +37,13 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 object ReportController extends ReportController {
   val calcConnector = CalculatorConnector
+  override val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait ReportController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
+  val sessionCacheService: SessionCacheService
 
   val pdfGenerator = new PdfGenerator
 
@@ -62,7 +65,7 @@ trait ReportController extends ValidActiveSession {
   //###### Gain Summary Report ########\\
   val gainSummaryReport = ValidateSession.async { implicit request =>
     (for {
-      answers <- calcConnector.getShareGainAnswers
+      answers <- sessionCacheService.getShareGainAnswers
       costs <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
@@ -73,12 +76,12 @@ trait ReportController extends ValidActiveSession {
   //#####Deductions summary actions#####\\
   val deductionsReport = ValidateSession.async { implicit request =>
     (for {
-      answers <- calcConnector.getShareGainAnswers
+      answers <- sessionCacheService.getShareGainAnswers
       costs <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
-      deductionAnswers <- calcConnector.getShareDeductionAnswers
+      deductionAnswers <- sessionCacheService.getShareDeductionAnswers
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
     } yield
@@ -91,15 +94,15 @@ trait ReportController extends ValidActiveSession {
 
   val finalSummaryReport = ValidateSession.async { implicit request =>
     (for {
-      answers <- calcConnector.getShareGainAnswers
+      answers <- sessionCacheService.getShareGainAnswers
       totalCosts <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
-      deductionAnswers <- calcConnector.getShareDeductionAnswers
+      deductionAnswers <- sessionCacheService.getShareDeductionAnswers
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
-      incomeAnswers <- calcConnector.getShareIncomeAnswers
+      incomeAnswers <- sessionCacheService.getShareIncomeAnswers
       currentTaxYear <- Dates.getCurrentTaxYear
       totalGain <- calcConnector.calculateRttShareTotalGainAndTax(answers, deductionAnswers, maxAEA.get, incomeAnswers)
     } yield {

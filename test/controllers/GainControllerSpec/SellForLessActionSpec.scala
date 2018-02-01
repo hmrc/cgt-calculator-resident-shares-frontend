@@ -28,6 +28,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -41,6 +42,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(TaxYearModel("year", knownTaxYear, "year"))))
@@ -57,6 +59,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

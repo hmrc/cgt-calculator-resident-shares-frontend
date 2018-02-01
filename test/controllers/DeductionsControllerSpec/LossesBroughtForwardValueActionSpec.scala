@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -42,6 +43,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     def setGetTarget(getData: Option[LossesBroughtForwardValueModel],
                      disposalDateModel: DisposalDateModel,
@@ -60,6 +62,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       new DeductionsController {
         override val calcConnector = mockCalcConnector
         override val sessionCacheConnector = mockSessionCacheConnector
+        override val sessionCacheService: SessionCacheService = mockSessionCacheService
       }
     }
 
@@ -123,6 +126,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     val gainModel = mock[GainAnswersModel]
     val summaryModel = mock[DeductionGainAnswersModel]
@@ -135,10 +139,10 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
                       maxAnnualExemptAmount: Option[BigDecimal] = Some(BigDecimal(11100))
                      ): DeductionsController = {
 
-      when(mockCalcConnector.getShareGainAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(gainAnswers))
 
-      when(mockCalcConnector.getShareDeductionAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(chargeableGainAnswers))
 
       when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -162,6 +166,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       new DeductionsController {
         override val calcConnector = mockCalcConnector
         override val sessionCacheConnector = mockSessionCacheConnector
+        override val sessionCacheService: SessionCacheService = mockSessionCacheService
       }
     }
 

@@ -32,6 +32,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -53,6 +54,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(acquisitionCostsData))
@@ -63,7 +65,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(inheritedThemData))
 
-    when(mockCalcConnector.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
 
     when(mockCalcConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -75,6 +77,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

@@ -44,6 +44,7 @@ import java.time.{LocalDate, ZoneId}
 
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
+import services.SessionCacheService
 import views.html.{calculation => commonViews}
 import views.html.calculation.{gain => views}
 
@@ -53,12 +54,14 @@ import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 object GainController extends GainController {
   val calcConnector = CalculatorConnector
   val sessionCacheConnector = SessionCacheConnector
+  override val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait GainController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
   val sessionCacheConnector: SessionCacheConnector
+  val sessionCacheService: SessionCacheService
 
   val navTitle = Messages("calc.base.resident.shares.home")
   override val homeLink = controllers.routes.GainController.disposalDate().url
@@ -362,7 +365,7 @@ trait GainController extends ValidActiveSession {
     def successAction(success: AcquisitionCostsModel) = {
       for {
         save <- sessionCacheConnector.saveFormData(keystoreKeys.acquisitionCosts, success)
-        answers <- calcConnector.getShareGainAnswers
+        answers <- sessionCacheService.getShareGainAnswers
         grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       } yield grossGain match {
         case x if x > 0 => Redirect(routes.DeductionsController.lossesBroughtForward())

@@ -28,6 +28,7 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
+import services.SessionCacheService
 import views.html.calculation.{summary => views}
 
 import scala.concurrent.Future
@@ -35,11 +36,13 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 object SummaryController extends SummaryController {
   val calculatorConnector = CalculatorConnector
+  override val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait SummaryController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
+  val sessionCacheService: SessionCacheService
 
   override val homeLink = controllers.routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
@@ -103,16 +106,16 @@ trait SummaryController extends ValidActiveSession {
     }
 
     (for {
-      answers <- calculatorConnector.getShareGainAnswers
+      answers <- sessionCacheService.getShareGainAnswers
       totalCosts <- calculatorConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
       maxAEA <- getMaxAEA(taxYearInt)(hc)
       grossGain <- calculatorConnector.calculateRttShareGrossGain(answers)
-      deductionAnswers <- calculatorConnector.getShareDeductionAnswers
+      deductionAnswers <- sessionCacheService.getShareDeductionAnswers
       backLink <- buildDeductionsSummaryBackUrl(deductionAnswers)
       chargeableGain <- getChargeableGain(grossGain, answers, deductionAnswers, maxAEA.get)
-      incomeAnswers <- calculatorConnector.getShareIncomeAnswers
+      incomeAnswers <- sessionCacheService.getShareIncomeAnswers
       totalGain <- getTotalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,

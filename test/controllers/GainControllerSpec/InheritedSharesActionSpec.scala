@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -42,6 +43,7 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](ArgumentMatchers.eq(keyStoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -52,6 +54,7 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

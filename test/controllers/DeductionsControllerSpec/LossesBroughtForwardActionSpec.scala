@@ -30,6 +30,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -52,15 +53,16 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(lossesBroughtForwardData))
 
-    when(mockCalcConnector.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
 
-    when(mockCalcConnector.getShareDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
     when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -84,6 +86,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
     new DeductionsController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

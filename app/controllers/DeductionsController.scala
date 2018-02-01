@@ -29,6 +29,7 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Result}
+import services.SessionCacheService
 import views.html.{calculation => commonViews}
 import views.html.calculation.{deductions => views}
 
@@ -38,12 +39,14 @@ import uk.gov.hmrc.http.HeaderCarrier
 object DeductionsController extends DeductionsController {
   val calcConnector = CalculatorConnector
   val sessionCacheConnector = SessionCacheConnector
+  override val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait DeductionsController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
   val sessionCacheConnector: SessionCacheConnector
+  val sessionCacheService: SessionCacheService
   override val homeLink = routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
   val navTitle = Messages("calc.base.resident.shares.home")
@@ -58,7 +61,7 @@ trait DeductionsController extends ValidActiveSession {
 
   def totalGain(answerSummary: GainAnswersModel, hc: HeaderCarrier): Future[BigDecimal] = calcConnector.calculateRttShareGrossGain(answerSummary)(hc)
 
-  def answerSummary(hc: HeaderCarrier): Future[GainAnswersModel] = calcConnector.getShareGainAnswers(hc)
+  def answerSummary(hc: HeaderCarrier): Future[GainAnswersModel] = sessionCacheService.getShareGainAnswers(hc)
 
   def taxYearStringToInteger(taxYear: String): Future[Int] = {
     Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
@@ -66,8 +69,8 @@ trait DeductionsController extends ValidActiveSession {
 
   def positiveChargeableGainCheck(implicit hc: HeaderCarrier): Future[Boolean] = {
     for {
-      gainAnswers <- calcConnector.getShareGainAnswers
-      chargeableGainAnswers <- calcConnector.getShareDeductionAnswers
+      gainAnswers <- sessionCacheService.getShareGainAnswers
+      chargeableGainAnswers <- sessionCacheService.getShareDeductionAnswers
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)

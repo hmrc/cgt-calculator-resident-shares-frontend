@@ -30,6 +30,7 @@ import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.jsoup.Jsoup
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -44,6 +45,7 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -55,6 +57,7 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
       override val calcConnector: CalculatorConnector = mockCalcConnector
       val config: AppConfig = mock[AppConfig]
       override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

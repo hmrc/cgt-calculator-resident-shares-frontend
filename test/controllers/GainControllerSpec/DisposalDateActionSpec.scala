@@ -32,6 +32,7 @@ import models.resident.{DisposalDateModel, TaxYearModel}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 
 import scala.concurrent.Future
@@ -44,6 +45,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -51,13 +53,13 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockSessionCacheConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-
     when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 
@@ -67,6 +69,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
 
       val mockCalcConnector = mock[CalculatorConnector]
       val mockSessionCacheConnector = mock[SessionCacheConnector]
+      val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(dateResponse)))
@@ -74,13 +77,13 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       when(mockSessionCacheConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(mock[CacheMap]))
 
-
       when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
       new GainController {
         override val calcConnector: CalculatorConnector = mockCalcConnector
         override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
+        override val sessionCacheService: SessionCacheService = mockSessionCacheService
       }
     }
 

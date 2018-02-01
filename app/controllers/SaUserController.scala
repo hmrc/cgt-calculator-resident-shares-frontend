@@ -27,17 +27,20 @@ import play.api.Play.current
 import play.api.data.Form
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, Result}
+import services.SessionCacheService
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object SaUserController extends SaUserController {
   val calculatorConnector = CalculatorConnector
+  override val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait SaUserController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
+  val sessionCacheService: SessionCacheService
 
   val saUser: Action[AnyContent] = ValidateSession.async {
     implicit request =>
@@ -98,14 +101,14 @@ trait SaUserController extends ValidActiveSession {
 
     def successAction(model: SaUserModel) = {
       for {
-        answers <- calculatorConnector.getShareGainAnswers
+        answers <- sessionCacheService.getShareGainAnswers
         grossGain <- calculatorConnector.calculateRttShareGrossGain(answers)
-        deductionAnswers <- calculatorConnector.getShareDeductionAnswers
+        deductionAnswers <- sessionCacheService.getShareDeductionAnswers
         taxYear <- calculatorConnector.getTaxYear(answers.disposalDate.format(requestFormatter))
         taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
         maxAEA <- calculatorConnector.getFullAEA(taxYearInt)
         chargeableGain <- chargeableGain(grossGain, deductionAnswers, answers, maxAEA.get)
-        incomeAnswers <- calculatorConnector.getShareIncomeAnswers
+        incomeAnswers <- sessionCacheService.getShareIncomeAnswers
         finalResult <- totalTaxableGain(chargeableGain, deductionAnswers, answers, incomeAnswers, maxAEA.get)
         route <- routeAction(model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
       } yield route
