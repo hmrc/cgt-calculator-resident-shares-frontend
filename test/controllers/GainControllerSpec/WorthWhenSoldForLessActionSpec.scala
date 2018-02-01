@@ -21,7 +21,7 @@ import akka.stream.ActorMaterializer
 import assets.MessageLookup
 import controllers.helpers.FakeRequestHelper
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import org.mockito.ArgumentMatchers
 import config.AppConfig
 import controllers.GainController
@@ -43,16 +43,18 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
   def setupTarget(getData: Option[WorthWhenSoldForLessModel]): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[WorthWhenSoldForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[WorthWhenSoldForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
       val config: AppConfig = mock[AppConfig]
+      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
     }
   }
 

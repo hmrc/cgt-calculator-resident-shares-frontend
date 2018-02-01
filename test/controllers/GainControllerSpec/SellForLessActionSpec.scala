@@ -19,7 +19,7 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.{GainController, routes}
 import models.resident.{DisposalDateModel, SellForLessModel, TaxYearModel}
@@ -40,21 +40,23 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
   def setupTarget(getData: Option[SellForLessModel], knownTaxYear: Boolean = true): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(TaxYearModel("year", knownTaxYear, "year"))))
 
-    when(mockCalcConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keyStoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keyStoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(DisposalDateModel(1, 1, 1))))
 
-    when(mockCalcConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
     }
   }
 

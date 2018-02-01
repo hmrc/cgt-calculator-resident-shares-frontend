@@ -20,7 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.{GainController, routes}
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
@@ -41,15 +41,17 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.saveFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
     }
   }
 

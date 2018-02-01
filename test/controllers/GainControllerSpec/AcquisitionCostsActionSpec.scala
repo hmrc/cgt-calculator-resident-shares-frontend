@@ -20,7 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
 import models.resident.AcquisitionCostsModel
@@ -52,14 +52,15 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
                  ): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(acquisitionCostsData))
 
-    when(mockCalcConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(ownedBeforeStartOfTaxData))
 
-    when(mockCalcConnector.fetchAndGetFormData[DidYouInheritThemModel](ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(inheritedThemData))
 
     when(mockCalcConnector.getShareGainAnswers(ArgumentMatchers.any()))
@@ -68,11 +69,12 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     when(mockCalcConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockCalcConnector.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     new GainController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
     }
   }
 

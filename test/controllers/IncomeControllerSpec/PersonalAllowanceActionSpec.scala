@@ -19,7 +19,7 @@ package controllers.IncomeControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.IncomeController
 import org.jsoup.Jsoup
@@ -45,8 +45,9 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
                   disposalDateModel: DisposalDateModel,
                   taxYearModel: TaxYearModel): IncomeController = {
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[PersonalAllowanceModel](ArgumentMatchers.eq(keystoreKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](ArgumentMatchers.eq(keystoreKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(true))(ArgumentMatchers.any()))
@@ -55,10 +56,10 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
     when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockCalcConnector.saveFormData[PersonalAllowanceModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[PersonalAllowanceModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDateModel)))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -67,6 +68,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
 
     new IncomeController {
       override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
     }
   }
 

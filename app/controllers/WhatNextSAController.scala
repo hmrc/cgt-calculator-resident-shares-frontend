@@ -23,7 +23,7 @@ import java.time._
 
 import common.KeystoreKeys
 import config.{AppConfig, ApplicationConfig}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import models.resident.DisposalDateModel
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -32,20 +32,20 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object WhatNextSAController extends WhatNextSAController {
-  val calcConnector = CalculatorConnector
+  val sessionCacheConnector = SessionCacheConnector
   val appConfig = ApplicationConfig
 }
 
 trait WhatNextSAController extends ValidActiveSession {
 
-  val calcConnector: CalculatorConnector
+  val sessionCacheConnector: SessionCacheConnector
   val appConfig: AppConfig
 
   val backLink: String = controllers.routes.SaUserController.saUser().url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
-    calcConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate).map {
+    sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate).map {
       data => LocalDate.of(data.get.year, data.get.month, data.get.day)
     }
   }

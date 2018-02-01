@@ -17,7 +17,7 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.LossesBroughtForwardForm._
@@ -37,17 +37,19 @@ import uk.gov.hmrc.http.HeaderCarrier
 
 object DeductionsController extends DeductionsController {
   val calcConnector = CalculatorConnector
+  val sessionCacheConnector = SessionCacheConnector
 }
 
 trait DeductionsController extends ValidActiveSession {
 
   val calcConnector: CalculatorConnector
+  val sessionCacheConnector: SessionCacheConnector
   override val homeLink = routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
   val navTitle = Messages("calc.base.resident.shares.home")
 
   def getDisposalDate(implicit hc: HeaderCarrier): Future[Option[DisposalDateModel]] = {
-    calcConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
+    sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
   }
 
   def formatDisposalDate(disposalDateModel: DisposalDateModel): Future[String] = {
@@ -89,7 +91,7 @@ trait DeductionsController extends ValidActiveSession {
   val lossesBroughtForward = ValidateSession.async { implicit request =>
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
-      calcConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
+      sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
         case Some(data) => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
           backLinkUrl, taxYear, homeLink, navTitle))
         case _ => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear,
@@ -112,7 +114,7 @@ trait DeductionsController extends ValidActiveSession {
         errors => Future.successful(BadRequest(commonViews.deductions.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
           homeLink, navTitle))),
         success => {
-          calcConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
+          sessionCacheConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
             _ =>if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
             else {
               positiveChargeableGainCheck.map { positiveChargeableGain =>
@@ -142,7 +144,7 @@ trait DeductionsController extends ValidActiveSession {
   val lossesBroughtForwardValue = ValidateSession.async { implicit request =>
 
     def retrieveKeystoreData(): Future[Form[LossesBroughtForwardValueModel]] = {
-      calcConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue).map {
+      sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue).map {
         case Some(data) => lossesBroughtForwardValueForm.fill(data)
         case _ => lossesBroughtForwardValueForm
       }
@@ -185,7 +187,7 @@ trait DeductionsController extends ValidActiveSession {
         }
       },
       success => {
-        calcConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
+        sessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
           _ => positiveChargeableGainCheck.map { positiveChargeableGain =>
             if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
             else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())

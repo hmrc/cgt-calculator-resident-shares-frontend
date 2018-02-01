@@ -38,14 +38,14 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpResponse}
 
 object CalculatorConnector extends CalculatorConnector with ServicesConfig with AppName {
-  override val sessionCache = CalculatorSessionCache
+  override val sessionCacheConnector = SessionCacheConnector
   override val http = WSHttp
   override val serviceUrl = baseUrl("capital-gains-calculator")
 }
 
 trait CalculatorConnector {
 
-  val sessionCache: SessionCache
+  val sessionCacheConnector: SessionCacheConnector
   val http: HttpGet
   val serviceUrl: String
   val homeLink = controllers.routes.GainController.disposalDate().url
@@ -56,14 +56,6 @@ trait CalculatorConnector {
     http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/minimum-date").map { date =>
       LocalDate.of(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
     }
-  }
-
-  def saveFormData[T](key: String, data: T)(implicit hc: HeaderCarrier, formats: Format[T]): Future[CacheMap] = {
-    sessionCache.cache(key, data)
-  }
-
-  def fetchAndGetFormData[T](key: String)(implicit hc: HeaderCarrier, formats: Format[T]): Future[Option[T]] = {
-    sessionCache.fetchAndGetEntry(key)
   }
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
@@ -87,45 +79,41 @@ trait CalculatorConnector {
     http.GET[Option[resident.TaxYearModel]](s"$serviceUrl/capital-gains-calculator/tax-year?date=$taxYear")
   }
 
-  def clearKeystore(implicit hc: HeaderCarrier): Future[HttpResponse] = {
-    sessionCache.remove()
-  }
-
   //Rtt share calculation methods
   //scalastyle:off
   def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {
 
-    val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
+    val disposalDate = sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
       .map(formData => constructDate(formData.get.day, formData.get.month, formData.get.year))
 
-    val soldForLessThanWorth = fetchAndGetFormData[SellForLessModel](ResidentShareKeys.sellForLess)
+    val soldForLessThanWorth = sessionCacheConnector.fetchAndGetFormData[SellForLessModel](ResidentShareKeys.sellForLess)
       .map(_.get.sellForLess)
 
-    val disposalValue = fetchAndGetFormData[DisposalValueModel](ResidentShareKeys.disposalValue)
+    val disposalValue = sessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ResidentShareKeys.disposalValue)
       .map(_.map(_.amount))
 
-    val worthWhenSoldForLess = fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess)
+    val worthWhenSoldForLess = sessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess)
       .map(_.map(_.amount))
 
-    val disposalCosts = fetchAndGetFormData[DisposalCostsModel](ResidentShareKeys.disposalCosts)
+    val disposalCosts = sessionCacheConnector.fetchAndGetFormData[DisposalCostsModel](ResidentShareKeys.disposalCosts)
       .map(_.get.amount)
 
-    val ownedBeforeTaxStartDate = fetchAndGetFormData[OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart)
+    val ownedBeforeTaxStartDate = sessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart)
       .map(_.get.ownerBeforeLegislationStart)
 
-    val valueBeforeLegislationStart = fetchAndGetFormData[ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart)
+    val valueBeforeLegislationStart = sessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart)
       .map(_.map(_.amount))
 
-    val inheritedTheShares = fetchAndGetFormData[DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem)
+    val inheritedTheShares = sessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem)
       .map(_.map(_.wereInherited))
 
-    val worthWhenInherited = fetchAndGetFormData[WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited)
+    val worthWhenInherited = sessionCacheConnector.fetchAndGetFormData[WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited)
       .map(_.map(_.amount))
 
-    val acquisitionValue = fetchAndGetFormData[AcquisitionValueModel](ResidentShareKeys.acquisitionValue)
+    val acquisitionValue = sessionCacheConnector.fetchAndGetFormData[AcquisitionValueModel](ResidentShareKeys.acquisitionValue)
       .map(_.map(_.amount))
 
-    val acquisitionCosts = fetchAndGetFormData[AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts)
+    val acquisitionCosts = sessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts)
       .map(_.get.amount)
 
     for {
@@ -165,8 +153,8 @@ trait CalculatorConnector {
   //scalastyle:on
 
   def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = {
-    val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
-    val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
+    val broughtForwardModel = sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
+    val broughtForwardValueModel = sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
 
     for {
       broughtForward <- broughtForwardModel
@@ -186,8 +174,8 @@ trait CalculatorConnector {
   }
 
   def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[IncomeAnswersModel] = {
-    val currentIncomeModel = fetchAndGetFormData[CurrentIncomeModel](ResidentShareKeys.currentIncome)
-    val personalAllowanceModel = fetchAndGetFormData[PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
+    val currentIncomeModel = sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](ResidentShareKeys.currentIncome)
+    val personalAllowanceModel = sessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
 
     for {
       currentIncome <- currentIncomeModel

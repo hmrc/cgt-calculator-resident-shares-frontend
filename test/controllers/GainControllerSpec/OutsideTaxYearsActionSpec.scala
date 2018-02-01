@@ -19,7 +19,7 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import assets.MessageLookup.{OutsideTaxYears => messages}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
@@ -37,15 +37,17 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
   def setupTarget(disposalDateModel: Option[DisposalDateModel], taxYearModel: Option[TaxYearModel]): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
-    when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDateModel)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYearModel)
 
     new GainController {
-      val calcConnector = mockCalcConnector
+      override val calcConnector: CalculatorConnector = mockCalcConnector
+      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
     }
   }
 

@@ -19,7 +19,7 @@ package controllers.DeductionsControllerSpec
 import akka.actor.ActorSystem
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident._
@@ -41,16 +41,17 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
     def setGetTarget(getData: Option[LossesBroughtForwardValueModel],
                      disposalDateModel: DisposalDateModel,
                      taxYearModel: TaxYearModel): DeductionsController = {
 
-      when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
+      when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(getData)
 
-      when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -58,6 +59,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
       new DeductionsController {
         override val calcConnector = mockCalcConnector
+        override val sessionCacheConnector = mockSessionCacheConnector
       }
     }
 
@@ -120,6 +122,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
   "Calling .submitLossesBroughtForwardValue from the resident DeductionsController" when {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
 
     val gainModel = mock[GainAnswersModel]
     val summaryModel = mock[DeductionGainAnswersModel]
@@ -141,7 +144,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(chargeableGain)))
 
-      when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -150,7 +153,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(maxAnnualExemptAmount))
 
-      when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
+      when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
         ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(CacheMap("", Map.empty))
 
@@ -158,6 +161,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
       new DeductionsController {
         override val calcConnector = mockCalcConnector
+        override val sessionCacheConnector = mockSessionCacheConnector
       }
     }
 
