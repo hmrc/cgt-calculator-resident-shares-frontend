@@ -17,14 +17,16 @@
 package services
 
 import common.KeystoreKeys
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.SessionCacheConnector
 import models.resident
 import models.resident.IncomeAnswersModel
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
@@ -32,6 +34,7 @@ import scala.concurrent.Future
 class SessionCacheServiceSpec extends UnitSpec with MockitoSugar {
 
   val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val homeLink = controllers.routes.GainController.disposalDate().url
 
   object TestSessionCacheService extends SessionCacheService {
     override val sessionCacheConnector = mockSessionCacheConnector
@@ -101,6 +104,17 @@ class SessionCacheServiceSpec extends UnitSpec with MockitoSugar {
       mockResidentSharesFetchAndGetFormData()
       lazy val result = TestSessionCacheService.getShareGainAnswers(hc)
       await(result).isInstanceOf[GainAnswersModel] shouldBe true
+    }
+
+    "return an exception when missing data" in {
+      mockResidentSharesFetchAndGetFormData()
+      when(mockSessionCacheConnector.fetchAndGetFormData[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.failed(new NoSuchElementException("error message")))
+      val hc = mock[HeaderCarrier]
+      lazy val result = TestSessionCacheService.getShareGainAnswers(hc)
+
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
     }
   }
 
