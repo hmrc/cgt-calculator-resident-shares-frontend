@@ -20,6 +20,7 @@ import common.KeystoreKeys
 import connectors.SessionCacheConnector
 import models.resident
 import models.resident.IncomeAnswersModel
+import models.resident.income.CurrentIncomeModel
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -126,6 +127,17 @@ class SessionCacheServiceSpec extends UnitSpec with MockitoSugar {
       lazy val result = TestSessionCacheService.getShareDeductionAnswers(hc)
       await(result).isInstanceOf[DeductionGainAnswersModel] shouldBe true
     }
+
+    "return an exception when missing data" in {
+      mockResidentSharesFetchAndGetFormData()
+      when(mockSessionCacheConnector.fetchAndGetFormData[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.lossesBroughtForward))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.failed(new NoSuchElementException("error message")))
+      val hc = mock[HeaderCarrier]
+      lazy val result = TestSessionCacheService.getShareDeductionAnswers(hc)
+
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+    }
   }
 
   "Calling getShareIncomeAnswers" should {
@@ -135,6 +147,17 @@ class SessionCacheServiceSpec extends UnitSpec with MockitoSugar {
       mockResidentSharesFetchAndGetFormData()
       lazy val result = TestSessionCacheService.getShareIncomeAnswers(hc)
       await(result).isInstanceOf[IncomeAnswersModel] shouldBe true
+    }
+
+    "return an exception when missing data" in {
+      mockResidentSharesFetchAndGetFormData()
+      when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        .thenReturn(Future.failed(new NoSuchElementException("error message")))
+      val hc = mock[HeaderCarrier]
+      lazy val result = TestSessionCacheService.getShareIncomeAnswers(hc)
+
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
     }
   }
 }
