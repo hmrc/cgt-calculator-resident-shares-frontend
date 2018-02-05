@@ -28,6 +28,7 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
@@ -37,14 +38,15 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
   def setupController(gainAnswersModel: GainAnswersModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
                       taxOwed: BigDecimal): SaUserController = {
     val mockConnector = mock[CalculatorConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
-    when(mockConnector.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
 
-    when(mockConnector.getShareDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(ModelsAsset.deductionAnswersLeastPossibles))
 
-    when(mockConnector.getShareIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(ModelsAsset.incomeAnswers))
 
     when(mockConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -65,6 +67,7 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
 
     new SaUserController {
       override val calculatorConnector: CalculatorConnector = mockConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

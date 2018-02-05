@@ -28,26 +28,29 @@ import play.api.mvc.{Action, AnyContent}
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import services.SessionCacheService
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object ReviewAnswersController extends ReviewAnswersController {
   val calculatorConnector = CalculatorConnector
+  override val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait ReviewAnswersController extends ValidActiveSession {
 
   val calculatorConnector: CalculatorConnector
+  val sessionCacheService: SessionCacheService
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
     calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
       _.get
     }
 
-  def getGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = calculatorConnector.getShareGainAnswers
+  def getGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = sessionCacheService.getShareGainAnswers
 
-  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = calculatorConnector.getShareDeductionAnswers
+  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = sessionCacheService.getShareDeductionAnswers
 
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
@@ -77,7 +80,7 @@ trait ReviewAnswersController extends ValidActiveSession {
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
       val getCurrentTaxYear = Dates.getCurrentTaxYear
-      val getIncomeAnswers = calculatorConnector.getShareIncomeAnswers
+      val getIncomeAnswers = sessionCacheService.getShareIncomeAnswers
 
       for {
         gainAnswers <- getGainAnswers

@@ -30,6 +30,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
@@ -54,8 +55,9 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
     ): SummaryController = {
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
-    when(mockCalculatorConnector.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
 
     when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -64,13 +66,13 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
     when(mockCalculatorConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
-    when(mockCalculatorConnector.getShareDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
     when(mockCalculatorConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(chargeableGainResultModel)
 
-    when(mockCalculatorConnector.getShareIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))
 
     when(mockCalculatorConnector.calculateRttShareTotalGainAndTax(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(),
@@ -86,6 +88,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
     new SummaryController {
       override val calculatorConnector: CalculatorConnector = mockCalculatorConnector
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

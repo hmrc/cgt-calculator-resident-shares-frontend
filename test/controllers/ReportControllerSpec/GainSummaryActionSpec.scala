@@ -30,6 +30,7 @@ import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.mvc.RequestHeader
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
@@ -46,8 +47,9 @@ class GainSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeR
   ): ReportController = {
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
-    when(mockCalculatorConnector.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
 
     when(mockCalculatorConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -63,6 +65,8 @@ class GainSummaryActionSpec extends UnitSpec with WithFakeApplication with FakeR
       override val calcConnector: CalculatorConnector = mockCalculatorConnector
 
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
+
+      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 

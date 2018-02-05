@@ -19,7 +19,7 @@ package controllers.DeductionsControllerSpec
 import akka.actor.ActorSystem
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import connectors.CalculatorConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
 import models.resident._
@@ -29,6 +29,7 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
 import play.api.test.Helpers._
+import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -41,16 +42,18 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     def setGetTarget(getData: Option[LossesBroughtForwardValueModel],
                      disposalDateModel: DisposalDateModel,
                      taxYearModel: TaxYearModel): DeductionsController = {
 
-      when(mockCalcConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
+      when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(getData)
 
-      when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -58,6 +61,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
       new DeductionsController {
         override val calcConnector = mockCalcConnector
+        override val sessionCacheConnector = mockSessionCacheConnector
+        override val sessionCacheService: SessionCacheService = mockSessionCacheService
       }
     }
 
@@ -120,6 +125,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
   "Calling .submitLossesBroughtForwardValue from the resident DeductionsController" when {
 
     val mockCalcConnector = mock[CalculatorConnector]
+    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
 
     val gainModel = mock[GainAnswersModel]
     val summaryModel = mock[DeductionGainAnswersModel]
@@ -132,16 +139,16 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
                       maxAnnualExemptAmount: Option[BigDecimal] = Some(BigDecimal(11100))
                      ): DeductionsController = {
 
-      when(mockCalcConnector.getShareGainAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(gainAnswers))
 
-      when(mockCalcConnector.getShareDeductionAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
         .thenReturn(Future.successful(chargeableGainAnswers))
 
       when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(chargeableGain)))
 
-      when(mockCalcConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -150,7 +157,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(maxAnnualExemptAmount))
 
-      when(mockCalcConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
+      when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
         ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(CacheMap("", Map.empty))
 
@@ -158,6 +165,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
       new DeductionsController {
         override val calcConnector = mockCalcConnector
+        override val sessionCacheConnector = mockSessionCacheConnector
+        override val sessionCacheService: SessionCacheService = mockSessionCacheService
       }
     }
 

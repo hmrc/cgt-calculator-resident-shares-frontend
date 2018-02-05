@@ -19,136 +19,259 @@ package connectors
 import java.time.LocalDate
 import java.util.UUID
 
-import common.KeystoreKeys
-import models.resident
-import models.resident.IncomeAnswersModel
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import assets.ModelsAsset._
+import models.resident.{ChargeableGainResultModel, TaxYearModel, TotalGainAndTaxOwedModel}
 import org.joda.time.DateTime
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatest.mock.MockitoSugar
-import uk.gov.hmrc.http.cache.client.SessionCache
+import play.api.mvc.Results._
+import uk.gov.hmrc.http.logging.SessionId
+import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpReads}
+import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 import uk.gov.hmrc.play.test.UnitSpec
 
-import scala.concurrent.Future
-import uk.gov.hmrc.http.{HeaderCarrier, HttpGet}
-import uk.gov.hmrc.http.logging.SessionId
+import scala.concurrent.{ExecutionContext, Future}
 
 class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
 
   val mockHttp = mock[HttpGet]
-  val mockSessionCache = mock[SessionCache]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
   val sessionId = UUID.randomUUID.toString
+  val homeLink = controllers.routes.GainController.disposalDate().url
 
   object TargetCalculatorConnector extends CalculatorConnector {
-    override val sessionCache = mockSessionCache
+    override val sessionCacheConnector = mockSessionCacheConnector
     override val http = mockHttp
     override val serviceUrl = "dummy"
   }
 
   implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId(sessionId.toString)))
 
-  def mockResidentSharesFetchAndGetFormData(): Unit = {
-    when(mockSessionCache.fetchAndGetEntry[resident.AcquisitionCostsModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AcquisitionCostsModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.AcquisitionValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.acquisitionValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.AcquisitionValueModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.DisposalDateModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(resident.DisposalDateModel(1, 1, 2016))))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.DisposalCostsModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.disposalCosts))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.DisposalCostsModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.SellForLessModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.SellForLessModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.DisposalValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.disposalValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.DisposalValueModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.WorthWhenSoldForLessModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.WorthWhenSoldForLessModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.lossesBroughtForward))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardValueModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.income.CurrentIncomeModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.income.CurrentIncomeModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.income.PersonalAllowanceModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.income.PersonalAllowanceModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.income.PreviousTaxableGainsModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.previousTaxableGains))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.income.PreviousTaxableGainsModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.shares.OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.shares.OwnerBeforeLegislationStartModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.shares.gain.DidYouInheritThemModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.shares.gain.DidYouInheritThemModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.WorthWhenInheritedModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.worthWhenInherited))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.WorthWhenInheritedModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.shares.gain.ValueBeforeLegislationStartModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.shares.gain.ValueBeforeLegislationStartModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.lossesBroughtForward))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardModel])))
-
-    when(mockSessionCache.fetchAndGetEntry[resident.LossesBroughtForwardValueModel](ArgumentMatchers.eq(KeystoreKeys.ResidentShareKeys.lossesBroughtForwardValue))(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(Some(mock[resident.LossesBroughtForwardValueModel])))
-  }
-
-  "Calling getShareGainAnswers" should {
-
-    "return a valid ShareGainAnswersModel" in {
-      val hc = mock[HeaderCarrier]
-      mockResidentSharesFetchAndGetFormData()
-      lazy val result = TargetCalculatorConnector.getShareGainAnswers(hc)
-      await(result).isInstanceOf[GainAnswersModel] shouldBe true
-    }
-  }
-
-  "Calling getShareDeductionAnswers" should {
-
-    "return a valid DeductionGainAnswersModel" in {
-      val hc = mock[HeaderCarrier]
-      mockResidentSharesFetchAndGetFormData()
-      lazy val result = TargetCalculatorConnector.getShareDeductionAnswers(hc)
-      await(result).isInstanceOf[DeductionGainAnswersModel] shouldBe true
-    }
-  }
-
-  "Calling getShareIncomeAnswers" should {
-
-    "return a valid DeductionGainAnswersModel" in {
-      val hc = mock[HeaderCarrier]
-      mockResidentSharesFetchAndGetFormData()
-      lazy val result = TargetCalculatorConnector.getShareIncomeAnswers(hc)
-      await(result).isInstanceOf[IncomeAnswersModel] shouldBe true
-    }
-  }
-
-
-    "Calling .getMinimumDate" should {
-      def mockDate(result: Future[DateTime]): OngoingStubbing[Future[DateTime]] =
-          when(mockHttp.GET[DateTime](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+  "Calling .getMinimumDate" should {
+    def mockDate(result: Future[DateTime]): OngoingStubbing[Future[DateTime]] =
+      when(mockHttp.GET[DateTime](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(result)
 
-        "return a DateTime which matches the returned LocalDate" in {
-          mockDate(Future.successful(DateTime.parse("2015-06-04")))
-          await(TargetCalculatorConnector.getMinimumDate()) shouldBe LocalDate.parse("2015-06-04")
-        }
-
-        "return a failure if one occurs" in {
-          mockDate(Future.failed(new Exception("error message")))
-          the[Exception] thrownBy await(TargetCalculatorConnector.getMinimumDate()) should have message "error message"
-        }
+    "return a DateTime which matches the returned LocalDate" in {
+      mockDate(Future.successful(DateTime.parse("2015-06-04")))
+      await(TargetCalculatorConnector.getMinimumDate()) shouldBe LocalDate.parse("2015-06-04")
     }
+
+    "return a failure if one occurs" in {
+      mockDate(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.getMinimumDate()) should have message "error message"
+    }
+  }
+
+  "Calling .getFullAEA" should {
+    def mockAEA(result: Future[Option[BigDecimal]]): OngoingStubbing[Future[Option[BigDecimal]]] = {
+      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the year if it exists" in {
+      mockAEA(Future.successful(Some(BigDecimal(10000))))
+      await(TargetCalculatorConnector.getFullAEA(2017)) shouldBe Some(BigDecimal(10000))
+    }
+
+    "return a none value if it is returned" in {
+      mockAEA(Future.successful(None))
+      await(TargetCalculatorConnector.getFullAEA(2017)) shouldBe None
+    }
+
+    "return an exception if one occurs" in {
+      mockAEA(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.getFullAEA(2017)) should have message "error message"
+    }
+  }
+
+  "Calling .getPartialAEA" should {
+    def mockAEA(result: Future[Option[BigDecimal]]): OngoingStubbing[Future[Option[BigDecimal]]] = {
+      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the year if it exists" in {
+      mockAEA(Future.successful(Some(BigDecimal(10000))))
+      await(TargetCalculatorConnector.getPartialAEA(2017)) shouldBe Some(BigDecimal(10000))
+    }
+
+    "return a none value if it is returned" in {
+      mockAEA(Future.successful(None))
+      await(TargetCalculatorConnector.getPartialAEA(2017)) shouldBe None
+    }
+
+    "return an exception if one occurs" in {
+      mockAEA(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.getPartialAEA(2017)) should have message "error message"
+    }
+  }
+
+  "Calling .getPA" should {
+    def mockPA(result: Future[Option[BigDecimal]]): OngoingStubbing[Future[Option[BigDecimal]]] = {
+      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the year if it exists without blind persons allowance" in {
+      mockPA(Future.successful(Some(BigDecimal(10000))))
+      await(TargetCalculatorConnector.getPA(2017, isEligibleBlindPersonsAllowance = false)) shouldBe Some(BigDecimal(10000))
+    }
+
+    "return a none value if it is returned with blind persons allowance" in {
+      mockPA(Future.successful(None))
+      await(TargetCalculatorConnector.getPA(2017, isEligibleBlindPersonsAllowance = true)) shouldBe None
+    }
+
+    "return an exception if one occurs" in {
+      mockPA(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.getPA(2017)) should have message "error message"
+    }
+  }
+
+  "Calling .getTaxYear" should {
+    def mockTaxYear(result: Future[Option[TaxYearModel]]): OngoingStubbing[Future[Option[TaxYearModel]]] = {
+      when(mockHttp.GET[Option[TaxYearModel]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[TaxYearModel]]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the year if it exists" in {
+      mockTaxYear(Future.successful(Some(TaxYearModel("2017", isValidYear = true, "2017"))))
+      await(TargetCalculatorConnector.getTaxYear("2017")) shouldBe Some(TaxYearModel("2017", isValidYear = true, "2017"))
+    }
+
+    "return a none value if it is returned" in {
+      mockTaxYear(Future.successful(None))
+      await(TargetCalculatorConnector.getTaxYear("2017")) shouldBe None
+    }
+
+    "return an exception if one occurs" in {
+      mockTaxYear(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.getTaxYear("2017")) should have message "error message"
+    }
+  }
+
+  "Calling .calculateRttShareGrossGain" should {
+    def mockCalculateRttShareGrossGain(result: Future[BigDecimal]): OngoingStubbing[Future[BigDecimal]] = {
+      when(mockHttp.GET[BigDecimal](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[BigDecimal]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the result" in {
+      mockCalculateRttShareGrossGain(Future.successful(BigDecimal(10000)))
+      await(TargetCalculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)) shouldBe BigDecimal(10000)
+    }
+
+    "return an exception if one occurs" in {
+      mockCalculateRttShareGrossGain(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)) should have message "error message"
+    }
+
+    "return an ApplicationException if a NoSuchElementException is returned" in {
+      mockCalculateRttShareGrossGain(Future.failed(new NoSuchElementException("error message")))
+      val result = TargetCalculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+    }
+  }
+
+  "Calling .calculateRttShareChargeableGain" should {
+    val mockChargeableGainResultModel = mock[ChargeableGainResultModel]
+    def mockCalculateRttShareChargeableGain(result: Future[Option[ChargeableGainResultModel]]): OngoingStubbing[Future[Option[ChargeableGainResultModel]]] = {
+      when(mockHttp.GET[Option[ChargeableGainResultModel]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[ChargeableGainResultModel]]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the result if it exists" in {
+      mockCalculateRttShareChargeableGain(Future.successful(Some(mockChargeableGainResultModel)))
+      await(TargetCalculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
+        deductionAnswersMostPossibles, 10000)) shouldBe Some(mockChargeableGainResultModel)
+    }
+
+    "return a None if it doesn't exist" in {
+      mockCalculateRttShareChargeableGain(Future.successful(None))
+      await(TargetCalculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
+        deductionAnswersMostPossibles, 10000)) shouldBe None
+    }
+
+    "return an exception if one occurs" in {
+      mockCalculateRttShareChargeableGain(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
+        deductionAnswersMostPossibles, 10000)) should have message "error message"
+    }
+
+    "return an ApplicationException if a NoSuchElementException is returned" in {
+      mockCalculateRttShareChargeableGain(Future.failed(new NoSuchElementException("error message")))
+      val result = TargetCalculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000)
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+    }
+  }
+
+  "Calling .calculateRttShareTotalGainAndTax" should {
+    val mockTotalGainAndTaxOwedModel = mock[TotalGainAndTaxOwedModel]
+    def mockCalculateRttShareTotalGainAndTax(result: Future[Option[TotalGainAndTaxOwedModel]]): OngoingStubbing[Future[Option[TotalGainAndTaxOwedModel]]] = {
+      when(mockHttp.GET[Option[TotalGainAndTaxOwedModel]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[TotalGainAndTaxOwedModel]]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the result if it exists" in {
+      mockCalculateRttShareTotalGainAndTax(Future.successful(Some(mockTotalGainAndTaxOwedModel)))
+      await(TargetCalculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
+        deductionAnswersMostPossibles, 10000, incomeAnswers)) shouldBe Some(mockTotalGainAndTaxOwedModel)
+    }
+
+    "return a None if it doesn't exist" in {
+      mockCalculateRttShareTotalGainAndTax(Future.successful(None))
+      await(TargetCalculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
+        deductionAnswersMostPossibles, 10000, incomeAnswers)) shouldBe None
+    }
+
+    "return an exception if one occurs" in {
+      mockCalculateRttShareTotalGainAndTax(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
+        deductionAnswersMostPossibles, 10000, incomeAnswers)) should have message "error message"
+    }
+
+    "return an ApplicationException if a NoSuchElementException is returned" in {
+      mockCalculateRttShareTotalGainAndTax(Future.failed(new NoSuchElementException("error message")))
+      val result = TargetCalculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000, incomeAnswers)
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+    }
+  }
+
+  "Calling .getSharesTotalCosts" should {
+    def mockGetSharesTotalCosts(result: Future[BigDecimal]): OngoingStubbing[Future[BigDecimal]] = {
+      when(mockHttp.GET[BigDecimal](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[BigDecimal]]),
+        ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
+        .thenReturn(result)
+    }
+
+    "return a value corresponding to the result" in {
+      mockGetSharesTotalCosts(Future.successful(BigDecimal(10000)))
+      await(TargetCalculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)) shouldBe BigDecimal(10000)
+    }
+
+    "return an exception if one occurs" in {
+      mockGetSharesTotalCosts(Future.failed(new Exception("error message")))
+      the[Exception] thrownBy await(TargetCalculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)) should have message "error message"
+    }
+
+    "return an ApplicationException if a NoSuchElementException is returned" in {
+      mockGetSharesTotalCosts(Future.failed(new NoSuchElementException("error message")))
+      val result = TargetCalculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+    }
+  }
 }
