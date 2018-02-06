@@ -9,7 +9,7 @@ This service provides end users with a mechanism for residents to calculate thei
 
 ## Requirements
 
-This service is written in [Scala](http://www.scala-lang.org/) and [Play](http://playframework.com/), so needs at least a [JRE] to run.
+This service is written in [Scala](http://www.scala-lang.org/) and [Play](http://playframework.com/), so needs at least a [JRE](https://java.com/en/) to run.
 
 ## License
 
