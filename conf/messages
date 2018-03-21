@@ -92,7 +92,7 @@ calc.resident.currentIncome.questionCurrentYear = How much do you expect your in
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
 calc.resident.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
-calc.resident.personalAllowance.help = This the amount of your income that you don''t pay tax on.
+calc.resident.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
 calc.resident.personalAllowance.list.one = earned more than £100,000
 calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
 calc.resident.personalAllowance.link.text = Find out more about
