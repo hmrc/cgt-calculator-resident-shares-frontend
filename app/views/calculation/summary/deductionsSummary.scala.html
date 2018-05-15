@@ -28,7 +28,7 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation._
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
+@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
 
 @broughtForwardLossesHelpText() = {
     <span>
@@ -50,7 +50,8 @@
     title = Messages("calc.resident.summary.title"),
     backLink = Some(backUrl),
     homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.shares.home")
+    navTitle = Messages("calc.base.resident.shares.home"),
+    isUserResearchBannerVisible = showUserResearchPanel
 ) {
 
     <!-- Google Analytics -->

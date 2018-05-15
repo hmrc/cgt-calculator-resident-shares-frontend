@@ -67,7 +67,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -173,6 +173,21 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     s"the continue button has a link to ${controllers.routes.SaUserController.saUser().url}" in {
       doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
     }
+
+    "does have ur panel" in {
+      doc.select("div#ur-panel").size() shouldBe 1
+
+      doc.select(".banner-panel__close").size() shouldBe 1
+      doc.select(".banner-panel__title").text() shouldBe messages.bannerPanelTitle
+
+      doc.select("section > a").first().attr("href") shouldBe messages.bannerPanelLinkURL
+      doc.select("section > a").first().text() shouldBe messages.bannerPanelLinkText
+
+      doc.select("a > span").first().text() shouldBe messages.bannerPanelCloseVisibleText
+      doc.select("a > span").eq(1).text() shouldBe messages.bannerPanelCloseHiddenText
+
+    }
+
   }
 
   "Properties Deductions Summary view when a tax year outside the accepted is supplied" should {
@@ -212,7 +227,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {
@@ -221,6 +236,10 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
 
     "not display the continue button" in {
       doc.select("a.button").isEmpty shouldBe true
+    }
+
+    "does not have ur panel" in {
+      doc.select("div#ur-panel").size() shouldBe 0
     }
   }
 }

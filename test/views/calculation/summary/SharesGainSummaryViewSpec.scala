@@ -53,7 +53,7 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
-      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000)(fakeRequest, applicationMessages)
+      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = true)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -376,6 +376,21 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
           }
         }
       }
+
+      "does have ur panel" in {
+        doc.select("div#ur-panel").size() shouldBe 1
+
+        doc.select(".banner-panel__close").size() shouldBe 1
+        doc.select(".banner-panel__title").text() shouldBe summaryMessages.bannerPanelTitle
+
+        doc.select("section > a").first().attr("href") shouldBe summaryMessages.bannerPanelLinkURL
+        doc.select("section > a").first().text() shouldBe summaryMessages.bannerPanelLinkText
+
+        doc.select("a > span").first().text() shouldBe summaryMessages.bannerPanelCloseVisibleText
+        doc.select("a > span").eq(1).text() shouldBe summaryMessages.bannerPanelCloseHiddenText
+
+      }
+
     }
 
     "acquired outside current tax years" should {
@@ -394,11 +409,15 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", false, "2016/17")
-      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000)(fakeRequest, applicationMessages)
+      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = false)(fakeRequest, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {
         doc.select("a.button").isEmpty shouldBe true
+      }
+
+      "does not have ur panel" in {
+        doc.select("div#ur-panel").size() shouldBe 0
       }
     }
   }

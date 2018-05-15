@@ -30,6 +30,8 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import services.SessionCacheService
 import views.html.calculation.{summary => views}
+import scala.util.Random
+import play.api.Logger
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
@@ -93,17 +95,20 @@ trait SummaryController extends ValidActiveSession {
                      taxYear: Option[TaxYearModel],
                      currentTaxYear: String,
                      totalCosts: BigDecimal,
-                     maxAea: BigDecimal)(implicit hc: HeaderCarrier): Future[Result] = {
+                     maxAea: BigDecimal,
+                     showUserResearchPanel: Boolean)(implicit hc: HeaderCarrier): Future[Result] = {
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(views.finalSummary(totalGainAnswers, deductionGainAnswers,
-          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, totalCosts, chargeableGain.get.deductions)))
+          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, totalCosts, chargeableGain.get.deductions, showUserResearchPanel = false)))
 
       else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, deductionGainAnswers,
-        chargeableGain.get, backUrl, taxYear.get, homeLink, totalCosts)))
-      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get, homeLink, totalCosts, maxAea)))
+        chargeableGain.get, backUrl, taxYear.get, homeLink, totalCosts, showUserResearchPanel)))
+      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get, homeLink, totalCosts, maxAea, showUserResearchPanel)))
     }
+
+    val showUserResearchPanel = setURPanelFlag
 
     (for {
       answers <- sessionCacheService.getShareGainAnswers
@@ -119,7 +124,25 @@ trait SummaryController extends ValidActiveSession {
       totalGain <- getTotalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
       currentTaxYear <- Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
-                                   backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get)
+                                   backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get, showUserResearchPanel = showUserResearchPanel)
     } yield routeRequest).recoverToStart(homeLink, homeLink)
+
+  }
+
+  private[controllers] def setURPanelFlag(implicit hc: HeaderCarrier): Boolean = {
+    val random = new Random()
+    val seed = getLongFromSessionID(hc)
+    random.setSeed(seed)
+    random.nextInt(3) == 0
+  }
+
+  private[controllers] def getLongFromSessionID(hc: HeaderCarrier): Long = {
+    val session = hc.sessionId.map(_.value).getOrElse("0")
+    val numericSessionValues = session.replaceAll("[^0-9]", "") match {
+      case "" => "0"
+      case num => num
+    }
+    numericSessionValues.takeRight(10).toLong
+
   }
 }

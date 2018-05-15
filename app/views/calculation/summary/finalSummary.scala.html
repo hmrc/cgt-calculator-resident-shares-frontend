@@ -36,13 +36,15 @@
         taxYear: TaxYearModel,
         navHomeLink: String,
         totalCosts: BigDecimal,
-        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
+        totalDeductions: BigDecimal,
+        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
 
 @resident_main_template(
 title = Messages("calc.resident.summary.title"),
 backLink = Some(backUrl),
 homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.shares.home")
+navTitle = Messages("calc.base.resident.shares.home"),
+isUserResearchBannerVisible = showUserResearchPanel
 ){
     @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 

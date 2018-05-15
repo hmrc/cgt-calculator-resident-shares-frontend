@@ -24,6 +24,7 @@
   mainContent: Html = HtmlFormat.empty,
   serviceInfoContent: Html = HtmlFormat.empty,
   scriptElem: Option[Html] = None,
+  afterHeader: Html = HtmlFormat.empty,
   homeLink: String,
   navTitle: String = "Calculate your Capital Gains Tax"
 )(implicit request: Request[_], messages: Messages)
@@ -60,8 +61,6 @@
       showBetaLink = false,
       navLinks = Some(headerNavLinks))
 }
-
-@afterHeader = {}
 
 @bodyEnd = {
     @uiLayouts.footer(
