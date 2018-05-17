@@ -43,6 +43,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with O
         override val analyticsToken: String = ""
         override val reportAProblemPartialUrl: String = ""
         override val contactFormServiceIdentifier: String = ""
+        override val urBannerLink: String = ""
       }
     }
   }

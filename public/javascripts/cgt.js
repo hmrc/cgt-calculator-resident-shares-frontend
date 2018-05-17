@@ -43,16 +43,49 @@ $(document).ready($(function () {
     }
   });
 
-  $('[data-metrics]').each(function () {
-    var metrics = $(this).attr('data-metrics');
-    var parts = metrics.split(':');
-    ga('send', 'event', parts[0], parts[1], parts[2]);
-  });
+// TODO: investigate why this js is currently not working and if required - links to UR Banner implementation
+//  $('[data-metrics]').each(function () {
+//    var metrics = $(this).attr('data-metrics');
+//    var parts = metrics.split(':');
+//    ga('send', 'event', parts[0], parts[1], parts[2]);
+//  });
 
     var reportLink = $('#get-help-action');
     var reportLocation = window.location.pathname;
     reportLink.on('click', function () {
     ga('send', 'event','resident-shares-get-help', 'Get help' , reportLocation);
+    });
+
+// =====================================================
+// Handle the CGT UR panel dismiss link functionality
+// =====================================================
+    function setCookie (name, value, duration, domain) {
+        var secure = window.location.protocol.indexOf('https') ? '' : '; secure'
+
+        var cookieDomain = ""
+        if (domain) {
+          cookieDomain = '; domain=' + domain
+        }
+
+        var expires = ""
+        if (duration) {
+          var date = new Date()
+          date.setTime(date.getTime() + (duration * 24 * 60 * 60 * 1000))
+          expires = '; expires=' + date.toGMTString()
+        }
+
+        document.cookie = name + '=' + value + expires + cookieDomain + '; path=/' + secure
+    }
+
+    var cookieData=GOVUK.getCookie("mdtpurr");
+    if (cookieData==null) {
+        $("#ur-panel").addClass("banner-panel--show");
+    }
+
+    $(".banner-panel__close").on("click", function(e) {
+        e.preventDefault();
+        setCookie("mdtpurr", "suppress_for_all_services", 28);
+         $("#ur-panel").removeClass("banner-panel--show");
     });
 
 }));

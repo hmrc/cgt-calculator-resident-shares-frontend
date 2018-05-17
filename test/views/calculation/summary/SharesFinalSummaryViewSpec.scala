@@ -16,7 +16,8 @@
 
 package views.calculation.summary
 
-import assets.MessageLookup.{SummaryDetails, Resident => commonMessages, SummaryPage => messages}
+import assets.MessageLookup.Resident.Shares.{SharesSummaryMessages => sharesSummaryMessages}
+import assets.{MessageLookup => pages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
 import models.resident._
@@ -24,8 +25,6 @@ import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{summary => views}
 import assets.DateAsset
-import assets.{MessageLookup => pages}
-import assets.MessageLookup.Resident.Shares.{SharesSummaryMessages => sharesSummaryMessages}
 import common.Dates._
 import controllers.routes
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel, PreviousTaxableGainsModel}
@@ -91,7 +90,8 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         taxYearModel,
         "",
         100,
-        100)(fakeRequestWithSession, applicationMessages)
+        100,
+        showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -447,6 +447,20 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
             doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
           }
         }
+
+        "does have ur panel" in {
+          doc.select("div#ur-panel").size() shouldBe 1
+
+          doc.select(".banner-panel__close").size() shouldBe 1
+          doc.select(".banner-panel__title").text() shouldBe summaryMessages.bannerPanelTitle
+
+          doc.select("section > a").first().attr("href") shouldBe summaryMessages.bannerPanelLinkURL
+          doc.select("section > a").first().text() shouldBe summaryMessages.bannerPanelLinkText
+
+          doc.select("a > span").first().text() shouldBe summaryMessages.bannerPanelCloseVisibleText
+          doc.select("a > span").eq(1).text() shouldBe summaryMessages.bannerPanelCloseHiddenText
+
+        }
       }
     }
 
@@ -494,12 +508,18 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         taxYearModel,
         "",
         100,
-        100)(fakeRequestWithSession, applicationMessages)
+        100,
+        showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {
         doc.select("a.button").isEmpty shouldBe true
       }
+
+      "does not have ur panel" in {
+        doc.select("div#ur-panel").size() shouldBe 0
+      }
+
     }
   }
 }

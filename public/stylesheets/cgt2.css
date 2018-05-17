@@ -519,3 +519,54 @@
 .hint-text {
     color: #6f777b;
 }
+
+/*
+====================================
+Full width panel used at top of page to contain UR recruitment notice
+====================================
+*/
+
+.banner-panel {
+   display: none;
+   background-color: #005ea5;
+   color: #fff;
+}
+.banner-panel--show {
+   display: block;
+}
+.banner-panel__container {
+   padding: 20px .78947em;
+   position: relative;
+}
+.banner-panel a {
+   color: #fff;
+}
+.banner-panel__title {
+   font-size: 18px;
+   font-weight: 600;
+   margin-bottom: 5px;
+}
+.banner-panel__close {
+   color: #fff;
+   font-size: 14px;
+   position: absolute;
+   right: 15px;
+   top: 20px;
+}
+.banner-panel__small-copy {
+   display: inline-block;
+   font-size: 14px;
+}
+
+.notice-banner__wrapper a:visited {
+   color: #fff;
+}
+
+@media (min-width: 641px) {
+   .banner-panel__close {
+       right: 35px;
+   }
+   .banner-panel__container {
+       padding: 20px 30px 10px;
+   }
+}

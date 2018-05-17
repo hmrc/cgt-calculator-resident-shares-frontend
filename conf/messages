@@ -188,6 +188,12 @@ calc.summary.noticeSummary = Your result may be slightly inaccurate because the 
 calc.summary.download = Download
 calc.summary.ratesHelp = These rates are based on your Income Tax bands:
 
+#Summary User Banner
+calc.summary.dismissBanner = No thanks
+calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
+calc.summary.userResearchLink.title = Help improve GOV.UK
+calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
+
 #WhatToDoNext
 calc.whatToDoNext.title = What to do next
 calc.whatToDoNext.finish = Return to GOV.UK

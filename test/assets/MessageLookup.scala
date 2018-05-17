@@ -779,6 +779,13 @@ object MessageLookup {
     val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
     val ratesHelp = "These rates are based on your Income Tax bands:"
+
+    val bannerPanelTitle = "Help improve GOV.UK"
+    val bannerPanelLinkURL = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
+    val bannerPanelLinkText = "Help improve this digital service by joining the HMRC user panel (opens in new window)"
+    val bannerPanelCloseVisibleText = "No thanks"
+    val bannerPanelCloseHiddenText = "I don't want to answer any questions about joining the research panel"
+
   }
 
   object WhatNextPages {
