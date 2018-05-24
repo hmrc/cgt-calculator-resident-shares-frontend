@@ -16,16 +16,50 @@
 
 package common
 
-import java.time.LocalDate
+import java.time.{LocalDate, ZonedDateTime}
+
 import common.Dates.constructDate
+import models.resident.DisposalDateModel
+import play.api.data.validation.{Invalid, ValidationError, _}
+import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 import scala.util.{Failure, Success, Try}
 
 object Validation {
 
-  def dateAfterMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): Boolean = {
-    if(isValidDate(day, month, year)) constructDate(day, month, year).isAfter(minimumDate)
-    else true
+  def dateAfterMinimumConstraint(minDate: ZonedDateTime): Constraint[DisposalDateModel] = Constraint({
+    value => dateAfterMinimum(value.day, value.month, value.year, minDate.toLocalDate)
+  })
+
+  def maxMonetaryValueConstraint(
+                                  maxValue: BigDecimal,
+                                  errMsgKey: String = "calc.common.error.maxNumericExceeded"
+                                ): Constraint[BigDecimal] = Constraint("constraints.maxValue")({
+    value => maxMoneyCheck(value, maxValue, errMsgKey)
+  })
+
+  def maxMonetaryValueConstraint[T](maxValue: BigDecimal, extractMoney: T => Option[BigDecimal]): Constraint[T] = {
+    Constraint("constraints.maxValueCustom")({
+      data => extractMoney(data).map {
+        maxMoneyCheck(_, maxValue, "calc.common.error.maxNumericExceeded")
+      }.getOrElse(Valid)
+    })
+  }
+
+  private def maxMoneyCheck(value: BigDecimal, maxValue: BigDecimal, errMsgKey: String): ValidationResult = {
+    if(value <= maxValue) {
+      Valid
+    } else {
+      Invalid(ValidationError(errMsgKey, MoneyPounds(maxValue, 0).quantity))
+    }
+  }
+
+  def dateAfterMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): ValidationResult = {
+    if(isValidDate(day, month, year) && constructDate(day, month, year).isAfter(minimumDate)){
+      Valid
+    } else {
+      Invalid(ValidationError("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonth} ${minimumDate.getYear}"))
+    }
   }
 
   def isValidDate(day: Int, month: Int, year: Int): Boolean = Try(constructDate(day, month, year)) match {

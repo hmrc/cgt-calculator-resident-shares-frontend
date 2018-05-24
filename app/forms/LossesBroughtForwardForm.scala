@@ -21,17 +21,14 @@ import common.Validation._
 import models.resident.LossesBroughtForwardModel
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object LossesBroughtForwardForm {
 
   lazy val lossesBroughtForwardForm = Form(
     mapping(
       "option" -> text
-        .verifying(Messages("calc.resident.lossesBroughtForward.errorSelect", "2015/16"), mandatoryCheck)
-        .verifying(Messages("calc.resident.lossesBroughtForward.errorSelect", "2015/16"), yesNoCheck)
+        .verifying("calc.resident.lossesBroughtForward.errorSelect", mandatoryCheck)
+        .verifying("calc.resident.lossesBroughtForward.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
     )(LossesBroughtForwardModel.apply)(LossesBroughtForwardModel.unapply)
   )

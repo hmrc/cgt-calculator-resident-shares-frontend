@@ -21,10 +21,6 @@ import common.Validation._
 import models.resident.income.PersonalAllowanceModel
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object PersonalAllowanceForm {
 
@@ -38,7 +34,7 @@ object PersonalAllowanceForm {
         .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.common.error.invalidAmountNoDecimal", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, _.toString())
-        .verifying("calc.common.error.maxAmountExceeded" +s"£${MoneyPounds(maxPA, 0).quantity}" +"calc.common.error.maxAmountExceededOrLess", validateMaxPA(maxPA))
+        .verifying(maxMonetaryValueConstraint(maxPA))
         .verifying("calc.common.error.minimumAmount", isPositive)
         .verifying("calc.common.error.invalidAmountNoDecimal", decimalPlacesCheckNoDecimal)
     )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)

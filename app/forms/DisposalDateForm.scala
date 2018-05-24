@@ -19,13 +19,9 @@ package forms
 import common.Transformers._
 import common.Validation._
 import models.resident.DisposalDateModel
-import java.time.{LocalDate, ZoneId, ZonedDateTime}
-
+import java.time.{ZoneId, ZonedDateTime}
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object DisposalDateForm {
 
@@ -46,7 +42,6 @@ object DisposalDateForm {
         .verifying("calc.resident.disposalDate.invalidYearRangeError", validYearRangeCheck)
     )(DisposalDateModel.apply)(DisposalDateModel.unapply)
       .verifying("calc.common.date.error.invalidDate", fields => isValidDate(fields.day, fields.month, fields.year))
-      .verifying(Messages("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonth} ${minimumDate.getYear}"),
-        fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate.toLocalDate))
+      .verifying(dateAfterMinimumConstraint(minimumDate))
   )
 }

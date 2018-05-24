@@ -22,10 +22,6 @@ import common.Validation._
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 object ValueBeforeLegislationStartForm {
 
@@ -35,7 +31,7 @@ object ValueBeforeLegislationStartForm {
         .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying("calc.common.error.maxAmountExceeded" +s"£${MoneyPounds(Constants.maxNumeric, 0).quantity}" +"calc.common.error.maxAmountExceededOrLess", maxCheck)
+        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.common.error.minimumAmount", isPositive)
         .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(ValueBeforeLegislationStartModel.apply)(ValueBeforeLegislationStartModel.unapply)
