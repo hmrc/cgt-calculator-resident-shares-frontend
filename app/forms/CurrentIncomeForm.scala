@@ -32,12 +32,12 @@ object CurrentIncomeForm {
   lazy val currentIncomeForm = Form(
     mapping(
       "amount" -> text
-        .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)
-        .verifying(Messages("calc.common.error.invalidAmount"), bigDecimalCheck)
+        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, _.toString())
-        .verifying(Messages("calc.common.error.maxAmountExceeded", MoneyPounds(Constants.maxNumeric, 0).quantity), maxCheck)
-        .verifying(Messages("calc.common.error.minimumAmount"), isPositive)
-        .verifying(Messages("calc.common.error.invalidAmount"), decimalPlacesCheck)
+        .verifying("calc.common.error.maxAmountExceeded" +s"£${MoneyPounds(Constants.maxNumeric, 0).quantity}" +"calc.common.error.maxAmountExceededOrLess", maxCheck)
+        .verifying("calc.common.error.minimumAmount", isPositive)
+        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)
   )
 }

@@ -32,12 +32,12 @@ object ValueBeforeLegislationStartForm {
   lazy val valueBeforeLegislationStartForm = Form(
     mapping(
       "amount" -> text
-        .verifying(Messages("calc.common.error.mandatoryAmount"), mandatoryCheck)
-        .verifying(Messages("calc.common.error.invalidAmount"), bigDecimalCheck)
+        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(Messages("calc.common.error.maxAmountExceeded", MoneyPounds(Constants.maxNumeric, 0).quantity), maxCheck)
-        .verifying(Messages("calc.common.error.minimumAmount"), isPositive)
-        .verifying(Messages("calc.common.error.invalidAmount"), decimalPlacesCheck)
+        .verifying("calc.common.error.maxAmountExceeded" +s"£${MoneyPounds(Constants.maxNumeric, 0).quantity}" +"calc.common.error.maxAmountExceededOrLess", maxCheck)
+        .verifying("calc.common.error.minimumAmount", isPositive)
+        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
     )(ValueBeforeLegislationStartModel.apply)(ValueBeforeLegislationStartModel.unapply)
   )
 }

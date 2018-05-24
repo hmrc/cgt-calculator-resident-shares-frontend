@@ -32,20 +32,20 @@ object DisposalDateForm {
   def disposalDateForm(minimumDate: ZonedDateTime = ZonedDateTime.now(ZoneId.of("Europe/London"))): Form[DisposalDateModel] = Form(
     mapping(
       "disposalDateDay" -> text
-        .verifying(Messages("calc.resident.disposalDate.invalidDayError"), mandatoryCheck)
-        .verifying(Messages("calc.resident.disposalDate.invalidDayError"), integerCheck)
+        .verifying("calc.resident.disposalDate.invalidDayError", mandatoryCheck)
+        .verifying("calc.resident.disposalDate.invalidDayError", integerCheck)
         .transform[Int](stringToInteger, _.toString),
       "disposalDateMonth" -> text
-        .verifying(Messages("calc.resident.disposalDate.invalidMonthError"), mandatoryCheck)
-        .verifying(Messages("calc.resident.disposalDate.invalidMonthError"), integerCheck)
+        .verifying("calc.resident.disposalDate.invalidMonthError", mandatoryCheck)
+        .verifying("calc.resident.disposalDate.invalidMonthError", integerCheck)
         .transform[Int](stringToInteger, _.toString),
       "disposalDateYear" -> text
-        .verifying(Messages("calc.resident.disposalDate.invalidYearError"), mandatoryCheck)
-        .verifying(Messages("calc.resident.disposalDate.invalidYearError"), integerCheck)
+        .verifying("calc.resident.disposalDate.invalidYearError", mandatoryCheck)
+        .verifying("calc.resident.disposalDate.invalidYearError", integerCheck)
         .transform[Int](stringToInteger, _.toString)
-        .verifying(Messages("calc.resident.disposalDate.invalidYearRangeError"), validYearRangeCheck)
+        .verifying("calc.resident.disposalDate.invalidYearRangeError", validYearRangeCheck)
     )(DisposalDateModel.apply)(DisposalDateModel.unapply)
-      .verifying(Messages("calc.common.date.error.invalidDate"), fields => isValidDate(fields.day, fields.month, fields.year))
+      .verifying("calc.common.date.error.invalidDate", fields => isValidDate(fields.day, fields.month, fields.year))
       .verifying(Messages("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonth} ${minimumDate.getYear}"),
         fields => dateAfterMinimum(fields.day, fields.month, fields.year, minimumDate.toLocalDate))
   )
