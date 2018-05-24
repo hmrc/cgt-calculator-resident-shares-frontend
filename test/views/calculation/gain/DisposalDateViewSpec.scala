@@ -108,7 +108,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     }
 
     "have the input error message 'Enter a real date'" in {
-      doc.body.getElementsByClass("error-notification").text shouldBe commonMessages.errorInvalidDate
+      doc.body.getElementsByClass("error-notification").text shouldBe "calc.common.date.error.invalidDate calc.common.date.error.beforeMinimum"
     }
   }
 

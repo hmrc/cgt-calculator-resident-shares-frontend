@@ -70,7 +70,7 @@ calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your t
 
 ## Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are there any previous losses you want to bring forward?
-calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you’ve already reported to HMRC.
+calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you''ve already reported to HMRC.
 
 ##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?

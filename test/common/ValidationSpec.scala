@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-package connectors
+package common
 
 import java.time.LocalDate
 
-import common.Validation
 import common.Validation._
+import play.api.data.validation.{Invalid, Valid, ValidationError}
 import uk.gov.hmrc.play.test.UnitSpec
-
-import scala.concurrent.Future
 
 class ValidationSpec extends UnitSpec {
 
@@ -357,11 +355,11 @@ class ValidationSpec extends UnitSpec {
         "return a true" when {
 
             "provided with form data after the supplied minimum date" in {
-              Validation.dateAfterMinimum(7, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
+              Validation.dateAfterMinimum(7, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe Valid
             }
 
             "provided with an invalid date" in {
-              Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe true
+              Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),LocalDate.of(2015,4,6))))
             }
         }
 

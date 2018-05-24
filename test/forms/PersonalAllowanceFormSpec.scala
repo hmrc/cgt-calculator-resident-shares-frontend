@@ -49,7 +49,7 @@ class PersonalAllowanceFormSpec extends UnitSpec with WithFakeApplication with F
       }
 
       s"error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
       }
     }
 
@@ -62,7 +62,7 @@ class PersonalAllowanceFormSpec extends UnitSpec with WithFakeApplication with F
       }
 
       s"error with message '${messages.invalidAmountNoDecimal}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmountNoDecimal
+        form.error("amount").get.message shouldBe "calc.common.error.invalidAmountNoDecimal"
       }
     }
 
@@ -76,7 +76,7 @@ class PersonalAllowanceFormSpec extends UnitSpec with WithFakeApplication with F
       }
 
       s"error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
       }
     }
 
@@ -90,7 +90,7 @@ class PersonalAllowanceFormSpec extends UnitSpec with WithFakeApplication with F
       }
 
       s"error with message '${messages.invalidAmountNoDecimal}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmountNoDecimal
+        form.error("amount").get.message shouldBe "calc.common.error.invalidAmountNoDecimal"
       }
     }
 
@@ -101,7 +101,7 @@ class PersonalAllowanceFormSpec extends UnitSpec with WithFakeApplication with F
               form.hasErrors shouldBe true
             }
            s"error with message '${messages.maximumLimit(MoneyPounds(limit, 0).quantity)}'" in {
-                form.error("amount").get.message shouldBe messages.maximumLimit(MoneyPounds(limit, 0).quantity)
+                form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
            }
           }
   }

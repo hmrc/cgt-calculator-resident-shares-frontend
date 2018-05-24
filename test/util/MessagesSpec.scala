@@ -28,8 +28,8 @@ class MessagesSpec extends UnitSpec  {
   private val MatchBacktickQuoteOnly = """`+""".r
   private val MatchForwardTickQuoteOnly = """’+""".r
 
-  private val englishMessages = parseMessages("conf/messages.en.en")
-  private val welshMessages = parseMessages("conf/messages.en.cy")
+  private val englishMessages = parseMessages("conf/messages.en")
+  private val welshMessages = parseMessages("conf/messages.cy")
 
   "All message files" should {
     "have the same set of keys" in {
