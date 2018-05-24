@@ -16,8 +16,9 @@
 
 @import views.html.helpers._
 @import views.html.calculation._
+@import play.api.Application
 
-@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
+@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
 

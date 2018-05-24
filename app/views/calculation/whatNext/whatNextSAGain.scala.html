@@ -15,8 +15,9 @@
  *@
 
 @import views.html.calculation.gain._
+@import play.api.Application
 
-@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
+@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages, application: Application)
 
 @resident_shares_main_template(title = Messages("calc.yourOptions.title"), backLink = Some(backUrl)) {
 

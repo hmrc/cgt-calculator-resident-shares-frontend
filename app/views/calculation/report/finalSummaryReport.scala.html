@@ -24,11 +24,12 @@
 @import constructors.CalculateRequestConstructor._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.helpers.checkYourAnswersPartial
+@import play.api.Application
 
 @(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel,
         incomeAnswers: IncomeAnswersModel, result: TotalGainAndTaxOwedModel,
         taxYear: TaxYearModel, isCurrentTaxYear: Boolean,
-        totalCosts: BigDecimal, totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
+        totalCosts: BigDecimal, totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages, application: Application)
 
 <!DOCTYPE html>
 <html>

@@ -50,7 +50,7 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
       )
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000)(fakeRequest, applicationMessages)
+      lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000)(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
@@ -107,7 +107,7 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
       acquisitionValue = Some(30),
       acquisitionCosts = 40
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 500)(fakeRequest, applicationMessages)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 500)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {

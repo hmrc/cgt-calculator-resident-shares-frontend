@@ -27,6 +27,7 @@
 @import controllers.routes.{IncomeController => incomeRoutes}
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation._
+@import play.api.Application
 
 @(gainAnswers:
         GainAnswersModel,
@@ -37,7 +38,7 @@
         navHomeLink: String,
         totalCosts: BigDecimal,
         totalDeductions: BigDecimal,
-        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
+        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(
 title = Messages("calc.resident.summary.title"),

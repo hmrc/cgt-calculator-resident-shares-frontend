@@ -15,8 +15,9 @@
  *@
 
 @import views.html.calculation._
+@import play.api.Application
 
-@(iFormUrl: String)(implicit request: Request[_], messages: Messages)
+@(iFormUrl: String)(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(
     Messages("calc.resident.whatNextNonSa.gain.title"),

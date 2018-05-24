@@ -30,7 +30,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
 
   "ValueBeforeLegislationStart View" should {
 
-    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, applicationMessages)
+    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -140,7 +140,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ValueBeforeLegislationStart View with form without errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -159,7 +159,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ValueBeforeLegislationStart View with form with errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

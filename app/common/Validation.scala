@@ -33,7 +33,7 @@ object Validation {
 
   def maxMonetaryValueConstraint(
                                   maxValue: BigDecimal,
-                                  errMsgKey: String = "calc.common.error.maxNumericExceeded"
+                                  errMsgKey: String = "calc.common.error.maxAmountExceeded"
                                 ): Constraint[BigDecimal] = Constraint("constraints.maxValue")({
     value => maxMoneyCheck(value, maxValue, errMsgKey)
   })

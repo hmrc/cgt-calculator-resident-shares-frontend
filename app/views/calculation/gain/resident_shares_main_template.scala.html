@@ -15,6 +15,7 @@
  *@
 
 @import config.ApplicationConfig
+@import play.api.Application
 @(title: String,
   sidebarLinks: Option[Html] = None,
   contentHeader: Option[Html] = None,
@@ -23,7 +24,7 @@
   scriptElem: Option[Html] = None,
   articleLayout: Boolean = true,
   backLink: Option[String] = None
-)(mainContent: Html)(implicit request : Request[_], messages: Messages)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
 
 @import uk.gov.hmrc.play.views.html.layouts
 

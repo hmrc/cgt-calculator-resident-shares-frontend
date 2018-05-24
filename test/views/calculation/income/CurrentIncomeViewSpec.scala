@@ -33,7 +33,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
     lazy val backLink = controllers.routes.IncomeController.personalAllowance().toString
-    lazy val view = views.currentIncome(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, applicationMessages)
+    lazy val view = views.currentIncome(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -142,7 +142,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward().toString
-      lazy val view = views.currentIncome(form, backLink, taxYearModel, false)(fakeRequest, applicationMessages)
+      lazy val view = views.currentIncome(form, backLink, taxYearModel, false)(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

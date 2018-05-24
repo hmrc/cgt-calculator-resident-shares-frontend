@@ -91,7 +91,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         "",
         100,
         100,
-        showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages)
+        showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -509,7 +509,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         "",
         100,
         100,
-        showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
+        showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

@@ -18,8 +18,9 @@
 @import models.resident.shares.gain.ValueBeforeLegislationStartModel
 @import views.html.helpers._
 @import views.html.calculation.gain._
+@import play.api.Application
 
-@(valueBeforeLegislationStartForm: Form[ValueBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages)
+@(valueBeforeLegislationStartForm: Form[ValueBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages, application: Application)
 
 
 @resident_shares_main_template(

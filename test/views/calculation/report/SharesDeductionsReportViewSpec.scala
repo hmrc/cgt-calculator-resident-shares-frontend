@@ -64,7 +64,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages)
+      lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -144,7 +144,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
     lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages)
+    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
 

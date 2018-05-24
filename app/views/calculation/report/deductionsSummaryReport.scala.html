@@ -25,8 +25,9 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.helpers.checkYourAnswersPartial
 @import views.html.helpers.deductionsSummaryPartial
+@import play.api.Application
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, taxYear: TaxYearModel, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
+@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, taxYear: TaxYearModel, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages, application: Application)
 
 @broughtForwardLossesHelpText() = {
     <span>

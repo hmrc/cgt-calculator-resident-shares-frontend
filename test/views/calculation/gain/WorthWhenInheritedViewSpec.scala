@@ -31,7 +31,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
 
   "worthWhenInherited view" should {
     lazy val form = worthWhenInheritedForm
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages)
+    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -99,7 +99,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
 
   "worthWhenInherited View with form without errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages)
+    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -117,7 +117,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
 
   "worthWhenInherited View with form with errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages)
+    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

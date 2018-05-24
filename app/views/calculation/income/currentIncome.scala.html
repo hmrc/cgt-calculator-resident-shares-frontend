@@ -19,8 +19,9 @@
 @import models.resident._
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import views.html.helpers._
+@import play.api.Application
 
-@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
+@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
 
 @title = {
     @{if(inCurrentTaxYear) {

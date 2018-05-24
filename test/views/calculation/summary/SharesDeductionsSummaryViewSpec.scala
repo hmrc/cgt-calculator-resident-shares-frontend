@@ -67,7 +67,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -227,7 +227,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages)
+      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {

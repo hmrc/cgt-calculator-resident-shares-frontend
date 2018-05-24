@@ -18,8 +18,9 @@
 @import models.resident.AcquisitionValueModel
 @import views.html.helpers._
 @import views.html.calculation._
+@import play.api.Application
 
-@(acquisitionValueForm: Form[AcquisitionValueModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
+@(acquisitionValueForm: Form[AcquisitionValueModel], navHomeLink: String)(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(
     Messages("calc.resident.shares.acquisitionValue.question"),

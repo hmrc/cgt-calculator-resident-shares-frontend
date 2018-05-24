@@ -29,7 +29,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
 
   "Acquisition Costs shares view" should {
 
-    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, applicationMessages)
+    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -159,7 +159,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
     "is due to mandatory field error" should {
 
       lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.acquisitionCosts(form,  Some("back-link"), "home-link")(fakeRequest, applicationMessages)
+      lazy val view = views.acquisitionCosts(form,  Some("back-link"), "home-link")(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
