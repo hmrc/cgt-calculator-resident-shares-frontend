@@ -238,7 +238,7 @@ object MessageLookup {
     object PersonalAllowance {
       val question = "What was your UK Personal Allowance in the tax year when you stopped owning the property?"
       val link = "Personal Allowances"
-      val help = "This the amount of your income that you don’t pay tax on. Find out more about"
+      val help = "This the amount of your income that you don't pay tax on. Find out more about"
       val errorNegative = "Enter a positive number for your Personal Allowance"
       val errorDecimalPlaces = "Enter a whole number for your Personal Allowance"
       val errorMaxLimit = "Enter a Personal Allowance that's £"
@@ -639,7 +639,7 @@ object MessageLookup {
     val helpInfoPoint1 = "are covered by Capital Gains Tax"
     val helpInfoPoint2 = "you've declared within 4 years of making the loss"
     val helpInfoPoint3 = "you haven't already used to reduce the amount of Capital Gains Tax you had to pay"
-    val helpText = "These are unused losses that are covered by Capital Gains Tax and that you’ve already reported to HMRC."
+    val helpText = "These are unused losses that are covered by Capital Gains Tax and that you've already reported to HMRC."
 
     def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from tax years before $input"
   }
