@@ -22,7 +22,7 @@
         @question
     </div>
     <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-4">
-        @{if (answer) "Yes" else "No"}
+        @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
     </div>
     <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
         <a href="@link" class="bold-small">
@@ -37,7 +37,7 @@
         @question
     </div>
     <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-2 text--right">
-        @{if (answer) "Yes" else "No"}
+        @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
     </div>
 </div>
 }

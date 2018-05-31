@@ -16,8 +16,10 @@
 
 @import common.Dates._
 @import java.time.LocalDate
+@import common.Dates.TemplateImplicits._
+@import play.api.i18n.Lang
 
-@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages)
+@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages, lang: Lang)
 
 
 @if(displayLink && link.isDefined) {
@@ -26,7 +28,7 @@
             @question
         </div>
         <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-4">
-            @datePageFormatNoZero.format(date)
+           @date.localFormat("d MMMM YYYY")(lang, messages)
         </div>
         <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
             <a href="@link" class="bold-small">@Messages("calc.base.change")
@@ -40,7 +42,7 @@
             @question
         </div>
         <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-2 text--right">
-            @datePageFormatNoZero.format(date)
+           dumb dumb version 2 @date.localFormat("d MMMM YYYY")
         </div>
     </div>
 }

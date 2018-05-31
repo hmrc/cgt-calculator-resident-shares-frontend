@@ -23,8 +23,9 @@
 @import controllers.routes.{DeductionsController => deductionRoutes}
 @import controllers.routes.{IncomeController => incomeRoutes}
 @import play.api.Application
+@import play.api.i18n.Lang
 
-@(postAction: Call, backUrl: String, gainAnswers: GainAnswersModel, deductionsAnswers: Option[DeductionGainAnswersModel] = None, taxYear: Option[TaxYearModel] = None, incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, application: Application)
+@(postAction: Call, backUrl: String, gainAnswers: GainAnswersModel, deductionsAnswers: Option[DeductionGainAnswersModel] = None, taxYear: Option[TaxYearModel] = None, incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, application: Application, lang: Lang)
 
 @resident_main_template(title = Messages("calc.checkYourAnswers.title"), backLink = Some(backUrl), articleLayout = false, homeLink = controllers.routes.GainController.disposalDate().url, navTitle = Messages("calc.base.resident.shares.home")) {
 
