@@ -20,9 +20,10 @@
 @import models.resident.SaUserModel
 @import views.html.helpers.errorSummary
 @import views.html.helpers.formInputRadioGroup
+@import play.api.Application
 
 
-@(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages)
+@(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(
   title = Messages("calc.resident.saUser.title"),

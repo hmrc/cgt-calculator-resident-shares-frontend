@@ -50,15 +50,15 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       s"have an error message for day of ${messages.invalidDayError}" in {
-        form.error("disposalDateDay").get.message shouldBe messages.invalidDayError
+        form.error("disposalDateDay").get.message shouldBe "calc.resident.disposalDate.invalidDayError"
       }
 
       s"have an error message for month of ${messages.invalidMonthError}" in {
-        form.error("disposalDateMonth").get.message shouldBe messages.invalidMonthError
+        form.error("disposalDateMonth").get.message shouldBe "calc.resident.disposalDate.invalidMonthError"
       }
 
       s"have an error message for year of ${messages.invalidYearError}" in {
-        form.error("disposalDateYear").get.message shouldBe messages.invalidYearError
+        form.error("disposalDateYear").get.message shouldBe "calc.resident.disposalDate.invalidYearError"
       }
     }
 
@@ -71,15 +71,15 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       s"have an error message for day of ${messages.invalidDayError}" in {
-        form.error("disposalDateDay").get.message shouldBe messages.invalidDayError
+        form.error("disposalDateDay").get.message shouldBe "calc.resident.disposalDate.invalidDayError"
       }
 
       s"have an error message for month of ${messages.invalidMonthError}" in {
-        form.error("disposalDateMonth").get.message shouldBe messages.invalidMonthError
+        form.error("disposalDateMonth").get.message shouldBe "calc.resident.disposalDate.invalidMonthError"
       }
 
       s"have an error message for year of ${messages.invalidYearError}" in {
-        form.error("disposalDateYear").get.message shouldBe messages.invalidYearError
+        form.error("disposalDateYear").get.message shouldBe "calc.resident.disposalDate.invalidYearError"
       }
     }
 
@@ -92,7 +92,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       s"have an error message for the date of ${messages.realDateError}" in {
-        form.errors.head.message shouldBe messages.realDateError
+        form.errors.head.message shouldBe "calc.common.date.error.invalidDate"
       }
     }
 
@@ -105,7 +105,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       s"have an error message for the date of ${messages.invalidYearRange}" in {
-        form.errors.head.message shouldBe messages.invalidYearRange
+        form.errors.head.message shouldBe "calc.resident.disposalDate.invalidYearRangeError"
       }
     }
 
@@ -118,7 +118,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       s"have an error message for the date of ${messages.invalidYearRange}" in {
-        form.errors.head.message shouldBe messages.invalidYearRange
+        form.errors.head.message shouldBe "calc.resident.disposalDate.invalidYearRangeError"
       }
     }
   }

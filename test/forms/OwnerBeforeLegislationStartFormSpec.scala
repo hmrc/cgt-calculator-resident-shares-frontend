@@ -56,7 +56,7 @@ class OwnerBeforeLegislationStartFormSpec extends UnitSpec with WithFakeApplicat
       }
 
       s"return a form with the error message ${Messages.errorNoSelect}" in {
-        form.error("ownerBeforeLegislationStart").get.message shouldBe Messages.errorNoSelect
+        form.error("ownerBeforeLegislationStart").get.message shouldBe "calc.resident.shares.ownerBeforeLegislationStart.noSelectError"
       }
 
     }
@@ -73,7 +73,7 @@ class OwnerBeforeLegislationStartFormSpec extends UnitSpec with WithFakeApplicat
       }
 
       s"return a form with the error message ${Messages.errorNoSelect}" in {
-        form.error("ownerBeforeLegislationStart").get.message shouldBe Messages.errorNoSelect
+        form.error("ownerBeforeLegislationStart").get.message shouldBe "calc.resident.shares.ownerBeforeLegislationStart.noSelectError"
       }
     }
   }

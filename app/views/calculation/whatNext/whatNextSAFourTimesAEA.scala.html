@@ -15,8 +15,9 @@
  *@
 
 @import views.html.calculation.gain.resident_shares_main_template
+@import play.api.Application
 
-@(backUrl: String)(implicit request : Request[_], messages: Messages)
+@(backUrl: String)(implicit request : Request[_], messages: Messages, application: Application)
 
 @resident_shares_main_template(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
 

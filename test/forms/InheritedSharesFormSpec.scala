@@ -80,7 +80,7 @@ class InheritedSharesFormSpec extends UnitSpec with WithFakeApplication {
       }
 
       "associate the correct error message to the error" in {
-        form.error("wereInherited").get.message shouldBe messages.errorSelect
+        form.error("wereInherited").get.message shouldBe "calc.resident.shares.didYouInheritThem.errorSelect"
       }
 
       "supplied with invalid data for wereInherited" should {
@@ -96,7 +96,7 @@ class InheritedSharesFormSpec extends UnitSpec with WithFakeApplication {
         }
 
         "associate the correct error message to the error" in {
-          form.error("wereInherited").get.message shouldBe messages.errorSelect
+          form.error("wereInherited").get.message shouldBe "calc.resident.shares.didYouInheritThem.errorSelect"
         }
       }
     }

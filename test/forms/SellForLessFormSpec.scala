@@ -59,7 +59,7 @@ class SellForLessFormSpec extends UnitSpec with WithFakeApplication {
       }
 
       s"error with message '${}'" in {
-        form.error("sellForLess").get.message shouldBe Messages.errorSelect
+        form.error("sellForLess").get.message shouldBe "calc.resident.shares.sellForLess.noSelectError"
       }
 
     }
@@ -76,7 +76,7 @@ class SellForLessFormSpec extends UnitSpec with WithFakeApplication {
       }
 
       s"error with message '${}'" in {
-        form.error("sellForLess").get.message shouldBe Messages.errorSelect
+        form.error("sellForLess").get.message shouldBe "calc.resident.shares.sellForLess.noSelectError"
       }
     }
   }

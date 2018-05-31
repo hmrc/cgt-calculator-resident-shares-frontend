@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@(form: Form[_], page: String, errorKey: String = "")(implicit messages: Messages)
+@(form: Form[_], page: String, errorKey: String = "", additionalText: Option[String] = None)(implicit messages: Messages)
 
 @summary = {
     <div
@@ -32,7 +32,7 @@
                         <a href="#@errorKey"
                            id="@{errorKey}-error-summary"
                            data-focuses="@errorKey">
-                            @Messages(error.message)
+                            @Messages(error.message, error.args: _*)
                         </a>
                     </li>
                 } else {
@@ -40,7 +40,7 @@
                     <a href="#@error.key"
                         id="@{error.key}-error-summary"
                         data-focuses="@error.key">
-                    @Messages(error.message)
+                    @Messages(error.message, error.args: _*)
                     </a>
                 </li>
                 }

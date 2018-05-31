@@ -29,7 +29,7 @@ calc.common.date.fields.year = Year
 calc.common.date.hint = For example, 4 9 2016
 calc.common.date.error.invalidDate = Enter a real date
 calc.common.readMore = Read more
-calc.common.error.maxAmountExceeded = Enter an amount that''s £{0} or less
+calc.common.error.maxAmountExceeded = Enter an amount that''s {0} or less
 calc.common.error.mandatoryAmount = Enter an amount
 calc.common.error.minimumAmount = Enter an amount that''s £0 or more
 calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 10000.00
@@ -70,7 +70,7 @@ calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your t
 
 ## Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are there any previous losses you want to bring forward?
-calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you’ve already reported to HMRC.
+calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you''ve already reported to HMRC.
 
 ##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
@@ -79,7 +79,7 @@ calc.resident.lossesBroughtForward.helpInfo.subtitle = They''re losses you''ve m
 calc.resident.lossesBroughtForward.helpInfo.point1 = are covered by Capital Gains Tax
 calc.resident.lossesBroughtForward.helpInfo.point2 = you''ve declared within 4 years of making the loss
 calc.resident.lossesBroughtForward.helpInfo.point3 = you haven''t already used to reduce the amount of Capital Gains Tax you had to pay
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before {0}
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before 2015/16
 
 ##Losses Brought Forward Value messages
 calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
@@ -232,3 +232,17 @@ calc.resident.whatNextNonSa.loss.detailsTwo = To report now you''ll need a Gover
 ## SA User Messages
 calc.resident.saUser.title = Are you currently in Self Assessment?
 calc.resident.saUser.errorSelect = Select whether you are currently in Self Assessment
+
+##Month Names##
+calc.month.1 = January
+calc.month.2 = February
+calc.month.3 = March
+calc.month.4 = April
+calc.month.5 = May
+calc.month.6 = June
+calc.month.7 = July
+calc.month.8 = August
+calc.month.9 = September
+calc.month.10 = October
+calc.month.11 = November
+calc.month.12 = December

@@ -29,7 +29,7 @@ class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication w
 
   "The whatNextSAFourTimesAEA view" should {
 
-    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, applicationMessages)
+    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {

@@ -23,10 +23,12 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryDateRowHelper
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Lang
 
 class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
 
-  lazy val row = summaryDateRowHelper("testID","testQ",constructDate(12,9,1990))(applicationMessages)
+  val fakeLang: Lang = Lang("en")
+  lazy val row = summaryDateRowHelper("testID","testQ",constructDate(12,9,1990))(applicationMessages, fakeLang)
   lazy val doc = Jsoup.parse(row.body)
 
   "The Summary Date Row Helper" should {
@@ -98,7 +100,7 @@ class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication {
 
     s"if given data that includes a change link " should {
 
-      lazy val rowWithChangeLink = summaryDateRowHelper("testID","testQ",constructDate(12,9,1990),Some("link"))(applicationMessages)
+      lazy val rowWithChangeLink = summaryDateRowHelper("testID","testQ",constructDate(12,9,1990),Some("link"))(applicationMessages, fakeLang)
       lazy val link = Jsoup.parse(rowWithChangeLink.body).select("a")
 
       "include a change link" which {

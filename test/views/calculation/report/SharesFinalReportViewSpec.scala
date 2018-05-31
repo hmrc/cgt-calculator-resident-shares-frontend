@@ -29,9 +29,11 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{report => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Lang
 
 class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val fakeLang: Lang = Lang("en")
   "Final Summary view" when {
 
     "property acquired after start of tax (1 April 1982) and not inherited" should {
@@ -74,7 +76,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
       lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-        false, 100, 100)(fakeRequestWithSession, applicationMessages)
+        false, 100, 100)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
@@ -141,7 +143,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
     )
 
     lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false,
-    100, 100)(fakeRequestWithSession, applicationMessages)
+    100, 100)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {

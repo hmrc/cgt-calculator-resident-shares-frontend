@@ -29,7 +29,7 @@ class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with Fake
 
   "The whatNextSAGain view" should {
 
-    lazy val view = views.whatNextSAGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, applicationMessages)
+    lazy val view = views.whatNextSAGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.yourOptionsTitle}" in {

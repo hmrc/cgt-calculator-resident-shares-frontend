@@ -20,8 +20,9 @@
 @import views.html.calculation._
 @import views.html.helpers.resident._
 @import play.api.mvc.Call
+@import play.api.Application
 
-@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
+@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, application: Application)
 
 @hiddenHelpTextContent = {
     <div id="helpInfo">

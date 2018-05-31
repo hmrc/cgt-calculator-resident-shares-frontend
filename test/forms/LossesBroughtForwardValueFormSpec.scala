@@ -52,7 +52,7 @@ class LossesBroughtForwardValueFormSpec extends UnitSpec with WithFakeApplicatio
       }
 
       s"have an error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
       }
     }
 
@@ -65,7 +65,7 @@ class LossesBroughtForwardValueFormSpec extends UnitSpec with WithFakeApplicatio
       }
 
       s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
       }
     }
 
@@ -78,7 +78,7 @@ class LossesBroughtForwardValueFormSpec extends UnitSpec with WithFakeApplicatio
       }
 
       s"have an error with message '${messages.maximumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+        form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
       }
     }
 
@@ -91,7 +91,7 @@ class LossesBroughtForwardValueFormSpec extends UnitSpec with WithFakeApplicatio
       }
 
       s"have an error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
       }
     }
 
@@ -104,7 +104,7 @@ class LossesBroughtForwardValueFormSpec extends UnitSpec with WithFakeApplicatio
       }
 
       s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
       }
     }
   }

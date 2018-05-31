@@ -20,17 +20,14 @@ import common.Validation._
 import models.resident.SaUserModel
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object SaUserForm {
 
   val saUserForm = Form(
     mapping (
       "isInSa" -> optional(text)
-        .verifying(Messages("calc.resident.saUser.errorSelect"), optionalMandatoryCheck)
-        .verifying(Messages("calc.resident.saUser.errorSelect"), optionalYesNoCheck)
+        .verifying("calc.resident.saUser.errorSelect", optionalMandatoryCheck)
+        .verifying("calc.resident.saUser.errorSelect", optionalYesNoCheck)
         .transform[Boolean](optionStringToBoolean, booleanToOptionString)
     )(SaUserModel.apply)(SaUserModel.unapply)
   )

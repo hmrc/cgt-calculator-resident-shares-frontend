@@ -54,7 +54,7 @@ class DisposalCostsFormSpec extends UnitSpec with WithFakeApplication with FakeR
       }
 
       s"error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messages.mandatoryAmount
+        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
       }
     }
 
@@ -67,7 +67,7 @@ class DisposalCostsFormSpec extends UnitSpec with WithFakeApplication with FakeR
       }
 
       s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
       }
     }
 
@@ -80,7 +80,7 @@ class DisposalCostsFormSpec extends UnitSpec with WithFakeApplication with FakeR
       }
 
       s"error with message '${messages.maximumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.maximumAmount
+        form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
       }
     }
 
@@ -93,7 +93,7 @@ class DisposalCostsFormSpec extends UnitSpec with WithFakeApplication with FakeR
       }
 
       s"error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messages.minimumAmount
+        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
       }
     }
 
@@ -106,7 +106,7 @@ class DisposalCostsFormSpec extends UnitSpec with WithFakeApplication with FakeR
       }
 
       s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messages.invalidAmount
+        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
       }
     }
   }

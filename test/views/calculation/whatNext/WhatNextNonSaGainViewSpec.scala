@@ -28,7 +28,7 @@ class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with F
 
   "whatNextNonSaGain view" should {
 
-    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequestWithSession, applicationMessages)
+    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequestWithSession, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {

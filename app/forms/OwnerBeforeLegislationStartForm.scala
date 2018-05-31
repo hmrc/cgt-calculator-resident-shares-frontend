@@ -21,17 +21,14 @@ import common.Validation._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import play.api.data.Form
 import play.api.data.Forms._
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 object OwnerBeforeLegislationStartForm {
 
   lazy val ownerBeforeLegislationStartForm = Form(
     mapping(
       "ownerBeforeLegislationStart" -> text
-        .verifying(Messages("calc.resident.shares.ownerBeforeLegislationStart.noSelectError"), mandatoryCheck)
-        .verifying(Messages("calc.resident.shares.ownerBeforeLegislationStart.noSelectError"), yesNoCheck)
+        .verifying("calc.resident.shares.ownerBeforeLegislationStart.noSelectError", mandatoryCheck)
+        .verifying("calc.resident.shares.ownerBeforeLegislationStart.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
     )(OwnerBeforeLegislationStartModel.apply)(OwnerBeforeLegislationStartModel.unapply)
   )

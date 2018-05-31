@@ -15,8 +15,10 @@
  *@
 
 @import config.ApplicationConfig
+@import play.api.Application
 @import helpers.full_width_banner
 @import helpers.full_width_banner_content_ur
+@import play.api.Application
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -29,9 +31,11 @@
   backLink: Option[String] = None,
   homeLink: String,
   navTitle: String
-)(mainContent: Html)(implicit request : Request[_], messages: Messages)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
 
 @import uk.gov.hmrc.play.views.html.layouts
+
+@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
 
 @serviceInfoContent = {}
 
@@ -62,6 +66,7 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
+    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
 }
 
 @afterHeader = {

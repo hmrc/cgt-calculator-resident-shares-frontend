@@ -30,13 +30,15 @@ import play.twirl.api.HtmlFormat
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.i18n.Lang
 
 class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  val fakeLang: Lang = Lang("en")
 
   "The check your answers partial with as much filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(applicationMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "has a date output row for the Disposal Date" which {
@@ -230,7 +232,7 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
 
   "The check your answers partial with display links set to false" should {
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(applicationMessages)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(applicationMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "have no links" in {
@@ -241,7 +243,7 @@ class CheckYourAnswersPartialViewSpec extends UnitSpec with WithFakeApplication 
   "The check your answers partial with as little filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersLeastPossibles,
-      Some(deductionAnswersLeastPossibles), Some(taxYearModel), None)(applicationMessages)
+      Some(deductionAnswersLeastPossibles), Some(taxYearModel), None)(applicationMessages, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "has an option output row for sold for less than worth value in" which {

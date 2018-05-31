@@ -80,7 +80,7 @@ class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
       }
 
       "associate the correct error message to the error" in {
-        form.error("option").get.message shouldBe messages.errorSelect("2015/16")
+        form.error("option").get.message shouldBe "calc.resident.lossesBroughtForward.errorSelect"
       }
 
       "supplied with invalid data for option" should {
@@ -96,7 +96,7 @@ class LossesBroughtForwardFormSpec extends UnitSpec with WithFakeApplication {
         }
 
         "associate the correct error message to the error" in {
-          form.error("option").get.message shouldBe messages.errorSelect("2015/16")
+          form.error("option").get.message shouldBe "calc.resident.lossesBroughtForward.errorSelect"
         }
       }
     }

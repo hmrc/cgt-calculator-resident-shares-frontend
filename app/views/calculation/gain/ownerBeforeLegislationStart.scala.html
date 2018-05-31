@@ -19,8 +19,9 @@
 @import models.resident.shares.OwnerBeforeLegislationStartModel
 @import models.resident.shares._
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import play.api.Application
 
-@(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
+@(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(
     title = Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),

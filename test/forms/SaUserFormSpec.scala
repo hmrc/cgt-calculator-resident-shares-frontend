@@ -17,12 +17,11 @@
 package forms
 
 import models.resident.SaUserModel
-import org.scalatestplus.play.OneAppPerSuite
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import forms.SaUserForm._
 import assets.MessageLookup.{SaUser => messages}
 
-class SaUserFormSpec extends UnitSpec with OneAppPerSuite {
+class SaUserFormSpec extends UnitSpec with WithFakeApplication {
 
   "Creating a form using a valid model" should {
 
@@ -55,7 +54,7 @@ class SaUserFormSpec extends UnitSpec with OneAppPerSuite {
       }
 
       s"return an error with message ${messages.error}" in {
-        form.error("isInSa").get.message shouldBe messages.error
+        form.error("isInSa").get.message shouldBe "calc.resident.saUser.errorSelect"
       }
     }
 
@@ -71,7 +70,7 @@ class SaUserFormSpec extends UnitSpec with OneAppPerSuite {
       }
 
       s"return an error with message ${messages.error}" in {
-        form.error("isInSa").get.message shouldBe messages.error
+        form.error("isInSa").get.message shouldBe "calc.resident.saUser.errorSelect"
       }
     }
   }

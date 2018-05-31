@@ -31,7 +31,7 @@ class DidYouInheritThemViewSpec extends UnitSpec with WithFakeApplication with F
 
   "Sell for less view with an empty form" should {
 
-    lazy val view = views.didYouInheritThem(didYouInheritThemForm)(fakeRequest, applicationMessages)
+    lazy val view = views.didYouInheritThem(didYouInheritThemForm)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -214,7 +214,7 @@ class DidYouInheritThemViewSpec extends UnitSpec with WithFakeApplication with F
   "Sell for less view with a filled form" which {
 
     "for the option 'Yes'" should {
-      lazy val view = views.didYouInheritThem(didYouInheritThemForm.fill(DidYouInheritThemModel(true)))(fakeRequest, applicationMessages)
+      lazy val view = views.didYouInheritThem(didYouInheritThemForm.fill(DidYouInheritThemModel(true)))(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
       lazy val YesRadioOption = doc.select(".block-label[for=wereInherited-yes]")
 
@@ -224,7 +224,7 @@ class DidYouInheritThemViewSpec extends UnitSpec with WithFakeApplication with F
     }
 
     "for the option 'No'" should {
-      lazy val view = views.didYouInheritThem(didYouInheritThemForm.fill(DidYouInheritThemModel(false)))(fakeRequest, applicationMessages)
+      lazy val view = views.didYouInheritThem(didYouInheritThemForm.fill(DidYouInheritThemModel(false)))(fakeRequest, applicationMessages, fakeApplication)
       lazy val doc = Jsoup.parse(view.body)
       lazy val NoRadioOption = doc.select(".block-label[for=wereInherited-no]")
 
@@ -237,7 +237,7 @@ class DidYouInheritThemViewSpec extends UnitSpec with WithFakeApplication with F
   "Sell for less view with form errors" should {
 
     lazy val form = didYouInheritThemForm.bind(Map("wereInherited" -> ""))
-    lazy val view = views.didYouInheritThem(form)(fakeRequest, applicationMessages)
+    lazy val view = views.didYouInheritThem(form)(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

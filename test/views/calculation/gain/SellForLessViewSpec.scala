@@ -31,7 +31,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
 
   "Sell for less view with an empty form" should {
 
-    lazy val view = views.sellForLess(sellForLessForm, "home-link", "back-link")(fakeRequest, applicationMessages)
+    lazy val view = views.sellForLess(sellForLessForm, "home-link", "back-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -212,7 +212,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   }
 
   "Sell for less view with a filled form" which {
-    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", "back-link")(fakeRequest, applicationMessages)
+    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", "back-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -228,7 +228,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   "Sell for less view with form errors" should {
 
     lazy val form = sellForLessForm.bind(Map("sellForLess" -> ""))
-    lazy val view = views.sellForLess(form, "home-link", "back-link")(fakeRequest, applicationMessages)
+    lazy val view = views.sellForLess(form, "home-link", "back-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

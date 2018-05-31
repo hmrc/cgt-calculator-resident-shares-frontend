@@ -19,8 +19,9 @@
 @import models.resident.shares.gain.DidYouInheritThemModel
 @import models.resident.shares._
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import play.api.Application
 
-@(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages)
+@(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages, application: Application)
 
 @resident_main_template(title = Messages("calc.resident.shares.didYouInheritThem.question"),
 backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url),
