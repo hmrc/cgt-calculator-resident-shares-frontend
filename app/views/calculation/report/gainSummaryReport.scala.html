@@ -24,8 +24,9 @@
 @import views.html.helpers.checkYourAnswersPartial
 @import views.html.helpers.gainSummaryPartial
 @import play.api.Application
+@import play.api.i18n.Lang
 
-@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages, application: Application)
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages, application: Application, lang: Lang)
 
 <!DOCTYPE html>
 <html>

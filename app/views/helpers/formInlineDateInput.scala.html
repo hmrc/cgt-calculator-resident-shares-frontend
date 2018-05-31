@@ -30,7 +30,7 @@
     </legend>
 
     @if(formItem.hasErrors) {
-        @formItem.errors.filter(_.key == "").map { error => <span class="error-notification">@error.message</span>}
+        @formItem.errors.filter(_.key == "").map { error => <span class="error-notification">@messages(error.message, error.args: _*)</span>}
         @if(formItem.errors.find(_.key != "").isDefined && formItem.errors.find(_.key != "hasAcquisitionDate").isDefined) {
             <span class="error-notification">@Messages("calc.common.date.error.invalidDate")</span>
         }

@@ -26,16 +26,18 @@ import assets.MessageLookup.Resident.Shares.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
 import org.jsoup.nodes.Document
+import play.api.i18n.Lang
 import play.api.mvc.Call
 import play.twirl.api.HtmlFormat
 
 class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val fakeLang: Lang = Lang("en")
   val dummyBackLink = "backLink"
   val dummyPostCall: Call = Call("POST", "/dummy-url")
 
   lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages, fakeApplication)
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {

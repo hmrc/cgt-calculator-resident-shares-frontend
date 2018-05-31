@@ -58,7 +58,7 @@ object Validation {
     if(isValidDate(day, month, year) && constructDate(day, month, year).isAfter(minimumDate)){
       Valid
     } else {
-      Invalid(ValidationError("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonth} ${minimumDate.getYear}"))
+      Invalid(ValidationError("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonthValue} ${minimumDate.getYear}"))
     }
   }
 

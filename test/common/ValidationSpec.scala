@@ -359,18 +359,18 @@ class ValidationSpec extends UnitSpec {
             }
 
             "provided with an invalid date" in {
-              Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"6 APRIL 2015")))
+              Validation.dateAfterMinimum(100, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"6 4 2015")))
             }
         }
 
         "return a false" when {
 
             "provided with form data before the supplied minimum date" in {
-              Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"6 APRIL 2015")))
+              Validation.dateAfterMinimum(5, 4, 2015, LocalDate.parse("2015-04-06")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"6 4 2015")))
             }
 
             "provided with a different minimum date making the form date invalid" in {
-              Validation.dateAfterMinimum(7, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"8 APRIL 2015")))
+              Validation.dateAfterMinimum(7, 4, 2015, LocalDate.parse("2015-04-08")) shouldBe Invalid(List(ValidationError(List("calc.common.date.error.beforeMinimum"),"8 4 2015")))
             }
         }
     }

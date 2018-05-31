@@ -25,12 +25,14 @@ import models.resident.TaxYearModel
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
 import play.api.Play.current
+import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{report => views}
 
 class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper{
 
+  val fakeLang: Lang = Lang("en")
   "Summary view" when {
 
     "property acquired after start of tax (1 April 1982) and not inherited" should {
@@ -50,7 +52,7 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
       )
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000)(fakeRequest, applicationMessages, fakeApplication)
+      lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000)(fakeRequest, applicationMessages, fakeApplication, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
@@ -107,7 +109,7 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
       acquisitionValue = Some(30),
       acquisitionCosts = 40
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 500)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 500)(fakeRequest, applicationMessages, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {
