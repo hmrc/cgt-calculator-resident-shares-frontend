@@ -28,6 +28,8 @@
 
 @import uk.gov.hmrc.play.views.html.layouts
 
+@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
+
 @serviceInfoContent = {}
 
 @sidebarContent = {
@@ -57,6 +59,7 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
+    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
 }
 
 @govuk_wrapper(appConfig = ApplicationConfig,

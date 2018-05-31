@@ -197,3 +197,17 @@ calc.summary.dismissBanner = No thanks
 calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
 calc.summary.userResearchLink.title = Help improve GOV.UK
 calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
+
+##Month Names##
+calc.month.1 = Ionawr
+calc.month.2 = Chwefror
+calc.month.3 = Mawrth
+calc.month.4 = Ebrill
+calc.month.5 = Mai
+calc.month.6 = Mehefin
+calc.month.7 = Gorffennaf
+calc.month.8 = Awst
+calc.month.9 = Medi
+calc.month.10 = Hydref
+calc.month.11 = Tachwedd
+calc.month.12 = Rhagfyr
