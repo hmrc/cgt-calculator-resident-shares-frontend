@@ -20,7 +20,6 @@
 @import models.resident.shares._
 @import common.Dates._
 @import constructors.SummaryConstructor._
-@import controllers.routes.{GainController => routes}
 @import views.html.helpers.checkYourAnswersPartial
 @import views.html.helpers.gainSummaryPartial
 @import play.api.Application
@@ -34,7 +33,7 @@
 <head>
     <meta name="viewport" content="width=device-width"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" type="text/css" href="/calculate-your-capital-gains/resident/shares/assets/stylesheets/cgt3.css">
+    <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/cgt.css")">
     <title>@Messages("calc.resident.summary.title")</title>
 </head>
 

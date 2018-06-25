@@ -28,6 +28,9 @@ trait MicroService {
   import uk.gov.hmrc._
   import DefaultBuildSettings._
   import TestPhases._
+  import com.typesafe.sbt.digest.Import.digest
+  import com.typesafe.sbt.web.Import.pipelineStages
+  import com.typesafe.sbt.web.Import.Assets
 
   val appName: String
 
@@ -57,6 +60,7 @@ trait MicroService {
       libraryDependencies ++= appDependencies,
       retrieveManaged := true,
       routesGenerator := StaticRoutesGenerator,
+      pipelineStages in Assets := Seq(digest),
       evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false)
     )
     .configs(IntegrationTest)
