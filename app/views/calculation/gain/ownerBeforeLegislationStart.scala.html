@@ -20,6 +20,7 @@
 @import models.resident.shares._
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import play.api.Application
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 
 @(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application)
 
@@ -37,7 +38,7 @@
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
         <div id="radio-input" class="form-group">
-            @formInputRadioGroup(
+            @inputRadioGroup(
                 field = ownerBeforeLegislationStart("ownerBeforeLegislationStart"),
                 Seq(
                     "Yes" -> Messages("calc.base.yes"),

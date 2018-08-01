@@ -19,6 +19,7 @@
 @import views.html.helpers._
 @import views.html.calculation._
 @import play.api.Application
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 
 @(sellForLessForm: Form[SellForLessModel], homeHref: String, backLink: String)(implicit request: Request[_], messages: Messages, application: Application)
 
@@ -36,7 +37,7 @@
     @form(action = controllers.routes.GainController.submitSellForLess) {
 
         <div id="radio-input" class="form-group">
-            @formInputRadioGroup(
+            @inputRadioGroup(
                 field = sellForLessForm("sellForLess"),
                 Seq(
                     "Yes" -> Messages("calc.base.yes"),

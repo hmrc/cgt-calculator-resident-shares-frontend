@@ -16,7 +16,8 @@
 
 @import models.resident.DisposalDateModel
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import views.html.helpers._
+@import uk.gov.hmrc.play.views.html.helpers.errorSummary
+@import views.html.helpers.formInlineDateInput
 @import views.html.calculation._
 @import play.api.Application
 
@@ -28,7 +29,7 @@
     navTitle = Messages("calc.base.resident.shares.home")
 ) {
 
-    @errorSummary(disposalDateForm, "disposal-date", "disposalDateDay")
+    @(if(disposalDateForm.hasErrors) errorSummary(Messages("calc.error.summary.heading"), disposalDateForm))
 
     <h1 class="heading-large">@Messages("calc.resident.shares.disposalDate.question")</h1>
 

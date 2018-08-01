@@ -15,12 +15,13 @@
  *@
 
 @import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 
 @(field: Field, legend: String, legendClass: Option[String] = None, helpText: Option[String] = None)(implicit messages: Messages)
 
 @{(helpText, legendClass) match {
     case (Some(help), Some(legendClass)) => {
-        formInputRadioGroup(
+        inputRadioGroup(
             field = field,
             Seq(
             "Yes" -> Messages("calc.base.yes"),
@@ -35,7 +36,7 @@
             '_fieldsetAttributes -> "aria-details = help")
         }
     case (Some(help), _) => {
-        formInputRadioGroup(
+        inputRadioGroup(
             field = field,
             Seq(
             "Yes" -> Messages("calc.base.yes"),
@@ -49,7 +50,7 @@
             '_fieldsetAttributes -> "aria-details = help")
     }
     case (_, Some(legendClass)) => {
-        formInputRadioGroup(
+        inputRadioGroup(
             field = field,
             Seq(
             "Yes" -> Messages("calc.base.yes"),
@@ -63,7 +64,7 @@
             '_fieldsetAttributes -> "aria-details = help")
     }
     case _ => {
-        formInputRadioGroup(
+        inputRadioGroup(
             field = field,
             Seq(
             "Yes" -> Messages("calc.base.yes"),

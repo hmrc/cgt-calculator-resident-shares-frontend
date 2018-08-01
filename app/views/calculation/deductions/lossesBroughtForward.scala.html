@@ -15,12 +15,13 @@
  *@
 
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import views.html.helpers._
+@import uk.gov.hmrc.play.views.html.helpers.errorSummary
 @import models.resident._
 @import views.html.calculation._
 @import views.html.helpers.resident._
 @import play.api.mvc.Call
 @import play.api.Application
+@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
 
 @(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, application: Application)
 
@@ -43,13 +44,14 @@
     navTitle = navTitle
 ) {
 
-    @errorSummary(lossesBroughtForwardForm, "option")
+
+    @errorSummary(Messages("calc.error.summary.heading"), lossesBroughtForwardForm, Seq("error-summary-heading"))
 
     <h1 class="heading-large">@Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied)</h1>
     <p class="form-hint"> @Messages("calc.resident.lossesBroughtForward.helpText")</p>
     @form(action = postAction) {
 
-        @formInputRadioGroup(
+        @inputRadioGroup(
             field = lossesBroughtForwardForm("option"),
             Seq(
             "Yes"->Messages("calc.base.yes"),
