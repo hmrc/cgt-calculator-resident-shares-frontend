@@ -24,7 +24,7 @@
 
         @if(hideLabel) {
             @if(additionalHTMLContent.isDefined) {
-                @moneyInputFormat(
+                @govHelpers.input(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_labelTextClass -> "visuallyhidden",
@@ -32,38 +32,42 @@
                     '_inputHint -> Html(helpText.getOrElse("")),
                     '_type -> "number",
                     '_inputClass -> "input--no-spinner",
-                    '_step -> step
+                    '_step -> step,
+                    '_hideErrors -> ""
                 )
             } else {
-                @moneyInputFormat(
+                @govHelpers.input(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_labelTextClass -> "visuallyhidden",
                     '_inputHint -> Html(helpText.getOrElse("")),
                     '_type -> "number",
                     '_inputClass -> "input--no-spinner",
-                    '_step -> step
+                    '_step -> step,
+                    '_hideErrors -> ""
                 )
             }
         } else {
             @if(additionalHTMLContent.isDefined) {
-                @moneyInputFormat(
+                @govHelpers.input(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_additionalContent -> Html(additionalHTMLContent.get),
                     '_inputHint -> Html(helpText.getOrElse("")),
                     '_type -> "number",
                     '_inputClass -> "input--no-spinner",
-                    '_step -> step
+                    '_step -> step,
+                    '_hideErrors -> ""
                 )
             } else {
-                @moneyInputFormat(
+                @govHelpers.input(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_inputHint -> Html(helpText.getOrElse("")),
                     '_type -> "number",
                     '_inputClass -> "input--no-spinner",
-                    '_step -> step
+                    '_step -> step,
+                    '_hideErrors -> ""
                 )
             }
         }

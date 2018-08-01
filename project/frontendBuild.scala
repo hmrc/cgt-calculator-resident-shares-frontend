@@ -37,12 +37,11 @@ private object AppDependencies {
 
   val compile = Seq(
     ws,
-    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.7.0",
+    "uk.gov.hmrc" %% "frontend-bootstrap" % "8.24.0",
     "uk.gov.hmrc" %% "play-partials" % "6.1.0",
     "uk.gov.hmrc" %% "http-caching-client" % "7.1.0",
     "it.innove" % "play2-pdf" % "1.5.1",
-    "uk.gov.hmrc" %% "play-language" % "3.4.0",
-    "uk.gov.hmrc" %% "play-ui" % "7.18.0-0-g0000000"
+    "uk.gov.hmrc" %% "play-language" % "3.4.0"
   )
 
   trait TestDependencies {
