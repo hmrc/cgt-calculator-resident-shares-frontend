@@ -15,8 +15,8 @@
  *@
 
 @import uk.gov.hmrc.play.views.html.helpers.form
-@import uk.gov.hmrc.play.views.html.helpers.errorSummary
 @import models.resident._
+@import views.html.helpers._
 @import views.html.calculation._
 @import views.html.helpers.resident._
 @import play.api.mvc.Call
@@ -44,8 +44,7 @@
     navTitle = navTitle
 ) {
 
-
-    @errorSummary(Messages("calc.error.summary.heading"), lossesBroughtForwardForm, Seq("error-summary-heading"))
+    @errorSummary(lossesBroughtForwardForm, "option")
 
     <h1 class="heading-large">@Messages("calc.resident.lossesBroughtForward.question", taxYear.taxYearSupplied)</h1>
     <p class="form-hint"> @Messages("calc.resident.lossesBroughtForward.helpText")</p>

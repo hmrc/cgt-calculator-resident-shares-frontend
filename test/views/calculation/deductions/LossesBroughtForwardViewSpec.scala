@@ -101,7 +101,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
-      doc.body.getElementById("option-yes").parent.className should include("selected")
+      doc.body.getElementById("option-yes").attr("checked") shouldBe "checked"
     }
   }
 
@@ -112,7 +112,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
-      doc.body.getElementById("option-no").parent.className should include("selected")
+      doc.body.getElementById("option-no").attr("checked") shouldBe "checked"
     }
   }
 
