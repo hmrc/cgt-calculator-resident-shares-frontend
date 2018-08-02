@@ -24,7 +24,7 @@
 
         @if(hideLabel) {
             @if(additionalHTMLContent.isDefined) {
-                @govHelpers.input(
+                @moneyInputFormat(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_labelTextClass -> "visuallyhidden",
@@ -36,7 +36,7 @@
                     '_hideErrors -> ""
                 )
             } else {
-                @govHelpers.input(
+                @moneyInputFormat(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_labelTextClass -> "visuallyhidden",
@@ -49,7 +49,7 @@
             }
         } else {
             @if(additionalHTMLContent.isDefined) {
-                @govHelpers.input(
+                @moneyInputFormat(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_additionalContent -> Html(additionalHTMLContent.get),
@@ -60,7 +60,7 @@
                     '_hideErrors -> ""
                 )
             } else {
-                @govHelpers.input(
+                @moneyInputFormat(
                     inputForm(fieldName),
                     '_label -> questionText,
                     '_inputHint -> Html(helpText.getOrElse("")),
