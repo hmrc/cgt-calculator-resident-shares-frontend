@@ -415,10 +415,6 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
 
               lazy val link = savePDFSection.select("a")
 
-              "has the type submit" in {
-                link.attr("type").equals("submit") shouldBe true
-              }
-
               "has the class bold-small" in {
                 link.hasClass("bold-small") shouldBe true
               }
