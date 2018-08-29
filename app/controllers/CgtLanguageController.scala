@@ -16,17 +16,15 @@
 
 package controllers
 
-import javax.inject.Inject
-
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.Play
-import play.api.i18n.{Lang, MessagesApi}
+import play.api.i18n.Lang
 import play.api.mvc.Call
 import uk.gov.hmrc.play.config.RunMode
 import uk.gov.hmrc.play.language.LanguageController
 
-class CgtLanguageController @Inject()(override val messagesApi: MessagesApi) extends LanguageController with RunMode {
+object CgtLanguageController extends LanguageController with RunMode {
 
   /** Converts a string to a URL, using the route to this controller. **/
   def langToCall(lang: String): Call = controllers.routes.CgtLanguageController.switchToLanguage(lang)
