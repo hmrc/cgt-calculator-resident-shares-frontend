@@ -34,8 +34,7 @@
 )(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
 
 @import uk.gov.hmrc.play.views.html.layouts
-
-@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
+@import controllers.CgtLanguageController
 
 @serviceInfoContent = {}
 
@@ -66,7 +65,7 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
-    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
+    <div class="float--right">@language_selection(CgtLanguageController.languageMap, CgtLanguageController.langToCall, None)</div>
 }
 
 @afterHeader = {
