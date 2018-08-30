@@ -32,8 +32,8 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object WhatNextSAController extends WhatNextSAController {
-  val sessionCacheConnector = SessionCacheConnector
-  val appConfig = ApplicationConfig
+  override lazy val sessionCacheConnector = SessionCacheConnector
+  override lazy val appConfig = ApplicationConfig
 }
 
 trait WhatNextSAController extends ValidActiveSession {

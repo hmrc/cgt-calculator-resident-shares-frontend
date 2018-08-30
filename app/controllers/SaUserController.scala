@@ -33,8 +33,8 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object SaUserController extends SaUserController {
-  val calculatorConnector = CalculatorConnector
-  override val sessionCacheService: SessionCacheService = SessionCacheService
+  override lazy val calculatorConnector = CalculatorConnector
+  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait SaUserController extends ValidActiveSession {
