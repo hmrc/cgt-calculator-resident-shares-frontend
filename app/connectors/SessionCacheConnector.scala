@@ -25,7 +25,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object SessionCacheConnector extends SessionCacheConnector {
-  override val sessionCache: SessionCache = CalculatorSessionCache
+  override lazy val sessionCache: SessionCache = CalculatorSessionCache
 }
 
 trait SessionCacheConnector {

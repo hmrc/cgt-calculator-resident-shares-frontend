@@ -26,7 +26,7 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 object WhatNextNonSaController extends WhatNextNonSaController {
-  override val applicationConfig: AppConfig = ApplicationConfig
+  override lazy val applicationConfig: AppConfig = ApplicationConfig
 }
 
 trait WhatNextNonSaController extends ValidActiveSession {

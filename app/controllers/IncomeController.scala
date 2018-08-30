@@ -37,8 +37,8 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object IncomeController extends IncomeController {
-  val calcConnector = CalculatorConnector
-  val sessionCacheConnector = SessionCacheConnector
+  override lazy val calcConnector = CalculatorConnector
+  override lazy val sessionCacheConnector = SessionCacheConnector
 }
 
 trait IncomeController extends ValidActiveSession {

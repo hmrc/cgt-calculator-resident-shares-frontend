@@ -33,9 +33,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 object CalculatorConnector extends CalculatorConnector with ServicesConfig with AppName {
-  override val sessionCacheConnector = SessionCacheConnector
-  override val http = WSHttp
-  override val serviceUrl = baseUrl("capital-gains-calculator")
+  override lazy val sessionCacheConnector = SessionCacheConnector
+  override lazy val http = WSHttp
+  override lazy val serviceUrl = baseUrl("capital-gains-calculator")
 }
 
 trait CalculatorConnector {

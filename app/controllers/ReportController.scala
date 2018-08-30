@@ -36,8 +36,8 @@ import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 object ReportController extends ReportController {
-  val calcConnector = CalculatorConnector
-  override val sessionCacheService: SessionCacheService = SessionCacheService
+  override lazy val calcConnector = CalculatorConnector
+  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
 }
 
 trait ReportController extends ValidActiveSession {
