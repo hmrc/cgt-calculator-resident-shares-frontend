@@ -12,6 +12,7 @@ calc.base.resident.shares.home = Calculate your Capital Gains Tax
 calc.base.govUk = GOV.UK
 calc.base.hmrc = HM Revenue &amp; Customs
 calc.base.home = Home
+calc.base.period = .
 
 ## Error Summary ##
 calc.error.summary.heading = This page has errors
@@ -214,7 +215,8 @@ calc.whatToDoNext.gain.bulletPointOne = report and pay on your Self Assessment r
 calc.whatToDoNext.gain.bulletPointTwo = report and pay now using our online form
 calc.whatToDoNext.gain.reportImportant = If you report and pay now, you''ll still need to declare your capital gains through Self Assessment.
 calc.whatToDoNext.gain.reportNowInfo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
-
+calc.whatToDoNext.exitSurveyMessage = If you do not wish to report capital gains at this time, you can exit now or
+calc.whatToDoNext.exitSurveyLink = leave feedback for the CGT calculator service (takes 2 minutes)
 ## What Next Non-SA Gain messages
 calc.resident.whatNextNonSa.gain.title = What to do next
 calc.resident.whatNextNonSa.gain.reportNow = Report now

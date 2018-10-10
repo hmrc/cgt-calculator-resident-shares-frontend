@@ -84,16 +84,15 @@ class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with Fake
       }
     }
 
-    "have a Finish link" which {
+    "have exit survey text and link" which {
 
-      lazy val reportNowButton = doc.select("a#finish")
-
-      s"has the text ${commonMessages.finish}" in {
-        reportNowButton.text shouldBe commonMessages.finish
+      "has the exit survey text" in {
+        doc.select("#exit-survey-message").text shouldBe pageMessages.exitSurveyText
       }
 
-      "has a link to the 'www.gov.uk' page" in {
-        reportNowButton.attr("href") shouldBe "http://www.gov.uk"
+      "has a link to the exit survey page" in {
+        doc.select("#exit-survey-link").text() shouldBe pageMessages.exitSurveyLinkText
+        doc.select("#exit-survey-link").attr("href") shouldBe  pageMessages.exitSurveyLink
       }
     }
   }

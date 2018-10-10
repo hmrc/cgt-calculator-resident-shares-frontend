@@ -81,16 +81,15 @@ class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with F
       }
     }
 
-    "have a return to GOV.UK link" which {
+    "have exit survey text and link" which {
 
-      lazy val govUk = doc.select("#govUk").select("a")
-
-      s"has text ${messages.govUk}" in {
-        govUk.text shouldBe messages.govUk
+      "has the exit survey text" in {
+        doc.select("#exit-survey-message").text shouldBe messages.exitSurveyText
       }
 
-      "has a link to 'http://www.gov.uk'" in {
-        govUk.attr("href") shouldBe "http://www.gov.uk"
+      "has a link to the exit survey page" in {
+        doc.select("#exit-survey-link").text() shouldBe messages.exitSurveyLinkText
+        doc.select("#exit-survey-link").attr("href") shouldBe  messages.exitSurveyLink
       }
     }
   }

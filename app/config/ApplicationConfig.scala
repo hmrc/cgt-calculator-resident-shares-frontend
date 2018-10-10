@@ -29,6 +29,7 @@ trait AppConfig {
   val reportAProblemNonJSUrl: String
   val residentIFormUrl: String
   val urBannerLink: String
+  val feedbackSurvey: String
 }
 
 object ApplicationConfig extends AppConfig with ServicesConfig {
@@ -47,6 +48,8 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
   override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   override lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
+  override val feedbackSurvey: String = loadConfig(s"feedback-survey-frontend.url")
+
 
   override lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
 
