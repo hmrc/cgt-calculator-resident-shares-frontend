@@ -38,5 +38,6 @@
         <a id="report-now-button" class="button" href="@iFormUrl">@Messages("calc.whatToDoNext.reportNow")</a>
     </div>
 
-    <a id="finish" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
+<p id="exit-survey-message">@Messages("calc.whatToDoNext.exitSurveyMessage") <a id="exit-survey-link" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
+
 }

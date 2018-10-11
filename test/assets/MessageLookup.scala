@@ -807,6 +807,9 @@ object MessageLookup {
       val importantInformation = s"If you report and pay now, you'll still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
         "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+      val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+      val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
+      val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
     }
 
     object WhatNextNoGain {
@@ -816,6 +819,9 @@ object MessageLookup {
       val importantInformation = s"If you report it now, you'll still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
         "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+      val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+      val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
+      val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
     }
   }
 
@@ -825,6 +831,9 @@ object MessageLookup {
     val govUk = "Return to GOV.UK"
     val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
     val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+    val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+    val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
+    val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
   }
 
   object WhatNextNonSaLoss extends Common {
