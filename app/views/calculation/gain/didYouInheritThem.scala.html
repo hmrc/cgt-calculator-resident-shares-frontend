@@ -20,7 +20,7 @@
 @import models.resident.shares._
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import play.api.Application
-@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
+@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
 
 @(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages, application: Application)
 
@@ -36,7 +36,7 @@ navTitle = Messages("calc.base.resident.shares.home")){
     @form(action = controllers.routes.GainController.submitDidYouInheritThem) {
 
         <div id="radio-input" class="form-group">
-            @inputRadioGroup(
+            @input_radio_group(
             field = didYouInheritThemForm("wereInherited"),
             Seq(
             "Yes" -> Messages("calc.base.yes"),

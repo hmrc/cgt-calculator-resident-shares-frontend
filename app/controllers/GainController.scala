@@ -90,7 +90,14 @@ trait GainController extends ValidActiveSession {
 
     def bindForm(minimumDate: LocalDate) = {
       disposalDateForm(minimumDate.atStartOfDay(ZoneId.of("Europe/London"))).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(views.disposalDate(errors, homeLink))),
+        errors => {
+          Future.successful(
+          BadRequest(
+            views.disposalDate(errors.copy(errors = errors.errors.map { error =>
+              if (error.key == "") error.copy(key = "disposalDateDay") else error
+            }), homeLink)
+          )
+        )},
         success => {
           (for {
             save <- sessionCacheConnector.saveFormData(keystoreKeys.disposalDate, success)

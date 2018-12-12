@@ -16,7 +16,7 @@ calc.base.period = .
 calc.checkYourAnswers.tableHeading = Rydych wedi rhoi gwybod i ni am:
 calc.checkYourAnswers.title = Gwirio''ch atebion
 
-calc.common.date.error.beforeMinimum = Nodwch ddyddiad sydd ar ôl {0}
+calc.common.date.error.beforeMinimum = Nodwch ddyddiad sydd ar ôl 6 4 2015
 calc.common.date.error.invalidDate = Nodwch ddyddiad go iawn
 calc.common.date.fields.day = Diwrnod
 calc.common.date.fields.month = Mis

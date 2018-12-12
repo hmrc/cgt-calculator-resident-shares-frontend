@@ -16,6 +16,8 @@
 
 package config
 
+import play.api.{Configuration, Play}
+import play.api.Mode.Mode
 import play.api.Play.{configuration, current}
 import uk.gov.hmrc.play.config.ServicesConfig
 
@@ -54,4 +56,7 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
 
   override val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
+
+  override protected def mode: Mode = Play.current.mode
+  override protected def runModeConfiguration: Configuration = Play.current.configuration
 }

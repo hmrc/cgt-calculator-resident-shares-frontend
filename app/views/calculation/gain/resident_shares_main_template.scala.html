@@ -31,6 +31,8 @@
 
 @serviceInfoContent = {}
 
+@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
+
 @sidebarContent = {
     <div class="service-info">
         <h2 class="heading-medium">@Messages("calc.common.readMore")</h2>
@@ -58,7 +60,7 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
-    <div class="float--right">@language_selection(CgtLanguageController.languageMap, CgtLanguageController.langToCall, None)</div>
+    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
 }
 
 @govuk_wrapper(appConfig = ApplicationConfig,
