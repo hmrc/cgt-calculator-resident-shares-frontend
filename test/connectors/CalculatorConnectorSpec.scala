@@ -42,7 +42,6 @@ class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
   val homeLink = controllers.routes.GainController.disposalDate().url
 
   object TargetCalculatorConnector extends CalculatorConnector {
-    override val sessionCacheConnector = mockSessionCacheConnector
     override val http = mockHttp
     override val serviceUrl = "dummy"
   }

@@ -36,7 +36,7 @@ object FrontendGlobal extends DefaultFrontendGlobal {
 
   override def onStart(app: Application) {
     super.onStart(app)
-    ApplicationCrypto.verifyConfiguration()
+    applicationCrypto.verifyConfiguration()
   }
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit rh: Request[_]): Html = {
@@ -52,16 +52,16 @@ object ControllerConfiguration extends ControllerConfig {
 }
 
 object LoggingFilter extends FrontendLoggingFilter with MicroserviceFilterSupport {
-  override def controllerNeedsLogging(controllerName: String) = ControllerConfiguration.paramsForController(controllerName).needsLogging
+  override def controllerNeedsLogging(controllerName: String): Boolean =
+    ControllerConfiguration.paramsForController(controllerName).needsLogging
 }
 
-object AuditFilter extends FrontendAuditFilter with RunMode with AppName with MicroserviceFilterSupport {
+object AuditFilter extends FrontendAuditFilter with RunMode with AppName with MicroserviceFilterSupport with WiringConfig {
 
   override lazy val maskedFormFields = Seq("password")
-
   override lazy val applicationPort = None
-
   override lazy val auditConnector = FrontendAuditConnector
 
-  override def controllerNeedsAuditing(controllerName: String) = ControllerConfiguration.paramsForController(controllerName).needsAuditing
+  override def controllerNeedsAuditing(controllerName: String): Boolean =
+    ControllerConfiguration.paramsForController(controllerName).needsAuditing
 }

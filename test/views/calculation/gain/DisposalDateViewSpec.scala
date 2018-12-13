@@ -18,17 +18,17 @@ package views.calculation.gain
 
 import java.time.{LocalDate, ZoneId}
 
-import assets.MessageLookup.{SharesDisposalDate => messages}
-import assets.MessageLookup.{DisposalDate => viewMessages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{DisposalDate => viewMessages, Resident => commonMessages, SharesDisposalDate => messages}
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalDateForm._
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
@@ -58,15 +58,15 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     }
 
     "have an input box for day" in {
-      doc.body.getElementById("disposalDateDay").parent.text shouldBe commonMessages.day
+      doc.body.getElementById("disposalDate.day").parent.text shouldBe commonMessages.day
     }
 
     "have an input box for month" in {
-      doc.body.getElementById("disposalDateMonth").parent.text shouldBe commonMessages.month
+      doc.body.getElementById("disposalDate.month").parent.text shouldBe commonMessages.month
     }
 
     "have an input box for year" in {
-      doc.body.getElementById("disposalDateYear").parent.text shouldBe commonMessages.year
+      doc.body.getElementById("disposalDate.year").parent.text shouldBe commonMessages.year
     }
 
     "have a button with the text 'Continue'" in {
@@ -81,24 +81,24 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     lazy val doc = Jsoup.parse(view.body)
 
     "have a value auto-filled in the day input" in {
-      doc.body.getElementById("disposalDateDay").`val`() shouldBe "10"
+      doc.body.getElementById("disposalDate.day").`val`() shouldBe "10"
     }
 
     "have a value auto-filled in the month input" in {
-      doc.body.getElementById("disposalDateMonth").`val`() shouldBe "6"
+      doc.body.getElementById("disposalDate.month").`val`() shouldBe "6"
     }
 
     "have a value auto-filled in the year input" in {
-      doc.body.getElementById("disposalDateYear").`val`() shouldBe "2016"
+      doc.body.getElementById("disposalDate.year").`val`() shouldBe "2016"
     }
   }
 
   "Disposal Date view with a non-valid date input error" should {
 
     lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(Map(
-      ("disposalDateDay", "32"),
-      ("disposalDateMonth", "10"),
-      ("disposalDateYear", "2016")
+      ("disposalDate.day", "32"),
+      ("disposalDate.month", "10"),
+      ("disposalDate.year", "2016")
     ))
     lazy val view = views.disposalDate(form, "home-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
@@ -115,46 +115,38 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Disposal Date view with an empty field date input error" should {
 
     lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(Map(
-      ("disposalDateDay", ""),
-      ("disposalDateMonth", "10"),
-      ("disposalDateYear", "2016")
+      ("disposalDate.day", ""),
+      ("disposalDate.month", "10"),
+      ("disposalDate.year", "2016")
     ))
     lazy val view = views.disposalDate(form, "home-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {
-      doc.body.getElementById("disposalDateDay-error-summary").text should include(viewMessages.invalidDayError)
-    }
-
-    "have the input error message 'Enter a real date'" in {
-      doc.body.getElementsByClass("error-notification").text shouldBe commonMessages.errorInvalidDate
+      doc.body.getElementById("disposalDate.day-error-summary").text should include(viewMessages.invalidDayError)
     }
   }
 
   "Disposal Date view with a non numeric date input error" should {
 
     lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(Map(
-      ("disposalDateDay", "a"),
-      ("disposalDateMonth", "b"),
-      ("disposalDateYear", "c")
+      ("disposalDate.day", "a"),
+      ("disposalDate.month", "b"),
+      ("disposalDate.year", "c")
     ))
     lazy val view = views.disposalDate(form, "home-link")(fakeRequest, applicationMessages, fakeApplication)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {
-      doc.body.getElementById("disposalDateDay-error-summary").text should include(viewMessages.invalidDayError)
+      doc.body.getElementById("disposalDate.day-error-summary").text should include(viewMessages.invalidDayError)
     }
 
     s"have the error summary message '${viewMessages.invalidMonthError}'" in {
-      doc.body.getElementById("disposalDateMonth-error-summary").text should include(viewMessages.invalidMonthError)
+      doc.body.getElementById("disposalDate.month-error-summary").text should include(viewMessages.invalidMonthError)
     }
 
     s"have the error summary message '${viewMessages.invalidYearError}'" in {
-      doc.body.getElementById("disposalDateYear-error-summary").text should include(viewMessages.invalidYearError)
-    }
-
-    "have the input error message 'Enter a real date'" in {
-      doc.body.getElementsByClass("error-notification").text shouldBe commonMessages.errorInvalidDate
+      doc.body.getElementById("disposalDate.year-error-summary").text should include(viewMessages.invalidYearError)
     }
   }
 }

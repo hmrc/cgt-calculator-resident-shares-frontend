@@ -27,15 +27,15 @@ object DisposalDateForm {
 
   def disposalDateForm(minimumDate: ZonedDateTime = ZonedDateTime.now(ZoneId.of("Europe/London"))): Form[DisposalDateModel] = Form(
     mapping(
-      "disposalDateDay" -> text
+      "disposalDate.day" -> text
         .verifying("calc.resident.disposalDate.invalidDayError", mandatoryCheck)
         .verifying("calc.resident.disposalDate.invalidDayError", integerCheck)
         .transform[Int](stringToInteger, _.toString),
-      "disposalDateMonth" -> text
+      "disposalDate.month" -> text
         .verifying("calc.resident.disposalDate.invalidMonthError", mandatoryCheck)
         .verifying("calc.resident.disposalDate.invalidMonthError", integerCheck)
         .transform[Int](stringToInteger, _.toString),
-      "disposalDateYear" -> text
+      "disposalDate.year" -> text
         .verifying("calc.resident.disposalDate.invalidYearError", mandatoryCheck)
         .verifying("calc.resident.disposalDate.invalidYearError", integerCheck)
         .transform[Int](stringToInteger, _.toString)

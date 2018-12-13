@@ -21,7 +21,7 @@
 @import views.html.helpers.resident._
 @import play.api.mvc.Call
 @import play.api.Application
-@import uk.gov.hmrc.play.views.html.helpers.inputRadioGroup
+@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
 
 @(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, application: Application)
 
@@ -50,7 +50,7 @@
     <p class="form-hint"> @Messages("calc.resident.lossesBroughtForward.helpText")</p>
     @form(action = postAction) {
 
-        @inputRadioGroup(
+        @input_radio_group(
             field = lossesBroughtForwardForm("option"),
             Seq(
             "Yes"->Messages("calc.base.yes"),

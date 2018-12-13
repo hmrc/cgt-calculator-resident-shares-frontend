@@ -15,7 +15,7 @@
  *@
 
 @import models.resident.DisposalDateModel
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.{form, dateFieldsFreeInlineLegend}
 @import views.html.helpers._
 @import views.html.calculation._
 @import play.api.Application
@@ -34,10 +34,9 @@
 
     @form(action = controllers.routes.GainController.submitDisposalDate){
 
-        @formInlineDateInput(disposalDateForm,
-                            "disposalDate",
-                            Messages("calc.resident.shares.disposalDate.question"),
-                            '_visually_hidden -> true)
+        @dateFieldsFreeInlineLegend(disposalDateForm,
+            "disposalDate",
+            '_inputHint -> Messages("calc.common.date.hint"))
 
         <button id="continue-button" class="button">@Messages("calc.base.button.continue")</button>
     }

@@ -34,7 +34,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
     }
 
     "return a Some if a model with valid inputs is supplied using .bind" in {
-      lazy val map = Map(("disposalDateDay", "10"), ("disposalDateMonth", "10"), ("disposalDateYear", "2016"))
+      lazy val map = Map(("disposalDate.day", "10"), ("disposalDate.month", "10"), ("disposalDate.year", "2016"))
       lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
       form.value shouldBe Some(DisposalDateModel(10, 10, 2016))
     }
@@ -42,7 +42,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Creating an invalid form for the disposal date" when {
 
     "empty fields are entered" should {
-      lazy val map = Map(("disposalDateDay", ""), ("disposalDateMonth", ""), ("disposalDateYear", ""))
+      lazy val map = Map(("disposalDate.day", ""), ("disposalDate.month", ""), ("disposalDate.year", ""))
       lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
 
       "return a form with errors" in {
@@ -50,20 +50,20 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       s"have an error message for day of ${messages.invalidDayError}" in {
-        form.error("disposalDateDay").get.message shouldBe "calc.resident.disposalDate.invalidDayError"
+        form.error("disposalDate.day").get.message shouldBe "calc.resident.disposalDate.invalidDayError"
       }
 
       s"have an error message for month of ${messages.invalidMonthError}" in {
-        form.error("disposalDateMonth").get.message shouldBe "calc.resident.disposalDate.invalidMonthError"
+        form.error("disposalDate.month").get.message shouldBe "calc.resident.disposalDate.invalidMonthError"
       }
 
       s"have an error message for year of ${messages.invalidYearError}" in {
-        form.error("disposalDateYear").get.message shouldBe "calc.resident.disposalDate.invalidYearError"
+        form.error("disposalDate.year").get.message shouldBe "calc.resident.disposalDate.invalidYearError"
       }
     }
 
     "non-numeric fields are entered" should {
-      lazy val map = Map(("disposalDateDay", "a"), ("disposalDateMonth", "b"), ("disposalDateYear", "c"))
+      lazy val map = Map(("disposalDate.day", "a"), ("disposalDate.month", "b"), ("disposalDate.year", "c"))
       lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
 
       "return a form with errors" in {
@@ -71,20 +71,20 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
       }
 
       s"have an error message for day of ${messages.invalidDayError}" in {
-        form.error("disposalDateDay").get.message shouldBe "calc.resident.disposalDate.invalidDayError"
+        form.error("disposalDate.day").get.message shouldBe "calc.resident.disposalDate.invalidDayError"
       }
 
       s"have an error message for month of ${messages.invalidMonthError}" in {
-        form.error("disposalDateMonth").get.message shouldBe "calc.resident.disposalDate.invalidMonthError"
+        form.error("disposalDate.month").get.message shouldBe "calc.resident.disposalDate.invalidMonthError"
       }
 
       s"have an error message for year of ${messages.invalidYearError}" in {
-        form.error("disposalDateYear").get.message shouldBe "calc.resident.disposalDate.invalidYearError"
+        form.error("disposalDate.year").get.message shouldBe "calc.resident.disposalDate.invalidYearError"
       }
     }
 
     "an invalid date is entered" should {
-      lazy val map = Map(("disposalDateDay", "32"), ("disposalDateMonth", "4"), ("disposalDateYear", "2016"))
+      lazy val map = Map(("disposalDate.day", "32"), ("disposalDate.month", "4"), ("disposalDate.year", "2016"))
       lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
 
       "return a form with errors" in {
@@ -97,7 +97,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
     }
 
     "a year which is less than 1900" should {
-      lazy val map = Map(("disposalDateDay", "1"), ("disposalDateMonth", "1"), ("disposalDateYear", "1899"))
+      lazy val map = Map(("disposalDate.day", "1"), ("disposalDate.month", "1"), ("disposalDate.year", "1899"))
       lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
 
       "return a form with errors" in {
@@ -110,7 +110,7 @@ class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRe
     }
 
     "a year which is greater than 9999" should {
-      lazy val map = Map(("disposalDateDay", "1"), ("disposalDateMonth", "1"), ("disposalDateYear", "10000"))
+      lazy val map = Map(("disposalDate.day", "1"), ("disposalDate.month", "1"), ("disposalDate.year", "10000"))
       lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).bind(map)
 
       "return a form with errors" in {
