@@ -37,7 +37,7 @@ private object AppDependencies {
 
   val compile = Seq(
     ws,
-    "uk.gov.hmrc" %% "frontend-bootstrap" % "11.3.0",
+    "uk.gov.hmrc" %% "frontend-bootstrap" % "12.1.0",
     "uk.gov.hmrc" %% "play-partials" % "6.3.0",
     "uk.gov.hmrc" %% "http-caching-client" % "8.0.0",
     "it.innove" % "play2-pdf" % "1.5.1",
