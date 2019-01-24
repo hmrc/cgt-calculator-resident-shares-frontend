@@ -17,6 +17,7 @@
 package views.calculation.deductions
 
 import assets.MessageLookup.{LossesBroughtForwardValue => messages, Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardValueForm._
 import models.resident.TaxYearModel
@@ -28,13 +29,15 @@ import play.api.Play.current
 
 class LossesBroughtForwardValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "Losses Brought Forward Value view" when {
 
     "provided with a date in the 2015/16 tax year" should {
 
       lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = views.lossesBroughtForwardValue(lossesBroughtForwardValueForm, taxYear, "back-link",
-        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -151,7 +154,7 @@ class LossesBroughtForwardValueViewSpec extends UnitSpec with WithFakeApplicatio
 
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
       lazy val view = views.lossesBroughtForwardValue(lossesBroughtForwardValueForm, taxYear, "back-link",
-        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title("2014/15")}" in {
@@ -190,7 +193,7 @@ class LossesBroughtForwardValueViewSpec extends UnitSpec with WithFakeApplicatio
     lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "1000")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = views.lossesBroughtForwardValue(form, taxYear, "back-link",
-      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the value of 1000 auto-filled in the input" in {
@@ -203,7 +206,7 @@ class LossesBroughtForwardValueViewSpec extends UnitSpec with WithFakeApplicatio
     lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = views.lossesBroughtForwardValue(form, taxYear, "back-link",
-      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

@@ -17,6 +17,7 @@
 package views.calculation.whatNext
 
 import assets.MessageLookup.{WhatNextNonSaGain => messages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.Play.current
@@ -26,9 +27,11 @@ import views.html.calculation.{whatNext => views}
 
 class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "whatNextNonSaGain view" should {
 
-    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequestWithSession, applicationMessages, fakeApplication)
+    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {

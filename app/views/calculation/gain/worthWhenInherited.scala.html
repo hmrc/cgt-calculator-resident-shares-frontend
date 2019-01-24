@@ -20,8 +20,9 @@
 @import models.resident.WorthWhenInheritedModel
 @import views.html.calculation.gain._
 @import play.api.Application
+@import config.ApplicationConfig
 
-@(worthWhenInheritedForm: Form[WorthWhenInheritedModel])(implicit request: Request[_], messages: Messages, application: Application)
+@(worthWhenInheritedForm: Form[WorthWhenInheritedModel])(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
 
 @resident_shares_main_template(
     title = Messages("calc.resident.shares.worthWhenInherited.question"),

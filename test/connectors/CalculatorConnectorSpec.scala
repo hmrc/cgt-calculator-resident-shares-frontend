@@ -26,23 +26,24 @@ import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatest.mock.MockitoSugar
+import play.api.Environment
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.http.{HeaderCarrier, HttpGet, HttpReads}
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads}
+import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, DefaultHttpClient}
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.{ExecutionContext, Future}
 
-class CalculatorConnectorSpec extends UnitSpec with MockitoSugar {
+class CalculatorConnectorSpec extends UnitSpec with WithFakeApplication with MockitoSugar {
 
-  val mockHttp = mock[HttpGet]
+  val mockHttp = mock[DefaultHttpClient]
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val sessionId = UUID.randomUUID.toString
   val homeLink = controllers.routes.GainController.disposalDate().url
+  val environment = mock[Environment]
 
-  object TargetCalculatorConnector extends CalculatorConnector {
-    override val http = mockHttp
+  object TargetCalculatorConnector extends CalculatorConnector(environment, mockHttp) {
     override val serviceUrl = "dummy"
   }
 

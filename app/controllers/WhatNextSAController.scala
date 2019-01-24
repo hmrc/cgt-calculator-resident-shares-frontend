@@ -24,6 +24,7 @@ import java.time._
 import common.KeystoreKeys
 import config.{AppConfig, ApplicationConfig}
 import connectors.{CalculatorConnector, SessionCacheConnector}
+import javax.inject.Inject
 import models.resident.DisposalDateModel
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
@@ -31,15 +32,8 @@ import play.api.Play.current
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object WhatNextSAController extends WhatNextSAController {
-  override lazy val sessionCacheConnector = SessionCacheConnector
-  override lazy val appConfig = ApplicationConfig
-}
-
-trait WhatNextSAController extends ValidActiveSession {
-
-  val sessionCacheConnector: SessionCacheConnector
-  val appConfig: AppConfig
+class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnector,
+                                     implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
   val backLink: String = controllers.routes.SaUserController.saUser().url
   lazy val iFormUrl: String = appConfig.residentIFormUrl

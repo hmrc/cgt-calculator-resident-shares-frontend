@@ -18,6 +18,7 @@ package views.calculation.gain
 
 import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => Messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.OwnerBeforeLegislationStartForm._
 import models.resident.shares.OwnerBeforeLegislationStartModel
@@ -29,9 +30,11 @@ import play.api.Play.current
 
 class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "Owned Before 1982 view with an empty form" should {
 
-    lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -213,7 +216,7 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
 
   "Owned Before 1982 view with a filled form" which {
     lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(true)),
-      "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication)
+      "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -229,7 +232,7 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "Owned Before 1982 view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownerBeforeLegislationStart" -> ""))
-    lazy val view = views.ownerBeforeLegislationStart(form, "home", Some("back"))(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.ownerBeforeLegislationStart(form, "home", Some("back"))(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

@@ -17,9 +17,10 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.{GainController, routes}
@@ -36,6 +37,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -44,6 +46,7 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -51,11 +54,7 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
     when(mockSessionCacheConnector.saveFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .valueBeforeLegislationStart from the GainCalculationController" when {
@@ -89,7 +88,7 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
 
     s"return some html with title of ${messages.question}" in {
       contentType(result) shouldBe Some("text/html")
-      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual messages.question
     }
   }
 
@@ -127,7 +126,7 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
     }
 
     "render the valueBeforeLegislationStart view" in {
-      Jsoup.parse(bodyOf(result)).title() shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual messages.question
     }
   }
 }

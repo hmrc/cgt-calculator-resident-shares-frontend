@@ -17,7 +17,6 @@
 package config
 
 import org.scalatest.MustMatchers._
-import org.scalatestplus.play.OneServerPerSuite
 import play.api.Application
 import play.api.http.Writeable
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -26,14 +25,14 @@ import play.api.mvc.{Action, Request, Result, Results}
 import play.api.routing.Router
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
-import uk.gov.hmrc.play.test.UnitSpec
-import scala.concurrent.ExecutionContext.Implicits.global
+import uk.gov.hmrc.play.bootstrap.http.ApplicationException
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
-class CgtErrorHandlerSpec extends UnitSpec with OneServerPerSuite {
+class CgtErrorHandlerSpec extends UnitSpec with WithFakeApplication {
 
   def routeWithError[A](app: Application, request: Request[A])
                        (implicit writeable: Writeable[A]): Option[Future[Result]] = {
@@ -55,38 +54,38 @@ class CgtErrorHandlerSpec extends UnitSpec with OneServerPerSuite {
         Results.Ok("OK")
       }
       case GET(p"/application-exception") => Action.async { request =>
-        throw new ApplicationException("", Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "Test excetion thrown")
+        throw new ApplicationException("", Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "Test exception thrown")
       }
       case GET(p"/other-error") => Action.async { request =>
-        throw new IllegalArgumentException("Other Excetption Thrown")
+        throw new IllegalArgumentException("Other Exception Thrown")
       }
     }
   }
 
-  implicit override lazy val app = new GuiceApplicationBuilder().router(routerForTest).build()
+  implicit override lazy val fakeApplication = new GuiceApplicationBuilder().router(routerForTest).build()
 
   "Application returns OK for no exception" in {
     val request = FakeRequest("GET", "/ok")
-    val response = routeWithError(app, request).get
+    val response = routeWithError(fakeApplication, request).get
     status(response) must equal(OK)
   }
 
   "Application returns 303 and redirects user to start of journey for none.get, rather than technical difficulties" in {
     val request = FakeRequest("GET", "/application-exception")
-    val response = routeWithError(app, request).get
+    val response = routeWithError(fakeApplication, request).get
     status(response) must equal(SEE_OTHER)
     redirectLocation(response) shouldBe Some(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink).url)
   }
 
   "Application throws other exception and logs error" in {
     val request = FakeRequest("GET", "/other-error")
-    val response = routeWithError(app, request).get
+    val response = routeWithError(fakeApplication, request).get
     status(response) must equal(INTERNAL_SERVER_ERROR)
   }
 
   "Application returns 404 for non-existent endpoint" in {
     val request = FakeRequest("GET", "/non-existent-end-point")
-    val response = routeWithError(app, request).get
+    val response = routeWithError(fakeApplication, request).get
     status(response) shouldBe (NOT_FOUND)
   }
 }

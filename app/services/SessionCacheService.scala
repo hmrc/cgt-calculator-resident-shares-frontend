@@ -19,6 +19,7 @@ package services
 import common.Dates._
 import common.KeystoreKeys.ResidentShareKeys
 import connectors.SessionCacheConnector
+import javax.inject.Inject
 import models.resident
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.{AcquisitionCostsModel, AcquisitionValueModel, WorthWhenInheritedModel, _}
@@ -26,17 +27,13 @@ import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislati
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel, OwnerBeforeLegislationStartModel}
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
+import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 
-object SessionCacheService extends SessionCacheService {
-  override lazy val sessionCacheConnector: SessionCacheConnector = SessionCacheConnector
-}
+class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector) {
 
-trait SessionCacheService {
-  val sessionCacheConnector: SessionCacheConnector
   val homeLink = controllers.routes.GainController.disposalDate().url
 
   def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {

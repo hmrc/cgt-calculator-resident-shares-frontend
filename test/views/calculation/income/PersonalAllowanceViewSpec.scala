@@ -20,6 +20,7 @@ import assets.DateAsset
 import assets.MessageLookup.{PersonalAllowance => messages, Resident => commonMessages}
 import common.Dates
 import common.resident.JourneyKeys
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.PersonalAllowanceForm._
 import models.resident.TaxYearModel
@@ -32,6 +33,7 @@ import play.api.Play.current
 class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
   val postAction = controllers.routes.IncomeController.submitPersonalAllowance()
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Personal Allowance view" when {
 
@@ -39,7 +41,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -163,7 +165,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map(("amount", "1000")))
         lazy val view = views.personalAllowance(form, taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", "2015/16")(fakeRequest, applicationMessages, fakeApplication)
+          Some("back-link"), JourneyKeys.shares, "navTitle", "2015/16")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
         lazy val doc = Jsoup.parse(view.body)
 
         "have the value of 1000 auto-filled in the input" in {
@@ -177,7 +179,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
       lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
@@ -198,7 +200,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
 
       lazy val taxYearModel = TaxYearModel(DateAsset.getYearAfterCurrentTaxYear, false, Dates.getCurrentTaxYear)
       lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
@@ -224,7 +226,7 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map("amount" -> ""))
         lazy val view = views.personalAllowance(form, taxYearModel, BigDecimal(11000), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication)
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
         lazy val doc = Jsoup.parse(view.body)
 
         "display an error summary message for the amount" in {

@@ -18,8 +18,10 @@ package controllers.DeductionsControllerSpec
 
 
 import akka.actor.ActorSystem
+import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
@@ -43,6 +45,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
   val gainModel = mock[GainAnswersModel]
   val summaryModel = mock[DeductionGainAnswersModel]
   val chargeableGainModel = mock[ChargeableGainResultModel]
+  val materializer = mock[Materializer]
 
   def setupTarget(lossesBroughtForwardData: Option[LossesBroughtForwardModel],
                   gainAnswers: GainAnswersModel,
@@ -54,6 +57,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -83,11 +87,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
       )
 
-    new DeductionsController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {
@@ -97,7 +97,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       lazy val target = setupTarget(None, gainModel, summaryModel,
         chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -127,7 +127,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
       lazy val target = setupTarget(None, gainModel, summaryModel, chargeableGainModel,
         Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a 200" in {
         status(result) shouldBe 200
@@ -205,7 +205,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
         }
 
         "render the brought forward losses page" in {
-          Jsoup.parse(bodyOf(result)).title() shouldEqual messages.title("2015/16")
+          Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual messages.title("2015/16")
         }
       }
     }

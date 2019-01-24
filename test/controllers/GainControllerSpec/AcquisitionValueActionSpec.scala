@@ -17,12 +17,13 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import assets.MessageLookup.{SharesAcquisitionValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.GainController
+import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionValueModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
@@ -36,6 +37,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class AcquisitionValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -44,6 +46,7 @@ class AcquisitionValueActionSpec extends UnitSpec with WithFakeApplication with 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionValueModel](ArgumentMatchers.eq(keystoreKeys.acquisitionValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -51,11 +54,7 @@ class AcquisitionValueActionSpec extends UnitSpec with WithFakeApplication with 
     when(mockSessionCacheConnector.saveFormData[AcquisitionValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .acquisitionValue from the GainCalculationController with session" when {
@@ -74,7 +73,7 @@ class AcquisitionValueActionSpec extends UnitSpec with WithFakeApplication with 
       }
 
       "display the Acquisition Value view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
     }
 
@@ -92,7 +91,7 @@ class AcquisitionValueActionSpec extends UnitSpec with WithFakeApplication with 
       }
 
       "display the Acquisition Value view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
     }
   }
@@ -130,7 +129,7 @@ class AcquisitionValueActionSpec extends UnitSpec with WithFakeApplication with 
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
       lazy val result = target.submitAcquisitionValue(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a 400" in {
         status(result) shouldBe 400

@@ -21,7 +21,7 @@ import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import play.api.http.Status
 import play.api.mvc.{AnyContent, Request, Result}
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
+import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

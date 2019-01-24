@@ -16,20 +16,19 @@
 
 package views.calculation.report
 
+import assets.DateAsset
 import assets.MessageLookup.{SummaryPage => messages}
-import assets.MessageLookup.Resident.{Shares => SharesMessages}
-import assets.{DateAsset, MessageLookup => commonMessages}
 import common.Dates
 import controllers.helpers.FakeRequestHelper
 import models.resident._
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel, PreviousTaxableGainsModel}
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
-import views.html.calculation.{report => views}
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.i18n.Lang
+import play.api.i18n.Messages.Implicits._
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import views.html.calculation.{report => views}
 
 class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 

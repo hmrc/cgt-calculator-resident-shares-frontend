@@ -17,6 +17,7 @@
 package views.calculation
 
 import assets.MessageLookup.{OutsideTaxYears => messages, Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
@@ -27,12 +28,14 @@ import play.api.Play.current
 
 class OutsideTaxYearsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "Outside tax years views" when {
 
     "using a disposal date before 2015/16 with properties" should {
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
       lazy val view = views.outsideTaxYear(taxYear, false, true, "back-link", "home-link", "continue-link",
-        "navTitle")(fakeRequestWithSession, applicationMessages, fakeApplication)
+        "navTitle")(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have charset UTF-8" in {
@@ -79,7 +82,7 @@ class OutsideTaxYearsViewSpec extends UnitSpec with WithFakeApplication with Fak
     "using a disposal date after 2016/17" should {
       lazy val taxYear = TaxYearModel("2017/18", false, "2016/17")
       lazy val view = views.outsideTaxYear(taxYear, true, true, "back-link", "home-link", "continue-link",
-        "navTitle")(fakeRequestWithSession, applicationMessages, fakeApplication)
+        "navTitle")(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have charset UTF-8" in {
@@ -129,7 +132,7 @@ class OutsideTaxYearsViewSpec extends UnitSpec with WithFakeApplication with Fak
 
     "using a disposal date before 2015/16 with shares" should {
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
-      lazy val view = views.outsideTaxYear(taxYear, false, false, "back-link", "home-link", "continue-link", "navTitle")(fakeRequestWithSession, applicationMessages, fakeApplication)
+      lazy val view = views.outsideTaxYear(taxYear, false, false, "back-link", "home-link", "continue-link", "navTitle")(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a message of ${messages.sharesTooEarly}" in {

@@ -18,6 +18,7 @@ package views.calculation.gain
 
 import assets.MessageLookup.{SharesAcquisitionValue => messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.AcquisitionValueForm._
 import org.jsoup.Jsoup
@@ -28,9 +29,11 @@ import play.api.Play.current
 
 class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "Acquisition Value view" should {
 
-    lazy val view = views.acquisitionValue(acquisitionValueForm, "home-link")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.acquisitionValue(acquisitionValueForm, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -149,7 +152,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
 
   "Acquisition Value View with form with errors" should {
     lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.acquisitionValue(form, "home-link")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.acquisitionValue(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

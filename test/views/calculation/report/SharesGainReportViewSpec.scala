@@ -16,9 +16,7 @@
 
 package views.calculation.report
 
-import assets.MessageLookup.Resident.{Shares => SharesMessages}
 import assets.MessageLookup.{SummaryDetails => messages}
-import assets.{MessageLookup => commonMessages}
 import common.Dates._
 import controllers.helpers.FakeRequestHelper
 import models.resident.TaxYearModel

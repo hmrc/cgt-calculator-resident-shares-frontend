@@ -20,10 +20,12 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates._
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
+import javax.inject.Inject
 import models.resident.TaxYearModel
 import play.api.Play.current
 import play.api.i18n.Messages
@@ -35,15 +37,9 @@ import views.html.calculation.{report => views}
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object ReportController extends ReportController {
-  override lazy val calcConnector = CalculatorConnector
-  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
-}
-
-trait ReportController extends ValidActiveSession {
-
-  val calcConnector: CalculatorConnector
-  val sessionCacheService: SessionCacheService
+class ReportController @Inject()(calcConnector: CalculatorConnector,
+                                 sessionCacheService: SessionCacheService,
+                                 implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
   val pdfGenerator = new PdfGenerator
 

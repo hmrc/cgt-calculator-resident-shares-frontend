@@ -17,11 +17,13 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.LossesBroughtForwardForm._
 import forms.LossesBroughtForwardValueForm._
+import javax.inject.Inject
 import models.resident._
 import models.resident.shares.GainAnswersModel
 import play.api.Play.current
@@ -30,23 +32,17 @@ import play.api.i18n.Messages
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Call, Result}
 import services.SessionCacheService
-import views.html.{calculation => commonViews}
-import views.html.calculation.{deductions => views}
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import views.html.{calculation => commonViews}
 
-object DeductionsController extends DeductionsController {
-  override lazy val calcConnector = CalculatorConnector
-  override lazy val sessionCacheConnector = SessionCacheConnector
-  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
-}
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-trait DeductionsController extends ValidActiveSession {
+class DeductionsController @Inject()(calcConnector: CalculatorConnector,
+                                     sessionCacheConnector: SessionCacheConnector,
+                                     sessionCacheService: SessionCacheService,
+                                     implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
-  val calcConnector: CalculatorConnector
-  val sessionCacheConnector: SessionCacheConnector
-  val sessionCacheService: SessionCacheService
   override val homeLink = routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
   val navTitle = Messages("calc.base.resident.shares.home")

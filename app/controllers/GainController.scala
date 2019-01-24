@@ -42,6 +42,8 @@ import play.api.data.Form
 import play.api.i18n.Messages
 import java.time.{LocalDate, ZoneId}
 
+import config.ApplicationConfig
+import javax.inject.Inject
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, Result}
 import services.SessionCacheService
@@ -51,17 +53,11 @@ import views.html.calculation.{gain => views}
 import scala.concurrent.Future
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 
-object GainController extends GainController {
-  override lazy val calcConnector = CalculatorConnector
-  override lazy val sessionCacheConnector = SessionCacheConnector
-  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
-}
 
-trait GainController extends ValidActiveSession {
-
-  val calcConnector: CalculatorConnector
-  val sessionCacheConnector: SessionCacheConnector
-  val sessionCacheService: SessionCacheService
+class GainController @Inject()(calcConnector: CalculatorConnector,
+                               sessionCacheService: SessionCacheService,
+                               sessionCacheConnector: SessionCacheConnector,
+                               implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
   val navTitle = Messages("calc.base.resident.shares.home")
   override val homeLink = controllers.routes.GainController.disposalDate().url
@@ -394,3 +390,4 @@ trait GainController extends ValidActiveSession {
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 }
+

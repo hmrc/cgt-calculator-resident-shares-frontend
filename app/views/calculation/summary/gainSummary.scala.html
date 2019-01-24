@@ -25,8 +25,9 @@
 @import views.html.calculation._
 @import views.html.helpers.gainSummaryPartial
 @import play.api.Application
+@import config.ApplicationConfig
 
-@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, maxAea: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, maxAea: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
 
 @resident_main_template(
     title = Messages("calc.resident.summary.title"),

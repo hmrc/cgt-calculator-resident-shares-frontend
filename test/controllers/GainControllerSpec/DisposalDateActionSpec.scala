@@ -19,25 +19,27 @@ package controllers.GainControllerSpec
 import java.time.LocalDate
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
-import controllers.GainController
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import akka.stream.Materializer
 import assets.MessageLookup.{SharesDisposalDate => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.GainController
+import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
 class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -46,6 +48,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -56,11 +59,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   case class FakePOSTRequest (dateResponse: TaxYearModel, inputOne: (String, String), inputTwo: (String, String), inputThree: (String, String)) {
@@ -70,6 +69,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       val mockCalcConnector = mock[CalculatorConnector]
       val mockSessionCacheConnector = mock[SessionCacheConnector]
       val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+      val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(dateResponse)))
@@ -80,16 +80,12 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-      new GainController {
-        override val calcConnector: CalculatorConnector = mockCalcConnector
-        override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-        override val sessionCacheService: SessionCacheService = mockSessionCacheService
-      }
+      new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
     }
 
     val target = setupTarget()
     val result = target.submitDisposalDate(fakeRequestToPOSTWithSession(inputOne, inputTwo, inputThree))
-    val doc = Jsoup.parse(bodyOf(result))
+    val doc = Jsoup.parse(bodyOf(result)(materializer))
   }
 
   "Calling .disposalDate from the GainCalculationController" should {
@@ -108,7 +104,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       s"return a page with the title ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
     }
 
@@ -126,7 +122,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       s"return a page with the title ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
     }
   }
@@ -166,7 +162,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       "return a page with the title ''When did you sign the contract that made someone else the owner?'" in {
-        Jsoup.parse(bodyOf(request.result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe messages.title
       }
     }
 
@@ -193,7 +189,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       }
 
       "return a page with the title 'When did you sell or give away the shares?'" in {
-        Jsoup.parse(bodyOf(request.result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe messages.title
       }
     }
   }

@@ -18,9 +18,11 @@ package controllers
 
 import java.time._
 
+import akka.stream.Materializer
 import assets.MessageLookup
-import config.AppConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import com.codahale.metrics.SharedMetricRegistries
+import config.ApplicationConfig
+import connectors.SessionCacheConnector
 import controllers.helpers.FakeRequestHelper
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
@@ -36,29 +38,17 @@ import scala.concurrent.Future
 class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
+  lazy val materializer = mock[Materializer]
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
-
+    SharedMetricRegistries.clear()
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockConfig = fakeApplication().injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
-    new WhatNextSAController {
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val appConfig: AppConfig = new AppConfig {
-        override val assetsPrefix: String = ""
-        override val residentIFormUrl: String = "iform-url"
-        override val reportAProblemNonJSUrl: String = ""
-        override val contactFrontendPartialBaseUrl: String = ""
-        override val analyticsHost: String = ""
-        override val analyticsToken: String = ""
-        override val reportAProblemPartialUrl: String = ""
-        override val contactFormServiceIdentifier: String = ""
-        override val urBannerLink: String = ""
-        override val feedbackSurvey: String = ""
-      }
-    }
+    new WhatNextSAController(mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .whatNextSAOverFourTimesAEA" when {
@@ -85,11 +75,11 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
       }
 
       "load the WhatNextFourTimesAEA page" in {
-        Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.FourTimesAEA.paragraphOne)
+        Jsoup.parse(bodyOf(result)(materializer)).select("article").text should include(MessageLookup.WhatNextPages.FourTimesAEA.paragraphOne)
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }
@@ -118,11 +108,11 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
       }
 
       "load the WhatNextFourTimesAEA page" in {
-        Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.WhatNextNoGain.bulletPointTitle)
+        Jsoup.parse(bodyOf(result)(materializer)).select("article").text should include(MessageLookup.WhatNextPages.WhatNextNoGain.bulletPointTitle)
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }
@@ -151,11 +141,11 @@ class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeReq
       }
 
       "load the WhatNextFourTimesAEA page" in {
-        Jsoup.parse(bodyOf(result)).select("article").text should include(MessageLookup.WhatNextPages.WhatNextGain.bulletPointTitle)
+        Jsoup.parse(bodyOf(result)(materializer)).select("article").text should include(MessageLookup.WhatNextPages.WhatNextGain.bulletPointTitle)
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
       }
     }
   }

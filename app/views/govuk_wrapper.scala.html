@@ -14,6 +14,11 @@
  * limitations under the License.
  *@
 
+@import layouts.{govuk_template => hmrcGovUkTemplate}
+@import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
+@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
+
+
 @(appConfig: config.AppConfig,
   title: String,
   mainClass: Option[String] = None,
@@ -29,10 +34,7 @@
   navTitle: String = "Calculate your Capital Gains Tax"
 )(implicit request: Request[_], messages: Messages)
 
-@import layouts.{govuk_template => hmrcGovUkTemplate}
-@import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
-@import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
-@import views.html.helpers._
+
 
 @scriptElement = {
     <script type="text/javascript" src='@routes.Assets.versioned("javascripts/cgt.js")'></script>

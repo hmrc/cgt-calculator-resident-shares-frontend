@@ -17,6 +17,7 @@
 package views.calculation.gain
 
 import assets.MessageLookup.{Resident => commonMessages, SharesDisposalCosts => messages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalCostsForm._
 import org.jsoup.Jsoup
@@ -27,9 +28,11 @@ import views.html.calculation.{gain => views}
 
 class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "Disposal Costs view" should {
 
-    lazy val view = views.disposalCosts(disposalCostsForm, "home-link")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalCosts(disposalCostsForm, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -160,7 +163,7 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
     "is due to mandatory field error" should {
 
       lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.disposalCosts(form, "home-link")(fakeRequest, applicationMessages, fakeApplication)
+      lazy val view = views.disposalCosts(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

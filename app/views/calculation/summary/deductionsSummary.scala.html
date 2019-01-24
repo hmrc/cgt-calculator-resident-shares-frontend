@@ -28,8 +28,9 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation._
 @import play.api.Application
+@import config.ApplicationConfig
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
+@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
 
 @broughtForwardLossesHelpText() = {
     <span>

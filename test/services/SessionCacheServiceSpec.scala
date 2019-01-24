@@ -17,7 +17,7 @@
 package services
 
 import common.KeystoreKeys
-import connectors.SessionCacheConnector
+import connectors.{CalculatorConnector, SessionCacheConnector}
 import models.resident
 import models.resident.IncomeAnswersModel
 import models.resident.income.CurrentIncomeModel
@@ -27,7 +27,7 @@ import org.mockito.Mockito._
 import org.scalatest.mockito.MockitoSugar
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
+import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, DefaultHttpClient}
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
@@ -36,9 +36,9 @@ class SessionCacheServiceSpec extends UnitSpec with MockitoSugar {
 
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val homeLink = controllers.routes.GainController.disposalDate().url
+  val mockSessionCacheService = mock[SessionCacheService]
 
-  object TestSessionCacheService extends SessionCacheService {
-    override val sessionCacheConnector = mockSessionCacheConnector
+  object TestSessionCacheService extends SessionCacheService(mockSessionCacheConnector) {
   }
 
 

@@ -18,6 +18,7 @@ package views.calculation.gain
 
 import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.ValueBeforeLegislationStartForm._
 import org.jsoup.Jsoup
@@ -28,9 +29,11 @@ import views.html.calculation.{gain => views}
 
 class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "ValueBeforeLegislationStart View" should {
 
-    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -140,7 +143,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ValueBeforeLegislationStart View with form without errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -159,7 +162,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ValueBeforeLegislationStart View with form with errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
