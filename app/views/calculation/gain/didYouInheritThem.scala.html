@@ -21,8 +21,9 @@
 @import uk.gov.hmrc.play.views.html.helpers.form
 @import play.api.Application
 @import uk.gov.hmrc.play.views.html.helpers.input_radio_group
+@import config.ApplicationConfig
 
-@(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages, application: Application)
+@(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
 
 @resident_main_template(title = Messages("calc.resident.shares.didYouInheritThem.question"),
 backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url),
@@ -36,7 +37,7 @@ navTitle = Messages("calc.base.resident.shares.home")){
     @form(action = controllers.routes.GainController.submitDidYouInheritThem) {
 
         <div id="radio-input" class="form-group">
-            @input_radio_group(
+            @inputRadioGroup(
             field = didYouInheritThemForm("wereInherited"),
             Seq(
             "Yes" -> Messages("calc.base.yes"),

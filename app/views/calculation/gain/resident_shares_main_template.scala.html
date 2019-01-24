@@ -24,7 +24,7 @@
   scriptElem: Option[Html] = None,
   articleLayout: Boolean = true,
   backLink: Option[String] = None
-)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application, appConfig: ApplicationConfig)
 
 @import uk.gov.hmrc.play.views.html.layouts
 @import controllers.CgtLanguageController
@@ -63,7 +63,7 @@
     <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
 }
 
-@govuk_wrapper(appConfig = ApplicationConfig,
+@govuk_wrapper(appConfig = appConfig,
                title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,

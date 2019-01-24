@@ -60,7 +60,6 @@ trait MicroService {
     .settings(
       libraryDependencies ++= appDependencies,
       retrieveManaged := true,
-      routesGenerator := StaticRoutesGenerator,
       pipelineStages in Assets := Seq(digest),
       evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false)
     )

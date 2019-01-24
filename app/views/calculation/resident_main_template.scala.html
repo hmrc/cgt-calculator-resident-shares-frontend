@@ -31,7 +31,7 @@
   backLink: Option[String] = None,
   homeLink: String,
   navTitle: String
-)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application)
+)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
 
 @import uk.gov.hmrc.play.views.html.layouts
 @import controllers.CgtLanguageController
@@ -76,7 +76,7 @@
     @full_width_banner(Some(full_width_banner_content_ur(
                 messages("calc.summary.userResearchLink.title"),
                 messages("calc.summary.userResearchLink.link"),
-                ApplicationConfig.urBannerLink,
+                applicationConfig.urBannerLink,
                 Some(messages("calc.summary.userResearchLink.text"))
                 )
             )
@@ -84,7 +84,7 @@
     }
 }
 
-@govuk_wrapper(appConfig = ApplicationConfig,
+@govuk_wrapper(appConfig = applicationConfig,
                title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,

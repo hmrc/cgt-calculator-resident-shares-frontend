@@ -16,25 +16,22 @@
 
 package views.calculation.summary
 
-import assets.MessageLookup.Resident.Shares.{SharesSummaryMessages => sharesSummaryMessages}
-import assets.{MessageLookup => pages}
+import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import models.resident._
+import models.resident.{IncomeAnswersModel, _}
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
+import play.api.Play.current
+import play.api.i18n.Messages.Implicits._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{summary => views}
-import assets.DateAsset
-import common.Dates._
-import controllers.routes
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel, PreviousTaxableGainsModel}
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import models.resident.IncomeAnswersModel
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 
 class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "ShareFinalSummaryViewSpec" when {
     val incomeAnswers = IncomeAnswersModel(
@@ -91,7 +88,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         "",
         100,
         100,
-        showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication)
+        showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -505,7 +502,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         "",
         100,
         100,
-        showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+        showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

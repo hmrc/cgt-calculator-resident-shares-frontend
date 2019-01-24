@@ -17,9 +17,10 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
@@ -36,6 +37,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -44,6 +46,7 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenInheritedModel](ArgumentMatchers.eq(keyStoreKeys.worthWhenInherited))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -51,11 +54,7 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
     when(mockSessionCacheConnector.saveFormData[WorthWhenInheritedModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .worthWhenInherited action" when {
@@ -63,7 +62,7 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
     "request has a valid session" should {
       lazy val target = setupTarget(None)
       lazy val result = target.worthWhenInherited(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -99,7 +98,7 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
       }
 
       s"return some html with title of ${Messages.question}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual Messages.question
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual Messages.question
       }
     }
 
@@ -135,7 +134,7 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
     "an invalid form with no answer is submitted" should {
       lazy val target = setupTarget(None)
       lazy val result = target.submitWorthWhenInherited(fakeRequestToPOSTWithSession(("amount", "")))
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 400" in {
         status(result) shouldBe 400

@@ -16,9 +16,9 @@
 
 package config
 
-import play.api.{Configuration, Play}
+import javax.inject.Inject
 import play.api.Mode.Mode
-import play.api.Play.{configuration, current}
+import play.api.{Configuration, Environment}
 import uk.gov.hmrc.play.config.ServicesConfig
 
 trait AppConfig {
@@ -34,13 +34,13 @@ trait AppConfig {
   val feedbackSurvey: String
 }
 
-object ApplicationConfig extends AppConfig with ServicesConfig {
+class ApplicationConfig @Inject()(environment: Environment, config: Configuration) extends AppConfig with ServicesConfig {
 
-  private def loadConfig(key: String) = configuration.getString(key).getOrElse(throw new Exception(s"Missing configuration key: $key"))
-  private def getFeature(key: String) = configuration.getBoolean(key).getOrElse(false)
+  private def loadConfig(key: String) = config.getString(key).getOrElse(throw new Exception(s"Missing configuration key: $key"))
+  private def getFeature(key: String) = config.getBoolean(key).getOrElse(false)
 
-  private val contactFrontendService = baseUrl("contact-frontend")
-  private val contactHost = configuration.getString(s"$env.microservice.services.contact-frontend.host").getOrElse("")
+  private lazy val contactFrontendService = baseUrl("contact-frontend")
+  private lazy val contactHost = config.getString(s"$env.microservice.services.contact-frontend.host").getOrElse("")
 
   override lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
   override lazy val analyticsToken = loadConfig(s"google-analytics.token")
@@ -50,13 +50,13 @@ object ApplicationConfig extends AppConfig with ServicesConfig {
   override lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
   override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   override lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
-  override val feedbackSurvey: String = loadConfig(s"feedback-survey-frontend.url")
+  override lazy val feedbackSurvey: String = loadConfig(s"feedback-survey-frontend.url")
 
 
   override lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
 
-  override val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
+  override lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
 
-  override protected def mode: Mode = Play.current.mode
-  override protected def runModeConfiguration: Configuration = Play.current.configuration
+  override def mode: Mode = environment.mode
+  override def runModeConfiguration: Configuration = config
 }

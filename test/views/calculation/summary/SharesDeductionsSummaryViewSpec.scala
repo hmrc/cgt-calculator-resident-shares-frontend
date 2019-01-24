@@ -19,6 +19,7 @@ package views.calculation.summary
 import assets.MessageLookup.{SummaryDetails => messages}
 import assets.MessageLookup.{Resident => residentMessages}
 import common.Dates
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares._
@@ -29,6 +30,8 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{summary => views}
 
 class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Properties Deductions Summary view when a valid tax year is supplied" should {
 
@@ -67,7 +70,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication)
+      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -223,7 +226,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication)
+      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {

@@ -17,9 +17,10 @@
 package controllers
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import models.resident._
@@ -41,6 +42,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
   implicit lazy val actorSystem = ActorSystem()
   implicit val hc = new HeaderCarrier()
+  lazy val materializer = mock[Materializer]
+
 
   def setupTarget
   (
@@ -56,6 +59,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
@@ -86,10 +90,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
 
-    new SummaryController {
-      override val calculatorConnector: CalculatorConnector = mockCalculatorConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockConfig)
   }
 
   "Calling .summary from the SummaryController for Shares" when {
@@ -119,7 +120,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -160,7 +161,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -206,7 +207,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -227,8 +228,33 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
   }
 
   "Calling .summary from the SummaryController with no session" should {
+    lazy val gainAnswers = GainAnswersModel(
+      disposalDate = Dates.constructDate(12, 1, 2016),
+      soldForLessThanWorth = false,
+      disposalValue = Some(13000),
+      worthWhenSoldForLess = None,
+      disposalCosts = 500,
+      ownerBeforeLegislationStart = false,
+      valueBeforeLegislationStart = None,
+      inheritedTheShares = Some(false),
+      worthWhenInherited = None,
+      acquisitionValue = Some(5000),
+      acquisitionCosts = 500
+    )
+    lazy val chargeableGainAnswers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(true)),
+      Some(LossesBroughtForwardValueModel(1000)))
+    lazy val chargeableGainResultModel = ChargeableGainResultModel(7000, -1000, 11100, 5100, 1000, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
+    lazy val incomeAnswersModel = IncomeAnswersModel(None, None)
+    lazy val target = setupTarget(
+      gainAnswers,
+      7000,
+      chargeableGainAnswers,
+      Some(chargeableGainResultModel),
+      taxYearModel = Some(TaxYearModel("2015/2016", true, "2015/16")),
+      incomeAnswersModel
+    )
 
-    lazy val result = SummaryController.summary(fakeRequest)
+    lazy val result = target.summary(fakeRequest)
 
     "return a status of 303" in {
       status(result) shouldBe 303

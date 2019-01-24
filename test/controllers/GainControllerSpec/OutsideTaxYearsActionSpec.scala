@@ -17,8 +17,9 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{OutsideTaxYears => messages}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
@@ -32,6 +33,7 @@ import services.SessionCacheService
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -40,6 +42,7 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDateModel)
@@ -47,11 +50,7 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYearModel)
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .outsideTaxYears from the resident/shares GainCalculationController" when {
@@ -69,20 +68,21 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
       }
 
       s"return a title of ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalDate().url}'" in {
-        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate().url
       }
 
       s"have a continue link to '${controllers.routes.GainController.sellForLess().url}'" in {
-        Jsoup.parse(bodyOf(result)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess().url
       }
     }
 
     "there is no valid session" should {
-      lazy val result = GainController.outsideTaxYears(fakeRequest)
+      lazy val target = setupTarget(Some(DisposalDateModel(10, 10, 2018)), Some(TaxYearModel("2018/19", false, "2016/17")))
+      lazy val result = target.outsideTaxYears(fakeRequest)
 
       "return a 303" in {
         status(result) shouldBe 303

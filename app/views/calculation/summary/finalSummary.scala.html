@@ -28,24 +28,25 @@
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.calculation._
 @import play.api.Application
+@import config.ApplicationConfig
 
-@(gainAnswers:
-        GainAnswersModel,
-        deductionAnswers: DeductionGainAnswersModel,
-        result: TotalGainAndTaxOwedModel,
-        backUrl: String,
-        taxYear: TaxYearModel,
-        navHomeLink: String,
-        totalCosts: BigDecimal,
-        totalDeductions: BigDecimal,
-        showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application)
+@(
+    gainAnswers:GainAnswersModel,
+    deductionAnswers: DeductionGainAnswersModel,
+    result: TotalGainAndTaxOwedModel,
+    backUrl: String,
+    taxYear: TaxYearModel,
+    navHomeLink: String,
+    totalCosts: BigDecimal,
+    totalDeductions: BigDecimal,
+    showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
 
 @resident_main_template(
-title = Messages("calc.resident.summary.title"),
-backLink = Some(backUrl),
-homeLink = navHomeLink,
-navTitle = Messages("calc.base.resident.shares.home"),
-isUserResearchBannerVisible = showUserResearchPanel
+    title = Messages("calc.resident.summary.title"),
+    backLink = Some(backUrl),
+    homeLink = navHomeLink,
+    navTitle = Messages("calc.base.resident.shares.home"),
+    isUserResearchBannerVisible = showUserResearchPanel
 ){
     @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 

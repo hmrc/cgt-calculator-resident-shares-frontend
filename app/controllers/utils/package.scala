@@ -19,7 +19,7 @@ package controllers
 import play.api.Logger
 import play.api.mvc.Results._
 import play.api.mvc.{Request, Result}
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
+import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{CanAwait, ExecutionContext, Future}

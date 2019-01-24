@@ -17,13 +17,13 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup
 import controllers.helpers.FakeRequestHelper
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import org.mockito.ArgumentMatchers
-import config.AppConfig
+import config.{AppConfig, ApplicationConfig}
 import controllers.GainController
 import models.resident.WorthWhenSoldForLessModel
 import org.scalatest.mock.MockitoSugar
@@ -38,11 +38,12 @@ import scala.concurrent.Future
 
 
 class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
   def setupTarget(getData: Option[WorthWhenSoldForLessModel]): GainController = {
-
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
@@ -53,11 +54,8 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
     when(mockSessionCacheConnector.saveFormData[WorthWhenSoldForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig) {
       val config: AppConfig = mock[AppConfig]
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 
@@ -71,7 +69,7 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
       }
 
       s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.question}" in {
-        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+        Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
       }
     }
 
@@ -84,7 +82,7 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
       }
 
       s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.question}" in {
-        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+        Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
       }
     }
   }
@@ -132,7 +130,7 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
       }
 
       "stay on the shares Worth When Sold page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
       }
     }
   }

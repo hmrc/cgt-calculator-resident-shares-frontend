@@ -17,8 +17,10 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.{GainController, routes}
@@ -35,6 +37,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -43,6 +46,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(TaxYearModel("year", knownTaxYear, "year"))))
@@ -56,11 +60,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
     when(mockSessionCacheConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .sellForLess from the resident shares GainController" when {
@@ -76,7 +76,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title
       }
     }
 
@@ -85,7 +85,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the disposal date page" in {
-        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate().url
       }
     }
 
@@ -94,7 +94,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the outside tax years page" in {
-        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears().url
       }
     }
 
@@ -161,7 +161,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("sellForLess", ""))
       lazy val result = target.submitSellForLess(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 400" in {
         status(result) shouldBe 400

@@ -16,111 +16,104 @@
 
 package connectors
 
-import config.CalculatorSessionCache
-import org.mockito.ArgumentMatchers
-import org.scalatest.mockito.MockitoSugar
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse}
-import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
-import uk.gov.hmrc.play.test.UnitSpec
+import config.ApplicationConfig
+import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
-import play.api.libs.json.{Reads, Writes}
+import org.scalatest.mockito.MockitoSugar
+import play.api.libs.json.Json
+import uk.gov.hmrc.http.cache.client.CacheMap
+import uk.gov.hmrc.http.logging.SessionId
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, NotFoundException}
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.Future
 
-class SessionCacheConnectorSpec extends UnitSpec with MockitoSugar {
+class SessionCacheConnectorSpec extends UnitSpec with WithFakeApplication with MockitoSugar {
+
+  val defaultCache = mock[CacheMap]
+  val defaultConnector = mock[CalculatorConnector]
+  val defaultHttpClient = mock[DefaultHttpClient]
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
+  implicit val hc = HeaderCarrier(sessionId = Some(SessionId("SessionID")))
+
+  class Setup {
+    val connector = new SessionCacheConnector(
+      defaultHttpClient,
+      defaultConnector,
+      mockConfig
+    )
+  }
 
   "The session cache connector" should {
-    val defaultCache = mock[CacheMap]
-    val defaultFetch = Some("default")
-    val defaultClear = mock[HttpResponse]
-
-    implicit val hc = mock[HeaderCarrier]
-
-    def testCache[T](saveData: Future[CacheMap], fetchData: Future[Option[T]], clearData: Future[HttpResponse]): SessionCacheConnector = {
-      val mockCache = mock[SessionCache]
-
-      when(mockCache.cache[T](
-        ArgumentMatchers.eq("key"),
-        ArgumentMatchers.any[T])(
-        ArgumentMatchers.any(classOf[Writes[T]]),
-        ArgumentMatchers.eq(hc),
-        ArgumentMatchers.any[ExecutionContext])
-      ).thenReturn(saveData)
-
-      when(mockCache.fetchAndGetEntry[T](
-        ArgumentMatchers.eq("key"))(
-        ArgumentMatchers.eq(hc),
-        ArgumentMatchers.any(classOf[Reads[T]]),
-        ArgumentMatchers.any[ExecutionContext])
-      ).thenReturn(fetchData)
-
-      when(mockCache.remove()(ArgumentMatchers.eq(hc), ArgumentMatchers.any[ExecutionContext]))
-        .thenReturn(clearData)
-
-      new SessionCacheConnector {
-        override val sessionCache: SessionCache = mockCache
-      }
-    }
-
-    "have the correct SessionCache instance" in {
-      SessionCacheConnector.sessionCache shouldBe CalculatorSessionCache
-    }
-
     "provide a valid interface for the cache method" when {
+      "returning an exception" in new Setup {
+        when(defaultHttpClient.PUT(any(), any())(any(), any(), any(), any()))
+          .thenReturn(Future.failed(new RuntimeException("testException")))
 
-      "returning an exception" in {
-        val result = testCache(Future.failed(new Exception("testException")), Future.successful(defaultFetch), Future.successful(defaultClear))
-          .saveFormData[String]("key", "default")
+        val result = connector.saveFormData[String]("key", "default")
 
-        the[Exception] thrownBy await(result) should have message "testException"
+        intercept[RuntimeException](await(result) shouldBe "testException")
       }
+      "returning a valid cachemap" in new Setup {
+        when(defaultHttpClient.PUT[String, CacheMap](any(), any())(any(), any(), any(), any()))
+          .thenReturn(Future.successful(defaultCache))
 
-      "returning a valid cachemap" in {
-        val result = testCache(Future.successful(defaultCache), Future.successful(defaultFetch), Future.successful(defaultClear))
-          .saveFormData[String]("key", "default")
+        val result = connector.saveFormData[String]("key", "default")
 
         await(result) shouldBe defaultCache
       }
     }
 
     "provide a valid interface for the fetch and get entry method" when {
+      "returning an exception" in new Setup {
+        when(defaultHttpClient.GET(any())(any(), any(), any()))
+          .thenReturn(Future.failed(new RuntimeException("testException")))
 
-      "returning an exception" in {
-        val result = testCache(Future.successful(defaultCache), Future.failed(new Exception("testException")), Future.successful(defaultClear))
-          .fetchAndGetFormData[String]("key")
+        val result = connector.fetchAndGetFormData[String]("key")
 
-        the[Exception] thrownBy await(result) should have message "testException"
+        intercept[RuntimeException](await(result))
       }
+      "returning no data" in new Setup {
+        when(defaultHttpClient.GET[CacheMap](any())(any(), any(), any()))
+          .thenReturn(Future.failed(new NotFoundException("404")))
 
-      "returning no data" in {
-        val result = testCache(Future.successful(defaultCache), Future.successful(None), Future.successful(defaultClear))
-          .fetchAndGetFormData[String]("key")
+        val result = connector.fetchAndGetFormData[String]("key")
 
         await(result) shouldBe None
       }
+      "returning valid data" in new Setup {
+        val validCacheMap = CacheMap("SessionID", Map("key" -> Json.toJson("default")))
 
-      "returning valid data" in {
-        val result = testCache(Future.successful(defaultCache), Future.successful(defaultFetch), Future.successful(defaultClear))
-          .fetchAndGetFormData[String]("key")
+        when(defaultHttpClient.GET[CacheMap](any())(any(), any(), any()))
+          .thenReturn(Future.successful(validCacheMap))
 
-        await(result) shouldBe defaultFetch
+        val result = connector.fetchAndGetFormData[String]("key")
+
+        await(result) shouldBe Some("default")
       }
     }
 
     "provided a valid interface for the remove method" when {
+      "returning an exception" in new Setup {
+        when(defaultHttpClient.DELETE[HttpResponse](any())(any(), any(), any()))
+          .thenReturn(Future.failed(new RuntimeException("testException")))
 
-      "returning an exception" in {
-        val result = testCache(Future.successful(defaultCache), Future.successful(defaultFetch), Future.failed(new Exception("testException")))
-          .clearKeystore
+        val result = connector.clearKeystore
 
-        the[Exception] thrownBy await(result) should have message "testException"
+        intercept[RuntimeException](await(result))
       }
 
-      "returning a valid response" in {
-        val result = testCache(Future.successful(defaultCache), Future.successful(defaultFetch), Future.successful(defaultClear))
-          .clearKeystore
+      "returning a valid response" in new Setup {
+        val expected = HttpResponse(200)
 
-        await(result) shouldBe defaultClear
+        when(defaultHttpClient.DELETE[HttpResponse](any())(any(), any(), any()))
+          .thenReturn(Future.successful(expected))
+
+        val result = connector.clearKeystore
+
+        await(result) shouldBe expected
       }
     }
   }

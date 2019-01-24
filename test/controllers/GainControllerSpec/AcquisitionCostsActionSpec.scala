@@ -17,15 +17,15 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
 import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.GainController
+import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionCostsModel
-import models.resident.shares.OwnerBeforeLegislationStartModel
-import models.resident.shares.GainAnswersModel
+import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
 import models.resident.shares.gain.DidYouInheritThemModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
@@ -39,6 +39,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -52,6 +53,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
                    totalGain: BigDecimal
                  ): GainController = {
 
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
@@ -74,11 +76,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     when(mockSessionCacheConnector.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .acquisitionCosts from the shares GainCalculationController" when {
@@ -103,7 +101,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
     }
 
@@ -127,7 +125,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
     }
 
@@ -197,7 +195,14 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
 
   "request has an invalid session" should {
 
-    lazy val result = GainController.acquisitionCosts(fakeRequest)
+    lazy val target = setupTarget(
+      acquisitionCostsData = None,
+      ownedBeforeStartOfTaxData = Some(OwnerBeforeLegislationStartModel(false)),
+      inheritedThemData = Some(DidYouInheritThemModel(false)),
+      gainAnswersModel,
+      BigDecimal(0)
+    )
+    lazy val result = target.acquisitionCosts(fakeRequest)
 
     "return a status of 303" in {
       status(result) shouldBe 303
@@ -280,7 +285,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
       )
       lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
       lazy val result = target.submitAcquisitionCosts(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a 400" in {
         status(result) shouldBe 400

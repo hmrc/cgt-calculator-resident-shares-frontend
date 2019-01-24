@@ -20,8 +20,10 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates.requestFormatter
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
+import javax.inject.Inject
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.mvc.{Action, AnyContent}
@@ -33,15 +35,10 @@ import services.SessionCacheService
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object ReviewAnswersController extends ReviewAnswersController {
-  override lazy val calculatorConnector = CalculatorConnector
-  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
-}
+class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector,
+                                        sessionCacheService: SessionCacheService,
+                                        implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
-trait ReviewAnswersController extends ValidActiveSession {
-
-  val calculatorConnector: CalculatorConnector
-  val sessionCacheService: SessionCacheService
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
     calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {

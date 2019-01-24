@@ -19,11 +19,13 @@ package controllers
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.resident.JourneyKeys
 import common.{Dates, TaxDates}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.CurrentIncomeForm._
 import forms.PersonalAllowanceForm._
+import javax.inject.Inject
 import models.resident._
 import models.resident.income._
 import play.api.Play.current
@@ -36,15 +38,9 @@ import views.html.{calculation => views}
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object IncomeController extends IncomeController {
-  override lazy val calcConnector = CalculatorConnector
-  override lazy val sessionCacheConnector = SessionCacheConnector
-}
-
-trait IncomeController extends ValidActiveSession {
-
-  val calcConnector: CalculatorConnector
-  val sessionCacheConnector: SessionCacheConnector
+class IncomeController @Inject()(calcConnector: CalculatorConnector,
+                                 sessionCacheConnector: SessionCacheConnector,
+                                 implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
   val navTitle = Messages("calc.base.resident.shares.home")
   override val homeLink = controllers.routes.GainController.disposalDate().url

@@ -17,9 +17,10 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.Resident.Shares.{DisposalValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
@@ -36,6 +37,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class DisposalValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -44,6 +46,7 @@ class DisposalValueActionSpec extends UnitSpec with WithFakeApplication with Fak
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ArgumentMatchers.eq(keystoreKeys.disposalValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -51,11 +54,7 @@ class DisposalValueActionSpec extends UnitSpec with WithFakeApplication with Fak
     when(mockSessionCacheConnector.saveFormData[DisposalValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .disposalValue from the GainCalculationController" when {
@@ -89,7 +88,7 @@ class DisposalValueActionSpec extends UnitSpec with WithFakeApplication with Fak
 
     s"return some html with title of ${messages.question}" in {
       contentType(result) shouldBe Some("text/html")
-      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual messages.question
     }
   }
 
@@ -121,7 +120,7 @@ class DisposalValueActionSpec extends UnitSpec with WithFakeApplication with Fak
 
     "render the disposal value page when supplied with an invalid form" in {
       status(result) shouldEqual 400
-      Jsoup.parse(bodyOf(result)).title() shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual messages.question
     }
   }
 }

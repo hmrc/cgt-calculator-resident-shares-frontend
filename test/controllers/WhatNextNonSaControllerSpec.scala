@@ -16,39 +16,43 @@
 
 package controllers
 
+import akka.stream.Materializer
+import akka.util.Timeout
 import assets.MessageLookup
-import config.AppConfig
+import com.codahale.metrics.SharedMetricRegistries
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers.redirectLocation
 import uk.gov.hmrc.play.test.UnitSpec
-import akka.util.Timeout
-import org.scalatestplus.play.OneAppPerSuite
 
 import scala.concurrent.duration.Duration
 
-class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with OneAppPerSuite {
+class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with OneAppPerSuite with MockitoSugar {
 
   implicit val timeout: Timeout = new Timeout(Duration.create(20, "seconds"))
+  lazy val materializer = mock[Materializer]
+
 
   def setupController(): WhatNextNonSaController = {
-
-    new WhatNextNonSaController {
-      override val applicationConfig: AppConfig = new AppConfig {
-        override val assetsPrefix: String = ""
-        override val residentIFormUrl: String = "iform-url"
-        override val reportAProblemNonJSUrl: String = ""
-        override val contactFrontendPartialBaseUrl: String = ""
-        override val analyticsHost: String = ""
-        override val analyticsToken: String = ""
-        override val reportAProblemPartialUrl: String = ""
-        override val contactFormServiceIdentifier: String = ""
-        override val urBannerLink: String = ""
-        override val feedbackSurvey: String = ""
-      }
-    }
+    SharedMetricRegistries.clear()
+    implicit val mockAppConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+//      new AppConfig {
+//      override val assetsPrefix: String = ""
+//      override val residentIFormUrl: String = "iform-url"
+//      override val reportAProblemNonJSUrl: String = ""
+//      override val contactFrontendPartialBaseUrl: String = ""
+//      override val analyticsHost: String = ""
+//      override val analyticsToken: String = ""
+//      override val reportAProblemPartialUrl: String = ""
+//      override val contactFormServiceIdentifier: String = ""
+//      override val urBannerLink: String = ""
+//      override val feedbackSurvey: String = ""
+//    }
+    new WhatNextNonSaController()
   }
-
   "Calling .whatNextNonSaGain" when {
 
     "provided with an invalid session" should {
@@ -67,7 +71,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with O
     "provided with a valid session" should {
       lazy val controller = setupController()
       lazy val result = controller.whatNextNonSaGain(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -78,7 +82,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with O
       }
 
       "have a link to the iForm from app config" in {
-        doc.select("#report-now > a").attr("href") shouldBe "iform-url"
+        doc.select("#report-now > a").attr("href") shouldBe "https://www.tax.service.gov.uk/forms/form/capital-gains-tax-real-time-transaction-return/new"
       }
     }
   }
@@ -101,7 +105,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with O
     "provided with a valid session" should {
       lazy val controller = setupController()
       lazy val result = controller.whatNextNonSaLoss(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -112,7 +116,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with O
       }
 
       "have a link to the iForm from app config" in {
-        doc.select("#report-now > a").attr("href") shouldBe "iform-url"
+        doc.select("#report-now > a").attr("href") shouldBe "https://www.tax.service.gov.uk/forms/form/capital-gains-tax-real-time-transaction-return/new"
       }
     }
   }

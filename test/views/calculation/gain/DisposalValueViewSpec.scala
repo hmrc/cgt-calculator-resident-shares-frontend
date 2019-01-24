@@ -18,6 +18,7 @@ package views.calculation.gain
 
 import assets.MessageLookup.Resident.Shares.{DisposalValue => messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalValueForm._
 import org.jsoup.Jsoup
@@ -28,16 +29,18 @@ import play.api.Play.current
 
 class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   case class FakePOST(value: String) {
     lazy val request = fakeRequestToPOSTWithSession(("amount", value))
     lazy val form = disposalValueForm.bind(Map(("amount", value)))
-    lazy val view = views.disposalValue(form, "home-link")(request, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(form, "home-link")(request, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Disposal Value View" should {
 
-    lazy val view = views.disposalValue(disposalValueForm, "home-link")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(disposalValueForm, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -84,7 +87,7 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
   "Disposal Value View with form without errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> "100"))
-    lazy val view = views.disposalValue(form, "home-link")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -103,7 +106,7 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
   "Disposal Value View with form with errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.disposalValue(form, "home-link")(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.disposalValue(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

@@ -1,10 +1,10 @@
 # microservice specific routes
 
 #Assets routes
-GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file           @controllers.Assets.versioned(path="/public", file: Asset)
 
 #Session Timeout route
-GET         /session-timeout        controllers.utils.TimeoutController.timeout(restartUrl: String, homeLink: String)
+GET         /session-timeout        @controllers.utils.TimeoutController.timeout(restartUrl: String, homeLink: String)
 
 #Language Controller
 GET         /language/:lang         @controllers.CgtLanguageController.switchToLanguage(lang: String)
@@ -12,98 +12,98 @@ GET         /language/:lang         @controllers.CgtLanguageController.switchToL
 #Routes file for the resident shares routes.
 
 #Disposal Date Routes
-GET     /disposal-date                    controllers.GainController.disposalDate
-POST    /disposal-date                    controllers.GainController.submitDisposalDate
+GET     /disposal-date                    @controllers.GainController.disposalDate
+POST    /disposal-date                    @controllers.GainController.submitDisposalDate
 
 #Outside Tax Years Routes
-GET     /outside-tax-years                controllers.GainController.outsideTaxYears
+GET     /outside-tax-years                @controllers.GainController.outsideTaxYears
 
 #Disposal Value or Market Value Routes
-GET     /disposal-value                   controllers.GainController.disposalValue
-POST    /disposal-value                   controllers.GainController.submitDisposalValue
+GET     /disposal-value                   @controllers.GainController.disposalValue
+POST    /disposal-value                   @controllers.GainController.submitDisposalValue
 
 #Sell for Less Routes
-GET     /sell-for-less                    controllers.GainController.sellForLess
-POST    /sell-for-less                    controllers.GainController.submitSellForLess
+GET     /sell-for-less                    @controllers.GainController.sellForLess
+POST    /sell-for-less                    @controllers.GainController.submitSellForLess
 
 #Worth when Sold For Less Routes
-GET     /worth-when-sold-for-less         controllers.GainController.worthWhenSoldForLess
-POST    /worth-when-sold-for-less         controllers.GainController.submitWorthWhenSoldForLess
+GET     /worth-when-sold-for-less         @controllers.GainController.worthWhenSoldForLess
+POST    /worth-when-sold-for-less         @controllers.GainController.submitWorthWhenSoldForLess
 
 #Disposal Costs Routes
-GET     /disposal-costs                   controllers.GainController.disposalCosts
-POST    /disposal-costs                   controllers.GainController.submitDisposalCosts
+GET     /disposal-costs                   @controllers.GainController.disposalCosts
+POST    /disposal-costs                   @controllers.GainController.submitDisposalCosts
 
 #Owner Before Legislation Start Routes
-GET     /owner-before-legislation-start    controllers.GainController.ownerBeforeLegislationStart
-POST    /owner-before-legislation-start    controllers.GainController.submitOwnerBeforeLegislationStart
+GET     /owner-before-legislation-start    @controllers.GainController.ownerBeforeLegislationStart
+POST    /owner-before-legislation-start    @controllers.GainController.submitOwnerBeforeLegislationStart
 
 #Value Before Legislation Start Routes
-GET     /value-before-legislation-start    controllers.GainController.valueBeforeLegislationStart
-POST    /value-before-legislation-start    controllers.GainController.submitValueBeforeLegislationStart
+GET     /value-before-legislation-start    @controllers.GainController.valueBeforeLegislationStart
+POST    /value-before-legislation-start    @controllers.GainController.submitValueBeforeLegislationStart
 
 #Did you Inherit the Shares Routes
-GET     /did-you-inherit-them             controllers.GainController.didYouInheritThem
-POST    /did-you-inherit-them             controllers.GainController.submitDidYouInheritThem
+GET     /did-you-inherit-them             @controllers.GainController.didYouInheritThem
+POST    /did-you-inherit-them             @controllers.GainController.submitDidYouInheritThem
 
 #Worth when Inherited Routes
-GET     /worth-when-inherited             controllers.GainController.worthWhenInherited
-POST    /worth-when-inherited             controllers.GainController.submitWorthWhenInherited
+GET     /worth-when-inherited             @controllers.GainController.worthWhenInherited
+POST    /worth-when-inherited             @controllers.GainController.submitWorthWhenInherited
 
 #Acquisition Value or Market Value Routes
-GET     /acquisition-value                controllers.GainController.acquisitionValue
-POST    /acquisition-value                controllers.GainController.submitAcquisitionValue
+GET     /acquisition-value                @controllers.GainController.acquisitionValue
+POST    /acquisition-value                @controllers.GainController.submitAcquisitionValue
 
 #Acquisition Costs Routes
-GET     /acquisition-costs                controllers.GainController.acquisitionCosts
-POST    /acquisition-costs                controllers.GainController.submitAcquisitionCosts
+GET     /acquisition-costs                @controllers.GainController.acquisitionCosts
+POST    /acquisition-costs                @controllers.GainController.submitAcquisitionCosts
 
 #Losses Brought Forward Routes
-GET     /losses-brought-forward           controllers.DeductionsController.lossesBroughtForward
-POST    /losses-brought-forward           controllers.DeductionsController.submitLossesBroughtForward
+GET     /losses-brought-forward           @controllers.DeductionsController.lossesBroughtForward
+POST    /losses-brought-forward           @controllers.DeductionsController.submitLossesBroughtForward
 
 #Losses Brought Forward Value Routes
-GET     /losses-brought-forward-value     controllers.DeductionsController.lossesBroughtForwardValue
-POST    /losses-brought-forward-value     controllers.DeductionsController.submitLossesBroughtForwardValue
+GET     /losses-brought-forward-value     @controllers.DeductionsController.lossesBroughtForwardValue
+POST    /losses-brought-forward-value     @controllers.DeductionsController.submitLossesBroughtForwardValue
 
 #Current Income Routes
-GET     /current-income                   controllers.IncomeController.currentIncome
-POST    /current-income                   controllers.IncomeController.submitCurrentIncome
+GET     /current-income                   @controllers.IncomeController.currentIncome
+POST    /current-income                   @controllers.IncomeController.submitCurrentIncome
 
 #Personal Allowance Routes
-GET     /personal-allowance               controllers.IncomeController.personalAllowance
-POST    /personal-allowance               controllers.IncomeController.submitPersonalAllowance
+GET     /personal-allowance               @controllers.IncomeController.personalAllowance
+POST    /personal-allowance               @controllers.IncomeController.submitPersonalAllowance
 
 #Review Answers Routes
-GET     /review-your-answers-gain         controllers.ReviewAnswersController.reviewGainAnswers
-GET     /review-your-answers-deduction    controllers.ReviewAnswersController.reviewDeductionsAnswers
-GET     /review-your-answers-final        controllers.ReviewAnswersController.reviewFinalAnswers
+GET     /review-your-answers-gain         @controllers.ReviewAnswersController.reviewGainAnswers
+GET     /review-your-answers-deduction    @controllers.ReviewAnswersController.reviewDeductionsAnswers
+GET     /review-your-answers-final        @controllers.ReviewAnswersController.reviewFinalAnswers
 
 #Summary Routes
-GET     /summary                          controllers.SummaryController.summary
+GET     /summary                          @controllers.SummaryController.summary
 
 #Gain Summary PDF Routes
-GET     /gain-report                      controllers.ReportController.gainSummaryReport
+GET     /gain-report                      @controllers.ReportController.gainSummaryReport
 
 #Deductions Summary PDF Routes
-GET     /deductions-report                controllers.ReportController.deductionsReport
+GET     /deductions-report                @controllers.ReportController.deductionsReport
 
 #Final Summary PDF Routes
-GET     /final-report                     controllers.ReportController.finalSummaryReport
+GET     /final-report                     @controllers.ReportController.finalSummaryReport
 
 #What Next SA Routes
-GET     /what-next-sa-no-gain-over-limit  controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
-GET     /what-next-sa-no-gain             controllers.WhatNextSAController.whatNextSANoGain
-GET     /what-next-sa-gain                controllers.WhatNextSAController.whatNextSAGain
+GET     /what-next-sa-no-gain-over-limit  @controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
+GET     /what-next-sa-no-gain             @controllers.WhatNextSAController.whatNextSANoGain
+GET     /what-next-sa-gain                @controllers.WhatNextSAController.whatNextSAGain
 
 #What Next Non-SA Gain Routes
-GET     /what-next-non-sa-gain            controllers.WhatNextNonSaController.whatNextNonSaGain
-GET     /what-next-non-sa-loss            controllers.WhatNextNonSaController.whatNextNonSaLoss
+GET     /what-next-non-sa-gain            @controllers.WhatNextNonSaController.whatNextNonSaGain
+GET     /what-next-non-sa-loss            @controllers.WhatNextNonSaController.whatNextNonSaLoss
 
 
 #Sa user Routes
-GET     /confirm-self-assessment          controllers.SaUserController.saUser
-POST    /confirm-self-assessment          controllers.SaUserController.submitSaUser
+GET     /confirm-self-assessment          @controllers.SaUserController.saUser
+POST    /confirm-self-assessment          @controllers.SaUserController.submitSaUser
 
 #feedback Survey Routes
-GET     /feedback-survey                  controllers.FeedbackSurveyController.redirectExitSurvey
+GET     /feedback-survey                  @controllers.FeedbackSurveyController.redirectExitSurvey

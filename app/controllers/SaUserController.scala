@@ -17,10 +17,12 @@
 package controllers
 
 import common.Dates.requestFormatter
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import constructors.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
 import forms.SaUserForm
+import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Play.current
@@ -32,15 +34,9 @@ import services.SessionCacheService
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object SaUserController extends SaUserController {
-  override lazy val calculatorConnector = CalculatorConnector
-  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
-}
-
-trait SaUserController extends ValidActiveSession {
-
-  val calculatorConnector: CalculatorConnector
-  val sessionCacheService: SessionCacheService
+class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
+                                 sessionCacheService: SessionCacheService,
+                                 implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
   val saUser: Action[AnyContent] = ValidateSession.async {
     implicit request =>

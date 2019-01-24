@@ -19,6 +19,7 @@ package views.calculation.gain
 import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
 import assets.MessageLookup.Resident.{Shares => CommonSharesMessages}
 import assets.MessageLookup.{Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.WorthWhenInheritedForm._
 import org.jsoup.Jsoup
@@ -29,9 +30,11 @@ import views.html.calculation.{gain => views}
 
 class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+
   "worthWhenInherited view" should {
     lazy val form = worthWhenInheritedForm
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -99,7 +102,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
 
   "worthWhenInherited View with form without errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -117,7 +120,7 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
 
   "worthWhenInherited View with form with errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication)
+    lazy val view = views.worthWhenInherited(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

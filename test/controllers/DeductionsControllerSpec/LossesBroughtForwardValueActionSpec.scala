@@ -17,8 +17,10 @@
 package controllers.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
+import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
@@ -38,12 +40,14 @@ import scala.concurrent.Future
 class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar{
 
   implicit lazy val actorSystem = ActorSystem()
+  lazy val materializer = mock[Materializer]
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     def setGetTarget(getData: Option[LossesBroughtForwardValueModel],
                      disposalDateModel: DisposalDateModel,
@@ -59,11 +63,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController {
-        override val calcConnector = mockCalcConnector
-        override val sessionCacheConnector = mockSessionCacheConnector
-        override val sessionCacheService: SessionCacheService = mockSessionCacheService
-      }
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig)
     }
 
     "request has a valid session with no keystore data" should {
@@ -81,11 +81,11 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       }
 
       s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2015/16")
       }
 
       s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward().url}'" in {
-        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual
           controllers.routes.DeductionsController.lossesBroughtForward().url
       }
     }
@@ -105,13 +105,15 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       }
 
       s"return a title of ${messages.title("2015/15")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2014/15")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2014/15")
       }
     }
 
     "request has an invalid session" should {
-      lazy val result = DeductionsController.lossesBroughtForwardValue(fakeRequest)
-
+      lazy val disposalDateModel = DisposalDateModel(10, 10, 2014)
+      lazy val taxYearModel = TaxYearModel("2014/15", false, "2015/16")
+      lazy val target = setGetTarget(Some(LossesBroughtForwardValueModel(BigDecimal(1000))), disposalDateModel, taxYearModel)
+      lazy val result = target.lossesBroughtForwardValue(fakeRequest)
       "return a status of 303" in {
         status(result) shouldBe 303
       }
@@ -127,7 +129,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val gainModel = mock[GainAnswersModel]
     val summaryModel = mock[DeductionGainAnswersModel]
 
@@ -163,11 +165,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
         )
 
-      new DeductionsController {
-        override val calcConnector = mockCalcConnector
-        override val sessionCacheConnector = mockSessionCacheConnector
-        override val sessionCacheService: SessionCacheService = mockSessionCacheService
-      }
+      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig)
     }
 
     "given a valid form" when {
@@ -241,7 +239,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       }
 
       s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2015/16")
       }
     }
   }

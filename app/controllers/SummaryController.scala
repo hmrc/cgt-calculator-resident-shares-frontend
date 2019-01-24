@@ -20,9 +20,11 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates._
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
+import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Play.current
@@ -30,21 +32,16 @@ import play.api.i18n.Messages.Implicits._
 import play.api.mvc.Result
 import services.SessionCacheService
 import views.html.calculation.{summary => views}
+
 import scala.util.Random
 import play.api.Logger
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
-object SummaryController extends SummaryController {
-  override lazy val calculatorConnector = CalculatorConnector
-  override lazy val sessionCacheService: SessionCacheService = SessionCacheService
-}
-
-trait SummaryController extends ValidActiveSession {
-
-  val calculatorConnector: CalculatorConnector
-  val sessionCacheService: SessionCacheService
+class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
+                                  sessionCacheService: SessionCacheService,
+                                  implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
 
   override val homeLink = controllers.routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink

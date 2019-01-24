@@ -16,12 +16,14 @@
 
 package controllers
 
+import akka.stream.Materializer
 import assets.{MessageLookup, ModelsAsset}
+import com.codahale.metrics.SharedMetricRegistries
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
-import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
 import models.resident.shares.GainAnswersModel
-import models.resident.shares.DeductionGainAnswersModel
+import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -29,16 +31,23 @@ import org.scalatest.mock.MockitoSugar
 import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
 
 class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
 
+  lazy val materializer = mock[Materializer]
+  implicit val hc = HeaderCarrier(sessionId = Some(SessionId("sessionId")))
+
   def setupController(gainAnswersModel: GainAnswersModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
                       taxOwed: BigDecimal): SaUserController = {
+    SharedMetricRegistries.clear()
     val mockConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication().injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
@@ -65,16 +74,14 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
     when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
 
-    new SaUserController {
-      override val calculatorConnector: CalculatorConnector = mockConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new SaUserController(mockConnector, mockSessionCacheService, mockConfig)
   }
 
   "Calling .saUser" when {
 
     "no session is provided" should {
-      lazy val result = SaUserController.saUser(fakeRequest)
+      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+      lazy val result = controller.submitSaUser(fakeRequest)
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -86,14 +93,23 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
     }
 
     "a session is provided" should {
-      lazy val result = SaUserController.saUser(fakeRequestWithSession)
+      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+      lazy val result = controller.submitSaUser(fakeRequestWithSession)
 
-      "return a status of 200" in {
-        status(result) shouldBe 200
+      "return a status of 400 when there is no form body in the request" in {
+        status(result) shouldBe 400
+      }
+
+      "return a status of 200 when form body is correct" in {
+        lazy val result = controller.submitSaUser(fakeRequestWithSession.withFormUrlEncodedBody(
+          "isInSa" -> "Yes"
+        ))
+        status(result) shouldBe 303
+        redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/what-next-sa-no-gain-over-limit")
       }
 
       "load the saUser page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.SaUser.title
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.SaUser.title
       }
     }
   }
@@ -101,7 +117,8 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
   "Calling .submitSaUser" when {
 
     "no session is provided" should {
-      lazy val result = SaUserController.submitSaUser(fakeRequest)
+      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+      lazy val result = controller.submitSaUser(fakeRequest)
 
       "return a status of 303" in {
         status(result) shouldBe 303

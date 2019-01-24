@@ -16,25 +16,35 @@
 
 package config
 
-import config.FrontendGlobal.{onBadRequest, onError, onHandlerNotFound}
+import javax.inject.Inject
 import models.CGTClientException
-import play.api.Logger
+import play.api.{Configuration, Logger}
 import play.api.http.HeaderNames.CACHE_CONTROL
-import play.api.http.HttpErrorHandler
+import play.api.mvc.Results.{BadRequest, NotFound}
 import play.api.http.Status._
-import play.api.mvc.{RequestHeader, Result}
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
+import play.api.i18n.MessagesApi
+import play.api.mvc.{Request,RequestHeader, Result}
+import play.api.Play.current
 
+
+import play.twirl.api.Html
+import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, FrontendErrorHandler}
 import scala.concurrent.Future
 
-class CgtErrorHandler extends HttpErrorHandler {
-  val homeLink = controllers.routes.GainController.disposalDate().url
 
-  override def onClientError(request: RequestHeader, statusCode: Int, message: String): Future[Result] = {
+class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
+                                implicit val appConfig: ApplicationConfig) extends FrontendErrorHandler {
+
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit req:Request[_]): Html = {
+    val homeNavLink = controllers.routes.GainController.disposalDate().url
+    views.html.error_template(pageTitle, heading, message, homeNavLink)
+  }
+
+  def onClientError(request: RequestHeader, statusCode: Int, message: String)(implicit req:Request[_]): Future[Result] = {
     statusCode match {
-      case BAD_REQUEST => onBadRequest(request, message)
-      case NOT_FOUND => onHandlerNotFound(request)
-      case _ => onError(request, new CGTClientException(s"Client Error Occurred with Status $statusCode and message $message"))
+      case BAD_REQUEST => Future.successful(BadRequest(badRequestTemplate(req)))
+      case NOT_FOUND => Future.successful(NotFound(notFoundTemplate(req)))
+      case _ => Future.successful(resolveError(request, CGTClientException(s"Client Error Occurred with Status $statusCode and message $message")))
     }
   }
 
@@ -43,7 +53,7 @@ class CgtErrorHandler extends HttpErrorHandler {
       case ApplicationException(_, result, _) =>
         Logger.warn(s"Key-store None.get handled from: ${request.uri}")
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
-      case e => onError(request, e)
+      case e => Future.successful(resolveError(request, e))
     }
   }
 }

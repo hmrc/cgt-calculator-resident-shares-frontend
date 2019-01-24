@@ -25,6 +25,7 @@ import views.html.calculation.{checkYourAnswers => views}
 import assets.MessageLookup.Resident.Shares.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
+import config.ApplicationConfig
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.api.mvc.Call
@@ -35,9 +36,10 @@ class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with Fa
   val fakeLang: Lang = Lang("en")
   val dummyBackLink = "backLink"
   val dummyPostCall: Call = Call("POST", "/dummy-url")
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang, mockConfig)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {

@@ -17,9 +17,10 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.GainController
@@ -36,6 +37,7 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import scala.concurrent.Future
 
 class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -44,6 +46,7 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](ArgumentMatchers.eq(keyStoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -51,11 +54,7 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
     when(mockSessionCacheConnector.saveFormData[DidYouInheritThemModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .didYouInheritThem from the resident GainController" when {
@@ -70,7 +69,7 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
       }
 
       s"return some html with title of ${messages.question}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.question
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.question
       }
     }
 
@@ -136,7 +135,7 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("wereInherited", ""))
       lazy val result = target.submitDidYouInheritThem(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a status of 400" in {
         status(result) shouldBe 400

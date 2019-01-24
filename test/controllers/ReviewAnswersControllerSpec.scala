@@ -21,7 +21,7 @@ import java.time.LocalDate
 import akka.stream.Materializer
 import akka.util.Timeout
 import assets.MessageLookup
-import common.resident.HowYouBecameTheOwnerKeys
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import models.resident._
@@ -31,18 +31,16 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
-import org.scalatestplus.play.OneAppPerSuite
-import play.api.Play
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
-import uk.gov.hmrc.http.HeaderCarrier
 
-class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
-
+class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
   val date: LocalDate = LocalDate.of(2016, 5, 8)
   val totalLossModel: GainAnswersModel = GainAnswersModel(date, soldForLessThanWorth = false, Some(100000), None, 1000,
     ownerBeforeLegislationStart = false, None, Some(false), None, Some(150000), 1500)
@@ -60,8 +58,10 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
   def setupController(gainResponse: GainAnswersModel,
                       deductionsResponse: DeductionGainAnswersModel,
                       taxYearModel: Option[TaxYearModel] = None): ReviewAnswersController = {
+
+    val mockSessionCacheService = mock[SessionCacheService]
     val mockConnector = mock[CalculatorConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val appConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainResponse))
@@ -75,10 +75,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
     when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswersModel))
 
-    new ReviewAnswersController {
-      override val calculatorConnector: CalculatorConnector = mockConnector
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
-    }
+    new ReviewAnswersController(mockConnector, mockSessionCacheService, appConfig)
   }
 
   "Calling .reviewGainAnswers" when {
@@ -105,11 +102,11 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the acquisition costs page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.GainController.acquisitionCosts().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.back-link").attr("href") shouldBe controllers.routes.GainController.acquisitionCosts().url
       }
     }
   }
@@ -144,11 +141,11 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the brought forward losses value page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue().url
       }
     }
 
@@ -164,11 +161,11 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the brought forward losses page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward().url
       }
     }
   }
@@ -203,11 +200,11 @@ class ReviewAnswersControllerSpec extends UnitSpec with OneAppPerSuite with Fake
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the personal allowance page" in {
-        Jsoup.parse(bodyOf(result)).select("a.back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance().url
       }
     }
   }

@@ -18,28 +18,30 @@ package connectors
 
 import java.time.LocalDate
 
-import config.{WSHttp, WiringConfig}
 import constructors.CalculateRequestConstructor
+import javax.inject.Inject
 import models._
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.joda.time.DateTime
+import play.api.Mode.Mode
+import play.api.{Configuration, Environment, Mode, Play}
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.{HeaderCarrier, HttpGet}
+import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, DefaultHttpClient}
 import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
-import uk.gov.hmrc.play.frontend.exceptions.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-object CalculatorConnector extends CalculatorConnector with ServicesConfig with WiringConfig {
-  override val http: WSHttp.type = WSHttp
-  override val serviceUrl: String = baseUrl("capital-gains-calculator")
-}
+class CalculatorConnector @Inject()( environment: Environment, http: DefaultHttpClient) extends ServicesConfig {
 
-trait CalculatorConnector {
-  val http: HttpGet
-  val serviceUrl: String
+  override def mode :Mode.Mode = Play.current.mode
+  override def runModeConfiguration: Configuration = Play.current.configuration
+
+
+  val serviceUrl: String = baseUrl("capital-gains-calculator")
+
   val homeLink: String = controllers.routes.GainController.disposalDate().url
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")

@@ -17,6 +17,7 @@
 package views.calculation.deductions
 
 import assets.MessageLookup.{LossesBroughtForward => messages, Resident => commonMessages}
+import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
@@ -27,13 +28,13 @@ import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 
 class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
-
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
 
   "Reliefs view" should {
 
     lazy val view = views.lossesBroughtForward(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home-link", "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+      "home-link", "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -97,7 +98,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
   "Losses Brought Forward view with pre-selected value of yes" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "Yes")))
     lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+      "home", "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -108,7 +109,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
   "Losses Brought Forward view with pre-selected value of no" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "No")))
     lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+      "home", "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
@@ -119,7 +120,7 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
   "Losses Brought Forward view with errors" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "")))
     lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, applicationMessages, fakeApplication)
+      "home", "navTitle")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

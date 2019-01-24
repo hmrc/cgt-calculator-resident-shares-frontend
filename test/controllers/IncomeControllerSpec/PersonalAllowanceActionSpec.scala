@@ -17,26 +17,29 @@
 package controllers.IncomeControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
+import akka.stream.Materializer
+import assets.MessageLookup.{PersonalAllowance => messages}
+import com.codahale.metrics.SharedMetricRegistries
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
 import controllers.IncomeController
+import controllers.helpers.FakeRequestHelper
+import models.resident.income.PersonalAllowanceModel
+import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
+import org.scalatest.mock.MockitoSugar
+import org.scalatestplus.play.OneAppPerSuite
 import play.api.test.Helpers._
-import assets.MessageLookup.{PersonalAllowance => messages}
-import common.Dates
-import models.resident.{DisposalDateModel, TaxYearModel}
-import models.resident.income.PersonalAllowanceModel
 import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future
 
-class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class PersonalAllowanceActionSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -44,8 +47,11 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),
                   disposalDateModel: DisposalDateModel,
                   taxYearModel: TaxYearModel): IncomeController = {
+
+    SharedMetricRegistries.clear()
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockConfig = fakeApplication().injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](ArgumentMatchers.eq(keystoreKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
@@ -66,10 +72,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       .thenReturn(Future.successful(Some(taxYearModel)))
 
 
-    new IncomeController {
-      override val calcConnector: CalculatorConnector = mockCalcConnector
-      override val sessionCacheConnector: SessionCacheConnector = mockSessionCacheConnector
-    }
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockConfig)
   }
 
   "Calling .personalAllowance from the IncomeController" when {
@@ -90,7 +93,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.question("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.question("2015/16")
       }
     }
 
@@ -110,7 +113,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.question("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.question("2015/16")
       }
     }
   }
@@ -157,7 +160,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       lazy val target = setupTarget(None, disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
       lazy val result = target.submitPersonalAllowance(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 
       "return a 400" in {
         status(result) shouldBe 400

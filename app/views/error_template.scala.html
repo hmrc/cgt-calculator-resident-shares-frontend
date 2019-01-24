@@ -16,7 +16,7 @@
 
 @import config.ApplicationConfig
 @import play.api.Application
-@(pageTitle: String, heading: String, message: String, homeNavLink: String)(implicit request: Request[_], messages: Messages, application: Application)
+@(pageTitle: String, heading: String, message: String, homeNavLink: String)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
 
 @contentHeader = {
   <h1>@heading</h1>
@@ -26,4 +26,4 @@
   <p>@message</p>
 }
 
-@govuk_wrapper(appConfig = ApplicationConfig, title = pageTitle, contentHeader = Some(contentHeader), mainContent = mainContent, homeLink = homeNavLink)
+@govuk_wrapper(appConfig = applicationConfig, title = pageTitle, contentHeader = Some(contentHeader), mainContent = mainContent, homeLink = homeNavLink)

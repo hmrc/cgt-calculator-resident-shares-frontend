@@ -20,6 +20,7 @@ import akka.actor.ActorSystem
 import akka.stream.ActorMaterializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
+import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
@@ -53,6 +54,7 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
@@ -83,11 +85,8 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
-    new ReportController {
-      override val calcConnector: CalculatorConnector = mockCalculatorConnector
+    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockConfig) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
-
-      override val sessionCacheService: SessionCacheService = mockSessionCacheService
     }
   }
 
