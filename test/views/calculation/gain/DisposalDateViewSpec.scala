@@ -107,10 +107,6 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     "have the error summary message 'Enter a real date'" in {
       doc.body.getElementById("disposalDateDay-error-summary").text shouldBe commonMessages.errorInvalidDate
     }
-
-    "have the input error message 'Enter a real date'" in {
-      doc.body.getElementsByClass("error-notification").text shouldBe commonMessages.Shares.DisposalValue.nonValidDate
-    }
   }
 
   "Disposal Date view with an empty field date input error" should {
