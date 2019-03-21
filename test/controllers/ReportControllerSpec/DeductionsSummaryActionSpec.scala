@@ -22,14 +22,15 @@ import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import config.ApplicationConfig
 import connectors.CalculatorConnector
-import controllers.ReportController
+import controllers.{CgtLanguageController, ReportController}
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
-import play.api.mvc.RequestHeader
+import play.api.i18n.Lang
+import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -51,7 +52,9 @@ class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockLang = mock[Lang]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
@@ -62,7 +65,8 @@ class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with
     when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
-    when(mockCalculatorConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.calculateRttShareChargeableGain
+    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(chargeableGainResultModel)
 
     when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -74,7 +78,7 @@ class DeductionsSummaryActionSpec extends UnitSpec with WithFakeApplication with
     when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockConfig) {
+    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockMCC) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

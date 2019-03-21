@@ -54,7 +54,7 @@ class CgtErrorHandlerSpec extends UnitSpec with WithFakeApplication {
         Results.Ok("OK")
       }
       case GET(p"/application-exception") => Action.async { request =>
-        throw new ApplicationException("", Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "Test exception thrown")
+        throw new ApplicationException(Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "Test exception thrown")
       }
       case GET(p"/other-error") => Action.async { request =>
         throw new IllegalArgumentException("Other Exception Thrown")

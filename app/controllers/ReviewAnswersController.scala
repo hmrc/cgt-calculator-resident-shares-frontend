@@ -26,19 +26,22 @@ import controllers.predicates.ValidActiveSession
 import javax.inject.Inject
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
-import play.api.mvc.{Action, AnyContent}
-import views.html.calculation.checkYourAnswers.checkYourAnswers
 import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.i18n.{I18nSupport, Lang}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import services.SessionCacheService
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import views.html.calculation.checkYourAnswers.checkYourAnswers
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector,
                                         sessionCacheService: SessionCacheService,
-                                        implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
-
+                                        mcc: MessagesControllerComponents,
+                                        lc: CgtLanguageController)(implicit val appConfig: ApplicationConfig)
+  extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
     calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
@@ -50,6 +53,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
   def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = sessionCacheService.getShareDeductionAnswers
 
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit val lang: Lang = lc.lang
     implicit request =>
       getGainAnswers.map { answers =>
         Ok(checkYourAnswers(routes.SummaryController.summary(), controllers.routes.GainController.acquisitionCosts().url, answers, None, None))
@@ -57,6 +61,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
   }
 
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit val lang: Lang = lc.lang
     def generateBackUrl(deductionGainAnswers: DeductionGainAnswersModel): Future[String] = {
       if (deductionGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) {
         Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
@@ -75,6 +80,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
   }
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
+    implicit val lang: Lang = lc.lang
     implicit request =>
       val getCurrentTaxYear = Dates.getCurrentTaxYear
       val getIncomeAnswers = sessionCacheService.getShareIncomeAnswers

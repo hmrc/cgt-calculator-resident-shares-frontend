@@ -23,16 +23,17 @@ import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{whatNext => views}
 
 class WhatNextSANoGainViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
-
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "The whatNextSaNoGain view" should {
 
-    lazy val view = views.whatNextSANoGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.whatNextSANoGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {

@@ -23,13 +23,14 @@ import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
-import controllers.DeductionsController
+import controllers.{CgtLanguageController, DeductionsController}
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
@@ -41,13 +42,17 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
   implicit lazy val actorSystem = ActorSystem()
   lazy val materializer = mock[Materializer]
+  val mockCalcConnector = mock[CalculatorConnector]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val gainModel = mock[GainAnswersModel]
+  val summaryModel = mock[DeductionGainAnswersModel]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     def setGetTarget(getData: Option[LossesBroughtForwardValueModel],
                      disposalDateModel: DisposalDateModel,
@@ -63,7 +68,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig)
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC, mockLangContrl)
     }
 
     "request has a valid session with no keystore data" should {
@@ -126,13 +131,6 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
   "Calling .submitLossesBroughtForwardValue from the resident DeductionsController" when {
 
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    val gainModel = mock[GainAnswersModel]
-    val summaryModel = mock[DeductionGainAnswersModel]
-
     def setPostTarget(gainAnswers: GainAnswersModel,
                       chargeableGainAnswers: DeductionGainAnswersModel,
                       chargeableGain: ChargeableGainResultModel,
@@ -150,7 +148,8 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(chargeableGain)))
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+        (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -165,7 +164,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
         )
 
-      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig)
+      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig, mockMCC, mockLangContrl)
     }
 
     "given a valid form" when {

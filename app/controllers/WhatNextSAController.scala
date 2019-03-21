@@ -16,24 +16,28 @@
 
 package controllers
 
-import controllers.predicates.ValidActiveSession
-import play.api.mvc.{Action, AnyContent}
-import common.Dates._
 import java.time._
 
+import common.Dates._
 import common.KeystoreKeys
-import config.{AppConfig, ApplicationConfig}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import config.ApplicationConfig
+import connectors.SessionCacheConnector
+import controllers.predicates.ValidActiveSession
 import javax.inject.Inject
 import models.resident.DisposalDateModel
-import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
-
-import scala.concurrent.Future
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnector,
-                                     implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
+                                     mcc: MessagesControllerComponents)
+                                    (implicit val appConfig: ApplicationConfig)
+  extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   val backLink: String = controllers.routes.SaUserController.saUser().url
   lazy val iFormUrl: String = appConfig.residentIFormUrl

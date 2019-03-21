@@ -32,8 +32,10 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{summary => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.MessagesControllerComponents
 
 class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
@@ -56,7 +58,7 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
-      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = true)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = true)(fakeRequest, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -412,7 +414,7 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", false, "2016/17")
-      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = false)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

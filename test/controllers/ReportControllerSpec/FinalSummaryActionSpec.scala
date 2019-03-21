@@ -30,7 +30,8 @@ import models.resident.{TaxYearModel, _}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
-import play.api.mvc.RequestHeader
+import play.api.i18n.Lang
+import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -54,7 +55,9 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockLang = mock[Lang]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
@@ -85,7 +88,7 @@ class FinalSummaryActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
-    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockConfig) {
+    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockMCC) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

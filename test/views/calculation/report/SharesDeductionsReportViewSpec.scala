@@ -25,10 +25,13 @@ import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{report => views}
 
 class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val fakeLang: Lang = Lang("en")
   "Deductions Report view" when {
@@ -64,7 +67,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+      lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -144,7 +147,7 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
 
     lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
 

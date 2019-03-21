@@ -22,18 +22,18 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.ValueBeforeLegislationStartForm._
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 
 class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "ValueBeforeLegislationStart View" should {
 
-    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -143,7 +143,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ValueBeforeLegislationStart View with form without errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -162,7 +162,7 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "ValueBeforeLegislationStart View with form with errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

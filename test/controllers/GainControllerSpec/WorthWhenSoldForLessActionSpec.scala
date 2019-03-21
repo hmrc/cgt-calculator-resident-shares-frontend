@@ -24,13 +24,16 @@ import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import org.mockito.ArgumentMatchers
 import config.{AppConfig, ApplicationConfig}
-import controllers.GainController
+import controllers.{CgtLanguageController, GainController}
 import models.resident.WorthWhenSoldForLessModel
+import org.joda.time.DateTime
 import org.scalatest.mock.MockitoSugar
 import org.mockito.Mockito._
 import org.jsoup.Jsoup
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -43,18 +46,22 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
   implicit lazy val actorSystem = ActorSystem()
 
   def setupTarget(getData: Option[WorthWhenSoldForLessModel]): GainController = {
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+    val mockSessionCacheService = mock[SessionCacheService]
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel]
+      (ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[WorthWhenSoldForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[WorthWhenSoldForLessModel]
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig) {
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl) {
       val config: AppConfig = mock[AppConfig]
     }
   }

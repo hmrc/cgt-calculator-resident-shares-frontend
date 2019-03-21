@@ -17,32 +17,39 @@
 package constructors
 
 import assets.MessageLookup.{SummaryPage => messages}
+import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.DeductionGainAnswersModel
+import org.scalatest.mockito.MockitoSugar
+import play.api.i18n.MessagesProvider
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
+class SummaryConstructorSpec extends UnitSpec with WithFakeApplication with MockitoSugar with FakeRequestHelper {
+  implicit val mockMessagesProvider = mock[MessagesProvider]
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  val summaryConstructor = new SummaryConstructor()
 
   "Calling the .gainMessage function" when {
 
     "result is a loss" should {
 
       s"return the message '${messages.totalLoss}'" in {
-        SummaryConstructor.gainMessage(BigDecimal(-1000)) shouldBe messages.totalLoss
+        summaryConstructor.gainMessage(BigDecimal(-1000)) shouldBe messages.totalLoss
       }
     }
 
     "result is a gain" should {
 
       s"return the message '${messages.totalGain}'" in {
-        SummaryConstructor.gainMessage(BigDecimal(1000)) shouldBe messages.totalGain
+        summaryConstructor.gainMessage(BigDecimal(1000)) shouldBe messages.totalGain
       }
     }
 
     "result is 0" should {
 
       s"return the message '${messages.totalGain}'" in {
-        SummaryConstructor.gainMessage(BigDecimal(0)) shouldBe messages.totalGain
+        summaryConstructor.gainMessage(BigDecimal(0)) shouldBe messages.totalGain
       }
     }
   }
@@ -53,7 +60,7 @@ class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
       lazy val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)), None)
 
       "return a value of '0'" in {
-        SummaryConstructor.broughtForwardLossesUsed(answers) shouldBe "0"
+        summaryConstructor.broughtForwardLossesUsed(answers) shouldBe "0"
       }
     }
 
@@ -62,7 +69,7 @@ class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
         Some(LossesBroughtForwardValueModel(BigDecimal(10000))))
 
       "return a value of '0'" in {
-        SummaryConstructor.broughtForwardLossesUsed(answers) shouldBe "0"
+        summaryConstructor.broughtForwardLossesUsed(answers) shouldBe "0"
       }
     }
 
@@ -71,7 +78,7 @@ class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
         Some(LossesBroughtForwardValueModel(BigDecimal(10000))))
 
       "return a value of '10,000'" in {
-        SummaryConstructor.broughtForwardLossesUsed(answers) shouldBe "10,000"
+        summaryConstructor.broughtForwardLossesUsed(answers) shouldBe "10,000"
       }
     }
 
@@ -80,7 +87,7 @@ class SummaryConstructorSpec extends UnitSpec with WithFakeApplication {
         Some(LossesBroughtForwardValueModel(BigDecimal(9999.99))))
 
       "return a value of '10,000' when rounded up" in {
-        SummaryConstructor.broughtForwardLossesUsed(answers) shouldBe "10,000"
+        summaryConstructor.broughtForwardLossesUsed(answers) shouldBe "10,000"
       }
     }
   }

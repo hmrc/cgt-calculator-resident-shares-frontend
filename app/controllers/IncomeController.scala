@@ -30,19 +30,22 @@ import models.resident._
 import models.resident.income._
 import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Result
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.{calculation => views}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
 class IncomeController @Inject()(calcConnector: CalculatorConnector,
                                  sessionCacheConnector: SessionCacheConnector,
-                                 implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
+                                 mcc: MessagesControllerComponents,
+                                 lc: CgtLanguageController)(implicit val appConfig: ApplicationConfig)
+  extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  val navTitle = Messages("calc.base.resident.shares.home")
+  def navTitle: String = lc.getMessage("calc.base.resident.shares.home")
   override val homeLink = controllers.routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
 
@@ -69,8 +72,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
     }
   }
 
-  val currentIncome = ValidateSession.async { implicit request =>
-
+  def currentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
     def routeRequest(backUrl: String, taxYear: TaxYearModel, currentTaxYear: String): Future[Result] = {
 
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
@@ -91,7 +93,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
     } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
-  val submitCurrentIncome = ValidateSession.async { implicit request =>
+  def submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
 
@@ -129,7 +131,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome().toString)
   private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance()
 
-  val personalAllowance = ValidateSession.async { implicit request =>
+  def personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def fetchStoredPersonalAllowance(): Future[Form[PersonalAllowanceModel]] = {
       sessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
@@ -155,10 +157,10 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
-  val submitPersonalAllowance = ValidateSession.async { implicit request =>
+  def submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def getMaxPA(year: Int): Future[Option[BigDecimal]] = {
-      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true)(hc)
+      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true)
     }
 
 

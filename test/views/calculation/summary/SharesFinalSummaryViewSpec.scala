@@ -20,16 +20,16 @@ import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => sum
 import common.Dates
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import models.resident.{IncomeAnswersModel, _}
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import models.resident.{IncomeAnswersModel, _}
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{summary => views}
 
 class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
@@ -88,7 +88,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         "",
         100,
         100,
-        showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
+        showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -502,7 +502,7 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
         "",
         100,
         100,
-        showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
+        showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

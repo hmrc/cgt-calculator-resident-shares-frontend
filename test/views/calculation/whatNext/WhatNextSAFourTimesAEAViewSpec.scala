@@ -25,14 +25,15 @@ import views.html.calculation.{whatNext => views}
 import assets.MessageLookup.WhatNextPages.{FourTimesAEA => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
 import config.ApplicationConfig
+import play.api.mvc.MessagesControllerComponents
 
 class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
-
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "The whatNextSAFourTimesAEA view" should {
 
-    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {

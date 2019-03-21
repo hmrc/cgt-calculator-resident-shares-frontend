@@ -18,34 +18,30 @@ package connectors
 
 import config.ApplicationConfig
 import javax.inject.Inject
-import play.api.Configuration
-import play.api.Mode.Mode
 import play.api.libs.json.Format
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
-import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 class SessionCacheConnector @Inject()(val http: DefaultHttpClient,
                                       calculatorConnector: CalculatorConnector,
-                                      appConfig: ApplicationConfig) extends SessionCache with ServicesConfig with AppName {
+                                      appConfig: ApplicationConfig) extends SessionCache {
 
-  override lazy val defaultSource = appName
-  def appNameConfiguration: Configuration = appConfig.runModeConfiguration
-  def runModeConfiguration: Configuration = appConfig.runModeConfiguration
-  def mode: Mode = appConfig.mode
+  override lazy val domain = appConfig.servicesConfig.getConfString("cachable.session-cache.domain",
+    throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))
+  override lazy val baseUri = appConfig.servicesConfig.baseUrl("cachable.session-cache")
 
-  override lazy val domain = getConfString("cachable.session-cache.domain", throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))
-  override lazy val baseUri = baseUrl("cachable.session-cache")
+  override lazy val defaultSource: String = "cgt-calculator-resident-shares-frontend"
 
   def saveFormData[T](key: String, data: T)(implicit hc: HeaderCarrier, formats: Format[T]): Future[CacheMap] = {
     cache(key, data)
   }
 
   def fetchAndGetFormData[T](key: String)(implicit hc: HeaderCarrier, formats: Format[T]): Future[Option[T]] = {
+
     fetchAndGetEntry(key)
   }
 

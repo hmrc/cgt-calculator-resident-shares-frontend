@@ -26,16 +26,18 @@ import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 
 class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Disposal Date view" should {
 
-    lazy val view = views.disposalDate(disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))), "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.disposalDate(disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))), "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -78,7 +80,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
   "Disposal Date view with a pre-filled form" should {
 
     lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).fill(DisposalDateModel(10, 6, 2016))
-    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a value auto-filled in the day input" in {
@@ -101,7 +103,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       ("disposalDate.month", "10"),
       ("disposalDate.year", "2016")
     ))
-    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the error summary message 'Enter a real date'" in {
@@ -116,7 +118,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       ("disposalDate.month", "10"),
       ("disposalDate.year", "2016")
     ))
-    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {
@@ -131,7 +133,7 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
       ("disposalDate.month", "b"),
       ("disposalDate.year", "c")
     ))
-    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.disposalDate(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {

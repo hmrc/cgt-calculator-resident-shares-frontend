@@ -28,10 +28,11 @@ import assets.ModelsAsset._
 import config.ApplicationConfig
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
-import play.api.mvc.Call
+import play.api.mvc.{Call, MessagesControllerComponents}
 import play.twirl.api.HtmlFormat
 
 class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val fakeLang: Lang = Lang("en")
   val dummyBackLink = "backLink"
@@ -39,7 +40,7 @@ class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with Fa
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang, mockConfig)
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession,  mockMessage, fakeApplication, fakeLang, mockConfig)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {

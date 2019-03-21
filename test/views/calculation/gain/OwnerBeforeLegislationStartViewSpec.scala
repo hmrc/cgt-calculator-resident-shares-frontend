@@ -23,18 +23,18 @@ import controllers.helpers.FakeRequestHelper
 import forms.OwnerBeforeLegislationStartForm._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Owned Before 1982 view with an empty form" should {
 
-    lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm, "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm, "home-link", Some("back-link"))(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -216,7 +216,7 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
 
   "Owned Before 1982 view with a filled form" which {
     lazy val view = views.ownerBeforeLegislationStart(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(true)),
-      "home-link", Some("back-link"))(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      "home-link", Some("back-link"))(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -232,7 +232,7 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
   "Owned Before 1982 view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownerBeforeLegislationStart" -> ""))
-    lazy val view = views.ownerBeforeLegislationStart(form, "home", Some("back"))(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.ownerBeforeLegislationStart(form, "home", Some("back"))(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

@@ -17,18 +17,20 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
-import controllers.{GainController, routes}
+import controllers.{CgtLanguageController, GainController, routes}
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
+import play.api.i18n.{I18nSupport, MessagesApi}
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
@@ -36,25 +38,29 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplication
+  with FakeRequestHelper with MockitoSugar {
   lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
+  val mockCalcConnector = mock[CalculatorConnector]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockSessionCacheService = mock[SessionCacheService]
+  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
 
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel]
+      (ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[ValueBeforeLegislationStartModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[ValueBeforeLegislationStartModel]
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
   }
 
   "Calling .valueBeforeLegislationStart from the GainCalculationController" when {

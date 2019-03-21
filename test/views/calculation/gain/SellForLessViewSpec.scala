@@ -27,14 +27,16 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.MessagesControllerComponents
 
 class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Sell for less view with an empty form" should {
 
-    lazy val view = views.sellForLess(sellForLessForm, "home-link", "back-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.sellForLess(sellForLessForm, "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -215,7 +217,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   }
 
   "Sell for less view with a filled form" which {
-    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", "back-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -231,7 +233,7 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
   "Sell for less view with form errors" should {
 
     lazy val form = sellForLessForm.bind(Map("sellForLess" -> ""))
-    lazy val view = views.sellForLess(form, "home-link", "back-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.sellForLess(form, "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

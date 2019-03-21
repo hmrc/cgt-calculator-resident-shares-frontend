@@ -17,9 +17,8 @@
 package config
 
 import javax.inject.Inject
-import play.api.Mode.Mode
-import play.api.{Configuration, Environment}
-import uk.gov.hmrc.play.config.ServicesConfig
+import play.api.Environment
+import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 trait AppConfig {
   val assetsPrefix: String
@@ -34,29 +33,27 @@ trait AppConfig {
   val feedbackSurvey: String
 }
 
-class ApplicationConfig @Inject()(environment: Environment, config: Configuration) extends AppConfig with ServicesConfig {
+class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: ServicesConfig) extends AppConfig {
 
-  private def loadConfig(key: String) = config.getString(key).getOrElse(throw new Exception(s"Missing configuration key: $key"))
-  private def getFeature(key: String) = config.getBoolean(key).getOrElse(false)
+  private def loadConfig(key: String) = servicesConfig.getString(key)
+  private def getFeature(key: String) = servicesConfig.getBoolean(key)
 
-  private lazy val contactFrontendService = baseUrl("contact-frontend")
-  private lazy val contactHost = config.getString(s"$env.microservice.services.contact-frontend.host").getOrElse("")
+  private lazy val contactFrontendService = servicesConfig.baseUrl("contact-frontend")
+  lazy val contactHost = servicesConfig.getConfString("contact-frontend.www", "")
 
-  override lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
-  override lazy val analyticsToken = loadConfig(s"google-analytics.token")
-  override lazy val analyticsHost = loadConfig(s"google-analytics.host")
+  lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
+  lazy val analyticsToken = loadConfig(s"google-analytics.token")
+  lazy val analyticsHost = loadConfig(s"google-analytics.host")
 
-  override val contactFormServiceIdentifier = "CGT"
-  override lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
-  override lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
-  override lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
-  override lazy val feedbackSurvey: String = loadConfig(s"feedback-survey-frontend.url")
+  val contactFormServiceIdentifier = "CGT"
+  lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
+  lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
+  lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
+  lazy val feedbackSurvey: String = loadConfig(s"feedback-survey-frontend.url")
 
 
-  override lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
+  lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
 
-  override lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
-
-  override def mode: Mode = environment.mode
-  override def runModeConfiguration: Configuration = config
+  lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
+  lazy val baseUrl = servicesConfig.baseUrl("capital-gains-calculator")
 }

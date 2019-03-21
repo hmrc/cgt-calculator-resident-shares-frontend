@@ -23,14 +23,17 @@ import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
-import controllers.{GainController, routes}
+import controllers.{CgtLanguageController, GainController, routes}
 import models.resident.{DisposalDateModel, SellForLessModel, TaxYearModel}
+import org.joda.time.DateTime
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -45,22 +48,27 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockSessionCacheService = mock[SessionCacheService]
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(TaxYearModel("year", knownTaxYear, "year"))))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keyStoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keyStoreKeys.disposalDate))
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(DisposalDateModel(1, 1, 1))))
 
-    when(mockSessionCacheConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+      (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
   }
 
   "Calling .sellForLess from the resident shares GainController" when {

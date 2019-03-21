@@ -23,16 +23,18 @@ import forms.DisposalCostsForm._
 import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 
 class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Disposal Costs view" should {
 
-    lazy val view = views.disposalCosts(disposalCostsForm, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.disposalCosts(disposalCostsForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -163,7 +165,7 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
     "is due to mandatory field error" should {
 
       lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.disposalCosts(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      lazy val view = views.disposalCosts(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

@@ -60,7 +60,7 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
-    <div class="float--right">@language_selection(lc.languageMap, lc.langToCall, None)</div>
+    <div class="float--right">@calculation.language_selection(lc.languageMap, lc.langToCall, None)(messages)</div>
 }
 
 @govuk_wrapper(appConfig = appConfig,

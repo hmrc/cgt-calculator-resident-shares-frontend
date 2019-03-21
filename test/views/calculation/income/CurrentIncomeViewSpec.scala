@@ -27,8 +27,10 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{income => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.MessagesControllerComponents
 
 class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
@@ -36,7 +38,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
     lazy val backLink = controllers.routes.IncomeController.personalAllowance().toString
-    lazy val view = views.currentIncome(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.currentIncome(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -145,7 +147,7 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward().toString
-      lazy val view = views.currentIncome(form, backLink, taxYearModel, false)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      lazy val view = views.currentIncome(form, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

@@ -17,15 +17,16 @@
 package views.helpers
 
 import assets.MessageLookup.{Resident => commonMessages}
+import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryNumericRowHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
+class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  lazy val row = summaryNumericRowHelper("testID","testQ",2000)(applicationMessages)
+  lazy val row = summaryNumericRowHelper("testID","testQ",2000)(mockMessage)
   lazy val doc = Jsoup.parse(row.body)
 
   "The Summary Numeric Row Helper with no link" should {
@@ -99,7 +100,7 @@ class SummaryNumericRowHelperSpec extends UnitSpec with WithFakeApplication {
 
     s"if given data that includes a change link " should {
 
-      lazy val rowWithChangeLink = summaryNumericRowHelper("testID","testQ",2000,Some("link"))(applicationMessages)
+      lazy val rowWithChangeLink = summaryNumericRowHelper("testID","testQ",2000,Some("link"))(mockMessage)
       lazy val link = Jsoup.parse(rowWithChangeLink.body).select("a")
 
       "include a change link" which {

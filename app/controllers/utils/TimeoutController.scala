@@ -19,14 +19,14 @@ package controllers.utils
 import config.ApplicationConfig
 import javax.inject.Inject
 import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.warnings._
 
 import scala.concurrent.Future
 
-class TimeoutController @Inject()(implicit val appConfig: ApplicationConfig) extends FrontendController {
+class TimeoutController @Inject()(mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig)
+  extends FrontendController(mcc) {
 
   def timeout(restartUrl: String, homeLink: String) : Action[AnyContent] = Action.async { implicit request =>
     Future.successful(Ok(sessionTimeout(restartUrl, homeLink)))

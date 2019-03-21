@@ -28,11 +28,11 @@ import models.resident._
 import models.resident.shares.GainAnswersModel
 import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Call, Result}
+import play.api.i18n.I18nSupport
+import play.api.mvc.{Call, MessagesControllerComponents, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.{calculation => commonViews}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -41,11 +41,14 @@ import scala.concurrent.Future
 class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      sessionCacheConnector: SessionCacheConnector,
                                      sessionCacheService: SessionCacheService,
-                                     implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
+                                     implicit val appConfig: ApplicationConfig,
+                                     mcc: MessagesControllerComponents,
+                                     lc: CgtLanguageController)
+  extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   override val homeLink = routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
-  val navTitle = Messages("calc.base.resident.shares.home")
+  def navTitle: String = lc.getMessage("calc.base.resident.shares.home")
 
   def getDisposalDate(implicit hc: HeaderCarrier): Future[Option[DisposalDateModel]] = {
     sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
