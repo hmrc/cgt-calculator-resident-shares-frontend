@@ -23,7 +23,8 @@ import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import scala.concurrent.Future
 import uk.gov.hmrc.http.SessionKeys
 
-trait ValidActiveSession extends FrontendController {
+trait ValidActiveSession  {
+  self: FrontendController =>
 
   val homeLink: String = controllers.routes.GainController.disposalDate().url
   val sessionTimeoutUrl: String = homeLink

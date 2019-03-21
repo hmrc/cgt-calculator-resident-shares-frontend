@@ -24,13 +24,15 @@ import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
-import controllers.IncomeController
+import controllers.{CgtLanguageController, IncomeController}
 import models.resident._
 import models.resident.income._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.i18n.Lang
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -52,16 +54,21 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val mockLangControl = new CgtLanguageController(mockMCC, mockConfig)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](ArgumentMatchers.eq(keystoreKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel]
+      (ArgumentMatchers.eq(keystoreKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(storedData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))(ArgumentMatchers.any(),
+    when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel]
+      (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))(ArgumentMatchers.any(),
       ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(LossesBroughtForwardModel(lossesBroughtForward))))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDate)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -73,7 +80,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
 
       )
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockConfig)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, mockLangControl)
   }
 
   "Calling .currentIncome from the IncomeController with a session" when {

@@ -27,27 +27,28 @@ import models.resident.{ChargeableGainResultModel, TotalGainAndTaxOwedModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+class SaUserControllerSpec extends UnitSpec with FakeRequestHelper with MockitoSugar with WithFakeApplication {
 
   lazy val materializer = mock[Materializer]
   implicit val hc = HeaderCarrier(sessionId = Some(SessionId("sessionId")))
+  val mockConnector = mock[CalculatorConnector]
+  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
   def setupController(gainAnswersModel: GainAnswersModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
                       taxOwed: BigDecimal): SaUserController = {
     SharedMetricRegistries.clear()
-    val mockConnector = mock[CalculatorConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication().injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
@@ -74,7 +75,7 @@ class SaUserControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequest
     when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
 
-    new SaUserController(mockConnector, mockSessionCacheService, mockConfig)
+    new SaUserController(mockConnector, mockSessionCacheService, mockMCC)
   }
 
   "Calling .saUser" when {

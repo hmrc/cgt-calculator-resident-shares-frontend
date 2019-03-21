@@ -28,27 +28,29 @@ import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class WhatNextSaControllerSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+class WhatNextSaControllerSpec extends UnitSpec with FakeRequestHelper with MockitoSugar with WithFakeApplication {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
   lazy val materializer = mock[Materializer]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
     SharedMetricRegistries.clear()
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockConfig = fakeApplication().injector.instanceOf[ApplicationConfig]
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+      (ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
-    new WhatNextSAController(mockSessionCacheConnector, mockConfig)
+    new WhatNextSAController(mockSessionCacheConnector, mockMCC)(mockConfig)
   }
 
   "Calling .whatNextSAOverFourTimesAEA" when {

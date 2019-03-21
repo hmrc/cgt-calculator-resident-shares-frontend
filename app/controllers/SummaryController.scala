@@ -28,20 +28,21 @@ import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.Result
+import play.api.i18n.I18nSupport
+import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.{summary => views}
 
-import scala.util.Random
-import play.api.Logger
-
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
+import scala.util.Random
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                                   sessionCacheService: SessionCacheService,
-                                  implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
+                                  mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig)
+  extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   override val homeLink = controllers.routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
@@ -112,7 +113,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       totalCosts <- calculatorConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
-      maxAEA <- getMaxAEA(taxYearInt)(hc)
+      maxAEA <- getMaxAEA(taxYearInt)
       grossGain <- calculatorConnector.calculateRttShareGrossGain(answers)
       deductionAnswers <- sessionCacheService.getShareDeductionAnswers
       backLink <- buildDeductionsSummaryBackUrl(deductionAnswers)

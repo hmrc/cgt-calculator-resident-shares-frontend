@@ -20,6 +20,7 @@ import java.time.LocalDate
 import java.util.UUID
 
 import assets.ModelsAsset._
+import config.ApplicationConfig
 import models.resident.{ChargeableGainResultModel, TaxYearModel, TotalGainAndTaxOwedModel}
 import org.joda.time.DateTime
 import org.mockito.ArgumentMatchers
@@ -41,9 +42,9 @@ class CalculatorConnectorSpec extends UnitSpec with WithFakeApplication with Moc
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val sessionId = UUID.randomUUID.toString
   val homeLink = controllers.routes.GainController.disposalDate().url
-  val environment = mock[Environment]
+  val mockConfig = mock[ApplicationConfig]
 
-  object TargetCalculatorConnector extends CalculatorConnector(environment, mockHttp) {
+  object TargetCalculatorConnector extends CalculatorConnector(mockHttp, mockConfig) {
     override val serviceUrl = "dummy"
   }
 
@@ -177,7 +178,7 @@ class CalculatorConnectorSpec extends UnitSpec with WithFakeApplication with Moc
     "return an ApplicationException if a NoSuchElementException is returned" in {
       mockCalculateRttShareGrossGain(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)
-      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
     }
   }
@@ -211,7 +212,7 @@ class CalculatorConnectorSpec extends UnitSpec with WithFakeApplication with Moc
     "return an ApplicationException if a NoSuchElementException is returned" in {
       mockCalculateRttShareChargeableGain(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000)
-      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
     }
   }
@@ -245,7 +246,7 @@ class CalculatorConnectorSpec extends UnitSpec with WithFakeApplication with Moc
     "return an ApplicationException if a NoSuchElementException is returned" in {
       mockCalculateRttShareTotalGainAndTax(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000, incomeAnswers)
-      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
     }
   }
@@ -270,7 +271,7 @@ class CalculatorConnectorSpec extends UnitSpec with WithFakeApplication with Moc
     "return an ApplicationException if a NoSuchElementException is returned" in {
       mockGetSharesTotalCosts(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)
-      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException("cgt-calc-resident-shares-fe",
+      the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
     }
   }

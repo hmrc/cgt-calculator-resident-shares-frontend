@@ -17,9 +17,10 @@
 @import layouts.{govuk_template => hmrcGovUkTemplate}
 @import uk.gov.hmrc.play.views.html.{layouts => uiLayouts}
 @import uk.gov.hmrc.play.views.html.{helpers => uiHelpers}
+@import config.ApplicationConfig
+@import play.twirl.api.HtmlFormat
 
-
-@(appConfig: config.AppConfig,
+@(appConfig: ApplicationConfig,
   title: String,
   mainClass: Option[String] = None,
   mainDataAttributes: Option[Html] = None,

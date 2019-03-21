@@ -16,18 +16,19 @@
 
 package views.helpers
 
+import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryGainAndRateHelper
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
-class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication {
+class SummaryGainAndRateHelperSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  lazy val rowSingle = summaryGainAndRateHelper("testID","testQ", 1000, 18, None, None)(applicationMessages)
+  lazy val rowSingle = summaryGainAndRateHelper("testID","testQ", 1000, 18, None, None)(mockMessage)
   lazy val docSingle = Jsoup.parse(rowSingle.body)
 
-  lazy val rowDouble = summaryGainAndRateHelper("testID","testQ", 1000, 18, Some(2000), Some(28))(applicationMessages)
+  lazy val rowDouble = summaryGainAndRateHelper("testID","testQ", 1000, 18, Some(2000), Some(28))(mockMessage)
   lazy val docDouble = Jsoup.parse(rowDouble.body)
 
   "The Summary Gain and Rate Row Helper" should {

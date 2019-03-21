@@ -22,12 +22,12 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits.applicationMessages
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.{helpers => views}
 
 class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   "DeductionsSummaryPartial" when {
 
@@ -67,7 +67,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a banner" which {
@@ -323,7 +323,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for worth when sold for less" which {
@@ -373,7 +373,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for brought forward losses used" which {
@@ -427,7 +427,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for brought forward losses used" which {
@@ -487,7 +487,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {
@@ -537,7 +537,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
       val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
       lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
@@ -579,7 +579,7 @@ class DeductionsSummaryPartialViewSpec extends UnitSpec with WithFakeApplication
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = views.deductionsSummaryPartial(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, applicationMessages)
+        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {

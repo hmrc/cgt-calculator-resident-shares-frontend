@@ -21,15 +21,18 @@ import akka.stream.{ActorMaterializer, Materializer}
 import assets.MessageLookup.{OutsideTaxYears => messages}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.GainController
+import controllers.{CgtLanguageController, GainController}
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.joda.time.DateTime
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
@@ -41,8 +44,10 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockSessionCacheService = mock[SessionCacheService]
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDateModel)
@@ -50,7 +55,7 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYearModel)
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
   }
 
   "Calling .outsideTaxYears from the resident/shares GainCalculationController" when {

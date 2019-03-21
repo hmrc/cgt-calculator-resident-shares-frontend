@@ -22,18 +22,20 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import org.scalatest.mockito.MockitoSugar
-import play.api.Play.current
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent}
+import play.api.i18n.{Messages, MessagesProvider}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
 
+  implicit val config = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockMessagesProvider = mock[MessagesProvider]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   implicit lazy val actorSystem = ActorSystem()
   lazy val materializer = mock[Materializer]
-  implicit val config = fakeApplication.injector.instanceOf[ApplicationConfig]
+
 
   class fakeRequestTo(url: String, controllerAction: Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
@@ -42,7 +44,7 @@ class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeR
 
   }
 
-  val controller = new TimeoutController()
+  val controller = new TimeoutController(mockMCC)
 
   "TimeoutController.timeout" should {
 

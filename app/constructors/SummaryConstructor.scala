@@ -16,16 +16,15 @@
 
 package constructors
 
+import javax.inject.Inject
 import models.resident._
 import models.resident.shares.DeductionGainAnswersModel
-import play.api.i18n.Messages
+import play.api.i18n.{Messages, MessagesProvider}
 import uk.gov.hmrc.play.views.helpers.MoneyPounds
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 
 import scala.math.BigDecimal.RoundingMode
 
-object SummaryConstructor {
+class SummaryConstructor @Inject()(implicit messagesProvider: MessagesProvider){
 
   def gainMessage (result: BigDecimal): String = {
     if (result >= 0) Messages("calc.resident.summary.totalGain")

@@ -22,15 +22,18 @@ import assets.MessageLookup.{SharesAcquisitionValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.GainController
+import controllers.{CgtLanguageController, GainController}
 import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionValueModel
+import org.joda.time.DateTime
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -43,18 +46,22 @@ class AcquisitionValueActionSpec extends UnitSpec with WithFakeApplication with 
 
   def setupTarget(getData: Option[AcquisitionValueModel]): GainController = {
 
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionValueModel](ArgumentMatchers.eq(keystoreKeys.acquisitionValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionValueModel]
+      (ArgumentMatchers.eq(keystoreKeys.acquisitionValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[AcquisitionValueModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[AcquisitionValueModel]
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
   }
 
   "Calling .acquisitionValue from the GainCalculationController with session" when {

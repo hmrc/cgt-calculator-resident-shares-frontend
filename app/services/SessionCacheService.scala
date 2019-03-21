@@ -99,7 +99,6 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )
@@ -120,7 +119,6 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )
@@ -139,7 +137,6 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )

@@ -26,14 +26,16 @@ import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
+import play.api.mvc.MessagesControllerComponents
 
 class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Acquisition Value view" should {
 
-    lazy val view = views.acquisitionValue(acquisitionValueForm, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.acquisitionValue(acquisitionValueForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -152,7 +154,7 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
 
   "Acquisition Value View with form with errors" should {
     lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.acquisitionValue(form, "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.acquisitionValue(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

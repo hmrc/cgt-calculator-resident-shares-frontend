@@ -28,18 +28,21 @@ import it.innove.play.pdf.PdfGenerator
 import javax.inject.Inject
 import models.resident.TaxYearModel
 import play.api.Play.current
-import play.api.i18n.Messages
-import play.api.i18n.Messages.Implicits._
-import play.api.mvc.RequestHeader
+import play.api.i18n.{I18nSupport, Messages, Lang}
+import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
+import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
 import views.html.calculation.{report => views}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
-import uk.gov.hmrc.http.HeaderCarrier
 
 class ReportController @Inject()(calcConnector: CalculatorConnector,
                                  sessionCacheService: SessionCacheService,
-                                 implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
+                                 mcc: MessagesControllerComponents)
+                                (implicit val appConfig: ApplicationConfig)
+  extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   val pdfGenerator = new PdfGenerator
 
@@ -60,6 +63,7 @@ class ReportController @Inject()(calcConnector: CalculatorConnector,
 
   //###### Gain Summary Report ########\\
   val gainSummaryReport = ValidateSession.async { implicit request =>
+    implicit val lang: Lang = messagesApi.preferred(request).lang
     (for {
       answers <- sessionCacheService.getShareGainAnswers
       costs <- calcConnector.getSharesTotalCosts(answers)
@@ -71,12 +75,13 @@ class ReportController @Inject()(calcConnector: CalculatorConnector,
 
   //#####Deductions summary actions#####\\
   val deductionsReport = ValidateSession.async { implicit request =>
+    implicit val lang: Lang = messagesApi.preferred(request).lang
     (for {
       answers <- sessionCacheService.getShareGainAnswers
       costs <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
-      maxAEA <- getMaxAEA(taxYearInt)(hc)
+      maxAEA <- getMaxAEA(taxYearInt)
       deductionAnswers <- sessionCacheService.getShareDeductionAnswers
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
@@ -89,12 +94,13 @@ class ReportController @Inject()(calcConnector: CalculatorConnector,
   //#####Final summary actions#####\\
 
   val finalSummaryReport = ValidateSession.async { implicit request =>
+    implicit val lang: Lang = messagesApi.preferred(request).lang
     (for {
       answers <- sessionCacheService.getShareGainAnswers
       totalCosts <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       taxYearInt <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
-      maxAEA <- getMaxAEA(taxYearInt)(hc)
+      maxAEA <- getMaxAEA(taxYearInt)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       deductionAnswers <- sessionCacheService.getShareDeductionAnswers
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)

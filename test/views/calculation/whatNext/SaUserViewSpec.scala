@@ -17,25 +17,24 @@
 package views.calculation.whatNext
 
 import assets.MessageLookup
-import controllers.helpers.FakeRequestHelper
-import org.scalatestplus.play.OneAppPerSuite
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import assets.MessageLookup.{SaUser => messages}
 import config.ApplicationConfig
+import controllers.helpers.FakeRequestHelper
 import forms.SaUserForm
 import org.jsoup.Jsoup
+import play.api.mvc.MessagesControllerComponents
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.whatNext.saUser
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 
 class SaUserViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "SaUserView" when {
 
     "no errors are present" should {
-      lazy val view = saUser(SaUserForm.saUserForm)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      lazy val view = saUser(SaUserForm.saUserForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title of ${messages.title}" in {
@@ -132,7 +131,7 @@ class SaUserViewSpec extends UnitSpec with WithFakeApplication with FakeRequestH
 
     "errors are present" should {
       lazy val form = SaUserForm.saUserForm.bind(Map("isInSa" -> ""))
-      lazy val view = saUser(form)(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      lazy val view = saUser(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

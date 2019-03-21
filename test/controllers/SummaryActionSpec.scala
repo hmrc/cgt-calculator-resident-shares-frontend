@@ -30,6 +30,7 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -59,7 +60,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
@@ -73,7 +75,8 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
     when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
-    when(mockCalculatorConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.calculateRttShareChargeableGain
+    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(chargeableGainResultModel)
 
     when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
@@ -90,7 +93,7 @@ class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeReque
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
 
-    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockConfig)
+    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMCC)
   }
 
   "Calling .summary from the SummaryController for Shares" when {

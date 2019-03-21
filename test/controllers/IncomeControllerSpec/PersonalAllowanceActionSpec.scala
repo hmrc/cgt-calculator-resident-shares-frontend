@@ -23,25 +23,30 @@ import com.codahale.metrics.SharedMetricRegistries
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.IncomeController
+import controllers.{CgtLanguageController, IncomeController}
 import controllers.helpers.FakeRequestHelper
 import models.resident.income.PersonalAllowanceModel
 import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
-import org.scalatestplus.play.OneAppPerSuite
+import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class PersonalAllowanceActionSpec extends UnitSpec with OneAppPerSuite with FakeRequestHelper with MockitoSugar {
+class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
   lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
+  val mockCalcConnector = mock[CalculatorConnector]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val mockLangControl = new CgtLanguageController(mockMCC, mockConfig)
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),
@@ -49,11 +54,10 @@ class PersonalAllowanceActionSpec extends UnitSpec with OneAppPerSuite with Fake
                   taxYearModel: TaxYearModel): IncomeController = {
 
     SharedMetricRegistries.clear()
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockConfig = fakeApplication().injector.instanceOf[ApplicationConfig]
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](ArgumentMatchers.eq(keystoreKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+
+    when(mockSessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel]
+      (ArgumentMatchers.eq(keystoreKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(true))(ArgumentMatchers.any()))
@@ -62,17 +66,19 @@ class PersonalAllowanceActionSpec extends UnitSpec with OneAppPerSuite with Fake
     when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockSessionCacheConnector.saveFormData[PersonalAllowanceModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[PersonalAllowanceModel]
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDateModel)))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(taxYearModel)))
 
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockConfig)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, mockLangControl)
   }
 
   "Calling .personalAllowance from the IncomeController" when {

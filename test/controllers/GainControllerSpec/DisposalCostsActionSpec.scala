@@ -23,14 +23,17 @@ import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
-import controllers.GainController
+import controllers.{CgtLanguageController, GainController}
 import models.resident.DisposalCostsModel
+import org.joda.time.DateTime
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -42,19 +45,23 @@ class DisposalCostsActionSpec extends UnitSpec with WithFakeApplication with Fak
   implicit lazy val actorSystem = ActorSystem()
 
   def setupTarget(getData: Option[DisposalCostsModel]): GainController = {
-
+    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalCostsModel](ArgumentMatchers.eq(keystoreKeys.disposalCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalCostsModel]
+      (ArgumentMatchers.eq(keystoreKeys.disposalCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[DisposalCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[DisposalCostsModel]
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig) {
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl) {
     }
   }
 

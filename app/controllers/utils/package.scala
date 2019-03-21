@@ -39,7 +39,6 @@ package object utils {
         case e: NoSuchElementException =>
           Logger.warn(s"${request.uri} resulted in None.get, user redirected to start")
           throw ApplicationException(
-            "cgt-calculator-resident-shares-frontend",
             Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, sessionTimeoutUrl)),
             e.getMessage
           )

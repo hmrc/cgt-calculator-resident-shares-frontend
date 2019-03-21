@@ -16,20 +16,19 @@
 
 package views.calculation.summary
 
-import assets.MessageLookup.{SummaryDetails => messages}
-import assets.MessageLookup.{Resident => residentMessages}
+import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => messages}
 import common.Dates
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{summary => views}
 
 class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
@@ -70,7 +69,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
+      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -226,7 +225,7 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, applicationMessages, fakeApplication, mockConfig)
+      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {

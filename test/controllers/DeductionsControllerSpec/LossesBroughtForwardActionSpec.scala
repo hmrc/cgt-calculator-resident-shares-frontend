@@ -24,13 +24,14 @@ import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
-import controllers.DeductionsController
+import controllers.{CgtLanguageController, DeductionsController}
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
 import org.scalatest.mock.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
@@ -46,6 +47,12 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
   val summaryModel = mock[DeductionGainAnswersModel]
   val chargeableGainModel = mock[ChargeableGainResultModel]
   val materializer = mock[Materializer]
+  val mockCalcConnector = mock[CalculatorConnector]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
   def setupTarget(lossesBroughtForwardData: Option[LossesBroughtForwardModel],
                   gainAnswers: GainAnswersModel,
@@ -53,11 +60,6 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
                   chargeableGain: ChargeableGainResultModel,
                   disposalDate: Option[DisposalDateModel],
                   taxYear: Option[TaxYearModel], maxAnnualExemptAmount: Option[BigDecimal] = Some(BigDecimal(11100))): DeductionsController = {
-
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -72,7 +74,8 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
     when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(chargeableGain)))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDate)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
@@ -87,7 +90,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
       )
 
-    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig)
+    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC, mockLangContrl)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {

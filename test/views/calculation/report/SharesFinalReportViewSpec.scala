@@ -27,11 +27,13 @@ import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{report => views}
 
 class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
 
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val fakeLang: Lang = Lang("en")
   "Final Summary view" when {
 
@@ -75,7 +77,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
       lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-        false, 100, 100)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+        false, 100, 100)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
@@ -142,7 +144,7 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
     )
 
     lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false,
-    100, 100)(fakeRequestWithSession, applicationMessages, fakeApplication, fakeLang)
+    100, 100)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {

@@ -39,8 +39,7 @@ class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers wit
       val url = controllers.utils.routes.TimeoutController.timeout(homeLink, sessionTimeoutUrl).url
 
       whenReady(future.failed) {
-        case ApplicationException(appName, result, message) =>
-          appName should equal("cgt-calculator-resident-shares-frontend")
+        case ApplicationException(result, message) =>
           result.header.headers should contain("Location" -> url)
           result.header.status shouldBe SEE_OTHER
           message should equal("test message")

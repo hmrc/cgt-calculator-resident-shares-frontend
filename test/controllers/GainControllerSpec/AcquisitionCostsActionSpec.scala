@@ -22,17 +22,20 @@ import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.GainController
+import controllers.{CgtLanguageController, GainController}
 import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionCostsModel
 import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
 import models.resident.shares.gain.DidYouInheritThemModel
+import org.joda.time.DateTime
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatest.mock.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
+import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -45,6 +48,14 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
 
   val gainAnswersModel = mock[GainAnswersModel]
 
+  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockCalcConnector = mock[CalculatorConnector]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockMCC =fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
+
+
   def setupTarget(
                    acquisitionCostsData: Option[AcquisitionCostsModel],
                    ownedBeforeStartOfTaxData: Option[OwnerBeforeLegislationStartModel],
@@ -53,18 +64,16 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
                    totalGain: BigDecimal
                  ): GainController = {
 
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel]
+      (ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(acquisitionCostsData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
+      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(ownedBeforeStartOfTaxData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel]
+      (ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(inheritedThemData))
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
@@ -73,10 +82,11 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
     when(mockCalcConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockSessionCacheConnector.saveFormData[AcquisitionCostsModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[AcquisitionCostsModel]
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
   }
 
   "Calling .acquisitionCosts from the shares GainCalculationController" when {

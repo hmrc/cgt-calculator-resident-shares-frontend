@@ -50,7 +50,7 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
 
   override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
     exception match {
-      case ApplicationException(_, result, _) =>
+      case ApplicationException(result, _) =>
         Logger.warn(s"Key-store None.get handled from: ${request.uri}")
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
       case e => Future.successful(resolveError(request, e))

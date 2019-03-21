@@ -18,29 +18,26 @@ package connectors
 
 import java.time.LocalDate
 
+import config.ApplicationConfig
 import constructors.CalculateRequestConstructor
 import javax.inject.Inject
 import models._
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.joda.time.DateTime
-import play.api.Mode.Mode
-import play.api.{Configuration, Environment, Mode, Play}
 import play.api.mvc.Results._
-import uk.gov.hmrc.http.{HeaderCarrier, HttpGet}
+import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, DefaultHttpClient}
-import uk.gov.hmrc.play.config.{AppName, ServicesConfig}
+import play.api.libs.json.JodaWrites._
+import play.api.libs.json.JodaReads._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class CalculatorConnector @Inject()( environment: Environment, http: DefaultHttpClient) extends ServicesConfig {
+class CalculatorConnector @Inject()(http: DefaultHttpClient,
+                                    appConfig: ApplicationConfig) {
 
-  override def mode :Mode.Mode = Play.current.mode
-  override def runModeConfiguration: Configuration = Play.current.configuration
-
-
-  val serviceUrl: String = baseUrl("capital-gains-calculator")
+  val serviceUrl: String = appConfig.baseUrl
 
   val homeLink: String = controllers.routes.GainController.disposalDate().url
 
@@ -80,7 +77,6 @@ class CalculatorConnector @Inject()( environment: Environment, http: DefaultHttp
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )
@@ -97,7 +93,6 @@ class CalculatorConnector @Inject()( environment: Environment, http: DefaultHttp
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )
@@ -116,7 +111,6 @@ class CalculatorConnector @Inject()( environment: Environment, http: DefaultHttp
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )
@@ -127,7 +121,6 @@ class CalculatorConnector @Inject()( environment: Environment, http: DefaultHttp
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        "cgt-calc-resident-shares-fe",
         Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
         e.getMessage
       )

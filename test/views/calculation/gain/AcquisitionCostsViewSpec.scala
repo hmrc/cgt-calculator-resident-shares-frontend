@@ -23,16 +23,18 @@ import forms.AcquisitionCostsForm._
 import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
+import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 
 class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
   "Acquisition Costs shares view" should {
 
-    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -162,7 +164,7 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
     "is due to mandatory field error" should {
 
       lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.acquisitionCosts(form,  Some("back-link"), "home-link")(fakeRequest, applicationMessages, fakeApplication, mockConfig)
+      lazy val view = views.acquisitionCosts(form,  Some("back-link"), "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

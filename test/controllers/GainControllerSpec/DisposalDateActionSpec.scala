@@ -24,13 +24,14 @@ import assets.MessageLookup.{SharesDisposalDate => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.GainController
+import controllers.{CgtLanguageController, GainController}
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
@@ -43,44 +44,44 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
 
   implicit lazy val actorSystem = ActorSystem()
 
+  val mockCalcConnector = mock[CalculatorConnector]
+  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockSessionCacheService = mock[SessionCacheService]
+  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
+
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
 
-    val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
-    val mockSessionCacheService = mock[SessionCacheService]
-    val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheConnector.saveFormData[DisposalDateModel]
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
     when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
   }
 
   case class FakePOSTRequest (dateResponse: TaxYearModel, inputOne: (String, String), inputTwo: (String, String), inputThree: (String, String)) {
 
     def setupTarget(): GainController = {
 
-      val mockCalcConnector = mock[CalculatorConnector]
-      val mockSessionCacheConnector = mock[SessionCacheConnector]
-      val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-      val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(dateResponse)))
 
-      when(mockSessionCacheConnector.saveFormData[DisposalDateModel](ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheConnector.saveFormData[DisposalDateModel]
+        (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(mock[CacheMap]))
 
       when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-      new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockConfig)
+      new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
     }
 
     val target = setupTarget()

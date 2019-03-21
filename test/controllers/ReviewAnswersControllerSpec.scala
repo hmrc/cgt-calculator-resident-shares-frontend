@@ -30,7 +30,8 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mock.MockitoSugar
+import org.scalatest.mockito.MockitoSugar
+import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
@@ -40,6 +41,13 @@ import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
 class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+
+  val mockSessionCacheService = mock[SessionCacheService]
+  val mockConnector = mock[CalculatorConnector]
+  implicit val appConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val mockLangContl = new CgtLanguageController(mockMCC, appConfig)
+
   lazy val materializer = mock[Materializer]
   val date: LocalDate = LocalDate.of(2016, 5, 8)
   val totalLossModel: GainAnswersModel = GainAnswersModel(date, soldForLessThanWorth = false, Some(100000), None, 1000,
@@ -55,13 +63,10 @@ class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with
   implicit val timeout: Timeout = Timeout.apply(Duration.create(20, "seconds"))
   implicit val hc: HeaderCarrier = new HeaderCarrier()
 
+
   def setupController(gainResponse: GainAnswersModel,
                       deductionsResponse: DeductionGainAnswersModel,
                       taxYearModel: Option[TaxYearModel] = None): ReviewAnswersController = {
-
-    val mockSessionCacheService = mock[SessionCacheService]
-    val mockConnector = mock[CalculatorConnector]
-    val appConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainResponse))
@@ -75,7 +80,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with
     when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswersModel))
 
-    new ReviewAnswersController(mockConnector, mockSessionCacheService, appConfig)
+    new ReviewAnswersController(mockConnector, mockSessionCacheService, mockMCC, mockLangContl)
   }
 
   "Calling .reviewGainAnswers" when {

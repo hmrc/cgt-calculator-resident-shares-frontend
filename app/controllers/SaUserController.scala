@@ -27,16 +27,21 @@ import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Play.current
 import play.api.data.Form
+import play.api.i18n.I18nSupport
 import play.api.i18n.Messages.Implicits._
-import play.api.mvc.{Action, AnyContent, Result}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import services.SessionCacheService
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import scala.concurrent.ExecutionContext.Implicits.global
+
 
 class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
                                  sessionCacheService: SessionCacheService,
-                                 implicit val appConfig: ApplicationConfig) extends ValidActiveSession {
+                                 mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig)
+  extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   val saUser: Action[AnyContent] = ValidateSession.async {
     implicit request =>
