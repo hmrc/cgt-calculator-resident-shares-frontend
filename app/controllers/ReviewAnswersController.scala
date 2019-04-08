@@ -90,7 +90,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
         deductionsAnswers <- getDeductionsAnswers
         incomeAnswers <- getIncomeAnswers
         taxYear <- getTaxYear(gainAnswers.disposalDate)
-        currentTaxYear <- getCurrentTaxYear
+        currentTaxYear = getCurrentTaxYear
       } yield Ok(checkYourAnswers(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
         Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
   }

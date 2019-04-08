@@ -24,7 +24,9 @@ import play.api.i18n.Messages
 
 import scala.concurrent.Future
 
-object Dates {
+object Dates extends Dates
+
+trait Dates {
 
   val taxYearEnd = "04-05"
   val formatter = DateTimeFormatter.ofPattern("d/M/uuuu").withResolverStyle(ResolverStyle.STRICT)
@@ -54,14 +56,16 @@ object Dates {
     }
   }
 
-  def getCurrentTaxYear: Future[String] = {
-    val now = ZonedDateTime.now(ZoneId.of("Europe/London"))
-    val year = now.getYear
-    if (now.isAfter(LocalDate.parse(s"${year.toString}-$taxYearEnd").atStartOfDay(ZoneId.of("Europe/London")))) {
-      Future.successful(taxYearToString(year + 1))
+  def now: LocalDate = LocalDate.now()
+
+  def getCurrentTaxYear: String = {
+    val time = now
+    val year = time.getYear
+    if (time.isAfter(LocalDate.parse(s"${year.toString}-$taxYearEnd"))) {
+      taxYearToString(year + 1)
     }
     else {
-      Future.successful(taxYearToString(year))
+      taxYearToString(year)
     }
   }
 

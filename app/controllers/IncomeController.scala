@@ -88,7 +88,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      currentTaxYear <- Dates.getCurrentTaxYear
+      currentTaxYear = Dates.getCurrentTaxYear
       finalResult <- routeRequest(backUrl, taxYear.get, currentTaxYear)
     } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
   }
@@ -113,7 +113,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      currentTaxYear <- Dates.getCurrentTaxYear
+      currentTaxYear = Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, currentTaxYear)
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
@@ -152,7 +152,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       year <- taxYearValue(taxYear.get.calculationTaxYear)
       standardPA <- getStandardPA(year, hc)
       formData <- fetchStoredPersonalAllowance()
-      currentTaxYear <- Dates.getCurrentTaxYear
+      currentTaxYear = Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, standardPA.get, formData, currentTaxYear)
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
@@ -183,7 +183,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       year <- taxYearValue(taxYear.get.calculationTaxYear)
       standardPA <- getStandardPA(year, hc)
       maxPA <- getMaxPA(year)
-      currentTaxYear <- Dates.getCurrentTaxYear
+      currentTaxYear = Dates.getCurrentTaxYear
       route <- routeRequest(maxPA.get, standardPA.get, taxYear.get, currentTaxYear)
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
