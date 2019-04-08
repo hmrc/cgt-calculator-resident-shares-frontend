@@ -105,7 +105,7 @@ class ReportController @Inject()(calcConnector: CalculatorConnector,
       deductionAnswers <- sessionCacheService.getShareDeductionAnswers
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
       incomeAnswers <- sessionCacheService.getShareIncomeAnswers
-      currentTaxYear <- Dates.getCurrentTaxYear
+      currentTaxYear = Dates.getCurrentTaxYear
       totalGain <- calcConnector.calculateRttShareTotalGainAndTax(answers, deductionAnswers, maxAEA.get, incomeAnswers)
     } yield {
       pdfGenerator.ok(views.finalSummaryReport(answers,

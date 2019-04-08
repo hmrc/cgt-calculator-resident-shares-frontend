@@ -18,8 +18,8 @@ package common
 
 import uk.gov.hmrc.play.test.UnitSpec
 import java.time.LocalDate
+
 import common.Dates.formatter
-import play.api.libs.concurrent.Execution.Implicits._
 
 class DatesSpec extends UnitSpec {
 
@@ -52,10 +52,19 @@ class DatesSpec extends UnitSpec {
   }
 
   "Calling getCurrent Tax Year" should {
-    "return the current tax year in the form YYYY/YY" in {
-      for {
-        date <- Dates.getCurrentTaxYear
-      } yield date.length shouldEqual 7
+
+    class TestDates(date: String) extends Dates {
+      override def now: LocalDate = LocalDate.parse(date)
+    }
+
+    "return the current tax year correctly on the last day of a tax year" in {
+      val res: String = new TestDates("2014-04-05").getCurrentTaxYear
+      res.length shouldEqual 7
+      res shouldBe "2013/14"
+    }
+    "return the current tax year correctly on the first day of a tax year" in {
+      val res: String = new TestDates("2014-04-06").getCurrentTaxYear
+      res shouldBe "2014/15"
     }
   }
 

@@ -120,7 +120,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       chargeableGain <- getChargeableGain(grossGain, answers, deductionAnswers, maxAEA.get)
       incomeAnswers <- sessionCacheService.getShareIncomeAnswers
       totalGain <- getTotalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)
-      currentTaxYear <- Dates.getCurrentTaxYear
+      currentTaxYear = Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
                                    backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get, showUserResearchPanel = showUserResearchPanel)
     } yield routeRequest).recoverToStart(homeLink, homeLink)

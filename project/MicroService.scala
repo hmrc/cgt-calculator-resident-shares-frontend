@@ -59,6 +59,7 @@ trait MicroService {
     .settings(defaultSettings(): _*)
     .settings(
       libraryDependencies ++= appDependencies,
+      dependencyOverrides += "org.scala-lang" % "scala-library" % "2.11.12",
       retrieveManaged := true,
       pipelineStages in Assets := Seq(digest),
       evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false)
