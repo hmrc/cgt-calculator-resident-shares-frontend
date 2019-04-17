@@ -49,7 +49,7 @@ class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: 
   lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
   lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
   lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
-  lazy val feedbackSurvey: String = loadConfig(s"feedback-survey-frontend.url")
+  lazy val feedbackSurvey: String = loadConfig(s"feedback-frontend.url")
 
 
   lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
