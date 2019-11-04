@@ -31,6 +31,7 @@ trait AppConfig {
   val residentIFormUrl: String
   val urBannerLink: String
   val feedbackSurvey: String
+  val googleTagManagerId: String
 }
 
 class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: ServicesConfig) extends AppConfig {
@@ -56,4 +57,5 @@ class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: 
 
   lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
   lazy val baseUrl = servicesConfig.baseUrl("capital-gains-calculator")
+  lazy val googleTagManagerId = loadConfig(s"google-tag-manager.id")
 }
