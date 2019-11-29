@@ -79,6 +79,17 @@ class OutsideTaxYearsViewSpec extends UnitSpec with WithFakeApplication with Fak
           backLink.attr("href") shouldBe "back-link"
         }
       }
+
+      "generate the same template when .render and .f are called" in {
+
+        val f = views.outsideTaxYear.f(taxYear, false, true, "back-link", "home-link", "continue-link",
+          "navTitle")(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+        val render = views.outsideTaxYear.render(taxYear, false, true, "back-link", "home-link", "continue-link",
+          "navTitle", fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+        f shouldBe render
+      }
     }
 
     "using a disposal date after 2016/17" should {

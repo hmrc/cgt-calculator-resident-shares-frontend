@@ -158,6 +158,16 @@ class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeR
       }
 
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.disposalCosts.f(disposalCostsForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.disposalCosts.render(disposalCostsForm, "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
+
   }
 
   "Disposal Costs View with form with errors" which {

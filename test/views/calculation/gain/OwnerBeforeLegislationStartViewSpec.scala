@@ -212,6 +212,17 @@ class OwnerBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
         button.text shouldEqual s"${commonMessages.continue}"
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.ownerBeforeLegislationStart.f(ownerBeforeLegislationStartForm, "home-link", Some("back-link"))(fakeRequest,
+        mockMessage, fakeApplication, mockConfig)
+
+      val render = views.ownerBeforeLegislationStart.render(ownerBeforeLegislationStartForm, "home-link", Some("back-link"), fakeRequest,
+        mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "Owned Before 1982 view with a filled form" which {

@@ -157,6 +157,16 @@ class AcquisitionCostsViewSpec extends UnitSpec with WithFakeApplication with Fa
       }
 
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val render = views.acquisitionCosts.render(acquisitionCostsForm, Some("back-link"), "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val f = views.acquisitionCosts.f(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+
+      f shouldBe render
+    }
   }
 
   "Acquisition Costs shares view with form with errors" which {

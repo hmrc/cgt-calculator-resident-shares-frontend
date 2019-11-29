@@ -19,9 +19,13 @@ package common
 import uk.gov.hmrc.play.test.UnitSpec
 import java.time.LocalDate
 
+import common.Dates.TemplateImplicits.RichDate
 import common.Dates.formatter
+import org.mockito.Mockito._
+import org.scalatest.mockito.MockitoSugar
+import play.api.i18n.{Lang, Messages}
 
-class DatesSpec extends UnitSpec {
+class DatesSpec extends UnitSpec with MockitoSugar {
 
   "Calling constructDate method" should {
 
@@ -83,6 +87,26 @@ class DatesSpec extends UnitSpec {
 
     "when called with 1999/4/5 return 1999 to 2000" in {
       Dates.taxYearOfDateLongHand(LocalDate.of(1999, 4, 5)) shouldBe "1998 to 1999"
+    }
+  }
+
+  "The RichDate wrapper class" should {
+
+    "format welsh dates accordingly" in {
+
+      val localDate = LocalDate.parse("2014-04-05")
+      val richDate: RichDate = new Dates.TemplateImplicits.RichDate(localDate)
+      val monthWelshTranslation = "test-month"
+
+      val mockLanguage = mock[Lang]
+      val mockMessages = mock[Messages]
+
+      when(mockLanguage.language) thenReturn "cy"
+      when(mockMessages.apply(s"calc.month.${localDate.getMonthValue}")) thenReturn monthWelshTranslation
+
+      val localFormatString = richDate.localFormat("")(mockLanguage, mockMessages)
+
+      localFormatString shouldBe localDate.getDayOfMonth + " " + monthWelshTranslation + " " + localDate.getYear
     }
   }
 }

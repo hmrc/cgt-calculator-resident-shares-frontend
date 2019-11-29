@@ -455,6 +455,17 @@ class SharesFinalSummaryViewSpec extends UnitSpec with WithFakeApplication with 
 
         }
       }
+
+      "generate the same template when .render and .f are called" in {
+
+        val f = views.finalSummary.f(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
+          true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+        val render = views.finalSummary.render(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
+          true, fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+        f shouldBe render
+      }
     }
 
     "the share was sold outside tax years" should {

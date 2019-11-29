@@ -90,6 +90,15 @@ class SharesGainReportViewSpec extends UnitSpec with WithFakeApplication with Fa
           doc.select("#personalAllowance-question").size() shouldBe 0
         }
       }
+
+      "generate the same template when .render and .f are called" in {
+
+        val f = views.gainSummaryReport.f(testModel, -2000, taxYearModel, 1000)(fakeRequest, mockMessage, fakeApplication, fakeLang)
+
+        val render = views.gainSummaryReport.render(testModel, -2000, taxYearModel, 1000, fakeRequest, mockMessage, fakeApplication, fakeLang)
+
+        f shouldBe render
+      }
     }
   }
 

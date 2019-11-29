@@ -95,6 +95,17 @@ class LossesBroughtForwardViewSpec extends UnitSpec with WithFakeApplication wit
     "have a continue button " in {
       doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.lossesBroughtForward.f(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+        "home-link", "navTitle")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.lossesBroughtForward.render(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+        "home-link", "navTitle", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "Losses Brought Forward view with pre-selected value of yes" should {

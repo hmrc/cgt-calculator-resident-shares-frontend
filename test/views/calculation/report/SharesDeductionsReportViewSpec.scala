@@ -166,5 +166,17 @@ class SharesDeductionsReportViewSpec extends UnitSpec with WithFakeApplication w
     "does not display the section for what to do next" in {
       doc.select("#whatToDoNext").isEmpty shouldBe true
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val render = views.deductionsSummaryReport.render(gainAnswers, deductionAnswers, results, taxYearModel, 1000,
+        fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+
+      val f = views.deductionsSummaryReport.f(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(
+        fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+
+      f shouldBe render
+    }
   }
+
 }

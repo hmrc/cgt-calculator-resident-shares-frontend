@@ -138,6 +138,15 @@ class CurrentIncomeViewSpec extends UnitSpec with WithFakeApplication with FakeR
         }
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.currentIncome.f(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.currentIncome.render(currentIncomeForm, backLink, taxYearModel, false, fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "The Current Income View with form with errors" which {

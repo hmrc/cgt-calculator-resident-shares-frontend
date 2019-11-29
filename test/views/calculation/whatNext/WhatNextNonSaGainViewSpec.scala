@@ -95,5 +95,14 @@ class WhatNextNonSaGainViewSpec extends UnitSpec with WithFakeApplication with F
         doc.select("#exit-survey-link").attr("href") shouldBe  messages.exitSurveyLink
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.whatNextNonSaGain.f("iFormUrl")(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.whatNextNonSaGain.render("iFormUrl", fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 }

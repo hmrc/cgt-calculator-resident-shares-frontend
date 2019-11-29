@@ -100,4 +100,13 @@ class WhatNextSANoGainViewSpec extends UnitSpec with WithFakeApplication with Fa
       }
     }
   }
+
+  "generate the same template when .render and .f are called" in {
+
+    val f = views.whatNextSANoGain.f("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+    val render = views.whatNextSANoGain.render("back-link", "iFormUrl", "2016 to 2017", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+    f shouldBe render
+  }
 }

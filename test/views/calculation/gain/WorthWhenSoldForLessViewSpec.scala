@@ -141,6 +141,15 @@ class WorthWhenSoldForLessViewSpec extends UnitSpec with WithFakeApplication wit
         }
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.worthWhenSoldForLess.f(worthWhenSoldForLessForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.worthWhenSoldForLess.render(worthWhenSoldForLessForm, "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "The Shares Worth When Sold For Less View when supplied with a correct form" should {
