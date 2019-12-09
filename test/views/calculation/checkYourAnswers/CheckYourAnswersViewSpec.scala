@@ -108,5 +108,21 @@ class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with Fa
       continueButton.hasClass("button") shouldBe true
     }
   }
+
+  "CheckYourAnswers view" should {
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = (views.checkYourAnswers.f(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+        Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false)
+        (fakeRequestWithSession,mockMessage, fakeApplication, fakeLang, mockConfig))
+
+      val render = views.checkYourAnswers.render(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+        Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false,
+      fakeRequestWithSession,mockMessage, fakeApplication, fakeLang, mockConfig)
+
+      f shouldBe render
+    }
+  }
 }
 

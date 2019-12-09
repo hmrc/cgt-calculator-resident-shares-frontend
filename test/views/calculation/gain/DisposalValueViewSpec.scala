@@ -84,6 +84,16 @@ class DisposalValueViewSpec extends UnitSpec with WithFakeApplication with FakeR
     "have the joint ownership text" in {
       doc.select("p.panel-indent").text shouldBe messages.jointOwnership
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.disposalValue.f(disposalValueForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.disposalValue.render(disposalValueForm, "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
+
   }
 
   "Disposal Value View with form without errors" should {

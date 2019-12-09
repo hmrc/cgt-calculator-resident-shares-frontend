@@ -101,8 +101,21 @@ class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with F
 
       "have a calculation detail section" in {
         doc.select("#calcDetails").size() shouldBe 1
-      }}
+      }
+
+      "generate the same template when .render and .f are called" in {
+
+        val f = views.finalSummaryReport.f(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
+          false, 100, 100)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+
+        val render = views.finalSummaryReport.render(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
+          false, 100, 100, fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+
+        f shouldBe render
+      }
+
     }
+  }
 
 
   "Final Summary when supplied with a date above the known tax years" should {

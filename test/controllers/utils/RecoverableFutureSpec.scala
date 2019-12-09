@@ -16,19 +16,22 @@
 
 package controllers.utils
 
-import org.scalatest.{Matchers, WordSpec}
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
-import play.api.http.Status
-import play.api.mvc.{AnyContent, Request, Result}
+import org.scalatest.{Matchers, WordSpec}
+import play.api.http.{HttpEntity, Status}
+import play.api.mvc.{AnyContent, Request, ResponseHeader, Result}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{Await, CanAwait, Future}
+import scala.concurrent.duration._
+import scala.util.Success
 
 class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers with IntegrationPatience with Status {
 
   ".recoverToStart" should {
+
     "convert a `NoSuchElementException` into an `ApplicationException`" in {
 
       implicit val request: Request[AnyContent] = FakeRequest()
@@ -60,4 +63,52 @@ class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers wit
       }
     }
   }
+
+  val result: Result = Result(ResponseHeader.apply(OK, Map.empty), HttpEntity.NoEntity)
+  val future: Future[Result] = Future.successful(result)
+  val recoverableFuture = new RecoverableFuture(future)
+
+  "RecoverableFuture's onComplete method" should {
+
+    "be equivalent to Future's onComplete method" in {
+
+      var completed = false
+      recoverableFuture.onComplete {
+
+        case Success(_) => completed = true
+      }
+
+      whenReady(recoverableFuture) { _ =>
+
+        completed shouldBe true
+      }
+    }
+  }
+
+  "RecoverableFuture's isCompleted method" should {
+
+    "be equivalent to Future's isCompleted method" in {
+
+      whenReady(recoverableFuture) { _ =>
+        recoverableFuture.isCompleted shouldBe true
+      }
+    }
+  }
+
+  "RecoverableFuture's value field" should {
+
+    "be equivalent to Future's value field" in {
+
+      recoverableFuture.value shouldBe future.value
+    }
+  }
+
+  "RecoverableFuture's result method" should {
+
+    "be equivalent to Future's result method" in {
+
+      Await.result(recoverableFuture, 3.seconds) shouldBe Await.result(future, 3.seconds)
+    }
+  }
+
 }

@@ -396,6 +396,16 @@ class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with F
 
       }
 
+      "generate the same template when .render and .f are called" in {
+
+        val f = views.gainSummary.f(testModel, -100, taxYearModel, "home-link", 150 , 11000,
+          true)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+        val render = views.gainSummary.render(testModel, -100, taxYearModel, "home-link", 150 , 11000,
+          true, fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+        f shouldBe render
+      }
     }
 
     "acquired outside current tax years" should {

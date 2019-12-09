@@ -68,6 +68,15 @@ class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication w
         finishButton.attr("href") shouldBe "http://www.gov.uk"
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.whatNextSAFourTimesAEA.f("back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.whatNextSAFourTimesAEA.render("back-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 }
 

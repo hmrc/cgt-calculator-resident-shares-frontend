@@ -214,6 +214,15 @@ class SellForLessViewSpec extends UnitSpec with WithFakeApplication with FakeReq
         button.text shouldEqual s"${commonMessages.continue}"
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.sellForLess.f(sellForLessForm, "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.sellForLess.render(sellForLessForm, "home-link", "back-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "Sell for less view with a filled form" which {

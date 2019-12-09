@@ -175,6 +175,18 @@ class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with F
           input.`val` shouldBe "1000"
         }
       }
+
+      "generate the same template when .render and .f are called" in {
+
+        val f = views.personalAllowance.f(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+        val render = views.personalAllowance.render(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear, fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+        f shouldBe render
+      }
+
     }
 
     "supplied with the current tax year" should {

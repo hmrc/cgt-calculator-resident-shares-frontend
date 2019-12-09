@@ -97,5 +97,14 @@ class WhatNextNonSaLossViewSpec extends UnitSpec with WithFakeApplication with F
         govUk.attr("href") shouldBe "http://www.gov.uk"
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.whatNextNonSaLoss.f("iFormUrl")(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.whatNextNonSaLoss.render("iFormUrl", fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 }

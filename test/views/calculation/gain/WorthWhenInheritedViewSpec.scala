@@ -97,7 +97,17 @@ class WorthWhenInheritedViewSpec extends UnitSpec with WithFakeApplication with 
     "have a continue button " in {
       doc.select("#continue-button").text shouldBe commonMessages.continue
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.worthWhenInherited.f(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.worthWhenInherited.render(form, fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
+
 
   "worthWhenInherited View with form without errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))

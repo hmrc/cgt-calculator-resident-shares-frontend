@@ -186,6 +186,16 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
 
     }
 
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.deductionsSummary.f(gainAnswers, deductionAnswers, results, backUrl,
+        taxYearModel, "home-link", 100, true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.deductionsSummary.render(gainAnswers, deductionAnswers, results, backUrl,
+        taxYearModel, "home-link", 100, true, fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "Properties Deductions Summary view when a tax year outside the accepted is supplied" should {
@@ -240,4 +250,6 @@ class SharesDeductionsSummaryViewSpec extends UnitSpec with WithFakeApplication 
       doc.select("div#ur-panel").size() shouldBe 0
     }
   }
+
+
 }

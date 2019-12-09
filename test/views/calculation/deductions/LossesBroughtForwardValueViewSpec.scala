@@ -150,6 +150,19 @@ class LossesBroughtForwardValueViewSpec extends UnitSpec with WithFakeApplicatio
           }
         }
       }
+
+      "generate the same template when .render and .f are called" in {
+
+        val f = views.lossesBroughtForwardValue.f(lossesBroughtForwardValueForm, taxYear, "back-link",
+          "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest,
+          mockMessage, fakeApplication, mockConfig)
+
+        val render = views.lossesBroughtForwardValue.render(lossesBroughtForwardValueForm, taxYear, "back-link",
+          "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle",
+          fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+        f shouldBe render
+      }
     }
 
     "provided with a date in the 2014/15 tax year" should {

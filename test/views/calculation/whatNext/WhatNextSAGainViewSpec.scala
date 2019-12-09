@@ -100,5 +100,14 @@ class WhatNextSAGainViewSpec extends UnitSpec with WithFakeApplication with Fake
         doc.select("#exit-survey-link").attr("href") shouldBe  pageMessages.exitSurveyLink
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.whatNextSAGain.f("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.whatNextSAGain.render("back-link", "iFormUrl", "2016 to 2017", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 }

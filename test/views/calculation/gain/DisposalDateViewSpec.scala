@@ -75,6 +75,18 @@ class DisposalDateViewSpec extends UnitSpec with WithFakeApplication with FakeRe
     "have a button with the text 'Continue'" in {
       doc.body.getElementById("continue-button").text shouldBe commonMessages.continue
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = (views.disposalDate.f(disposalDateForm(
+        LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))), "home-link")
+      (fakeRequest, mockMessage, fakeApplication, mockConfig))
+
+      val render = views.disposalDate.render(disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))), "home-link",
+        fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "Disposal Date view with a pre-filled form" should {

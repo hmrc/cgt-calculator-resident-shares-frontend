@@ -138,6 +138,15 @@ class ValueBeforeLegislationStartViewSpec extends UnitSpec with WithFakeApplicat
         }
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.valueBeforeLegislationStart.f(valueBeforeLegislationStartForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.valueBeforeLegislationStart.render(valueBeforeLegislationStartForm, fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "ValueBeforeLegislationStart View with form without errors" should {

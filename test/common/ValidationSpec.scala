@@ -19,7 +19,7 @@ package common
 import java.time.LocalDate
 
 import common.Validation._
-import play.api.data.validation.{Invalid, Valid, ValidationError}
+import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
 import uk.gov.hmrc.play.test.UnitSpec
 
 class ValidationSpec extends UnitSpec {
@@ -375,5 +375,32 @@ class ValidationSpec extends UnitSpec {
         }
     }
 
+  "The max monetary value constraint" should {
+
+    val maxValue: BigDecimal = 3000
+    val extractMoney: BigDecimal => Option[BigDecimal] = money  => Some(money)
+
+    "return invalid if given an amount of money more than the max" in {
+
+      val result = maxMonetaryValueConstraint(maxValue, extractMoney)(maxValue + 1).getClass
+
+      result shouldBe classOf[Invalid]
+    }
+
+    "return valid if given an amount of money less than the max" in {
+
+      val result = maxMonetaryValueConstraint(maxValue, extractMoney)(maxValue - 1)
+
+      result shouldBe Valid
+    }
+
+    "return valid if given an amount that results in None" in {
+
+      val extractMoneyNone: BigDecimal => Option[BigDecimal] = _ => None
+      val result = maxMonetaryValueConstraint(maxValue, extractMoneyNone)(maxValue)
+
+      result shouldBe Valid
+    }
+  }
 
 }

@@ -150,6 +150,15 @@ class AcquisitionValueViewSpec extends UnitSpec with WithFakeApplication with Fa
         }
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = views.acquisitionValue.f(acquisitionValueForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = views.acquisitionValue.render(acquisitionValueForm, "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 
   "Acquisition Value View with form with errors" should {

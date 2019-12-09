@@ -142,5 +142,14 @@ class SaUserViewSpec extends UnitSpec with WithFakeApplication with FakeRequestH
         doc.body.select("span.error-notification").size shouldBe 1
       }
     }
+
+    "generate the same template when .render and .f are called" in {
+
+      val f = saUser.f(SaUserForm.saUserForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      val render = saUser.render(SaUserForm.saUserForm, fakeRequest, mockMessage, fakeApplication, mockConfig)
+
+      f shouldBe render
+    }
   }
 }
