@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,6 @@ class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with
   val mockConnector = mock[CalculatorConnector]
   implicit val appConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val mockLangContl = new CgtLanguageController(mockMCC, appConfig)
 
   lazy val materializer = mock[Materializer]
   val date: LocalDate = LocalDate.of(2016, 5, 8)
@@ -80,7 +79,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with
     when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswersModel))
 
-    new ReviewAnswersController(mockConnector, mockSessionCacheService, mockMCC, mockLangContl)
+    new ReviewAnswersController(mockConnector, mockSessionCacheService, mockMCC)
   }
 
   "Calling .reviewGainAnswers" when {

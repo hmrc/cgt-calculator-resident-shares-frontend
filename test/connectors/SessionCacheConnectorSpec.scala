@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,8 @@ class SessionCacheConnectorSpec extends UnitSpec with WithFakeApplication with M
   "The session cache connector" should {
     "provide a valid interface for the cache method" when {
       "returning an exception" in new Setup {
-        when(defaultHttpClient.PUT(any(), any())(any(), any(), any(), any()))
+        when(defaultHttpClient.PUT(any(), any(), any())
+        (any(), any(), any(), any()))
           .thenReturn(Future.failed(new RuntimeException("testException")))
 
         val result = connector.saveFormData[String]("key", "default")
@@ -57,7 +58,8 @@ class SessionCacheConnectorSpec extends UnitSpec with WithFakeApplication with M
         intercept[RuntimeException](await(result) shouldBe "testException")
       }
       "returning a valid cachemap" in new Setup {
-        when(defaultHttpClient.PUT[String, CacheMap](any(), any())(any(), any(), any(), any()))
+        when(defaultHttpClient.PUT[String, CacheMap](any(), any(), any())
+          (any(), any(), any(), any()))
           .thenReturn(Future.successful(defaultCache))
 
         val result = connector.saveFormData[String]("key", "default")
@@ -86,7 +88,8 @@ class SessionCacheConnectorSpec extends UnitSpec with WithFakeApplication with M
       "returning valid data" in new Setup {
         val validCacheMap = CacheMap("SessionID", Map("key" -> Json.toJson("default")))
 
-        when(defaultHttpClient.GET[CacheMap](any())(any(), any(), any()))
+        when(defaultHttpClient.GET[CacheMap](any())
+          (any(), any(), any()))
           .thenReturn(Future.successful(validCacheMap))
 
         val result = connector.fetchAndGetFormData[String]("key")
@@ -97,7 +100,8 @@ class SessionCacheConnectorSpec extends UnitSpec with WithFakeApplication with M
 
     "provided a valid interface for the remove method" when {
       "returning an exception" in new Setup {
-        when(defaultHttpClient.DELETE[HttpResponse](any())(any(), any(), any()))
+        when(defaultHttpClient.DELETE[HttpResponse](any(), any())
+          (any(), any(), any()))
           .thenReturn(Future.failed(new RuntimeException("testException")))
 
         val result = connector.clearKeystore
@@ -108,7 +112,8 @@ class SessionCacheConnectorSpec extends UnitSpec with WithFakeApplication with M
       "returning a valid response" in new Setup {
         val expected = HttpResponse(200)
 
-        when(defaultHttpClient.DELETE[HttpResponse](any())(any(), any(), any()))
+        when(defaultHttpClient.DELETE[HttpResponse](any(), any())
+          (any(), any(), any()))
           .thenReturn(Future.successful(expected))
 
         val result = connector.clearKeystore

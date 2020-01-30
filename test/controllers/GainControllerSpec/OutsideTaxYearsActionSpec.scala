@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -47,7 +47,6 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
     val mockSessionCacheService = mock[SessionCacheService]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDateModel)
@@ -55,7 +54,7 @@ class OutsideTaxYearsActionSpec extends UnitSpec with WithFakeApplication with F
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYearModel)
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .outsideTaxYears from the resident/shares GainCalculationController" when {

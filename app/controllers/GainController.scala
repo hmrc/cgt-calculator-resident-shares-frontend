@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,8 +42,8 @@ import models.resident.shares.OwnerBeforeLegislationStartModel
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
 import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.I18nSupport
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -57,12 +57,11 @@ import scala.concurrent.Future
 class GainController @Inject()(calcConnector: CalculatorConnector,
                                sessionCacheService: SessionCacheService,
                                sessionCacheConnector: SessionCacheConnector,
-                               mcc: MessagesControllerComponents,
-                               lc: CgtLanguageController)
+                               mcc: MessagesControllerComponents)
                                (implicit val appConfig: ApplicationConfig)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  val navTitle = lc.getMessage("calc.base.resident.shares.home")
+  def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
   override val homeLink = controllers.routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
 

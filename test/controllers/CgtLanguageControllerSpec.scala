@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package controllers
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.scalatest.mockito.MockitoSugar
+import play.api.Configuration
 import play.api.http.FileMimeTypes
 import play.api.i18n.{Lang, Langs, MessagesApi}
 import play.api.mvc._
@@ -56,8 +57,8 @@ class CgtLanguageControllerSpec extends UnitSpec with FakeRequestHelper with Moc
 
     "the language is switched to english" should {
 
-      val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-      val cgtLanguageController = new CgtLanguageController(mockMCC, mockConfig)
+      val mockConfig = fakeApplication.injector.instanceOf[Configuration]
+      val cgtLanguageController = new CgtLanguageController(mockConfig, mockMCC)
 
       "use the fallback URL when there's no referrer in the request header" in {
 

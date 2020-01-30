@@ -1,5 +1,5 @@
 @*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
-    <div class="float--right">@calculation.language_selection(lc.languageMap, lc.langToCall, None)(messages)</div>
+    <div class="float--right">@calculation.language_selection(lc.languageMap, controllers.routes.CgtLanguageController.switchToLanguage, None)(messages)</div>
 }
 
 @govuk_wrapper(appConfig = appConfig,

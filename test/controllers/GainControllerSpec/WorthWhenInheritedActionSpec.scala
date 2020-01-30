@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,6 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
     val mockSessionCacheService = mock[SessionCacheService]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenInheritedModel]
       (ArgumentMatchers.eq(keyStoreKeys.worthWhenInherited))(ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -61,7 +60,7 @@ class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication wit
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .worthWhenInherited action" when {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,6 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
   val mockSessionCacheService = mock[SessionCacheService]
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
 
@@ -60,7 +59,7 @@ class ValueBeforeLegislationStartActionSpec extends UnitSpec with WithFakeApplic
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .valueBeforeLegislationStart from the GainCalculationController" when {

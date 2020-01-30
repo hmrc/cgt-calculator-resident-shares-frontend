@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,7 +52,6 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
   def setupTarget(lossesBroughtForwardData: Option[LossesBroughtForwardModel],
                   gainAnswers: GainAnswersModel,
@@ -90,7 +89,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
       )
 
-    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC, mockLangContrl)
+    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {
