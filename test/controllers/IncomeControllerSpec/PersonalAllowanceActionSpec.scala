@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,6 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val mockLangControl = new CgtLanguageController(mockMCC, mockConfig)
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),
@@ -78,7 +77,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
       .thenReturn(Future.successful(Some(taxYearModel)))
 
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, mockLangControl)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .personalAllowance from the IncomeController" when {

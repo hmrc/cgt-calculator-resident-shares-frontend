@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
   val mockSessionCacheService = mock[SessionCacheService]
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
 
@@ -64,7 +63,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
     when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
   }
 
   case class FakePOSTRequest (dateResponse: TaxYearModel, inputOne: (String, String), inputTwo: (String, String), inputThree: (String, String)) {
@@ -81,7 +80,7 @@ class DisposalDateActionSpec extends UnitSpec with WithFakeApplication with Fake
       when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-      new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
+      new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
     }
 
     val target = setupTarget()

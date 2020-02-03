@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -56,7 +56,6 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-    val mockLangControl = new CgtLanguageController(mockMCC, mockConfig)
 
     when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel]
       (ArgumentMatchers.eq(keystoreKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -80,7 +79,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
 
       )
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, mockLangControl)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .currentIncome from the IncomeController with a session" when {

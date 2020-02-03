@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,7 +49,6 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
   val gainModel = mock[GainAnswersModel]
   val summaryModel = mock[DeductionGainAnswersModel]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
@@ -68,7 +67,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC, mockLangContrl)
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC)
     }
 
     "request has a valid session with no keystore data" should {
@@ -164,7 +163,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
         )
 
-      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig, mockMCC, mockLangContrl)
+      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig, mockMCC)
     }
 
     "given a valid form" when {

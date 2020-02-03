@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,6 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
     val mockSessionCacheService = mock[SessionCacheService]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(TaxYearModel("year", knownTaxYear, "year"))))
@@ -68,7 +67,7 @@ class SellForLessActionSpec extends UnitSpec with WithFakeApplication with FakeR
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .sellForLess from the resident shares GainController" when {

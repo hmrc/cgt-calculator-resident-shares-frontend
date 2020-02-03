@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -51,7 +51,6 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
     val mockSessionCacheService = mock[SessionCacheService]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-    val mockLangContrl = new CgtLanguageController(mockMCC, mockConfig)
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel]
       (ArgumentMatchers.eq(keyStoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -61,7 +60,7 @@ class InheritedSharesActionSpec extends UnitSpec with WithFakeApplication with F
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC, mockLangContrl)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .didYouInheritThem from the resident GainController" when {

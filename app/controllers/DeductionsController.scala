@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,8 +28,8 @@ import models.resident._
 import models.resident.shares.GainAnswersModel
 import play.api.Play.current
 import play.api.data.Form
-import play.api.i18n.I18nSupport
-import play.api.mvc.{Call, MessagesControllerComponents, Result}
+import play.api.i18n.{I18nSupport, Messages}
+import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -42,13 +42,13 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      sessionCacheConnector: SessionCacheConnector,
                                      sessionCacheService: SessionCacheService,
                                      implicit val appConfig: ApplicationConfig,
-                                     mcc: MessagesControllerComponents,
-                                     lc: CgtLanguageController)
+                                     mcc: MessagesControllerComponents)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   override val homeLink = routes.GainController.disposalDate().url
   override val sessionTimeoutUrl = homeLink
-  def navTitle: String = lc.getMessage("calc.base.resident.shares.home")
+  def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
+
 
   def getDisposalDate(implicit hc: HeaderCarrier): Future[Option[DisposalDateModel]] = {
     sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)

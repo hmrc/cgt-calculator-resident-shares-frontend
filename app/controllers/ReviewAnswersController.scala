@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 HM Revenue & Customs
+ * Copyright 2020 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.Play.current
 import play.api.i18n.{I18nSupport, Lang}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -39,8 +39,7 @@ import scala.concurrent.Future
 
 class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector,
                                         sessionCacheService: SessionCacheService,
-                                        mcc: MessagesControllerComponents,
-                                        lc: CgtLanguageController)(implicit val appConfig: ApplicationConfig)
+                                        mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
@@ -52,16 +51,19 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
 
   def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = sessionCacheService.getShareDeductionAnswers
 
+  private def languageRequest(body : Lang => Future[Result])(implicit request: Request[_]): Future[Result] =
+    body(mcc.messagesApi.preferred(request).lang)
+
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
-    implicit val lang: Lang = lc.lang
     implicit request =>
-      getGainAnswers.map { answers =>
-        Ok(checkYourAnswers(routes.SummaryController.summary(), controllers.routes.GainController.acquisitionCosts().url, answers, None, None))
+      languageRequest { implicit lang =>
+        getGainAnswers.map { answers =>
+          Ok(checkYourAnswers(routes.SummaryController.summary(), controllers.routes.GainController.acquisitionCosts().url, answers, None, None))
+        }
       }
   }
 
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
-    implicit val lang: Lang = lc.lang
     def generateBackUrl(deductionGainAnswers: DeductionGainAnswersModel): Future[String] = {
       if (deductionGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) {
         Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
@@ -71,27 +73,30 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
     }
 
     implicit request =>
-      for {
-        gainAnswers <- getGainAnswers
-        deductionsAnswers <- getDeductionsAnswers
-        taxYear <- getTaxYear(gainAnswers.disposalDate)
-        url <- generateBackUrl(deductionsAnswers)
-      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
+      languageRequest { implicit lang =>
+        for {
+          gainAnswers <- getGainAnswers
+          deductionsAnswers <- getDeductionsAnswers
+          taxYear <- getTaxYear(gainAnswers.disposalDate)
+          url <- generateBackUrl(deductionsAnswers)
+        } yield Ok(checkYourAnswers(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
+      }
   }
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
-    implicit val lang: Lang = lc.lang
     implicit request =>
-      val getCurrentTaxYear = Dates.getCurrentTaxYear
-      val getIncomeAnswers = sessionCacheService.getShareIncomeAnswers
+      languageRequest { implicit lang =>
+        val getCurrentTaxYear = Dates.getCurrentTaxYear
+        val getIncomeAnswers = sessionCacheService.getShareIncomeAnswers
 
-      for {
-        gainAnswers <- getGainAnswers
-        deductionsAnswers <- getDeductionsAnswers
-        incomeAnswers <- getIncomeAnswers
-        taxYear <- getTaxYear(gainAnswers.disposalDate)
-        currentTaxYear = getCurrentTaxYear
-      } yield Ok(checkYourAnswers(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
-        Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
+        for {
+          gainAnswers <- getGainAnswers
+          deductionsAnswers <- getDeductionsAnswers
+          incomeAnswers <- getIncomeAnswers
+          taxYear <- getTaxYear(gainAnswers.disposalDate)
+          currentTaxYear = getCurrentTaxYear
+        } yield Ok(checkYourAnswers(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
+          Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
+      }
   }
 }
