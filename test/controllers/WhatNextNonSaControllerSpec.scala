@@ -72,7 +72,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with W
       }
 
       "have a link to the iForm from app config" in {
-        doc.select("#report-now > a").attr("href") shouldBe "https://www.tax.service.gov.uk/forms/form/capital-gains-tax-real-time-transaction-return/new"
+        doc.select("#report-now > a").attr("href") shouldBe "https://www.tax.service.gov.uk/digital-forms/form/capital-gains-tax-real-time-transaction-return/draft/guide"
       }
     }
   }
@@ -106,7 +106,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with W
       }
 
       "have a link to the iForm from app config" in {
-        doc.select("#report-now > a").attr("href") shouldBe "https://www.tax.service.gov.uk/forms/form/capital-gains-tax-real-time-transaction-return/new"
+        doc.select("#report-now > a").attr("href") shouldBe "https://www.tax.service.gov.uk/digital-forms/form/capital-gains-tax-real-time-transaction-return/draft/guide"
       }
     }
   }
