@@ -25,7 +25,7 @@ import connectors.SessionCacheConnector
 import controllers.predicates.ValidActiveSession
 import javax.inject.Inject
 import models.resident.DisposalDateModel
-import play.api.Play.current
+import play.api.Application
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
@@ -36,7 +36,7 @@ import scala.concurrent.Future
 
 class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnector,
                                      mcc: MessagesControllerComponents)
-                                    (implicit val appConfig: ApplicationConfig)
+                                    (implicit val appConfig: ApplicationConfig, implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   val backLink: String = controllers.routes.SaUserController.saUser().url

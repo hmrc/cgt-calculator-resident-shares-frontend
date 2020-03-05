@@ -18,7 +18,7 @@ package views
 
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import play.twirl.api.Html

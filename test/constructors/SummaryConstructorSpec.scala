@@ -20,7 +20,7 @@ import assets.MessageLookup.{SummaryPage => messages}
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.DeductionGainAnswersModel
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.MessagesProvider
 import play.api.mvc.MessagesControllerComponents
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

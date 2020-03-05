@@ -30,7 +30,7 @@ import models.resident.income._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
@@ -55,6 +55,7 @@ class CurrentIncomeActionSpec extends UnitSpec with WithFakeApplication with Fak
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockApplication = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel]

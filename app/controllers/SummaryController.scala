@@ -27,7 +27,7 @@ import controllers.utils.RecoverableFuture
 import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import play.api.Play.current
+import play.api.Application
 import play.api.i18n.I18nSupport
 import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
@@ -41,7 +41,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                                   sessionCacheService: SessionCacheService,
-                                  mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig)
+                                  mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig, implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   override val homeLink = controllers.routes.GainController.disposalDate().url

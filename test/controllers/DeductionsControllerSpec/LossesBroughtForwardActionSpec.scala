@@ -28,7 +28,7 @@ import controllers.{CgtLanguageController, DeductionsController}
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import play.api.mvc.MessagesControllerComponents
@@ -89,7 +89,7 @@ class LossesBroughtForwardActionSpec extends UnitSpec with WithFakeApplication w
 
       )
 
-    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC)
+    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, fakeApplication, mockMCC)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {

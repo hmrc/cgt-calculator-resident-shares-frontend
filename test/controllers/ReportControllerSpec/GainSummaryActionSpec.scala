@@ -30,7 +30,7 @@ import models.resident.TaxYearModel
 import models.resident.shares.GainAnswersModel
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Lang
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import play.api.test.Helpers._
@@ -53,6 +53,7 @@ class GainSummaryActionSpec @Inject()(pdfGenerator: PdfGenerator) extends UnitSp
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockApplication = fakeApplication
     implicit val mockLang = mock[Lang]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 

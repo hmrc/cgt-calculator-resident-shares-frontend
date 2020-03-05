@@ -21,7 +21,7 @@ import play.api.Application
 import play.api.http.Writeable
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Results._
-import play.api.mvc.{Action, Request, Result, Results}
+import play.api.mvc.{Action, DefaultActionBuilder, Request, Result, Results}
 import play.api.routing.Router
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
@@ -45,18 +45,19 @@ class CgtErrorHandlerSpec extends UnitSpec with WithFakeApplication {
   }
 
   val homeLink = controllers.routes.GainController.disposalDate().url
+  lazy val actionBuilder = fakeApplication.injector.instanceOf[DefaultActionBuilder]
 
   val routerForTest: Router = {
     import play.api.routing.sird._
 
     Router.from {
-      case GET(p"/ok") => Action.async { request =>
+      case GET(p"/ok") => actionBuilder.async { request =>
         Results.Ok("OK")
       }
-      case GET(p"/application-exception") => Action.async { request =>
+      case GET(p"/application-exception") => actionBuilder.async { request =>
         throw new ApplicationException(Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "Test exception thrown")
       }
-      case GET(p"/other-error") => Action.async { request =>
+      case GET(p"/other-error") => actionBuilder.async { request =>
         throw new IllegalArgumentException("Other Exception Thrown")
       }
     }

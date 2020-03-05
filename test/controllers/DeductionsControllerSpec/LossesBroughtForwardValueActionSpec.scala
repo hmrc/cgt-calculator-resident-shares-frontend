@@ -29,7 +29,7 @@ import models.resident.shares._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
@@ -67,7 +67,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, mockMCC)
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, fakeApplication, mockMCC)
     }
 
     "request has a valid session with no keystore data" should {
@@ -163,7 +163,7 @@ class LossesBroughtForwardValueActionSpec extends UnitSpec with WithFakeApplicat
 
         )
 
-      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig, mockMCC)
+      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig, fakeApplication, mockMCC)
     }
 
     "given a valid form" when {

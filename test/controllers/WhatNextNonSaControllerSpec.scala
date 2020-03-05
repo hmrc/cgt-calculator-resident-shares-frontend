@@ -23,7 +23,7 @@ import com.codahale.metrics.SharedMetricRegistries
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.redirectLocation
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
@@ -39,6 +39,7 @@ class WhatNextNonSaControllerSpec extends UnitSpec with FakeRequestHelper with W
   def setupController(): WhatNextNonSaController = {
     SharedMetricRegistries.clear()
     implicit val mockAppConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val application = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
     new WhatNextNonSaController(mockMCC)

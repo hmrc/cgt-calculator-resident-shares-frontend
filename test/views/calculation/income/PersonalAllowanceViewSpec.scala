@@ -27,8 +27,6 @@ import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{income => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.MessagesControllerComponents
 
 class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {

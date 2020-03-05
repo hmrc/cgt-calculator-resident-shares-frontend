@@ -25,8 +25,6 @@ import views.html.calculation.{gain => views}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import config.ApplicationConfig
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.MessagesControllerComponents
 
 class DidYouInheritThemViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {

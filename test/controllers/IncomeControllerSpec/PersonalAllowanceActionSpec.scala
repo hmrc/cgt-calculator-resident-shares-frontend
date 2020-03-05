@@ -30,7 +30,7 @@ import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
@@ -45,6 +45,7 @@ class PersonalAllowanceActionSpec extends UnitSpec with WithFakeApplication with
   val mockCalcConnector = mock[CalculatorConnector]
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
   def setupTarget(getData: Option[PersonalAllowanceModel],

@@ -18,7 +18,7 @@ package views.calculation
 
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents}
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

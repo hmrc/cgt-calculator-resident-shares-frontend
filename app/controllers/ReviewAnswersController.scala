@@ -26,7 +26,7 @@ import controllers.predicates.ValidActiveSession
 import javax.inject.Inject
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
-import play.api.Play.current
+import play.api.Application
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
@@ -39,7 +39,7 @@ import scala.concurrent.Future
 
 class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector,
                                         sessionCacheService: SessionCacheService,
-                                        mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig)
+                                        mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig, implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =

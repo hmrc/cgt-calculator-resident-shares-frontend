@@ -40,7 +40,7 @@ import javax.inject.Inject
 import models.resident._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
-import play.api.Play.current
+import play.api.Application
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
@@ -58,7 +58,8 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
                                sessionCacheService: SessionCacheService,
                                sessionCacheConnector: SessionCacheConnector,
                                mcc: MessagesControllerComponents)
-                               (implicit val appConfig: ApplicationConfig)
+                               (implicit val appConfig: ApplicationConfig,
+                                implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))

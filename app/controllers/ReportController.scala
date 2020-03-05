@@ -27,8 +27,8 @@ import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
 import javax.inject.Inject
 import models.resident.TaxYearModel
-import play.api.Play.current
-import play.api.i18n.{I18nSupport, Messages, Lang}
+import play.api.Application
+import play.api.i18n.{I18nSupport, Lang, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
@@ -42,7 +42,7 @@ class ReportController @Inject()(calcConnector: CalculatorConnector,
                                  sessionCacheService: SessionCacheService,
                                  mcc: MessagesControllerComponents,
                                  pdfGenerator: PdfGenerator)
-                                (implicit val appConfig: ApplicationConfig)
+                                (implicit val appConfig: ApplicationConfig, implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
 

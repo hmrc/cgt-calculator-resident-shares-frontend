@@ -19,7 +19,7 @@ package controllers
 import config.ApplicationConfig
 import controllers.predicates.ValidActiveSession
 import javax.inject.Inject
-import play.api.Play.current
+import play.api.Application
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -28,7 +28,7 @@ import views.html.calculation.{whatNext => views}
 import scala.concurrent.Future
 
 class WhatNextNonSaController @Inject()(mcc: MessagesControllerComponents)
-                                       (implicit val applicationConfig: ApplicationConfig)
+                                       (implicit val applicationConfig: ApplicationConfig, implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   val whatNextNonSaGain: Action[AnyContent] = ValidateSession.async { implicit request =>

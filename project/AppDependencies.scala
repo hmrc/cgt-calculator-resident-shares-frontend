@@ -22,9 +22,9 @@ object AppDependencies {
 
   val compile = Seq(
     ws,
-    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.3.0",
-    "uk.gov.hmrc" %% "govuk-template" % "5.48.0-play-26",
-    "uk.gov.hmrc" %% "play-ui" % "8.7.0-play-26",
+    "uk.gov.hmrc" %% "bootstrap-play-26" % "1.5.0",
+    "uk.gov.hmrc" %% "govuk-template" % "5.52.0-play-26",
+    "uk.gov.hmrc" %% "play-ui" % "8.8.0-play-26",
     "uk.gov.hmrc" %% "play-partials" % "6.9.0-play-26",
     "uk.gov.hmrc" %% "http-caching-client" % "9.0.0-play-26",
     "it.innove" % "play2-pdf" % "1.9.1" exclude("com.typesafe.play","*"),
@@ -43,7 +43,7 @@ object AppDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc" %% "hmrctest" % "3.9.0-play-26" % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.3" % scope,
-        "org.mockito" % "mockito-core" % "3.2.4" % scope,
+        "org.mockito" % "mockito-core" % "3.3.1" % scope,
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.12.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope
