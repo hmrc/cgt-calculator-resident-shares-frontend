@@ -19,7 +19,7 @@ package views.calculation
 import config.ApplicationConfig
 import views.html.{calculation => views}
 import controllers.helpers.FakeRequestHelper
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import play.twirl.api.Html

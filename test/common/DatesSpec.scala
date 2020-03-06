@@ -22,7 +22,7 @@ import java.time.LocalDate
 import common.Dates.TemplateImplicits.RichDate
 import common.Dates.formatter
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages}
 
 class DatesSpec extends UnitSpec with MockitoSugar {

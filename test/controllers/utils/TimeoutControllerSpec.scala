@@ -21,7 +21,7 @@ import akka.stream.Materializer
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Messages, MessagesProvider}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.FakeRequest
@@ -32,6 +32,7 @@ class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeR
   implicit val config = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockMessagesProvider = mock[MessagesProvider]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  implicit val mockApplication = fakeApplication
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   implicit lazy val actorSystem = ActorSystem()
   lazy val materializer = mock[Materializer]

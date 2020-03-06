@@ -31,7 +31,7 @@ import org.joda.time.DateTime
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
@@ -49,6 +49,7 @@ class AcquisitionCostsActionSpec extends UnitSpec with WithFakeApplication with 
   val gainAnswersModel = mock[GainAnswersModel]
 
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockApplication = fakeApplication
   val mockCalcConnector = mock[CalculatorConnector]
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]

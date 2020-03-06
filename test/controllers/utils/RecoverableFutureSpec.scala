@@ -75,7 +75,7 @@ class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers wit
       var completed = false
       recoverableFuture.onComplete {
 
-        case Success(_) => completed = true
+        _ => completed = true
       }
 
       whenReady(recoverableFuture) { _ =>

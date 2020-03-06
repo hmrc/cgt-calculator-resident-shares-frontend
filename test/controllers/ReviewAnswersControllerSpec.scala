@@ -30,7 +30,7 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
@@ -45,6 +45,7 @@ class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with
   val mockSessionCacheService = mock[SessionCacheService]
   val mockConnector = mock[CalculatorConnector]
   implicit val appConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val appApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
   lazy val materializer = mock[Materializer]

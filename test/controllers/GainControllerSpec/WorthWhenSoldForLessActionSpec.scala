@@ -27,7 +27,7 @@ import config.{AppConfig, ApplicationConfig}
 import controllers.{CgtLanguageController, GainController}
 import models.resident.WorthWhenSoldForLessModel
 import org.joda.time.DateTime
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 import org.mockito.Mockito._
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
@@ -50,6 +50,7 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockApplication = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel]

@@ -26,7 +26,7 @@ import forms.LossesBroughtForwardValueForm._
 import javax.inject.Inject
 import models.resident._
 import models.resident.shares.GainAnswersModel
-import play.api.Play.current
+import play.api.Application
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
@@ -42,6 +42,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      sessionCacheConnector: SessionCacheConnector,
                                      sessionCacheService: SessionCacheService,
                                      implicit val appConfig: ApplicationConfig,
+                                     implicit val application: Application,
                                      mcc: MessagesControllerComponents)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
