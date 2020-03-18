@@ -27,7 +27,7 @@ object AppDependencies {
     "uk.gov.hmrc" %% "play-ui" % "8.8.0-play-26",
     "uk.gov.hmrc" %% "play-partials" % "6.9.0-play-26",
     "uk.gov.hmrc" %% "http-caching-client" % "9.0.0-play-26",
-    "it.innove" % "play2-pdf" % "1.9.1" exclude("com.typesafe.play","*"),
+    "it.innove" % "play2-pdf" % "1.10.0" exclude("com.typesafe.play","*"),
     "com.typesafe.play" %% "play-json-joda" % "2.7.4",
     nettyServer
 
@@ -43,7 +43,7 @@ object AppDependencies {
       override lazy val test = Seq(
         "uk.gov.hmrc" %% "hmrctest" % "3.9.0-play-26" % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.3" % scope,
-        "org.mockito" % "mockito-core" % "3.3.1" % scope,
+        "org.mockito" % "mockito-core" % "3.3.3" % scope,
         "org.pegdown" % "pegdown" % "1.6.0" % scope,
         "org.jsoup" % "jsoup" % "1.12.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope
