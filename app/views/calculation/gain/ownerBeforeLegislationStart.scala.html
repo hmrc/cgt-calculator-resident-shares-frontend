@@ -39,7 +39,7 @@
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
         <div id="radio-input" class="form-group">
-            @inputRadioGroup(
+            @input_radio_group(
                 field = ownerBeforeLegislationStart("ownerBeforeLegislationStart"),
                 Seq(
                     "Yes" -> Messages("calc.base.yes"),

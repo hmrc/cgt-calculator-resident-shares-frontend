@@ -38,10 +38,10 @@ class ErrorTemplateViewSpec extends UnitSpec with FakeRequestHelper with Mockito
     "generate the same template when .render and .f are called" in {
 
       val f = (views.error_template.f(pageTitle, heading, message, homeNavLink)
-      (fakeRequest, mockMessages, fakeApplication, mockAppConfig))
+      (fakeRequest, mockMessages, mockAppConfig))
 
       val render = views.error_template.render(pageTitle, heading, message, homeNavLink,
-        fakeRequest, mockMessages, fakeApplication, mockAppConfig)
+        fakeRequest, mockMessages, mockAppConfig)
 
       f shouldBe render
     }
