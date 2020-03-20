@@ -14,7 +14,7 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.form
+@import uk.gov.hmrc.play.views.html.helpers.{form, input_radio_group}
 @import models.resident._
 @import views.html.helpers._
 @import views.html.calculation._
@@ -49,7 +49,7 @@
     <p class="form-hint"> @Messages("calc.resident.lossesBroughtForward.helpText")</p>
     @form(action = postAction) {
 
-        @inputRadioGroup(
+        @input_radio_group(
             field = lossesBroughtForwardForm("option"),
             Seq(
             "Yes"->Messages("calc.base.yes"),

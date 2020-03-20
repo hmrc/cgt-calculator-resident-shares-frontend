@@ -38,7 +38,7 @@
     @form(action = controllers.routes.GainController.submitSellForLess) {
 
         <div id="radio-input" class="form-group">
-            @inputRadioGroup(
+            @input_radio_group(
                 field = sellForLessForm("sellForLess"),
                 Seq(
                     "Yes" -> Messages("calc.base.yes"),

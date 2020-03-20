@@ -24,7 +24,6 @@ import play.api.mvc.Results.{BadRequest, NotFound}
 import play.api.http.Status._
 import play.api.i18n.MessagesApi
 import play.api.mvc.{Request,RequestHeader, Result}
-import play.api.Play.current
 
 
 import play.twirl.api.Html
