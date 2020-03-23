@@ -22,14 +22,13 @@ import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => mess
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.{GainController, routes}
 import controllers.helpers.FakeRequestHelper
-import controllers.{CgtLanguageController, GainController, routes}
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.{I18nSupport, MessagesApi}
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService

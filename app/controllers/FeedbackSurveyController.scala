@@ -28,7 +28,7 @@ class FeedbackSurveyController @Inject()(appConfig: ApplicationConfig,
                                          mcc: MessagesControllerComponents)
   extends FrontendController(mcc) with ValidActiveSession {
 
-  def redirectExitSurvey: Action[AnyContent] = Action.async { implicit request =>
+  def redirectExitSurvey: Action[AnyContent] = Action.async {
     Future.successful(Redirect(appConfig.feedbackSurvey).withNewSession)
   }
 }

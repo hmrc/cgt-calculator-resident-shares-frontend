@@ -16,7 +16,6 @@
 
 package forms
 
-import assets.MessageLookup.{Resident => messages}
 import forms.CurrentIncomeForm._
 import models.resident.income.CurrentIncomeModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

@@ -22,12 +22,11 @@ import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.{CgtLanguageController, GainController}
+import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionCostsModel
-import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
 import models.resident.shares.gain.DidYouInheritThemModel
-import org.joda.time.DateTime
+import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -35,7 +34,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 

@@ -43,5 +43,8 @@ package object utils {
             e.getMessage
           )
       }
+
+    def transform[S](f: Try[Result] => Try[S])(implicit executor: ExecutionContext): Future[S] = future.transform(f)
+    def transformWith[S](f: Try[Result] => Future[S])(implicit executor: ExecutionContext): Future[S] = future.transformWith(f)
   }
 }

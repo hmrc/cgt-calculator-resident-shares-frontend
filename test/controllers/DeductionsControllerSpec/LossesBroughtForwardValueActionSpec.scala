@@ -23,7 +23,7 @@ import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
-import controllers.{CgtLanguageController, DeductionsController}
+import controllers.DeductionsController
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup

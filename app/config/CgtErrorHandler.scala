@@ -18,16 +18,15 @@ package config
 
 import javax.inject.Inject
 import models.CGTClientException
-import play.api.{Configuration, Logger}
+import play.api.Logger
 import play.api.http.HeaderNames.CACHE_CONTROL
-import play.api.mvc.Results.{BadRequest, NotFound}
 import play.api.http.Status._
 import play.api.i18n.MessagesApi
-import play.api.mvc.{Request,RequestHeader, Result}
-
-
+import play.api.mvc.Results.{BadRequest, NotFound}
+import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
 import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, FrontendErrorHandler}
+
 import scala.concurrent.Future
 
 

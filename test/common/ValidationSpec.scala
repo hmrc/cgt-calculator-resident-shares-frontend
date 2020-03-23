@@ -19,7 +19,7 @@ package common
 import java.time.LocalDate
 
 import common.Validation._
-import play.api.data.validation.{Constraint, Invalid, Valid, ValidationError}
+import play.api.data.validation.{Invalid, Valid, ValidationError}
 import uk.gov.hmrc.play.test.UnitSpec
 
 class ValidationSpec extends UnitSpec {

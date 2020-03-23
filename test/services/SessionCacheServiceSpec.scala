@@ -17,7 +17,7 @@
 package services
 
 import common.KeystoreKeys
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.SessionCacheConnector
 import models.resident
 import models.resident.IncomeAnswersModel
 import models.resident.income.CurrentIncomeModel
@@ -27,7 +27,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, DefaultHttpClient}
+import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.concurrent.Future

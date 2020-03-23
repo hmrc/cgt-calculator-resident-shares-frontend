@@ -23,14 +23,14 @@ import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.DeductionsController
 import controllers.helpers.FakeRequestHelper
-import controllers.{CgtLanguageController, DeductionsController}
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
-import org.scalatestplus.mockito.MockitoSugar
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService

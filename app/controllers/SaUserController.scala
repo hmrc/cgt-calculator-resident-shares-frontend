@@ -59,7 +59,7 @@ class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
       else Future.successful(None)
     }
 
-    def totalTaxableGain(chargeableGain: Option[ChargeableGainResultModel] = None,
+    def totalTaxableGain(chargeableGain: Option[ChargeableGainResultModel],
                          deductionGainAnswers: DeductionGainAnswersModel,
                          chargeableGainAnswers: GainAnswersModel,
                          incomeAnswersModel: IncomeAnswersModel,

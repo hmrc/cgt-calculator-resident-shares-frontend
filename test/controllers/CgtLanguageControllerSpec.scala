@@ -16,7 +16,6 @@
 
 package controllers
 
-import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.Configuration

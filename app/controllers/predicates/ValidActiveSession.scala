@@ -29,7 +29,6 @@ trait ValidActiveSession  {
   val homeLink: String = controllers.routes.GainController.disposalDate().url
   val sessionTimeoutUrl: String = homeLink
 
-  private type PlayRequest = Request[AnyContent] => Result
   private type AsyncRequest = Request[AnyContent] => Future[Result]
 
   class ValidateSession {

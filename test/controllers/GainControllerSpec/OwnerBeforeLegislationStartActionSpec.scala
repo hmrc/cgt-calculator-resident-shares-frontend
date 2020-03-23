@@ -17,15 +17,14 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => Messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.GainController
 import controllers.helpers.FakeRequestHelper
-import controllers.{CgtLanguageController, GainController}
 import models.resident.shares.OwnerBeforeLegislationStartModel
-import org.joda.time.DateTime
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -33,7 +32,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 

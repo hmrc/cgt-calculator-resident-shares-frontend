@@ -16,7 +16,6 @@
 
 package forms
 
-import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import forms.DidYouInheritThemForm._
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
