@@ -44,6 +44,10 @@
     height: 35px;
 }
 
+.transaction-banner--complete {
+  background-color: #006435;
+}
+
 .non-resident-summary-padding-above {
     padding-top: 2.5em;
 }
