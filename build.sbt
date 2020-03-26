@@ -30,15 +30,15 @@ lazy val microservice = Project(appName, file("."))
   .settings(defaultSettings(): _*)
   .settings(
     targetJvm := "jvm-1.8",
-    scalaVersion := "2.11.12",
+    scalaVersion := "2.12.11",
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
     pipelineStages in Assets := Seq(digest),
     evictionWarningOptions in update := EvictionWarningOptions.default.withWarnScalaVersionEviction(false),
-    scalacOptions += "-P:silencer:pathFilters=views",
+    scalacOptions += "-P:silencer:pathFilters=views;routes",
     libraryDependencies ++= Seq(
-      compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.4.4" cross CrossVersion.full),
-      "com.github.ghik" % "silencer-lib" % "1.4.4" % Provided cross CrossVersion.full
+      compilerPlugin("com.github.ghik" % "silencer-plugin" % "1.6.0" cross CrossVersion.full),
+      "com.github.ghik" % "silencer-lib" % "1.6.0" % Provided cross CrossVersion.full
     ),
   )
   .configs(IntegrationTest)

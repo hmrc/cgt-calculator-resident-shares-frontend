@@ -16,7 +16,6 @@
 
 package forms
 
-import assets.MessageLookup.{Resident => messages}
 import forms.ValueBeforeLegislationStartForm._
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

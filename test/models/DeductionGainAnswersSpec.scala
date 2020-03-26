@@ -17,8 +17,7 @@
 package models
 
 import common.Dates._
-import models.resident._
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import models.resident.shares.GainAnswersModel
 import uk.gov.hmrc.play.test.UnitSpec
 
 class DeductionGainAnswersSpec extends UnitSpec {

@@ -16,7 +16,6 @@
 
 package forms
 
-import assets.MessageLookup.{Resident => messages}
 import forms.DisposalValueForm._
 import models.resident.DisposalValueModel
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}

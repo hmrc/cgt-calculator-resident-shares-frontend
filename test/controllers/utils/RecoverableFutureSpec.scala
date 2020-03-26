@@ -24,9 +24,8 @@ import play.api.test.FakeRequest
 import uk.gov.hmrc.play.bootstrap.http.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.{Await, CanAwait, Future}
 import scala.concurrent.duration._
-import scala.util.Success
+import scala.concurrent.{Await, Future}
 
 class RecoverableFutureSpec extends WordSpec with ScalaFutures with Matchers with IntegrationPatience with Status {
 

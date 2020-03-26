@@ -23,7 +23,7 @@ import com.codahale.metrics.SharedMetricRegistries
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.{CgtLanguageController, IncomeController}
+import controllers.IncomeController
 import controllers.helpers.FakeRequestHelper
 import models.resident.income.PersonalAllowanceModel
 import models.resident.{DisposalDateModel, TaxYearModel}

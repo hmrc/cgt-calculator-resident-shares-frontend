@@ -17,21 +17,20 @@
 package controllers.IncomeControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.Dates
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
+import controllers.IncomeController
 import controllers.helpers.FakeRequestHelper
-import controllers.{CgtLanguageController, IncomeController}
 import models.resident._
 import models.resident.income._
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap

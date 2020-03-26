@@ -24,7 +24,7 @@ import assets.MessageLookup.{SharesDisposalDate => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.{CgtLanguageController, GainController}
+import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup

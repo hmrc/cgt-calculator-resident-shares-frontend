@@ -17,13 +17,12 @@
 package controllers.ReportControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.ActorMaterializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.Dates
 import config.ApplicationConfig
 import connectors.CalculatorConnector
-import controllers.helpers.FakeRequestHelper
 import controllers.ReportController
+import controllers.helpers.FakeRequestHelper
 import it.innove.play.pdf.PdfGenerator
 import javax.inject.Inject
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
@@ -32,7 +31,6 @@ import models.resident.{TaxYearModel, _}
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.Lang
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import play.api.test.Helpers._
 import services.SessionCacheService
@@ -59,7 +57,6 @@ class FinalSummaryActionSpec @Inject()(pdfGenerator: PdfGenerator)extends UnitSp
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
     implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     implicit val mockApplication = fakeApplication
-    implicit val mockLang = mock[Lang]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))

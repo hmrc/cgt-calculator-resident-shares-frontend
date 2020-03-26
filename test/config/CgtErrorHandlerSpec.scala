@@ -21,7 +21,7 @@ import play.api.Application
 import play.api.http.Writeable
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.mvc.Results._
-import play.api.mvc.{Action, DefaultActionBuilder, Request, Result, Results}
+import play.api.mvc.{DefaultActionBuilder, Request, Result, Results}
 import play.api.routing.Router
 import play.api.test.FakeRequest
 import play.api.test.Helpers._

@@ -19,9 +19,9 @@ package constructors
 import java.time.LocalDate
 
 import common.Dates
-import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel, PreviousTaxableGainsModel}
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident._
+import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import uk.gov.hmrc.play.test.UnitSpec
 
 class CalculateRequestConstructorSpec extends UnitSpec {

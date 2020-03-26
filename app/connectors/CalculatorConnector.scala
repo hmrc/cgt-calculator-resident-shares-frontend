@@ -25,11 +25,10 @@ import models._
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.joda.time.DateTime
+import play.api.libs.json.JodaReads._
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, DefaultHttpClient}
-import play.api.libs.json.JodaWrites._
-import play.api.libs.json.JodaReads._
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future

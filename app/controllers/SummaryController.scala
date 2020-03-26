@@ -66,14 +66,14 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       else Future.successful(None)
     }
 
-    def buildDeductionsSummaryBackUrl(deductionGainAnswers: DeductionGainAnswersModel)(implicit hc: HeaderCarrier): Future[String] = {
+    def buildDeductionsSummaryBackUrl(deductionGainAnswers: DeductionGainAnswersModel): Future[String] = {
       Future.successful(routes.ReviewAnswersController.reviewDeductionsAnswers().url)
     }
 
-    def getTotalTaxableGain(chargeableGain: Option[ChargeableGainResultModel] = None,
+    def getTotalTaxableGain(chargeableGain: Option[ChargeableGainResultModel],
                             totalGainAnswers: GainAnswersModel, deductionGainAnswers: DeductionGainAnswersModel,
                             incomeAnswersModel: IncomeAnswersModel,
-                            maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[TotalGainAndTaxOwedModel]] = {
+                            maxAEA: BigDecimal): Future[Option[TotalGainAndTaxOwedModel]] = {
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswersModel.personalAllowanceModel.isDefined && incomeAnswersModel.currentIncomeModel.isDefined) {
         calculatorConnector.calculateRttShareTotalGainAndTax(totalGainAnswers, deductionGainAnswers, maxAEA, incomeAnswersModel)
@@ -94,7 +94,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                      currentTaxYear: String,
                      totalCosts: BigDecimal,
                      maxAea: BigDecimal,
-                     showUserResearchPanel: Boolean)(implicit hc: HeaderCarrier): Future[Result] = {
+                     showUserResearchPanel: Boolean): Future[Result] = {
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(

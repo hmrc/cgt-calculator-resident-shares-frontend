@@ -17,23 +17,21 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
 import assets.MessageLookup
-import controllers.helpers.FakeRequestHelper
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
-import org.mockito.ArgumentMatchers
-import config.{AppConfig, ApplicationConfig}
-import controllers.{CgtLanguageController, GainController}
+import controllers.GainController
+import controllers.helpers.FakeRequestHelper
 import models.resident.WorthWhenSoldForLessModel
-import org.joda.time.DateTime
-import org.scalatestplus.mockito.MockitoSugar
-import org.mockito.Mockito._
 import org.jsoup.Jsoup
+import org.mockito.ArgumentMatchers
+import org.mockito.Mockito._
+import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.HttpReads
 import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
@@ -61,9 +59,7 @@ class WorthWhenSoldForLessActionSpec extends UnitSpec with WithFakeApplication w
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC) {
-      val config: AppConfig = mock[AppConfig]
-    }
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
   }
 
   "Calling .worthWhenSoldForLess from the GainCalculationController" when {
