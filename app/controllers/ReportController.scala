@@ -27,7 +27,7 @@ import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
 import javax.inject.Inject
 import models.resident.TaxYearModel
-import play.api.Application
+import play.api.{Application, Logger}
 import play.api.i18n.{I18nSupport, Lang, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import services.SessionCacheService
@@ -45,9 +45,9 @@ class ReportController @Inject()(calcConnector: CalculatorConnector,
                                 (implicit val appConfig: ApplicationConfig, implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-
   def host(implicit request: RequestHeader): String = {
-    s"http://${request.host}/"
+    Logger.info(s"[ReportController][host] request.secure = ${request.secure}")
+    if (request.secure) s"https://${request.host}/" else s"http://${request.host}/"
   }
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] =
