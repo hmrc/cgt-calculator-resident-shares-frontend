@@ -27,9 +27,9 @@ import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
 import javax.inject.Inject
 import models.resident.TaxYearModel
-import play.api.Application
 import play.api.i18n.{I18nSupport, Lang, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
+import play.api.{Application, Configuration}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.controller.FrontendController
@@ -38,17 +38,18 @@ import views.html.calculation.{report => views}
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class ReportController @Inject()(calcConnector: CalculatorConnector,
+class ReportController @Inject()(config: Configuration,
+                                 calcConnector: CalculatorConnector,
                                  sessionCacheService: SessionCacheService,
                                  mcc: MessagesControllerComponents,
                                  pdfGenerator: PdfGenerator)
                                 (implicit val appConfig: ApplicationConfig, implicit val application: Application)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
+  lazy val platformHost: Option[String] = config.getOptional[String]("platform.frontend.host")
 
-  def host(implicit request: RequestHeader): String = {
-    s"http://${request.host}/"
-  }
+  def host(implicit request: RequestHeader): String =
+    if (platformHost.isDefined) s"https://${request.host}" else s"http://${request.host}"
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[Option[TaxYearModel]] =
     calcConnector.getTaxYear(disposalDate.format(requestFormatter))
