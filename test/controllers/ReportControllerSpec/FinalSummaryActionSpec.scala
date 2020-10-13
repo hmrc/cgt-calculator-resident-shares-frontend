@@ -88,7 +88,7 @@ class FinalSummaryActionSpec @Inject()(pdfGenerator: PdfGenerator)extends UnitSp
     when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
-    new ReportController(mockCalculatorConnector, mockSessionCacheService, mockMCC, pdfGenerator) {
+    new ReportController(fakeApplication.configuration, mockCalculatorConnector, mockSessionCacheService, mockMCC, pdfGenerator) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }
