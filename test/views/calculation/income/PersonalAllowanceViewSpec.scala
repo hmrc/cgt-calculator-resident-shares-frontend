@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,18 +18,17 @@ package views.calculation.income
 
 import assets.DateAsset
 import assets.MessageLookup.{PersonalAllowance => messages, Resident => commonMessages}
-import common.Dates
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import common.resident.JourneyKeys
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.PersonalAllowanceForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{income => views}
 import play.api.mvc.MessagesControllerComponents
 
-class PersonalAllowanceViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   val postAction = controllers.routes.IncomeController.submitPersonalAllowance()
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]

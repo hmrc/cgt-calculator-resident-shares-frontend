@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package config
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import org.scalatest.MustMatchers._
 import play.api.Application
 import play.api.http.Writeable
@@ -25,14 +26,13 @@ import play.api.mvc.{DefaultActionBuilder, Request, Result, Results}
 import play.api.routing.Router
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
-import uk.gov.hmrc.play.bootstrap.http.ApplicationException
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
-class CgtErrorHandlerSpec extends UnitSpec with WithFakeApplication {
+class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   def routeWithError[A](app: Application, request: Request[A])
                        (implicit writeable: Writeable[A]): Option[Future[Result]] = {

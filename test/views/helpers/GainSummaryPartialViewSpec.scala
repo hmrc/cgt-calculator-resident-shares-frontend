@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +17,15 @@
 package views.helpers
 
 import assets.MessageLookup.{SummaryDetails => summaryMessages}
-import common.Dates
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.{helpers => views}
 
-class GainSummaryPartialViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   "The shares were sold for less than worth" should {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 package connectors
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import org.mockito.ArgumentMatchers.any
 import org.mockito.Mockito._
@@ -25,11 +26,10 @@ import uk.gov.hmrc.http.cache.client.CacheMap
 import uk.gov.hmrc.http.logging.SessionId
 import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, NotFoundException}
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class SessionCacheConnectorSpec extends UnitSpec with WithFakeApplication with MockitoSugar {
+class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar {
 
   val defaultCache = mock[CacheMap]
   val defaultConnector = mock[CalculatorConnector]

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,14 +18,14 @@ package views.helpers
 
 import assets.MessageLookup.{Resident => commonMessages}
 import common.Dates._
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.helpers.resident.summaryDateRowHelper
 
-class SummaryDateRowHelperSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper{
+class SummaryDateRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper{
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val fakeLang: Lang = Lang("en")

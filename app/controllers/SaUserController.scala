@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,13 +28,12 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.Application
 import play.api.data.Form
 import play.api.i18n.I18nSupport
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import services.SessionCacheService
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.controller.FrontendController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
 import scala.concurrent.ExecutionContext.Implicits.global
 

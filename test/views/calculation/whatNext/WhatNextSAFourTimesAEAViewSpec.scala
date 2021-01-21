@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +18,14 @@ package views.calculation.whatNext
 
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{whatNext => views}
 import assets.MessageLookup.WhatNextPages.{FourTimesAEA => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import play.api.mvc.MessagesControllerComponents
 
-class WhatNextSAFourTimesAEAViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
 

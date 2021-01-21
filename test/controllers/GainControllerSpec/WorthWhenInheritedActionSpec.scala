@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
@@ -33,11 +34,10 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class WorthWhenInheritedActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
   lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()

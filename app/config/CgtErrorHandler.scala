@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,20 +18,20 @@ package config
 
 import javax.inject.Inject
 import models.CGTClientException
-import play.api.Logger
+import play.api.Logging
 import play.api.http.HeaderNames.CACHE_CONTROL
 import play.api.http.Status._
 import play.api.i18n.MessagesApi
 import play.api.mvc.Results.{BadRequest, NotFound}
 import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
-import uk.gov.hmrc.play.bootstrap.http.{ApplicationException, FrontendErrorHandler}
+import uk.gov.hmrc.play.bootstrap.frontend.http.{ApplicationException, FrontendErrorHandler}
 
 import scala.concurrent.Future
 
 
 class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
-                                implicit val appConfig: ApplicationConfig) extends FrontendErrorHandler {
+                                implicit val appConfig: ApplicationConfig) extends FrontendErrorHandler with Logging{
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit req:Request[_]): Html = {
     val homeNavLink = controllers.routes.GainController.disposalDate().url
@@ -49,7 +49,7 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
   override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
     exception match {
       case ApplicationException(result, _) =>
-        Logger.warn(s"Key-store None.get handled from: ${request.uri}")
+        logger.warn(s"Key-store None.get handled from: ${request.uri}")
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
       case e => Future.successful(resolveError(request, e))
     }

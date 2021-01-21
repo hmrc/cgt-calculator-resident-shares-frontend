@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@ package views.calculation.report
 
 import assets.DateAsset
 import assets.MessageLookup.{SummaryPage => messages}
-import common.Dates
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
@@ -28,10 +28,9 @@ import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.MessagesControllerComponents
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{report => views}
 
-class SharesFinalReportViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val fakeLang: Lang = Lang("en")
