@@ -63,30 +63,30 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
     }
   }
 
-  implicit override lazy val fakeApplication = new GuiceApplicationBuilder().router(routerForTest).build()
+  implicit lazy val app = new GuiceApplicationBuilder().router(routerForTest).build()
 
   "Application returns OK for no exception" in {
     val request = FakeRequest("GET", "/ok")
-    val response = routeWithError(fakeApplication, request).get
+    val response = routeWithError(app, request).get
     status(response) must equal(OK)
   }
 
   "Application returns 303 and redirects user to start of journey for none.get, rather than technical difficulties" in {
     val request = FakeRequest("GET", "/application-exception")
-    val response = routeWithError(fakeApplication, request).get
+    val response = routeWithError(app, request).get
     status(response) must equal(SEE_OTHER)
     redirectLocation(response) shouldBe Some(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink).url)
   }
 
   "Application throws other exception and logs error" in {
     val request = FakeRequest("GET", "/other-error")
-    val response = routeWithError(fakeApplication, request).get
+    val response = routeWithError(app, request).get
     status(response) must equal(INTERNAL_SERVER_ERROR)
   }
 
   "Application returns 404 for non-existent endpoint" in {
     val request = FakeRequest("GET", "/non-existent-end-point")
-    val response = routeWithError(fakeApplication, request).get
+    val response = routeWithError(app, request).get
     status(response) shouldBe (NOT_FOUND)
   }
 }

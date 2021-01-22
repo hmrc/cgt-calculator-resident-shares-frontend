@@ -16,7 +16,6 @@
 
 package services
 
-import assets.MessageLookup.Common
 import common.{CommonPlaySpec, KeystoreKeys}
 import connectors.SessionCacheConnector
 import models.resident
