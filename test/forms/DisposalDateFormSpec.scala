@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,12 +19,12 @@ package forms
 import java.time.{LocalDate, ZoneId}
 
 import assets.MessageLookup.{DisposalDate => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalDateForm._
 import models.resident.DisposalDateModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class DisposalDateFormSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalDateFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   "Creating the form for the disposal date" should {
     "return a populated form using .fill" in {

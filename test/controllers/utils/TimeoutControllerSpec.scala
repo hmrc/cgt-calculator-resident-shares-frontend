@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package controllers.utils
 
 import akka.actor.ActorSystem
 import akka.stream.Materializer
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
@@ -25,9 +26,8 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Messages, MessagesProvider}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.FakeRequest
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class TimeoutControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit val config = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockMessagesProvider = mock[MessagesProvider]

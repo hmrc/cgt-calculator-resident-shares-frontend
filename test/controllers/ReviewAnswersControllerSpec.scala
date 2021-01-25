@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import java.time.LocalDate
 import akka.stream.Materializer
 import akka.util.Timeout
 import assets.MessageLookup
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
@@ -35,12 +36,11 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 
-class ReviewAnswersControllerSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
   val mockSessionCacheService = mock[SessionCacheService]
   val mockConnector = mock[CalculatorConnector]

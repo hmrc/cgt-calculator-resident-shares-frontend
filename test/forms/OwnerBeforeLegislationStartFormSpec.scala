@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 package forms
 
 import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => Messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.OwnerBeforeLegislationStartForm._
 import models.resident.shares.OwnerBeforeLegislationStartModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class OwnerBeforeLegislationStartFormSpec extends UnitSpec with WithFakeApplication {
+class OwnerBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating the OwnerBeforeLegislationStart form from valid inputs" should {
 

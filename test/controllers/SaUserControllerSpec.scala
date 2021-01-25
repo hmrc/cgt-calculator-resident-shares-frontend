@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ package controllers
 import akka.stream.Materializer
 import assets.{MessageLookup, ModelsAsset}
 import com.codahale.metrics.SharedMetricRegistries
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
@@ -33,11 +34,10 @@ import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 
-class SaUserControllerSpec extends UnitSpec with FakeRequestHelper with MockitoSugar with WithFakeApplication {
+class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
   lazy val materializer = mock[Materializer]
   implicit val hc = HeaderCarrier(sessionId = Some(SessionId("sessionId")))

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,17 @@
 
 package controllers
 
-import play.api.Logger
+import play.api.Logging
 import play.api.mvc.Results._
 import play.api.mvc.{Request, Result}
-import uk.gov.hmrc.play.bootstrap.http.ApplicationException
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{CanAwait, ExecutionContext, Future}
 import scala.util.Try
 
 package object utils {
-  implicit class RecoverableFuture(future: Future[Result]) extends Future[Result] {
+  implicit class RecoverableFuture(future: Future[Result]) extends Future[Result] with Logging {
 
     override def onComplete[U](f: (Try[Result]) => U)(implicit executor: ExecutionContext): Unit = future.onComplete(f)
     override def isCompleted: Boolean = future.isCompleted
@@ -37,7 +37,7 @@ package object utils {
     def recoverToStart(homeLink:String, sessionTimeoutUrl: String)(implicit request: Request[_], ec: ExecutionContext): Future[Result] =
       future.recover {
         case e: NoSuchElementException =>
-          Logger.warn(s"${request.uri} resulted in None.get, user redirected to start")
+          logger.warn(s"${request.uri} resulted in None.get, user redirected to start")
           throw ApplicationException(
             Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, sessionTimeoutUrl)),
             e.getMessage

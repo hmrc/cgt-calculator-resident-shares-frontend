@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,9 +20,8 @@ import java.time.LocalDate
 
 import common.Validation._
 import play.api.data.validation.{Invalid, Valid, ValidationError}
-import uk.gov.hmrc.play.test.UnitSpec
 
-class ValidationSpec extends UnitSpec {
+class ValidationSpec extends CommonPlaySpec {
 
   //############# Tests for isValidDate function ##########################################
   "calling common.Validation.isValidDate(day, month, year) " should {

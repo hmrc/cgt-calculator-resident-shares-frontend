@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 
 package services
 
-import common.KeystoreKeys
+import common.{CommonPlaySpec, KeystoreKeys}
 import connectors.SessionCacheConnector
 import models.resident
 import models.resident.IncomeAnswersModel
@@ -27,12 +27,11 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.http.ApplicationException
-import uk.gov.hmrc.play.test.UnitSpec
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.Future
 
-class SessionCacheServiceSpec extends UnitSpec with MockitoSugar {
+class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar {
 
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val homeLink = controllers.routes.GainController.disposalDate().url

@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,14 +20,14 @@ import controllers.helpers.FakeRequestHelper
 import forms.DidYouInheritThemForm._
 import models.resident.shares.gain.DidYouInheritThemModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import play.api.mvc.MessagesControllerComponents
 
-class DidYouInheritThemViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]

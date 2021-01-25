@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import com.google.inject.Inject
 import play.api.Configuration
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
-import uk.gov.hmrc.play.bootstrap.controller.FrontendBaseController
+import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendBaseController
 
 class CgtLanguageController @Inject()(
                                        configuration: Configuration,

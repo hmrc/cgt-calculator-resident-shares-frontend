@@ -1,5 +1,5 @@
 @*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,13 +38,13 @@
                     id="@elements.args.get('_error_id)"
                 }
                 role="tooltip">
-                @Messages(error)
+                @Messages(error.toString())
             </span>
         }
     }
 
     @if(parentElements.isDefined) {
-        @parentElements.get.errors.map { error => <span class="error-notification">@Messages(error)</span>}
+        @parentElements.get.errors.map { error => <span class="error-notification">@Messages(error.toString())</span>}
     }
 
     @if(!labelAfter && elements.args.contains('_label)) {

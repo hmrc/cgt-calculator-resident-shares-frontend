@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 package views.calculation.gain
 
 import assets.MessageLookup.{Resident => commonMessages, SharesDisposalCosts => messages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalCostsForm._
@@ -24,10 +25,9 @@ import org.jsoup.Jsoup
 import play.api.Play.current
 import play.api.i18n.Messages.Implicits._
 import play.api.mvc.MessagesControllerComponents
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{gain => views}
 
-class DisposalCostsViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]

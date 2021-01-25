@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,11 @@
 
 package forms
 
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import forms.CurrentIncomeForm._
 import models.resident.income.CurrentIncomeModel
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
-class CurrentIncomeFormSpec extends UnitSpec with WithFakeApplication {
+class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
   "Creating a form using an empty model" should {
 

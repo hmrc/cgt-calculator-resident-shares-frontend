@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,7 +19,7 @@ package controllers
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{SummaryPage => messages}
-import common.Dates
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
@@ -32,13 +32,12 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 
 
-class SummaryActionSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper with MockitoSugar {
+class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
   implicit val hc = new HeaderCarrier()

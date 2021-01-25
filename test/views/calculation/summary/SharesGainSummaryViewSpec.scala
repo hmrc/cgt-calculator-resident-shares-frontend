@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ import assets.MessageLookup.{SummaryPage => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.{Shares => SharesMessages}
 import assets.MessageLookup.{SummaryDetails => summaryMessages}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.Dates._
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
@@ -28,13 +29,12 @@ import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import views.html.calculation.{summary => views}
 import play.api.i18n.Messages.Implicits._
 import play.api.Play.current
 import play.api.mvc.MessagesControllerComponents
 
-class SharesGainSummaryViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]

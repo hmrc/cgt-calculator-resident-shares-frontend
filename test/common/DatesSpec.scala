@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 package common
 
-import uk.gov.hmrc.play.test.UnitSpec
 import java.time.LocalDate
 
 import common.Dates.TemplateImplicits.RichDate
@@ -25,7 +24,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages}
 
-class DatesSpec extends UnitSpec with MockitoSugar {
+class DatesSpec extends CommonPlaySpec with MockitoSugar {
 
   "Calling constructDate method" should {
 

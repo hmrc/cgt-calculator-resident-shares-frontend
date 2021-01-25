@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +17,19 @@
 package views.calculation.checkYourAnswers
 
 import controllers.helpers.FakeRequestHelper
-import uk.gov.hmrc.play.test.{UnitSpec, WithFakeApplication}
 import org.jsoup.Jsoup
 import views.html.calculation.{checkYourAnswers => views}
 import assets.MessageLookup.Resident.Shares.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.api.mvc.{Call, MessagesControllerComponents}
 import play.twirl.api.HtmlFormat
 
-class CheckYourAnswersViewSpec extends UnitSpec with WithFakeApplication with FakeRequestHelper {
+class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val fakeLang: Lang = Lang("en")

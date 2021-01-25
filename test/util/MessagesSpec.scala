@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package util
 
+import common.CommonPlaySpec
 import play.api.i18n.Messages
 import play.api.i18n.Messages.MessageSource
-import uk.gov.hmrc.play.test.UnitSpec
 
 import scala.io.Source
 
-class MessagesSpec extends UnitSpec  {
+class MessagesSpec extends CommonPlaySpec  {
 
   private val MatchSingleQuoteOnly = """\w+'{1}\w+""".r
   private val MatchBacktickQuoteOnly = """`+""".r
