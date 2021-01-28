@@ -110,7 +110,7 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "returning a valid response" in new Setup {
-        val expected = HttpResponse(200)
+        val expected = HttpResponse.apply(200, "")
 
         when(defaultHttpClient.DELETE[HttpResponse](any(), any())
           (any(), any(), any()))
