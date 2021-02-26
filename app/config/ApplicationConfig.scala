@@ -22,8 +22,6 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 trait AppConfig {
   val assetsPrefix: String
-  val analyticsToken: String
-  val analyticsHost: String
   val contactFormServiceIdentifier: String
   val contactFrontendPartialBaseUrl: String
   val reportAProblemPartialUrl: String
@@ -31,7 +29,6 @@ trait AppConfig {
   val residentIFormUrl: String
   val urBannerLink: String
   val feedbackSurvey: String
-  val googleTagManagerId: String
 }
 
 class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: ServicesConfig) extends AppConfig {
@@ -42,8 +39,6 @@ class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: 
   lazy val contactHost = servicesConfig.getConfString("contact-frontend.www", "")
 
   lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
-  lazy val analyticsToken = loadConfig(s"google-analytics.token")
-  lazy val analyticsHost = loadConfig(s"google-analytics.host")
 
   val contactFormServiceIdentifier = "CGT"
   lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
@@ -56,5 +51,4 @@ class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: 
 
   lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
   lazy val baseUrl = servicesConfig.baseUrl("capital-gains-calculator")
-  lazy val googleTagManagerId = loadConfig(s"google-tag-manager.id")
 }
