@@ -28,7 +28,7 @@
             @question
         </div>
         <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-4">
-           @date.localFormat("d MMMM YYYY")
+           @date.localFormat("d MMMM yyyy")
         </div>
         <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
             <a href="@link" class="bold-small">@Messages("calc.base.change")
@@ -42,7 +42,7 @@
             @question
         </div>
         <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-2 text--right">
-           @date.localFormat("d MMMM YYYY")
+           @date.localFormat("d MMMM yyyy")
         </div>
     </div>
 }
