@@ -71,7 +71,7 @@ trait Dates {
       def localFormat(pattern: String)(implicit lang: play.api.i18n.Lang, messages: Messages): String = {
         if(lang.language == "cy") {
           val monthNum = date.getMonthValue
-          val welshFormatter = DateTimeFormatter.ofPattern(s"""d '${messages(s"calc.month.$monthNum")}' YYYY""")
+          val welshFormatter = DateTimeFormatter.ofPattern(s"""d '${messages(s"calc.month.$monthNum")}' yyyy""")
           date.format(welshFormatter)
         } else {
           val localFormatter = DateTimeFormatter.ofPattern(pattern, lang.toLocale)

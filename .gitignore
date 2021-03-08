@@ -1,4 +1,4 @@
-
+.bsp
 logs
 project/project
 project/target
@@ -18,4 +18,3 @@ dist
 /.settings
 *.iws
 sbt.json
-    
