@@ -17,5 +17,4 @@ dist
 /RUNNING_PID
 /.settings
 *.iws
-sbt.json
-    
+.bsp/sbt.json
