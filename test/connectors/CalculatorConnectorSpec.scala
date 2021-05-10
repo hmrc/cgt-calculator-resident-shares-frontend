@@ -29,8 +29,7 @@ import org.mockito.Mockito._
 import org.mockito.stubbing.OngoingStubbing
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.Results._
-import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.http.{HeaderCarrier, HttpReads}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, SessionId}
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
@@ -52,7 +51,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .getMinimumDate" should {
     def mockDate(result: Future[DateTime]): OngoingStubbing[Future[DateTime]] =
-      when(mockHttp.GET[DateTime](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockHttp.GET[DateTime](ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(result)
 
     "return a DateTime which matches the returned LocalDate" in {
@@ -68,7 +67,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .getFullAEA" should {
     def mockAEA(result: Future[Option[BigDecimal]]): OngoingStubbing[Future[Option[BigDecimal]]] = {
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
+      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }
@@ -91,7 +90,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .getPartialAEA" should {
     def mockAEA(result: Future[Option[BigDecimal]]): OngoingStubbing[Future[Option[BigDecimal]]] = {
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
+      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }
@@ -114,7 +113,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .getPA" should {
     def mockPA(result: Future[Option[BigDecimal]]): OngoingStubbing[Future[Option[BigDecimal]]] = {
-      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
+      when(mockHttp.GET[Option[BigDecimal]](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[Option[BigDecimal]]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }
@@ -137,7 +136,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .getTaxYear" should {
     def mockTaxYear(result: Future[Option[TaxYearModel]]): OngoingStubbing[Future[Option[TaxYearModel]]] = {
-      when(mockHttp.GET[Option[TaxYearModel]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[TaxYearModel]]]),
+      when(mockHttp.GET[Option[TaxYearModel]](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[Option[TaxYearModel]]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }
@@ -160,7 +159,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .calculateRttShareGrossGain" should {
     def mockCalculateRttShareGrossGain(result: Future[BigDecimal]): OngoingStubbing[Future[BigDecimal]] = {
-      when(mockHttp.GET[BigDecimal](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[BigDecimal]]),
+      when(mockHttp.GET[BigDecimal](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[BigDecimal]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }
@@ -186,7 +185,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
   "Calling .calculateRttShareChargeableGain" should {
     val mockChargeableGainResultModel = mock[ChargeableGainResultModel]
     def mockCalculateRttShareChargeableGain(result: Future[Option[ChargeableGainResultModel]]): OngoingStubbing[Future[Option[ChargeableGainResultModel]]] = {
-      when(mockHttp.GET[Option[ChargeableGainResultModel]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[ChargeableGainResultModel]]]),
+      when(mockHttp.GET[Option[ChargeableGainResultModel]](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[Option[ChargeableGainResultModel]]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }
@@ -220,7 +219,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
   "Calling .calculateRttShareTotalGainAndTax" should {
     val mockTotalGainAndTaxOwedModel = mock[TotalGainAndTaxOwedModel]
     def mockCalculateRttShareTotalGainAndTax(result: Future[Option[TotalGainAndTaxOwedModel]]): OngoingStubbing[Future[Option[TotalGainAndTaxOwedModel]]] = {
-      when(mockHttp.GET[Option[TotalGainAndTaxOwedModel]](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[Option[TotalGainAndTaxOwedModel]]]),
+      when(mockHttp.GET[Option[TotalGainAndTaxOwedModel]](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[Option[TotalGainAndTaxOwedModel]]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }
@@ -253,7 +252,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .getSharesTotalCosts" should {
     def mockGetSharesTotalCosts(result: Future[BigDecimal]): OngoingStubbing[Future[BigDecimal]] = {
-      when(mockHttp.GET[BigDecimal](ArgumentMatchers.anyString())(ArgumentMatchers.any(classOf[HttpReads[BigDecimal]]),
+      when(mockHttp.GET[BigDecimal](ArgumentMatchers.anyString(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(classOf[HttpReads[BigDecimal]]),
         ArgumentMatchers.any(classOf[HeaderCarrier]), ArgumentMatchers.any(classOf[ExecutionContext])))
         .thenReturn(result)
     }

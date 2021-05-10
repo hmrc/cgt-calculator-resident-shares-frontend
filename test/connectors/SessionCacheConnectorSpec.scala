@@ -23,8 +23,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.libs.json.Json
 import uk.gov.hmrc.http.cache.client.CacheMap
-import uk.gov.hmrc.http.logging.SessionId
-import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, NotFoundException}
+import uk.gov.hmrc.http.{HeaderCarrier, HttpResponse, SessionId, UpstreamErrorResponse}
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
 import scala.concurrent.Future
@@ -70,7 +69,7 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "provide a valid interface for the fetch and get entry method" when {
       "returning an exception" in new Setup {
-        when(defaultHttpClient.GET(any())(any(), any(), any()))
+        when(defaultHttpClient.GET(any(), any(), any())(any(), any(), any()))
           .thenReturn(Future.failed(new RuntimeException("testException")))
 
         val result = connector.fetchAndGetFormData[String]("key")
@@ -78,8 +77,8 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplic
         intercept[RuntimeException](await(result))
       }
       "returning no data" in new Setup {
-        when(defaultHttpClient.GET[CacheMap](any())(any(), any(), any()))
-          .thenReturn(Future.failed(new NotFoundException("404")))
+        when(defaultHttpClient.GET[CacheMap](any(), any(), any())(any(), any(), any()))
+          .thenReturn(Future.failed(UpstreamErrorResponse.apply("",404)))
 
         val result = connector.fetchAndGetFormData[String]("key")
 
@@ -88,7 +87,7 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplic
       "returning valid data" in new Setup {
         val validCacheMap = CacheMap("SessionID", Map("key" -> Json.toJson("default")))
 
-        when(defaultHttpClient.GET[CacheMap](any())
+        when(defaultHttpClient.GET[CacheMap](any(), any(), any())
           (any(), any(), any()))
           .thenReturn(Future.successful(validCacheMap))
 
@@ -104,7 +103,7 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplic
           (any(), any(), any()))
           .thenReturn(Future.failed(new RuntimeException("testException")))
 
-        val result = connector.clearKeystore
+        val result = connector.clearKeystore(hc)
 
         intercept[RuntimeException](await(result))
       }
@@ -116,7 +115,7 @@ class SessionCacheConnectorSpec extends CommonPlaySpec with WithCommonFakeApplic
           (any(), any(), any()))
           .thenReturn(Future.successful(expected))
 
-        val result = connector.clearKeystore
+        val result = connector.clearKeystore(hc)
 
         await(result) shouldBe expected
       }
