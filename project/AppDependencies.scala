@@ -20,13 +20,13 @@ import play.core.PlayVersion
 
 object AppDependencies {
 
-  val bootstrapVersion         = "4.2.0"
+  val bootstrapVersion         = "5.3.0"
   val govUKTemplateVersion     = "5.66.0-play-27"
   val playUiVersion            = "8.20.0-play-27"
   val playPartialsVersion      = "8.1.0-play-27"
-  val httpCachingClientVersion = "9.4.0-play-27"
+  val httpCachingClientVersion = "9.5.0-play-27"
   val play2PdfVersion          = "1.10.0"
-  val jsonJodaVersion          = "2.9.0"
+  val jsonJodaVersion          = "2.9.2"
 
   val compile = Seq(
     ws,
