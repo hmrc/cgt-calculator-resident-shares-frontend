@@ -20,17 +20,17 @@ import play.core.PlayVersion
 
 object AppDependencies {
 
-  val bootstrapVersion         = "5.3.0"
-  val govUKTemplateVersion     = "5.66.0-play-27"
-  val playUiVersion            = "8.20.0-play-27"
-  val playPartialsVersion      = "8.1.0-play-27"
-  val httpCachingClientVersion = "9.5.0-play-27"
+  val bootstrapVersion         = "5.4.0"
+  val govUKTemplateVersion     = "5.68.0-play-28"
+  val playUiVersion            = "9.5.0-play-28"
+  val playPartialsVersion      = "8.1.0-play-28"
+  val httpCachingClientVersion = "9.5.0-play-28"
   val play2PdfVersion          = "1.10.0"
   val jsonJodaVersion          = "2.9.2"
 
   val compile = Seq(
     ws,
-    "uk.gov.hmrc" %% "bootstrap-frontend-play-27" % bootstrapVersion,
+    "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % bootstrapVersion,
     "uk.gov.hmrc" %% "govuk-template" % govUKTemplateVersion,
     "uk.gov.hmrc" %% "play-ui" % playUiVersion,
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
@@ -49,9 +49,10 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
-        "org.scalatestplus.play" %% "scalatestplus-play" % "4.0.3" % scope,
+        "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % scope,
+        "org.scalatestplus" %%  "scalatestplus-mockito" % "1.0.0-M2" % scope,
         "org.mockito" % "mockito-core" % "3.3.3" % scope,
-        "org.pegdown" % "pegdown" % "1.6.0" % scope,
+        "com.vladsch.flexmark" % "flexmark-all" % "0.35.10" % scope,
         "org.jsoup" % "jsoup" % "1.13.1" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope
       )

@@ -24,16 +24,17 @@ import controllers.helpers.FakeRequestHelper
 import forms.ValueBeforeLegislationStartForm._
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.valueBeforeLegislationStart
 
 class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val valueBeforeLegislationStartView = fakeApplication.injector.instanceOf[valueBeforeLegislationStart]
 
   "ValueBeforeLegislationStart View" should {
 
-    lazy val view = views.valueBeforeLegislationStart(valueBeforeLegislationStartForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -141,9 +142,9 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.valueBeforeLegislationStart.f(valueBeforeLegislationStartForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = valueBeforeLegislationStartView.f(valueBeforeLegislationStartForm)(fakeRequest, mockMessage)
 
-      val render = views.valueBeforeLegislationStart.render(valueBeforeLegislationStartForm, fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = valueBeforeLegislationStartView.render(valueBeforeLegislationStartForm, fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -152,7 +153,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "ValueBeforeLegislationStart View with form without errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -171,7 +172,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "ValueBeforeLegislationStart View with form with errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
-    lazy val view = views.valueBeforeLegislationStart(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

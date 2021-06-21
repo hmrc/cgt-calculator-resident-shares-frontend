@@ -19,9 +19,8 @@ package controllers.IncomeControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{CurrentIncome => messages}
-import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import config.ApplicationConfig
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.IncomeController
 import controllers.helpers.FakeRequestHelper
@@ -34,6 +33,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.calculation.income.{currentIncome, personalAllowance}
 
 import scala.concurrent.Future
 
@@ -52,9 +52,9 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
-    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    implicit val mockApplication = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
+    val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel]
       (ArgumentMatchers.eq(keystoreKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -78,7 +78,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       )
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceView, currentIncomeView)
   }
 
   "Calling .currentIncome from the IncomeController with a session" when {

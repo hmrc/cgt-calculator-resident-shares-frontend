@@ -28,18 +28,17 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import views.html.helpers.checkYourAnswersPartial
 import play.twirl.api.HtmlFormat
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
 
 class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val fakeLang: Lang = Lang("en")
+  val checkYourAnswersPartialView = fakeApplication.injector.instanceOf[checkYourAnswersPartial]
 
   "The check your answers partial with as much filled in as possible" should {
 
-    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
+    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
       Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(mockMessage, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
@@ -233,7 +232,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
   }
 
   "The check your answers partial with display links set to false" should {
-    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersMostPossibles,
+    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
       Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(mockMessage, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 
@@ -244,7 +243,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
   "The check your answers partial with as little filled in as possible" should {
 
-    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartial(gainAnswersLeastPossibles,
+    lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersLeastPossibles,
       Some(deductionAnswersLeastPossibles), Some(taxYearModel), None)(mockMessage, fakeLang)
     lazy val doc: Document = Jsoup.parse(view.body)
 

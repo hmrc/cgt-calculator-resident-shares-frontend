@@ -15,15 +15,19 @@
  *@
 
 @import models.resident._
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import views.html.helpers._
 @import views.html.calculation._
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    form: FormWithCSRF,
+    errorSummary: errorSummary,
+    residentMainTemplate: resident_main_template,
+    formInputMoney: formInputMoney
+)
 
-@resident_main_template(
+@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     title = Messages("calc.resident.lossesBroughtForwardValue.title",
     taxYear.taxYearSupplied),
     backLink = Some(navBackLink),

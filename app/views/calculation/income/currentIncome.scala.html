@@ -17,12 +17,17 @@
 @import views.html.calculation._
 @import models.resident.income.CurrentIncomeModel
 @import models.resident._
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import views.html.helpers._
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentMainTemplate: resident_main_template,
+    errorSummary: errorSummary,
+    form: FormWithCSRF,
+    formInputMoney: formInputMoney
+
+)
+
+@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
 
 @title = {
     @{if(inCurrentTaxYear) {
@@ -32,7 +37,7 @@
     }}
 }
 
-@resident_main_template(title = title.toString,
+@residentMainTemplate(title = title.toString,
                         backLink = Some(backUrl),
                         homeLink = controllers.routes.GainController.disposalDate().url,
                         navTitle = Messages("calc.base.resident.shares.home")) {

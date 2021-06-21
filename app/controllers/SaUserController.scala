@@ -17,7 +17,6 @@
 package controllers
 
 import common.Dates.requestFormatter
-import config.ApplicationConfig
 import connectors.CalculatorConnector
 import constructors.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
@@ -25,27 +24,25 @@ import forms.SaUserForm
 import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import play.api.Application
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import services.SessionCacheService
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-
-import scala.concurrent.ExecutionContext.Implicits.global
-
+import views.html.calculation.whatNext.saUser
 
 class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
                                  sessionCacheService: SessionCacheService,
-                                 mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig, implicit val application: Application)
+                                 mcc: MessagesControllerComponents,
+                                 saUserView: saUser)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   val saUser: Action[AnyContent] = ValidateSession.async {
     implicit request =>
-      Future.successful(Ok(views.html.calculation.whatNext.saUser(SaUserForm.saUserForm)))
+      Future.successful(Ok(saUserView(SaUserForm.saUserForm)))
   }
 
   val submitSaUser: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -97,7 +94,7 @@ class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
     }
 
     def errorAction(form: Form[SaUserModel]) = {
-      Future.successful(BadRequest(views.html.calculation.whatNext.saUser(form)))
+      Future.successful(BadRequest(saUserView(form)))
     }
 
     def successAction(model: SaUserModel) = {

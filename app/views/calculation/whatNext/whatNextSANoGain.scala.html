@@ -15,12 +15,14 @@
  *@
 
 @import views.html.calculation.gain._
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentSharesMainTemplate: resident_shares_main_template
+)
 
-@resident_shares_main_template(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
+@(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
+
+@residentSharesMainTemplate(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
 
     <h1>@Messages("calc.whatToDoNext.title")</h1>
 

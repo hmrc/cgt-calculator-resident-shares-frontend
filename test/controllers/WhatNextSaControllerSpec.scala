@@ -32,6 +32,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import views.html.calculation.whatNext.{whatNextSAFourTimesAEA, whatNextSAGain, whatNextSANoGain}
 
 import scala.concurrent.Future
 
@@ -42,6 +43,9 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val whatNextSAFourTimesAEAView = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
+  val whatNextSAGainView = fakeApplication.injector.instanceOf[whatNextSAGain]
+  val whatNextSANoGainView = fakeApplication.injector.instanceOf[whatNextSANoGain]
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
     SharedMetricRegistries.clear()
@@ -50,7 +54,8 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
       (ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
-    new WhatNextSAController(mockSessionCacheConnector, mockMCC)(mockConfig, fakeApplication)
+    new WhatNextSAController(mockSessionCacheConnector, mockMCC, mockConfig, whatNextSAFourTimesAEAView,
+      whatNextSAGainView, whatNextSANoGainView)
   }
 
   "Calling .whatNextSAOverFourTimesAEA" when {

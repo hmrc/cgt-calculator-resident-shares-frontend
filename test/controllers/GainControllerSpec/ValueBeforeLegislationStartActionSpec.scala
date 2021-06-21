@@ -34,6 +34,8 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.calculation.gain.{acquisitionCosts, acquisitionValue, didYouInheritThem, disposalCosts, disposalDate, disposalValue, ownerBeforeLegislationStart, sellForLess, valueBeforeLegislationStart, worthWhenInherited, worthWhenSoldForLess}
+import views.html.calculation.outsideTaxYear
 
 import scala.concurrent.Future
 
@@ -48,6 +50,18 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
+  val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
+  val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts]
+  val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
+  val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
+  val didYouInheritThemView = fakeApplication.injector.instanceOf[didYouInheritThem]
+  val ownerBeforeLegislationStartView = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
+  val sellForLessView = fakeApplication.injector.instanceOf[sellForLess]
+  val valueBeforeLegislationStartView = fakeApplication.injector.instanceOf[valueBeforeLegislationStart]
+  val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
+  val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
+  val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
 
@@ -59,7 +73,10 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+      acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
+      didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
+      worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)
   }
 
   "Calling .valueBeforeLegislationStart from the GainCalculationController" when {

@@ -17,7 +17,6 @@
 package config
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import org.scalatest.MustMatchers._
 import play.api.Application
 import play.api.http.Writeable
 import play.api.inject.guice.GuiceApplicationBuilder
@@ -28,7 +27,6 @@ import play.api.test.FakeRequest
 import play.api.test.Helpers._
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 
@@ -68,20 +66,20 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
   "Application returns OK for no exception" in {
     val request = FakeRequest("GET", "/ok")
     val response = routeWithError(app, request).get
-    status(response) must equal(OK)
+    status(response) should equal(OK)
   }
 
   "Application returns 303 and redirects user to start of journey for none.get, rather than technical difficulties" in {
     val request = FakeRequest("GET", "/application-exception")
     val response = routeWithError(app, request).get
-    status(response) must equal(SEE_OTHER)
+    status(response) should equal(SEE_OTHER)
     redirectLocation(response) shouldBe Some(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink).url)
   }
 
   "Application throws other exception and logs error" in {
     val request = FakeRequest("GET", "/other-error")
     val response = routeWithError(app, request).get
-    status(response) must equal(INTERNAL_SERVER_ERROR)
+    status(response) should equal(INTERNAL_SERVER_ERROR)
   }
 
   "Application returns 404 for non-existent endpoint" in {

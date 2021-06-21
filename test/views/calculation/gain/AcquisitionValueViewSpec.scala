@@ -23,17 +23,18 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.AcquisitionValueForm._
 import org.jsoup.Jsoup
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.acquisitionValue
 import play.api.mvc.MessagesControllerComponents
 
 class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
 
   "Acquisition Value view" should {
 
-    lazy val view = views.acquisitionValue(acquisitionValueForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = acquisitionValueView(acquisitionValueForm, "home-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -151,9 +152,9 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.acquisitionValue.f(acquisitionValueForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = acquisitionValueView.f(acquisitionValueForm, "home-link")(fakeRequest, mockMessage)
 
-      val render = views.acquisitionValue.render(acquisitionValueForm, "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = acquisitionValueView.render(acquisitionValueForm, "home-link", fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -161,7 +162,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   "Acquisition Value View with form with errors" should {
     lazy val form = acquisitionValueForm.bind(Map("amount" -> ""))
-    lazy val view = views.acquisitionValue(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = acquisitionValueView(form, "home-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

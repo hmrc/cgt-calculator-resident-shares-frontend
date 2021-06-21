@@ -20,30 +20,31 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates._
-import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import it.innove.play.pdf.PdfGenerator
 import javax.inject.Inject
 import models.resident.TaxYearModel
+import play.api.Configuration
 import play.api.i18n.{I18nSupport, Lang, Messages}
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
-import play.api.{Application, Configuration}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.{report => views}
+import views.html.calculation.report.{deductionsSummaryReport, finalSummaryReport, gainSummaryReport}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class ReportController @Inject()(config: Configuration,
                                  calcConnector: CalculatorConnector,
                                  sessionCacheService: SessionCacheService,
                                  mcc: MessagesControllerComponents,
-                                 pdfGenerator: PdfGenerator)
-                                (implicit val appConfig: ApplicationConfig, implicit val application: Application)
+                                 pdfGenerator: PdfGenerator,
+                                 finalSummaryReportView: finalSummaryReport,
+                                 deductionsSummaryReportView: deductionsSummaryReport,
+                                 gainSummaryReportView: gainSummaryReport)
+                                (implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   lazy val platformHost: Option[String] = config.getOptional[String]("platform.frontend.host")
@@ -70,7 +71,7 @@ class ReportController @Inject()(config: Configuration,
       costs <- calcConnector.getSharesTotalCosts(answers)
       taxYear <- getTaxYear(answers.disposalDate)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
-    } yield {pdfGenerator.ok(views.gainSummaryReport(answers, grossGain, taxYear.get, costs), host).asScala()
+    } yield {pdfGenerator.ok(gainSummaryReportView(answers, grossGain, taxYear.get, costs), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
@@ -87,7 +88,7 @@ class ReportController @Inject()(config: Configuration,
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
     } yield
-      {pdfGenerator.ok(views.deductionsSummaryReport(answers, deductionAnswers, chargeableGain.get, taxYear.get, costs), host).asScala()
+      {pdfGenerator.ok(deductionsSummaryReportView(answers, deductionAnswers, chargeableGain.get, taxYear.get, costs), host).asScala()
       .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart(homeLink, sessionTimeoutUrl)
 
   }
@@ -109,7 +110,7 @@ class ReportController @Inject()(config: Configuration,
       currentTaxYear = Dates.getCurrentTaxYear
       totalGain <- calcConnector.calculateRttShareTotalGainAndTax(answers, deductionAnswers, maxAEA.get, incomeAnswers)
     } yield {
-      pdfGenerator.ok(views.finalSummaryReport(answers,
+      pdfGenerator.ok(finalSummaryReportView(answers,
         deductionAnswers,
         incomeAnswers,
         totalGain.get,

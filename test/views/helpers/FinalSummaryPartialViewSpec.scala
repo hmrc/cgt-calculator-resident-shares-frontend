@@ -23,11 +23,12 @@ import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.helpers.{resident => views}
+import views.html.helpers.resident.finalSummaryPartial
 
 class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-
+  val finalSummaryPartialView = fakeApplication.injector.instanceOf[finalSummaryPartial]
+  
   "FinalSummaryPartial" when {
 
     "the share was sold inside tax years, bought after legislation start," +
@@ -69,7 +70,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -352,7 +353,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -406,7 +407,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results, taxYearModel,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results, taxYearModel,
         100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -474,7 +475,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -531,7 +532,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -583,7 +584,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -636,7 +637,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       )
       val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results,
         taxYearModel, 100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -683,7 +684,7 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
 
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummaryPartial(gainAnswers, deductionAnswers, results, taxYearModel,
+      lazy val view = finalSummaryPartialView(gainAnswers, deductionAnswers, results, taxYearModel,
         100, 100)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 

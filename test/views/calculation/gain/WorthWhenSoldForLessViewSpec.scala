@@ -24,16 +24,17 @@ import controllers.helpers.FakeRequestHelper
 import forms.WorthWhenSoldForLessForm._
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.worthWhenSoldForLess
 
 class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
 
   "The Shares Worth When Sold For Less View when supplied with an empty form" should {
 
-    lazy val view = views.worthWhenSoldForLess(worthWhenSoldForLessForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = worthWhenSoldForLessView(worthWhenSoldForLessForm, "home-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -144,9 +145,9 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.worthWhenSoldForLess.f(worthWhenSoldForLessForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = worthWhenSoldForLessView.f(worthWhenSoldForLessForm, "home-link")(fakeRequest, mockMessage)
 
-      val render = views.worthWhenSoldForLess.render(worthWhenSoldForLessForm, "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = worthWhenSoldForLessView.render(worthWhenSoldForLessForm, "home-link", fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -155,7 +156,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "The Shares Worth When Sold For Less View when supplied with a correct form" should {
 
     lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenSoldForLess(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = worthWhenSoldForLessView(form, "home-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form in the input" in {
@@ -174,7 +175,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "The Shares Worth When Sold For Less View when supplied with an incorrect form" should {
 
     lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "adsa"))
-    lazy val view = views.worthWhenSoldForLess(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = worthWhenSoldForLessView(form, "home-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

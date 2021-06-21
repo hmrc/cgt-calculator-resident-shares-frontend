@@ -22,19 +22,18 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalCostsForm._
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.disposalCosts
 
 class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-
+  val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts
+  ]
   "Disposal Costs view" should {
 
-    lazy val view = views.disposalCosts(disposalCostsForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = disposalCostsView(disposalCostsForm, "home-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -161,9 +160,9 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.disposalCosts.f(disposalCostsForm, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = disposalCostsView.f(disposalCostsForm, "home-link")(fakeRequest, mockMessage)
 
-      val render = views.disposalCosts.render(disposalCostsForm, "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = disposalCostsView.render(disposalCostsForm, "home-link", fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -175,7 +174,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "is due to mandatory field error" should {
 
       lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.disposalCosts(form, "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = disposalCostsView(form, "home-link")(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

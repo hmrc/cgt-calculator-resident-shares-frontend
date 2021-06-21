@@ -24,19 +24,20 @@ import controllers.helpers.FakeRequestHelper
 import forms.CurrentIncomeForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import views.html.calculation.{income => views}
+import views.html.calculation.income.currentIncome
 import play.api.mvc.MessagesControllerComponents
 
 class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
 
   "Current Income view" should {
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
     lazy val backLink = controllers.routes.IncomeController.personalAllowance().toString
-    lazy val view = views.currentIncome(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -139,9 +140,9 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.currentIncome.f(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = currentIncomeView.f(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage)
 
-      val render = views.currentIncome.render(currentIncomeForm, backLink, taxYearModel, false, fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = currentIncomeView.render(currentIncomeForm, backLink, taxYearModel, false, fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -154,7 +155,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward().toString
-      lazy val view = views.currentIncome(form, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = currentIncomeView(form, backLink, taxYearModel, false)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

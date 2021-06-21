@@ -24,12 +24,13 @@ import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{summary => views}
+import views.html.calculation.summary.deductionsSummary
 
 class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val deductionsSummaryView = fakeApplication.injector.instanceOf[deductionsSummary]
 
   "Properties Deductions Summary view when a valid tax year is supplied" should {
 
@@ -67,8 +68,8 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
-    lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+    lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
+      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -187,11 +188,11 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.deductionsSummary.f(gainAnswers, deductionAnswers, results, backUrl,
-        taxYearModel, "home-link", 100, true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+      val f = deductionsSummaryView.f(gainAnswers, deductionAnswers, results, backUrl,
+        taxYearModel, "home-link", 100, true)(fakeRequestWithSession, mockMessage)
 
-      val render = views.deductionsSummary.render(gainAnswers, deductionAnswers, results, backUrl,
-        taxYearModel, "home-link", 100, true, fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+      val render = deductionsSummaryView.render(gainAnswers, deductionAnswers, results, backUrl,
+        taxYearModel, "home-link", 100, true, fakeRequestWithSession, mockMessage)
 
       f shouldBe render
     }
@@ -233,8 +234,8 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
 
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
-    lazy val view = views.deductionsSummary(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+    lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
+      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {

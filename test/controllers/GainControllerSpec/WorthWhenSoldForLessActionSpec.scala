@@ -19,9 +19,8 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import config.ApplicationConfig
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
@@ -34,6 +33,8 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.calculation.gain._
+import views.html.calculation.outsideTaxYear
 
 import scala.concurrent.Future
 
@@ -47,9 +48,19 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
-    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    implicit val mockApplication = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
+    val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
+    val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts]
+    val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
+    val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
+    val didYouInheritThemView = fakeApplication.injector.instanceOf[didYouInheritThem]
+    val ownerBeforeLegislationStartView = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
+    val sellForLessView = fakeApplication.injector.instanceOf[sellForLess]
+    val valueBeforeLegislationStartView = fakeApplication.injector.instanceOf[valueBeforeLegislationStart]
+    val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
+    val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
+    val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel]
       (ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
@@ -59,7 +70,10 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(mock[CacheMap]))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+      acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
+      didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
+      worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)
   }
 
   "Calling .worthWhenSoldForLess from the GainCalculationController" when {

@@ -18,14 +18,17 @@
 @import views.html.calculation._
 @import models.resident.shares.gain.DidYouInheritThemModel
 @import models.resident.shares._
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import play.api.Application
-@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
-@import config.ApplicationConfig
 
-@(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentMainTemplate: resident_main_template,
+    form: FormWithCSRF,
+    errorSummary: errorSummary,
+    inputRadioGroup: InputRadioGroup
+)
 
-@resident_main_template(title = Messages("calc.resident.shares.didYouInheritThem.question"),
+@(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(title = Messages("calc.resident.shares.didYouInheritThem.question"),
 backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url),
 homeLink = controllers.routes.GainController.disposalDate().url,
 navTitle = Messages("calc.base.resident.shares.home")){
@@ -37,7 +40,7 @@ navTitle = Messages("calc.base.resident.shares.home")){
     @form(action = controllers.routes.GainController.submitDidYouInheritThem) {
 
         <div id="radio-input" class="form-group">
-            @input_radio_group(
+            @inputRadioGroup(
             field = didYouInheritThemForm("wereInherited"),
             Seq(
             "Yes" -> Messages("calc.base.yes"),

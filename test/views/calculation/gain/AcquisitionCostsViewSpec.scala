@@ -22,19 +22,18 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.AcquisitionCostsForm._
 import org.jsoup.Jsoup
-import play.api.Play.current
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.acquisitionCosts
 
 class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
 
   "Acquisition Costs shares view" should {
 
-    lazy val view = views.acquisitionCosts(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = acquisitionCostsView(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -160,9 +159,9 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "generate the same template when .render and .f are called" in {
 
-      val render = views.acquisitionCosts.render(acquisitionCostsForm, Some("back-link"), "home-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = acquisitionCostsView.render(acquisitionCostsForm, Some("back-link"), "home-link", fakeRequest, mockMessage)
 
-      val f = views.acquisitionCosts.f(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = acquisitionCostsView.f(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage)
 
 
       f shouldBe render
@@ -174,7 +173,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     "is due to mandatory field error" should {
 
       lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
-      lazy val view = views.acquisitionCosts(form,  Some("back-link"), "home-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = acquisitionCostsView(form,  Some("back-link"), "home-link")(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

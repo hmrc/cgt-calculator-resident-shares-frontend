@@ -14,15 +14,19 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.{form, input_radio_group}
 @import models.resident._
 @import views.html.helpers._
 @import views.html.calculation._
 @import play.api.mvc.Call
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentMainTemplate: resident_main_template,
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup,
+    errorSummary: errorSummary
+)
+
+@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
 @hiddenHelpTextContent = {
     <div id="helpInfo">
@@ -35,7 +39,7 @@
     </div>
 }
 
-@resident_main_template(
+@residentMainTemplate(
     title = Messages("calc.resident.lossesBroughtForward.title",
     taxYear.taxYearSupplied),
     backLink = Some(backLinkUrl),
@@ -49,7 +53,7 @@
     <p class="form-hint"> @Messages("calc.resident.lossesBroughtForward.helpText")</p>
     @form(action = postAction) {
 
-        @input_radio_group(
+        @inputRadioGroup(
             field = lossesBroughtForwardForm("option"),
             Seq(
             "Yes"->Messages("calc.base.yes"),

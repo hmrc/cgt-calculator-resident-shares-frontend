@@ -30,11 +30,12 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val saUserView = fakeApplication.injector.instanceOf[saUser]
 
   "SaUserView" when {
 
     "no errors are present" should {
-      lazy val view = saUser(SaUserForm.saUserForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = saUserView(SaUserForm.saUserForm)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title of ${messages.title}" in {
@@ -131,7 +132,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
 
     "errors are present" should {
       lazy val form = SaUserForm.saUserForm.bind(Map("isInSa" -> ""))
-      lazy val view = saUser(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = saUserView(form)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
@@ -145,9 +146,9 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
 
     "generate the same template when .render and .f are called" in {
 
-      val f = saUser.f(SaUserForm.saUserForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = saUserView.f(SaUserForm.saUserForm)(fakeRequest, mockMessage)
 
-      val render = saUser.render(SaUserForm.saUserForm, fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = saUserView.render(SaUserForm.saUserForm, fakeRequest, mockMessage)
 
       f shouldBe render
     }

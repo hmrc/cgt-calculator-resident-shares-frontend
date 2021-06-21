@@ -14,17 +14,20 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.shares.gain.ValueBeforeLegislationStartModel
 @import views.html.helpers._
 @import views.html.calculation.gain._
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(valueBeforeLegislationStartForm: Form[ValueBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentSharesMainTemplate: resident_shares_main_template,
+    form: FormWithCSRF,
+    formInputMoney: formInputMoney,
+    errorSummary: errorSummary
+)
 
+@(valueBeforeLegislationStartForm: Form[ValueBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages)
 
-@resident_shares_main_template(
+@residentSharesMainTemplate(
     title = Messages("calc.resident.shares.valueBeforeLegislationStart.question"),
     backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.toString)) {
 

@@ -36,6 +36,7 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
+import views.html.calculation.checkYourAnswers.checkYourAnswers
 
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
@@ -62,7 +63,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
   val incomeAnswersModel: IncomeAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(25000)), Some(PersonalAllowanceModel(11000)))
   implicit val timeout: Timeout = Timeout.apply(Duration.create(20, "seconds"))
   implicit val hc: HeaderCarrier = new HeaderCarrier()
-
+  val checkYourAnswersView = fakeApplication.injector.instanceOf[checkYourAnswers]
 
   def setupController(gainResponse: GainAnswersModel,
                       deductionsResponse: DeductionGainAnswersModel,
@@ -80,7 +81,7 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
     when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswersModel))
 
-    new ReviewAnswersController(mockConnector, mockSessionCacheService, mockMCC)
+    new ReviewAnswersController(mockConnector, mockSessionCacheService, mockMCC, checkYourAnswersView)
   }
 
   "Calling .reviewGainAnswers" when {

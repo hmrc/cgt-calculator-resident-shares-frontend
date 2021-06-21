@@ -23,20 +23,19 @@ import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import views.html.calculation.{deductions => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
+import views.html.calculation.deductions.lossesBroughtForward
 import play.api.mvc.MessagesControllerComponents
 
 class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
+  val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
 
   "Reliefs view" should {
 
-    lazy val view = views.lossesBroughtForward(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home-link", "navTitle")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = lossesBroughtForwardView(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+      "home-link", "navTitle")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -98,11 +97,11 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.lossesBroughtForward.f(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-        "home-link", "navTitle")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = lossesBroughtForwardView.f(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+        "home-link", "navTitle")(fakeRequest, mockMessage)
 
-      val render = views.lossesBroughtForward.render(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-        "home-link", "navTitle", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = lossesBroughtForwardView.render(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+        "home-link", "navTitle", fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -110,8 +109,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   "Losses Brought Forward view with pre-selected value of yes" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "Yes")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+      "home", "navTitle")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -121,8 +120,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   "Losses Brought Forward view with pre-selected value of no" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "No")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+      "home", "navTitle")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
@@ -132,8 +131,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   "Losses Brought Forward view with errors" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "")))
-    lazy val view = views.lossesBroughtForward(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
+      "home", "navTitle")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

@@ -20,13 +20,11 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates.requestFormatter
-import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import javax.inject.Inject
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
-import play.api.Application
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
@@ -34,12 +32,12 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector,
                                         sessionCacheService: SessionCacheService,
-                                        mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig, implicit val application: Application)
+                                        mcc: MessagesControllerComponents,
+                                        checkYourAnswersView: checkYourAnswers)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
@@ -58,7 +56,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
     implicit request =>
       languageRequest { implicit lang =>
         getGainAnswers.map { answers =>
-          Ok(checkYourAnswers(routes.SummaryController.summary(), controllers.routes.GainController.acquisitionCosts().url, answers, None, None))
+          Ok(checkYourAnswersView(routes.SummaryController.summary(), controllers.routes.GainController.acquisitionCosts().url, answers, None, None))
         }
       }
   }
@@ -79,7 +77,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
           deductionsAnswers <- getDeductionsAnswers
           taxYear <- getTaxYear(gainAnswers.disposalDate)
           url <- generateBackUrl(deductionsAnswers)
-        } yield Ok(checkYourAnswers(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
+        } yield Ok(checkYourAnswersView(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
       }
   }
 
@@ -95,7 +93,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
           incomeAnswers <- getIncomeAnswers
           taxYear <- getTaxYear(gainAnswers.disposalDate)
           currentTaxYear = getCurrentTaxYear
-        } yield Ok(checkYourAnswers(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
+        } yield Ok(checkYourAnswersView(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
           Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
       }
   }

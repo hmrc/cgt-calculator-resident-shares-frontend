@@ -16,28 +16,23 @@
 
 package views.calculation.summary
 
-import assets.{MessageLookup => pages}
-import assets.MessageLookup.{SummaryPage => messages}
-import assets.MessageLookup.{Resident => commonMessages}
-import assets.MessageLookup.Resident.{Shares => SharesMessages}
-import assets.MessageLookup.{SummaryDetails => summaryMessages}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
+import assets.MessageLookup.{Resident => commonMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.Dates._
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
-import views.html.calculation.{summary => views}
-import play.api.i18n.Messages.Implicits._
-import play.api.Play.current
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.summary.gainSummary
 
 class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val gainSummaryView = fakeApplication.injector.instanceOf[gainSummary]
 
   "Summary view" when {
 
@@ -58,7 +53,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
-      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = true)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = gainSummaryView(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = true)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -398,11 +393,11 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "generate the same template when .render and .f are called" in {
 
-        val f = views.gainSummary.f(testModel, -100, taxYearModel, "home-link", 150 , 11000,
-          true)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+        val f = gainSummaryView.f(testModel, -100, taxYearModel, "home-link", 150 , 11000,
+          true)(fakeRequest, mockMessage)
 
-        val render = views.gainSummary.render(testModel, -100, taxYearModel, "home-link", 150 , 11000,
-          true, fakeRequest, mockMessage, fakeApplication, mockConfig)
+        val render = gainSummaryView.render(testModel, -100, taxYearModel, "home-link", 150 , 11000,
+          true, fakeRequest, mockMessage)
 
         f shouldBe render
       }
@@ -424,7 +419,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", false, "2016/17")
-      lazy val view = views.gainSummary(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = gainSummaryView(testModel, -100, taxYearModel, "home-link", 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

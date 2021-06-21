@@ -27,6 +27,7 @@ import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.redirectLocation
+import views.html.calculation.whatNext.{whatNextNonSaGain, whatNextNonSaLoss}
 
 import scala.concurrent.duration.Duration
 
@@ -39,10 +40,11 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
   def setupController(): WhatNextNonSaController = {
     SharedMetricRegistries.clear()
     implicit val mockAppConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    implicit val application = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val whatNextNonSaGainView = fakeApplication.injector.instanceOf[whatNextNonSaGain]
+    val whatNextNonSaLossView = fakeApplication.injector.instanceOf[whatNextNonSaLoss]
 
-    new WhatNextNonSaController(mockMCC)
+    new WhatNextNonSaController(mockMCC, mockAppConfig, whatNextNonSaGainView, whatNextNonSaLossView)
   }
   "Calling .whatNextNonSaGain" when {
 

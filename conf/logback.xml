@@ -10,7 +10,7 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-            <pattern>%date{ISO8601} level=[%level] logger=[%logger] thread=[%thread] rid=[%X{X-Request-ID}] user=[%X{Authorization}] message=[%message] %replace(exception=[%xException]){'^exception=\[\]$',''}%n</pattern>
+            <pattern>%green(%date{ISO8601}) %gray(level=)[%highlight(%5level)] %gray(message=[%yellow(%message)])  %gray(logger=[%logger] thread=[%thread] rid=[%X{X-Request-ID}] user=[%X{Authorization}]) %replace(exception=[%xException]){'^exception=\[\]$',''}%n</pattern>
         </encoder>
     </appender>
 

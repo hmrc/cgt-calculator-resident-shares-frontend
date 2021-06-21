@@ -18,7 +18,7 @@ package views.calculation.checkYourAnswers
 
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
-import views.html.calculation.{checkYourAnswers => views}
+import views.html.calculation.checkYourAnswers.checkYourAnswers
 import assets.MessageLookup.Resident.Shares.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
@@ -36,9 +36,10 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
   val dummyBackLink = "backLink"
   val dummyPostCall: Call = Call("POST", "/dummy-url")
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val checkYourAnswersView = fakeApplication.injector.instanceOf[checkYourAnswers]
 
-  lazy val view: HtmlFormat.Appendable = views.checkYourAnswers(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession,  mockMessage, fakeApplication, fakeLang, mockConfig)
+  lazy val view: HtmlFormat.Appendable = checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, mockMessage, fakeLang)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
@@ -111,13 +112,13 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "generate the same template when .render and .f are called" in {
 
-      val f = (views.checkYourAnswers.f(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+      val f = (checkYourAnswersView.f(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
         Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false)
-        (fakeRequestWithSession,mockMessage, fakeApplication, fakeLang, mockConfig))
+        (fakeRequestWithSession,mockMessage, fakeLang))
 
-      val render = views.checkYourAnswers.render(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+      val render = checkYourAnswersView.render(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
         Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false,
-      fakeRequestWithSession,mockMessage, fakeApplication, fakeLang, mockConfig)
+      fakeRequestWithSession,mockMessage, fakeLang)
 
       f shouldBe render
     }

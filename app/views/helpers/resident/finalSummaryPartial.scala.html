@@ -14,11 +14,14 @@
  * limitations under the License.
  *@
 
-@import views.html.calculation.gain.resident_shares_main_template
 @import models.resident._
 @import models.resident.shares._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import views.html.helpers.resident._
+
+@this(
+    summaryNumericRowPartial: summaryNumericRowPartial
+)
 
 @(gainAnswers: GainAnswersModel,
         deductionAnswers: DeductionGainAnswersModel,

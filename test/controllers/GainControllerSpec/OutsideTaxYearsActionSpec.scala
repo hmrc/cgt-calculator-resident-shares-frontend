@@ -20,7 +20,6 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{OutsideTaxYears => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
@@ -32,6 +31,8 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
+import views.html.calculation.gain._
+import views.html.calculation.outsideTaxYear
 
 class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
   lazy val materializer = mock[Materializer]
@@ -43,9 +44,19 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
-    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    implicit val mockApplication = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
+    val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
+    val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts]
+    val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
+    val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
+    val didYouInheritThemView = fakeApplication.injector.instanceOf[didYouInheritThem]
+    val ownerBeforeLegislationStartView = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
+    val sellForLessView = fakeApplication.injector.instanceOf[sellForLess]
+    val valueBeforeLegislationStartView = fakeApplication.injector.instanceOf[valueBeforeLegislationStart]
+    val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
+    val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
+    val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDateModel)
@@ -53,7 +64,10 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYearModel)
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC)
+    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+      acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
+      didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
+      worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)
   }
 
   "Calling .outsideTaxYears from the resident/shares GainCalculationController" when {

@@ -35,6 +35,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.calculation.income.{currentIncome, personalAllowance}
 
 import scala.concurrent.Future
 
@@ -47,6 +48,8 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
+  val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),
@@ -78,7 +81,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       .thenReturn(Future.successful(Some(taxYearModel)))
 
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceView, currentIncomeView)
   }
 
   "Calling .personalAllowance from the IncomeController" when {

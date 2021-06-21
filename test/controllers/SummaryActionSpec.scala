@@ -20,7 +20,6 @@ import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
-import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import models.resident._
@@ -35,6 +34,7 @@ import services.SessionCacheService
 
 import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
+import views.html.calculation.summary.{deductionsSummary, finalSummary, gainSummary}
 
 
 class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
@@ -58,9 +58,10 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    implicit val mockApplication = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val finalSummaryView = fakeApplication.injector.instanceOf[finalSummary]
+    val gainSummaryView = fakeApplication.injector.instanceOf[gainSummary]
+    val deductionsSummaryView = fakeApplication.injector.instanceOf[deductionsSummary]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
@@ -92,7 +93,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
 
-    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMCC)
+    new SummaryController(mockCalculatorConnector, mockSessionCacheService, mockMCC, finalSummaryView, gainSummaryView, deductionsSummaryView)
   }
 
   "Calling .summary from the SummaryController for Shares" when {

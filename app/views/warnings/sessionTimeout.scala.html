@@ -14,14 +14,15 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation._
-@import play.api.Application
-@import config.ApplicationConfig
+@import views.html.calculation.resident_main_template
 
-@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentMainTemplate: resident_main_template
+)
 
-@resident_main_template(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
+@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
 
     <h1 class="heading-large">@Messages("session.timeout.message")</h1>
 

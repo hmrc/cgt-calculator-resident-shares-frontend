@@ -15,15 +15,19 @@
  *@
 
 @import models.resident.DisposalValueModel
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import views.html.helpers._
 @import views.html.calculation._
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(disposalValueForm : Form[DisposalValueModel], navHomeLink: String)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentMainTemplate: resident_main_template,
+    form: FormWithCSRF,
+    errorSummary: errorSummary,
+    formInputMoney: formInputMoney
+)
 
-@resident_main_template(
+@(disposalValueForm : Form[DisposalValueModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     Messages("calc.resident.shares.disposalValue.question"),
     backLink = Some(controllers.routes.GainController.sellForLess().toString),
     homeLink = navHomeLink,

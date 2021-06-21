@@ -14,16 +14,20 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.AcquisitionCostsModel
 @import views.html.helpers._
 @import views.html.calculation._
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(acquisitionCostsForm: Form[AcquisitionCostsModel], backHref: Some[String], homeHref: String)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentMainTemplate: resident_main_template,
+    form: FormWithCSRF,
+    formInputMoney: formInputMoney,
+    errorSummary: errorSummary
+)
 
-@resident_main_template(Messages("calc.resident.shares.acquisitionCosts.question"), backLink = backHref, homeLink = homeHref, navTitle = Messages("calc.base.resident.shares.home")) {
+@(acquisitionCostsForm: Form[AcquisitionCostsModel], backHref: Some[String], homeHref: String)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(Messages("calc.resident.shares.acquisitionCosts.question"), backLink = backHref, homeLink = homeHref, navTitle = Messages("calc.base.resident.shares.home")) {
 
     @errorSummary(acquisitionCostsForm, "amount")
 

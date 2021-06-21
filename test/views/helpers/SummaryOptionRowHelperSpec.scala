@@ -26,7 +26,8 @@ import views.html.helpers.resident.summaryOptionRowHelper
 class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  lazy val row = summaryOptionRowHelper("testID","testQ",true)(mockMessage)
+  val summaryOptionRowHelperView = fakeApplication.injector.instanceOf[summaryOptionRowHelper]
+  lazy val row = summaryOptionRowHelperView("testID","testQ",true)(mockMessage)
   lazy val doc = Jsoup.parse(row.body)
 
   "The Summary Numeric Row Helper" should {
@@ -98,7 +99,7 @@ class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     s"if given data that includes a change link " should {
 
-      lazy val rowWithChangeLink = summaryOptionRowHelper("testID","testQ",true,Some("link"))(mockMessage)
+      lazy val rowWithChangeLink = summaryOptionRowHelperView("testID","testQ",true,Some("link"))(mockMessage)
       lazy val link = Jsoup.parse(rowWithChangeLink.body).select("a")
 
       "include a change link" which {

@@ -26,6 +26,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Messages, MessagesProvider}
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import play.api.test.FakeRequest
+import views.html.warnings.sessionTimeout
 
 class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
@@ -36,7 +37,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   implicit lazy val actorSystem = ActorSystem()
   lazy val materializer = mock[Materializer]
-
+  val sessionTimeoutView = fakeApplication.injector.instanceOf[sessionTimeout]
 
   class fakeRequestTo(url: String, controllerAction: Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
@@ -45,7 +46,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
   }
 
-  val controller = new TimeoutController(mockMCC)
+  val controller = new TimeoutController(mockMCC, sessionTimeoutView)
 
   "TimeoutController.timeout" should {
 

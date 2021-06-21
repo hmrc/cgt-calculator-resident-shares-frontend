@@ -23,16 +23,17 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{whatNext => views}
+import views.html.calculation.whatNext.whatNextSAGain
 
 class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val whatNextSAGainView = fakeApplication.injector.instanceOf[whatNextSAGain]
 
   "The whatNextSAGain view" should {
 
-    lazy val view = views.whatNextSAGain("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = whatNextSAGainView("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.yourOptionsTitle}" in {
@@ -101,9 +102,9 @@ class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.whatNextSAGain.f("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = whatNextSAGainView.f("back-link", "iFormUrl", "2016 to 2017")(fakeRequest, mockMessage)
 
-      val render = views.whatNextSAGain.render("back-link", "iFormUrl", "2016 to 2017", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = whatNextSAGainView.render("back-link", "iFormUrl", "2016 to 2017", fakeRequest, mockMessage)
 
       f shouldBe render
     }

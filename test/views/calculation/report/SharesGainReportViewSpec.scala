@@ -25,12 +25,13 @@ import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{report => views}
+import views.html.calculation.report.gainSummaryReport
 
 class SharesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper{
 
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val fakeLang: Lang = Lang("en")
+  val gainSummaryReportView = fakeApplication.injector.instanceOf[gainSummaryReport]
 
   "Summary view" when {
 
@@ -51,7 +52,7 @@ class SharesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       )
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = views.gainSummaryReport(testModel, -2000, taxYearModel, 1000)(fakeRequest, mockMessage, fakeApplication, fakeLang)
+      lazy val view = gainSummaryReportView(testModel, -2000, taxYearModel, 1000)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
@@ -91,9 +92,9 @@ class SharesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       "generate the same template when .render and .f are called" in {
 
-        val f = views.gainSummaryReport.f(testModel, -2000, taxYearModel, 1000)(fakeRequest, mockMessage, fakeApplication, fakeLang)
+        val f = gainSummaryReportView.f(testModel, -2000, taxYearModel, 1000)(fakeRequest, mockMessage, fakeLang)
 
-        val render = views.gainSummaryReport.render(testModel, -2000, taxYearModel, 1000, fakeRequest, mockMessage, fakeApplication, fakeLang)
+        val render = gainSummaryReportView.render(testModel, -2000, taxYearModel, 1000, fakeRequest, mockMessage, fakeLang)
 
         f shouldBe render
       }
@@ -117,7 +118,7 @@ class SharesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       acquisitionValue = Some(30),
       acquisitionCosts = 40
     )
-    lazy val view = views.gainSummaryReport(testModel, 0, taxYearModel, 500)(fakeRequest, mockMessage, fakeApplication, fakeLang)
+    lazy val view = gainSummaryReportView(testModel, 0, taxYearModel, 500)(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {
