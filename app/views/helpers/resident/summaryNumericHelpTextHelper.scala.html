@@ -14,9 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.helpers._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import play.twirl.api.Html
 
+@this()
 
 @(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Html] = None)(implicit messages: Messages)
 

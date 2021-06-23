@@ -25,7 +25,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.PersonalAllowanceForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import views.html.calculation.{income => views}
+import views.html.calculation.income.personalAllowance
 import play.api.mvc.MessagesControllerComponents
 
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
@@ -33,14 +33,14 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   val postAction = controllers.routes.IncomeController.submitPersonalAllowance()
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-
+  val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
   "Personal Allowance view" when {
 
     "supplied with a 2015/16 tax year" should {
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -163,8 +163,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "Personal Allowance view with stored values" should {
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map(("amount", "1000")))
-        lazy val view = views.personalAllowance(form, taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", "2015/16")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+        lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(10600), "home", postAction,
+          Some("back-link"), JourneyKeys.shares, "navTitle", "2015/16")(fakeRequest, mockMessage)
         lazy val doc = Jsoup.parse(view.body)
 
         "have the value of 1000 auto-filled in the input" in {
@@ -175,11 +175,11 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "generate the same template when .render and .f are called" in {
 
-        val f = views.personalAllowance.f(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+        val f = personalAllowanceView.f(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
 
-        val render = views.personalAllowance.render(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear, fakeRequest, mockMessage, fakeApplication, mockConfig)
+        val render = personalAllowanceView.render(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear, fakeRequest, mockMessage)
 
         f shouldBe render
       }
@@ -189,8 +189,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "supplied with the current tax year" should {
 
       lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
-      lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
@@ -210,8 +210,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "supplied with a tax year a year after the current tax year" should {
 
       lazy val taxYearModel = TaxYearModel(DateAsset.getYearAfterCurrentTaxYear, false, Dates.getCurrentTaxYear)
-      lazy val view = views.personalAllowance(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
@@ -236,8 +236,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map("amount" -> ""))
-        lazy val view = views.personalAllowance(form, taxYearModel, BigDecimal(11000), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+        lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(11000), "home", postAction,
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
         lazy val doc = Jsoup.parse(view.body)
 
         "display an error summary message for the amount" in {

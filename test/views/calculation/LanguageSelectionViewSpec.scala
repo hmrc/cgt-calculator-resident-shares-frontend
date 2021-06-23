@@ -22,12 +22,13 @@ import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents}
-import views.html.{calculation => views}
+import views.html.calculation.language_selection
 
 class LanguageSelectionViewSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
   val appConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  val languageSelectionView = fakeApplication.injector.instanceOf[language_selection]
 
   val langMap: Map[String, Lang] = Map.empty
   val langToCall: String => Call =_ => Call("", "")
@@ -38,9 +39,9 @@ class LanguageSelectionViewSpec extends CommonPlaySpec with FakeRequestHelper wi
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.language_selection.f(langMap, langToCall, customClass, appName)(messages)
+      val f = languageSelectionView.f(langMap, langToCall, customClass, appName)(messages)
 
-      val render = views.language_selection.render(langMap, langToCall, customClass, appName, messages)
+      val render = languageSelectionView.render(langMap, langToCall, customClass, appName, messages)
 
       f shouldBe render
     }

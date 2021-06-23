@@ -18,7 +18,7 @@ package views.calculation
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
-import views.html.{calculation => views}
+import views.html.calculation.resident_main_template
 import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
@@ -28,6 +28,7 @@ class ResidentMainTemplateViewSpec extends CommonPlaySpec with FakeRequestHelper
 
   lazy val messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   lazy val applicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val residentMainTemplateView = fakeApplication.injector.instanceOf[resident_main_template]
 
   val title = ""
   val sidebarLinks: Option[Html] = None
@@ -46,13 +47,13 @@ class ResidentMainTemplateViewSpec extends CommonPlaySpec with FakeRequestHelper
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.resident_main_template.f(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
+      val f = residentMainTemplateView.f(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
         isUserResearchBannerVisible, articleLayout, backLink, homeLink, navTitle)(mainContent)(fakeRequest,
-        messages, fakeApplication, applicationConfig)
+        messages)
 
-      val render = views.resident_main_template.render(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
+      val render = residentMainTemplateView.render(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
         isUserResearchBannerVisible, articleLayout, backLink, homeLink, navTitle, mainContent, fakeRequest,
-        messages, fakeApplication, applicationConfig)
+        messages)
 
       f shouldBe render
     }

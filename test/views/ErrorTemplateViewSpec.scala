@@ -21,12 +21,13 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
-import views.{html => views}
+import views.html.error_template
 
 class ErrorTemplateViewSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
   lazy val mockAppConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val mockMessages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  lazy val errorTemplateView = fakeApplication.injector.instanceOf[error_template]
 
   val pageTitle = ""
   val heading = ""
@@ -37,11 +38,11 @@ class ErrorTemplateViewSpec extends CommonPlaySpec with FakeRequestHelper with M
 
     "generate the same template when .render and .f are called" in {
 
-      val f = (views.error_template.f(pageTitle, heading, message, homeNavLink)
-      (fakeRequest, mockMessages, mockAppConfig))
+      val f = (errorTemplateView.f(pageTitle, heading, message, homeNavLink)
+      (fakeRequest, mockMessages))
 
-      val render = views.error_template.render(pageTitle, heading, message, homeNavLink,
-        fakeRequest, mockMessages, mockAppConfig)
+      val render = errorTemplateView.render(pageTitle, heading, message, homeNavLink,
+        fakeRequest, mockMessages)
 
       f shouldBe render
     }

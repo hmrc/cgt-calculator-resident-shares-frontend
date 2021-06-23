@@ -24,11 +24,12 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{report => views}
+import views.html.calculation.report.deductionsSummaryReport
 
 class SharesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  val deductionsSummaryReportView = fakeApplication.injector.instanceOf[deductionsSummaryReport]
 
   val fakeLang: Lang = Lang("en")
   "Deductions Report view" when {
@@ -64,7 +65,7 @@ class SharesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeA
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+      lazy val view = deductionsSummaryReportView(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -144,7 +145,7 @@ class SharesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     lazy val taxYearModel = TaxYearModel("2013/14", false, "2015/16")
 
-    lazy val view = views.deductionsSummaryReport(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+    lazy val view = deductionsSummaryReportView(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
 
@@ -166,11 +167,11 @@ class SharesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     "generate the same template when .render and .f are called" in {
 
-      val render = views.deductionsSummaryReport.render(gainAnswers, deductionAnswers, results, taxYearModel, 1000,
-        fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+      val render = deductionsSummaryReportView.render(gainAnswers, deductionAnswers, results, taxYearModel, 1000,
+        fakeRequestWithSession, mockMessage, fakeLang)
 
-      val f = views.deductionsSummaryReport.f(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(
-        fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+      val f = deductionsSummaryReportView.f(gainAnswers, deductionAnswers, results, taxYearModel, 1000)(
+        fakeRequestWithSession, mockMessage, fakeLang)
 
       f shouldBe render
     }

@@ -23,16 +23,17 @@ import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
 
-import views.html.calculation.{whatNext => views}
+import views.html.calculation.whatNext.whatNextNonSaGain
 
 class WhatNextNonSaGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val whatNextNonSaGainView = fakeApplication.injector.instanceOf[whatNextNonSaGain]
 
   "whatNextNonSaGain view" should {
 
-    lazy val view = views.whatNextNonSaGain("iFormUrl")(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+    lazy val view = whatNextNonSaGainView("iFormUrl")(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -99,9 +100,9 @@ class WhatNextNonSaGainViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.whatNextNonSaGain.f("iFormUrl")(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+      val f = whatNextNonSaGainView.f("iFormUrl")(fakeRequestWithSession, mockMessage)
 
-      val render = views.whatNextNonSaGain.render("iFormUrl", fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+      val render = whatNextNonSaGainView.render("iFormUrl", fakeRequestWithSession, mockMessage)
 
       f shouldBe render
     }

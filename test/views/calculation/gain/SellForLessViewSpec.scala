@@ -24,17 +24,18 @@ import controllers.helpers.FakeRequestHelper
 import forms.SellForLessForm._
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.sellForLess
 import play.api.mvc.MessagesControllerComponents
 
 class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val sellForLessView = fakeApplication.injector.instanceOf[sellForLess]
 
   "Sell for less view with an empty form" should {
 
-    lazy val view = views.sellForLess(sellForLessForm, "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = sellForLessView(sellForLessForm, "home-link", "back-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -215,16 +216,16 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.sellForLess.f(sellForLessForm, "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = sellForLessView.f(sellForLessForm, "home-link", "back-link")(fakeRequest, mockMessage)
 
-      val render = views.sellForLess.render(sellForLessForm, "home-link", "back-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = sellForLessView.render(sellForLessForm, "home-link", "back-link", fakeRequest, mockMessage)
 
       f shouldBe render
     }
   }
 
   "Sell for less view with a filled form" which {
-    lazy val view = views.sellForLess(sellForLessForm.fill(SellForLessModel(true)), "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = sellForLessView(sellForLessForm.fill(SellForLessModel(true)), "home-link", "back-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -240,7 +241,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
   "Sell for less view with form errors" should {
 
     lazy val form = sellForLessForm.bind(Map("sellForLess" -> ""))
-    lazy val view = views.sellForLess(form, "home-link", "back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = sellForLessView(form, "home-link", "back-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

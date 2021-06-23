@@ -14,6 +14,10 @@
  * limitations under the License.
  *@
 
+@this(
+
+)
+
 @(langMap: Map[String, Lang], langToCall: String => Call, customClass: Option[String] = None, appName: Option[String] = None)(implicit messages: Messages)
 
 <p class="@if(customClass.isDefined) {@customClass.get}">

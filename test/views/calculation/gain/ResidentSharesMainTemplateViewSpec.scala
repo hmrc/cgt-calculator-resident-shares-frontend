@@ -23,12 +23,13 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import play.twirl.api.Html
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.resident_shares_main_template
 
 class ResidentSharesMainTemplateViewSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
   val appConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val messages: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  val residentSharesMainTemplateView = fakeApplication.injector.instanceOf[resident_shares_main_template]
 
   val title: String = ""
   val sidebarLinks: Option[Html] = None
@@ -44,11 +45,11 @@ class ResidentSharesMainTemplateViewSpec extends CommonPlaySpec with FakeRequest
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.resident_shares_main_template.f(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
-        articleLayout, backLink)(mainContent)(fakeRequest, messages, fakeApplication, appConfig)
+      val f = residentSharesMainTemplateView.f(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
+        articleLayout, backLink)(mainContent)(fakeRequest, messages)
 
-      val render = views.resident_shares_main_template.render(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
-        articleLayout, backLink, mainContent, fakeRequest, messages, fakeApplication, appConfig)
+      val render = residentSharesMainTemplateView.render(title, sidebarLinks, contentHeader, bodyClasses, mainClass, scriptElem,
+        articleLayout, backLink, mainContent, fakeRequest, messages)
 
       f shouldBe render
     }

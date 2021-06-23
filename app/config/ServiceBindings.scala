@@ -1,4 +1,4 @@
-@*
+/*
  * Copyright 2021 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,20 +12,14 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this(
-    govukWrapper: govuk_wrapper
-)
+package config
 
-@(pageTitle: String, heading: String, message: String, homeNavLink: String)(implicit request: Request[_], messages: Messages)
+import play.api.inject.{Binding, Module}
+import play.api.{Configuration, Environment}
 
-@contentHeader = {
-  <h1>@heading</h1>
+class ServiceBindings extends Module {
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] =
+    Seq(bind[AppConfig].to(classOf[ApplicationConfig]))
 }
-
-@mainContent = {
-  <p>@message</p>
-}
-
-@govukWrapper(title = pageTitle, contentHeader = Some(contentHeader), mainContent = mainContent, homeLink = homeNavLink)

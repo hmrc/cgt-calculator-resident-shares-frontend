@@ -33,6 +33,7 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
+import views.html.calculation.whatNext.saUser
 
 import scala.concurrent.Future
 
@@ -45,6 +46,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val saUserView = fakeApplication.injector.instanceOf[saUser]
 
   def setupController(gainAnswersModel: GainAnswersModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
                       taxOwed: BigDecimal): SaUserController = {
@@ -75,7 +77,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
     when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
 
-    new SaUserController(mockConnector, mockSessionCacheService, mockMCC)
+    new SaUserController(mockConnector, mockSessionCacheService, mockMCC, saUserView)
   }
 
   "Calling .saUser" when {

@@ -19,7 +19,6 @@ package controllers
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.resident.JourneyKeys
 import common.{Dates, TaxDates}
-import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -28,20 +27,20 @@ import forms.PersonalAllowanceForm._
 import javax.inject.Inject
 import models.resident._
 import models.resident.income._
-import play.api.Application
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
+import play.api.mvc._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.{calculation => views}
+import views.html.calculation.income.{currentIncome, personalAllowance}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class IncomeController @Inject()(calcConnector: CalculatorConnector,
                                  sessionCacheConnector: SessionCacheConnector,
-                                 mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig, implicit val application: Application)
+                                 mcc: MessagesControllerComponents,
+                                 personalAllowanceView: personalAllowance,
+                                 currentIncomeView: currentIncome)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
@@ -77,8 +76,8 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
 
       sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
-        case Some(data) => Ok(views.income.currentIncome(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
-        case None => Ok(views.income.currentIncome(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
+        case Some(data) => Ok(currentIncomeView(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
+        case None => Ok(currentIncomeView(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
       }
     }
 
@@ -99,7 +98,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
 
       currentIncomeForm.bindFromRequest.fold(
-        errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(views.income.currentIncome(errors, url,
+        errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url,
           taxYearModel, inCurrentTaxYear)))),
         success => {
           sessionCacheConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success).flatMap(
@@ -141,7 +140,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
 
     def routeRequest(taxYearModel: TaxYearModel, standardPA: BigDecimal, formData: Form[PersonalAllowanceModel], currentTaxYear: String):
     Future[Result] = {
-      Future.successful(Ok(views.income.personalAllowance(formData, taxYearModel, standardPA, homeLink,
+      Future.successful(Ok(personalAllowanceView(formData, taxYearModel, standardPA, homeLink,
         postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear)))
     }
     (for {
@@ -165,7 +164,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
       personalAllowanceForm(maxPA).bindFromRequest.fold(
-        errors => Future.successful(BadRequest(views.income.personalAllowance(errors, taxYearModel, standardPA, homeLink,
+        errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear))),
         success => {
           sessionCacheConnector.saveFormData(keystoreKeys.personalAllowance, success).flatMap(

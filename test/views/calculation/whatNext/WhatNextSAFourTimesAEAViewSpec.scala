@@ -18,7 +18,7 @@ package views.calculation.whatNext
 
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
-import views.html.calculation.{whatNext => views}
+import views.html.calculation.whatNext.whatNextSAFourTimesAEA
 import assets.MessageLookup.WhatNextPages.{FourTimesAEA => pageMessages}
 import assets.MessageLookup.{WhatNextPages => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -28,10 +28,10 @@ import play.api.mvc.MessagesControllerComponents
 class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-
+  val whatNextSAFourTimesAEAView = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
   "The whatNextSAFourTimesAEA view" should {
 
-    lazy val view = views.whatNextSAFourTimesAEA("back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = whatNextSAFourTimesAEAView("back-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {
@@ -69,9 +69,9 @@ class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeA
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.whatNextSAFourTimesAEA.f("back-link")(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = whatNextSAFourTimesAEAView.f("back-link")(fakeRequest, mockMessage)
 
-      val render = views.whatNextSAFourTimesAEA.render("back-link", fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = whatNextSAFourTimesAEAView.render("back-link", fakeRequest, mockMessage)
 
       f shouldBe render
     }

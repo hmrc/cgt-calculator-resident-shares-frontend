@@ -19,6 +19,8 @@
 @import common.Dates.TemplateImplicits._
 @import play.api.i18n.Lang
 
+@this()
+
 @(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages, lang: Lang)
 
 

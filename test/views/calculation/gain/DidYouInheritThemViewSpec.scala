@@ -20,7 +20,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.DidYouInheritThemForm._
 import models.resident.shares.gain.DidYouInheritThemModel
 import org.jsoup.Jsoup
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.didYouInheritThem
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -31,10 +31,10 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-
+  val didYouInheritThemView = fakeApplication.injector.instanceOf[didYouInheritThem]
   "Sell for less view with an empty form" should {
 
-    lazy val view = views.didYouInheritThem(didYouInheritThemForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = didYouInheritThemView(didYouInheritThemForm)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -215,9 +215,9 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.didYouInheritThem.f(didYouInheritThemForm)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = didYouInheritThemView.f(didYouInheritThemForm)(fakeRequest, mockMessage)
 
-      val render = views.didYouInheritThem.render(didYouInheritThemForm, fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = didYouInheritThemView.render(didYouInheritThemForm, fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -226,7 +226,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   "Sell for less view with a filled form" which {
 
     "for the option 'Yes'" should {
-      lazy val view = views.didYouInheritThem(didYouInheritThemForm.fill(DidYouInheritThemModel(true)))(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = didYouInheritThemView(didYouInheritThemForm.fill(DidYouInheritThemModel(true)))(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
       lazy val YesRadioOption = doc.select(".block-label[for=wereInherited-yes]")
 
@@ -236,7 +236,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
 
     "for the option 'No'" should {
-      lazy val view = views.didYouInheritThem(didYouInheritThemForm.fill(DidYouInheritThemModel(false)))(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      lazy val view = didYouInheritThemView(didYouInheritThemForm.fill(DidYouInheritThemModel(false)))(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
       lazy val NoRadioOption = doc.select(".block-label[for=wereInherited-no]")
 
@@ -249,7 +249,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   "Sell for less view with form errors" should {
 
     lazy val form = didYouInheritThemForm.bind(Map("wereInherited" -> ""))
-    lazy val view = views.didYouInheritThem(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = didYouInheritThemView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

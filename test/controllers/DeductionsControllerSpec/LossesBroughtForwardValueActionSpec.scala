@@ -35,6 +35,7 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
 import scala.concurrent.Future
 
@@ -49,6 +50,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
   val gainModel = mock[GainAnswersModel]
   val summaryModel = mock[DeductionGainAnswersModel]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
+  val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
@@ -67,7 +70,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, fakeApplication, mockMCC)
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "request has a valid session with no keystore data" should {
@@ -163,7 +166,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
 
         )
 
-      new DeductionsController(mockCalcConnector,mockSessionCacheConnector,mockSessionCacheService, mockConfig, fakeApplication, mockMCC)
+      new DeductionsController(mockCalcConnector,mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "given a valid form" when {

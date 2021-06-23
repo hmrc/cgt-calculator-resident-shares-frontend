@@ -25,12 +25,13 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{IncomeAnswersModel, _}
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{summary => views}
+import views.html.calculation.summary.finalSummary
 
 class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val finalSummaryView = fakeApplication.injector.instanceOf[finalSummary]
 
   "ShareFinalSummaryViewSpec" when {
     val incomeAnswers = IncomeAnswersModel(
@@ -79,7 +80,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = views.finalSummary(gainAnswers,
+      lazy val view = finalSummaryView(gainAnswers,
         deductionAnswers,
         results,
         backLinkUrl,
@@ -87,7 +88,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "",
         100,
         100,
-        showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+        showUserResearchPanel = true)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -457,11 +458,11 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
       "generate the same template when .render and .f are called" in {
 
-        val f = views.finalSummary.f(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
-          true)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+        val f = finalSummaryView.f(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
+          true)(fakeRequestWithSession, mockMessage)
 
-        val render = views.finalSummary.render(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
-          true, fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+        val render = finalSummaryView.render(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
+          true, fakeRequestWithSession, mockMessage)
 
         f shouldBe render
       }
@@ -504,7 +505,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       )
       val taxYearModel = TaxYearModel("2015/16", isValidYear = false, "2015/16")
 
-      lazy val view = views.finalSummary(gainAnswers,
+      lazy val view = finalSummaryView(gainAnswers,
         deductionAnswers,
         results,
         backLinkUrl,
@@ -512,7 +513,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "",
         100,
         100,
-        showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeApplication, mockConfig)
+        showUserResearchPanel = false)(fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

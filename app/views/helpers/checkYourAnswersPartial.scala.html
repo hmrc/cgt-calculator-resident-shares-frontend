@@ -22,6 +22,12 @@
 @import controllers.routes.{IncomeController => incomeRoutes}
 @import play.api.i18n.Lang
 
+@this(
+    summaryDateRowHelper: summaryDateRowHelper,
+    summaryOptionRowHelper: summaryOptionRowHelper,
+    summaryNumericRowHelper: summaryNumericRowHelper
+)
+
 @(gainAnswers: GainAnswersModel, deductionAnswers: Option[DeductionGainAnswersModel], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel], isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages, lang: Lang)
 
 <section id="yourAnswers">

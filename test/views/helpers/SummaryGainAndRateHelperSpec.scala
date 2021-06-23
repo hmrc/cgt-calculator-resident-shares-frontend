@@ -25,10 +25,11 @@ import views.html.helpers.resident.summaryGainAndRateHelper
 class SummaryGainAndRateHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  lazy val rowSingle = summaryGainAndRateHelper("testID","testQ", 1000, 18, None, None)(mockMessage)
+  val summaryGainAndRateHelperView = fakeApplication.injector.instanceOf[summaryGainAndRateHelper]
+  lazy val rowSingle = summaryGainAndRateHelperView("testID","testQ", 1000, 18, None, None)(mockMessage)
   lazy val docSingle = Jsoup.parse(rowSingle.body)
 
-  lazy val rowDouble = summaryGainAndRateHelper("testID","testQ", 1000, 18, Some(2000), Some(28))(mockMessage)
+  lazy val rowDouble = summaryGainAndRateHelperView("testID","testQ", 1000, 18, Some(2000), Some(28))(mockMessage)
   lazy val docDouble = Jsoup.parse(rowDouble.body)
 
   "The Summary Gain and Rate Row Helper" should {

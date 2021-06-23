@@ -18,9 +18,13 @@
 @import play.api.Application
 @import config.ApplicationConfig
 
-@(iFormUrl: String)(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentMainTemplate: resident_main_template
+)
 
-@resident_main_template(
+@(iFormUrl: String)(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     Messages("calc.resident.whatNextNonSa.loss.title"),
     backLink = Some(controllers.routes.SaUserController.saUser().url),
     homeLink = controllers.routes.GainController.disposalDate().url,

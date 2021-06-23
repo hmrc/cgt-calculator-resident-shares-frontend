@@ -14,7 +14,9 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.helpers._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
+
+@this()
 
 @(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Seq[(String, String)]] = None, displayLink: Boolean = true)(implicit messages: Messages)
 

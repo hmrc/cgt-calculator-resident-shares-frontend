@@ -24,15 +24,14 @@ import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
-import play.api.Play.current
 import play.api.i18n.Lang
-import play.api.i18n.Messages.Implicits._
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{report => views}
+import views.html.calculation.report.finalSummaryReport
 
 class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  val finalSummaryReportView = fakeApplication.injector.instanceOf[finalSummaryReport]
   val fakeLang: Lang = Lang("en")
   "Final Summary view" when {
 
@@ -75,8 +74,8 @@ class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
 
-      lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-        false, 100, 100)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+      lazy val view = finalSummaryReportView(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
+        false, 100, 100)(fakeRequestWithSession, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title}" in {
@@ -104,11 +103,11 @@ class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "generate the same template when .render and .f are called" in {
 
-        val f = views.finalSummaryReport.f(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-          false, 100, 100)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+        val f = finalSummaryReportView.f(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
+          false, 100, 100)(fakeRequestWithSession, mockMessage, fakeLang)
 
-        val render = views.finalSummaryReport.render(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
-          false, 100, 100, fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+        val render = finalSummaryReportView.render(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel,
+          false, 100, 100, fakeRequestWithSession, mockMessage, fakeLang)
 
         f shouldBe render
       }
@@ -155,8 +154,8 @@ class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       0
     )
 
-    lazy val view = views.finalSummaryReport(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false,
-    100, 100)(fakeRequestWithSession, mockMessage, fakeApplication, fakeLang)
+    lazy val view = finalSummaryReportView(gainAnswers, deductionAnswers, incomeAnswers, results, taxYearModel, false,
+    100, 100)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {

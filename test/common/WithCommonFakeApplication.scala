@@ -21,10 +21,14 @@ import play.api.{Application, Play}
 import play.api.inject.guice.{GuiceApplicationBuilder, GuiceableModule}
 import play.api.test.Helpers.running
 
+import scala.concurrent.ExecutionContext
+
 trait WithCommonFakeApplication extends BeforeAndAfterAll {
   this: Suite =>
 
   lazy val fakeApplication: Application = new GuiceApplicationBuilder().bindings(bindModules:_*).build()
+
+  implicit val ec: ExecutionContext = fakeApplication.injector.instanceOf[ExecutionContext]
 
   def bindModules: Seq[GuiceableModule] = Seq()
 

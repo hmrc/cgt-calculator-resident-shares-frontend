@@ -36,6 +36,7 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
+import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
 import scala.concurrent.Future
 
@@ -52,6 +53,8 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
+  val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
 
   def setupTarget(lossesBroughtForwardData: Option[LossesBroughtForwardModel],
                   gainAnswers: GainAnswersModel,
@@ -89,7 +92,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
 
       )
 
-    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockConfig, fakeApplication, mockMCC)
+    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardView, lossesBroughtForwardValueView)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {

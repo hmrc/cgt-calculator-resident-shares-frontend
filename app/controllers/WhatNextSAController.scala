@@ -20,23 +20,26 @@ import java.time._
 
 import common.Dates._
 import common.KeystoreKeys
-import config.ApplicationConfig
+import config.AppConfig
 import connectors.SessionCacheConnector
 import controllers.predicates.ValidActiveSession
 import javax.inject.Inject
 import models.resident.DisposalDateModel
-import play.api.Application
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
+import views.html.calculation.whatNext.{whatNextSAFourTimesAEA, whatNextSAGain, whatNextSANoGain}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnector,
-                                     mcc: MessagesControllerComponents)
-                                    (implicit val appConfig: ApplicationConfig, implicit val application: Application)
+                                     mcc: MessagesControllerComponents,
+                                     appConfig: AppConfig,
+                                     whatNextSAFourTimesAEAView: whatNextSAFourTimesAEA,
+                                     whatNextSAGainView: whatNextSAGain,
+                                     whatNextSANoGainView: whatNextSANoGain)
+                                    (implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   val backLink: String = controllers.routes.SaUserController.saUser().url
@@ -49,18 +52,18 @@ class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnecto
   }
 
   val whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
-    Future.successful(Ok(views.html.calculation.whatNext.whatNextSAFourTimesAEA(backLink)))
+    Future.successful(Ok(whatNextSAFourTimesAEAView(backLink)))
   }
 
   val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
-      date => Ok(views.html.calculation.whatNext.whatNextSANoGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
+      date => Ok(whatNextSANoGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }
   }
 
   val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate() map {
-      date => Ok(views.html.calculation.whatNext.whatNextSAGain(backLink, iFormUrl, taxYearOfDateLongHand(date)))
+      date => Ok(whatNextSAGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }
   }
 }

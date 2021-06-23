@@ -22,12 +22,13 @@ import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
-import views.html.{warnings => views}
+import views.html.warnings.sessionTimeout
 
 class SessionTimeoutViewSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
   lazy val applicationConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val messages: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  val sessionTimeoutView = fakeApplication.injector.instanceOf[sessionTimeout]
 
   val restartUrl: String = ""
   val homeLink: String = ""
@@ -36,9 +37,9 @@ class SessionTimeoutViewSpec extends CommonPlaySpec with FakeRequestHelper with 
     
     "generate the same template when .render and .f are called" in {
 
-      val f = views.sessionTimeout.f(restartUrl, homeLink)(fakeRequest, messages, fakeApplication, applicationConfig)
+      val f = sessionTimeoutView.f(restartUrl, homeLink)(fakeRequest, messages)
 
-      val render = views.sessionTimeout.render(restartUrl, homeLink, fakeRequest, messages, fakeApplication, applicationConfig)
+      val render = sessionTimeoutView.render(restartUrl, homeLink, fakeRequest, messages)
 
       f shouldBe render
     }

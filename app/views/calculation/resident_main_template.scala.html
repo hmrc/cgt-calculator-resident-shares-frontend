@@ -14,11 +14,21 @@
  * limitations under the License.
  *@
 
-@import config.ApplicationConfig
-@import play.api.Application
 @import helpers.full_width_banner
 @import helpers.full_width_banner_content_ur
-@import play.api.Application
+@import controllers.CgtLanguageController
+@import config.ApplicationConfig
+
+@this(
+    fullWidthBanner: full_width_banner,
+    fullWidthBannerContentUR: full_width_banner_content_ur,
+    languageController: CgtLanguageController,
+    languageSelection: calculation.language_selection,
+    govukWrapper: govuk_wrapper,
+    uiSidebar: Sidebar,
+    uiArticle: Article,
+    applicationConfig: ApplicationConfig
+)
 
 @(title: String,
   sidebarLinks: Option[Html] = None,
@@ -31,14 +41,9 @@
   backLink: Option[String] = None,
   homeLink: String,
   navTitle: String
-)(mainContent: Html)(implicit request : Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
-
-@import uk.gov.hmrc.play.views.html.layouts
-@import controllers.CgtLanguageController
+)(mainContent: Html)(implicit request : Request[_], messages: Messages)
 
 @serviceInfoContent = {}
-
-@lc = @{Application.instanceCache[CgtLanguageController].apply(application)}
 
 @sidebarContent = {
     <div class="service-info">
@@ -49,14 +54,14 @@
 
 @sidebar = {
     @if(sidebarLinks.isDefined) {
-        @layouts.sidebar(sidebarContent, Some("sidebar"))
+        @uiSidebar(sidebarContent, Some("sidebar"))
     }
 }
 
 @contentLayout = {
     <div class="resident">
         @if(articleLayout) {
-            @layouts.article(mainContent)
+            @uiArticle(mainContent)
         } else {
             @mainContent
         }
@@ -67,13 +72,13 @@
     @if(backLink.isDefined) {
         <a id="back-link" class="back-link" href="@backLink.get">@Messages("calc.base.back")</a>
     }
-    <div class="float--right">@calculation.language_selection(lc.languageMap, controllers.routes.CgtLanguageController.switchToLanguage, None)(messages)</div>
+    <div class="float--right">@languageSelection(languageController.languageMap, controllers.routes.CgtLanguageController.switchToLanguage, None)(messages)</div>
 }
 
 @afterHeader = {
     @if(isUserResearchBannerVisible) {
 
-    @full_width_banner(Some(full_width_banner_content_ur(
+    @fullWidthBanner(Some(fullWidthBannerContentUR(
                 messages("calc.summary.userResearchLink.title"),
                 messages("calc.summary.userResearchLink.link"),
                 applicationConfig.urBannerLink,
@@ -84,8 +89,7 @@
     }
 }
 
-@govuk_wrapper(appConfig = applicationConfig,
-               title = title,
+@govukWrapper(title = title,
                mainClass = mainClass,
                bodyClasses = bodyClasses,
                sidebar = sidebar,

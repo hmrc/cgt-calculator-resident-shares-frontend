@@ -17,7 +17,6 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
-import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
@@ -26,24 +25,22 @@ import forms.LossesBroughtForwardValueForm._
 import javax.inject.Inject
 import models.resident._
 import models.resident.shares.GainAnswersModel
-import play.api.Application
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.{calculation => commonViews}
+import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      sessionCacheConnector: SessionCacheConnector,
                                      sessionCacheService: SessionCacheService,
-                                     implicit val appConfig: ApplicationConfig,
-                                     implicit val application: Application,
-                                     mcc: MessagesControllerComponents)
+                                     mcc: MessagesControllerComponents,
+                                     lossesBroughtForwardView: lossesBroughtForward,
+                                     lossesBroughtForwardValueView: lossesBroughtForwardValue)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   override val homeLink = routes.GainController.disposalDate().url
@@ -95,9 +92,9 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
-        case Some(data) => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
+        case Some(data) => Ok(lossesBroughtForwardView(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
           backLinkUrl, taxYear, homeLink, navTitle))
-        case _ => Ok(commonViews.deductions.lossesBroughtForward(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear,
+        case _ => Ok(lossesBroughtForwardView(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear,
           homeLink, navTitle))
       }
     }
@@ -114,7 +111,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       lossesBroughtForwardForm.bindFromRequest.fold(
-        errors => Future.successful(BadRequest(commonViews.deductions.lossesBroughtForward(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
+        errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
           homeLink, navTitle))),
         success => {
           sessionCacheConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
@@ -154,7 +151,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
     }
 
     def routeRequest(taxYear: TaxYearModel, formData: Form[LossesBroughtForwardValueModel]): Future[Result] = {
-      Future.successful(Ok(commonViews.deductions.lossesBroughtForwardValue(
+      Future.successful(Ok(lossesBroughtForwardValueView(
         formData,
         taxYear,
         navBackLink = lossesBroughtForwardValueBackLink,
@@ -180,7 +177,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
           disposalDateString <- formatDisposalDate(disposalDate.get)
           taxYear <- calcConnector.getTaxYear(disposalDateString)
         } yield {
-          BadRequest(commonViews.deductions.lossesBroughtForwardValue(
+          BadRequest(lossesBroughtForwardValueView(
             errors,
             taxYear.get,
             navBackLink = lossesBroughtForwardValueBackLink,

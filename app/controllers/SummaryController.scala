@@ -20,28 +20,29 @@ import java.time.LocalDate
 
 import common.Dates
 import common.Dates._
-import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import play.api.Application
 import play.api.i18n.I18nSupport
 import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.{summary => views}
+import views.html.calculation.summary.{finalSummary, gainSummary, deductionsSummary}
 
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
-import scala.concurrent.ExecutionContext.Implicits.global
 
 class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                                   sessionCacheService: SessionCacheService,
-                                  mcc: MessagesControllerComponents)(implicit val appConfig: ApplicationConfig, implicit val application: Application)
+                                  mcc: MessagesControllerComponents,
+                                  finalSummaryView: finalSummary,
+                                  gainSummaryView: gainSummary,
+                                  deductionsSummaryView: deductionsSummary)
+                                 (implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   override val homeLink = controllers.routes.GainController.disposalDate().url
@@ -98,12 +99,12 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
 
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
-        Ok(views.finalSummary(totalGainAnswers, deductionGainAnswers,
+        Ok(finalSummaryView(totalGainAnswers, deductionGainAnswers,
           totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, totalCosts, chargeableGain.get.deductions, showUserResearchPanel = false)))
 
-      else if (grossGain > 0) Future.successful(Ok(views.deductionsSummary(totalGainAnswers, deductionGainAnswers,
+      else if (grossGain > 0) Future.successful(Ok(deductionsSummaryView(totalGainAnswers, deductionGainAnswers,
         chargeableGain.get, backUrl, taxYear.get, homeLink, totalCosts, showUserResearchPanel)))
-      else Future.successful(Ok(views.gainSummary(totalGainAnswers, grossGain, taxYear.get, homeLink, totalCosts, maxAea, showUserResearchPanel)))
+      else Future.successful(Ok(gainSummaryView(totalGainAnswers, grossGain, taxYear.get, homeLink, totalCosts, maxAea, showUserResearchPanel)))
     }
 
     val showUserResearchPanel = setURPanelFlag

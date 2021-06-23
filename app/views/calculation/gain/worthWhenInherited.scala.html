@@ -16,15 +16,19 @@
 
 @import views.html.helpers._
 @import views.html.calculation._
-@import uk.gov.hmrc.play.views.html.helpers.form
 @import models.resident.WorthWhenInheritedModel
 @import views.html.calculation.gain._
-@import play.api.Application
-@import config.ApplicationConfig
 
-@(worthWhenInheritedForm: Form[WorthWhenInheritedModel])(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    residentSharesMainTemplate: resident_shares_main_template,
+    form: FormWithCSRF,
+    formInputMoney: formInputMoney,
+    errorSummary: errorSummary
+)
 
-@resident_shares_main_template(
+@(worthWhenInheritedForm: Form[WorthWhenInheritedModel])(implicit request: Request[_], messages: Messages)
+
+@residentSharesMainTemplate(
     title = Messages("calc.resident.shares.worthWhenInherited.question"),
     backLink = Some(controllers.routes.GainController.didYouInheritThem.url)
 ){

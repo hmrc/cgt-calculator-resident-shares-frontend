@@ -19,7 +19,6 @@ package controllers.ReportControllerSpec
 import akka.actor.ActorSystem
 import assets.MessageLookup.{SummaryPage => messages}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
-import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.ReportController
 import controllers.helpers.FakeRequestHelper
@@ -33,6 +32,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.{MessagesControllerComponents, RequestHeader}
 import play.api.test.Helpers._
 import services.SessionCacheService
+import views.html.calculation.report.{deductionsSummaryReport, finalSummaryReport, gainSummaryReport}
 
 import scala.concurrent.Future
 
@@ -49,9 +49,10 @@ class GainSummaryActionSpec @Inject()(pdfGenerator: PdfGenerator) extends Common
 
     lazy val mockCalculatorConnector = mock[CalculatorConnector]
     val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-    implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-    implicit val mockApplication = fakeApplication
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val finalSummaryReportView = fakeApplication.injector.instanceOf[finalSummaryReport]
+    val deductionsSummaryReportView = fakeApplication.injector.instanceOf[deductionsSummaryReport]
+    val gainSummaryReportView = fakeApplication.injector.instanceOf[gainSummaryReport]
 
     when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(yourAnswersSummaryModel))
@@ -65,7 +66,8 @@ class GainSummaryActionSpec @Inject()(pdfGenerator: PdfGenerator) extends Common
     when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(BigDecimal(1000)))
 
-    new ReportController(fakeApplication.configuration, mockCalculatorConnector, mockSessionCacheService, mockMCC, pdfGenerator) {
+    new ReportController(fakeApplication.configuration, mockCalculatorConnector, mockSessionCacheService, mockMCC,
+      pdfGenerator, finalSummaryReportView, deductionsSummaryReportView, gainSummaryReportView) {
       override def host(implicit request: RequestHeader): String = "http://localhost:9977/"
     }
   }

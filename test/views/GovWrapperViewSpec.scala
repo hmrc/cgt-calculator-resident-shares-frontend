@@ -28,6 +28,7 @@ class GovWrapperViewSpec extends CommonPlaySpec with FakeRequestHelper with Mock
 
   lazy val applicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  lazy val govukWrapperView = fakeApplication.injector.instanceOf[govuk_wrapper]
 
   val title = "title"
   val mainClass = None
@@ -46,10 +47,10 @@ class GovWrapperViewSpec extends CommonPlaySpec with FakeRequestHelper with Mock
 
     "both generate identical templates" in {
 
-      val render = govuk_wrapper.render(applicationConfig, title, mainClass, mainDataAttributes, bodyClasses, sidebar, contentHeader,
+      val render = govukWrapperView.render(title, mainClass, mainDataAttributes, bodyClasses, sidebar, contentHeader,
         mainContent, serviceInfoContent, scriptElem, afterHeader, homeLink, navTitle, fakeRequest, messages)
 
-      val f = govuk_wrapper.f(applicationConfig, title, mainClass, mainDataAttributes, bodyClasses, sidebar, contentHeader,
+      val f = govukWrapperView.f(title, mainClass, mainDataAttributes, bodyClasses, sidebar, contentHeader,
         mainContent, serviceInfoContent, scriptElem, afterHeader, homeLink, navTitle)(fakeRequest, messages)
 
       f shouldBe render

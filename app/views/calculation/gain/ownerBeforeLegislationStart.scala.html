@@ -18,14 +18,17 @@
 @import views.html.calculation._
 @import models.resident.shares.OwnerBeforeLegislationStartModel
 @import models.resident.shares._
-@import uk.gov.hmrc.play.views.html.helpers.form
-@import play.api.Application
-@import uk.gov.hmrc.play.views.html.helpers.input_radio_group
-@import config.ApplicationConfig
 
-@(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages, application: Application, applicationConfig: ApplicationConfig)
+@this(
+    form: FormWithCSRF,
+    inputRadioGroup: InputRadioGroup,
+    residentMainTemplate: resident_main_template,
+    errorSummary: errorSummary
+)
 
-@resident_main_template(
+@(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
+
+@residentMainTemplate(
     title = Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),
     backLink = navBackLink,
     homeLink = navHomeLink,
@@ -39,7 +42,7 @@
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
         <div id="radio-input" class="form-group">
-            @input_radio_group(
+            @inputRadioGroup(
                 field = ownerBeforeLegislationStart("ownerBeforeLegislationStart"),
                 Seq(
                     "Yes" -> Messages("calc.base.yes"),

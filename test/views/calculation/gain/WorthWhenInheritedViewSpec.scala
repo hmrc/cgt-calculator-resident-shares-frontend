@@ -24,16 +24,17 @@ import controllers.helpers.FakeRequestHelper
 import forms.WorthWhenInheritedForm._
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.calculation.{gain => views}
+import views.html.calculation.gain.worthWhenInherited
 
 class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
 
   "worthWhenInherited view" should {
     lazy val form = worthWhenInheritedForm
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = worthWhenInheritedView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -100,9 +101,9 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     "generate the same template when .render and .f are called" in {
 
-      val f = views.worthWhenInherited.f(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val f = worthWhenInheritedView.f(form)(fakeRequest, mockMessage)
 
-      val render = views.worthWhenInherited.render(form, fakeRequest, mockMessage, fakeApplication, mockConfig)
+      val render = worthWhenInheritedView.render(form, fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -111,7 +112,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   "worthWhenInherited View with form without errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = worthWhenInheritedView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -129,7 +130,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   "worthWhenInherited View with form with errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
-    lazy val view = views.worthWhenInherited(form)(fakeRequest, mockMessage, fakeApplication, mockConfig)
+    lazy val view = worthWhenInheritedView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

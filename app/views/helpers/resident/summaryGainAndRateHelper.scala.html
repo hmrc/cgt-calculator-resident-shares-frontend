@@ -14,8 +14,10 @@
  * limitations under the License.
  *@
 
-@import uk.gov.hmrc.play.views.helpers._
+@import uk.gov.hmrc.play.views.helpers.MoneyPounds
 @import models.resident.TotalGainAndTaxOwedModel
+
+@this()
 
 @(rowId: String, question: String, firstBand: BigDecimal, firstRate: Int, secondBand: Option[BigDecimal], secondRate: Option[Int])(implicit messages: Messages)
 
