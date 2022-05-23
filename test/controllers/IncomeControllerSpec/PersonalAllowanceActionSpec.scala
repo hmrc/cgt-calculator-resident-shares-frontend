@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,10 +63,10 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       (ArgumentMatchers.eq(keystoreKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(true))(ArgumentMatchers.any()))
+    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(true), ArgumentMatchers.eq(true))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
+    when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
     when(mockSessionCacheConnector.saveFormData[PersonalAllowanceModel]

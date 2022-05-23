@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,10 +58,15 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
     http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear")
   }
 
-  def getPA(taxYear: Int, isEligibleBlindPersonsAllowance: Boolean = false)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
+  def getPA(taxYear: Int, isEligibleBlindPersonsAllowance: Boolean = false,
+            isEligibleMarriageAllowance: Boolean = false)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
     http.GET[Option[BigDecimal]](s"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-pa?taxYear=$taxYear" +
       s"${
         if (isEligibleBlindPersonsAllowance) s"&isEligibleBlindPersonsAllowance=true"
+        else ""
+      }" +
+      s"${
+        if (isEligibleMarriageAllowance) s"&isEligibleMarriageAllowance=true"
         else ""
       }"
     )
