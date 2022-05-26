@@ -65,6 +65,7 @@ calc.resident.personalAllowance.link.text = Rhagor o wybodaeth am
 calc.resident.personalAllowance.list.one = ennill mwy na £100,000
 calc.resident.personalAllowance.list.title = Yn y flwyddyn dreth {0} i {1}, £{2} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
 calc.resident.personalAllowance.list.two = hawlio Lwfans Person Dall
+calc.resident.personalAllowance.list.three = hawlio Lwfans Priodasol
 calc.resident.personalAllowance.question = Yn y flwyddyn dreth {0}, faint oedd eich Lwfans Personol?
 
 calc.resident.saUser.errorSelect = Dewiswch a ydych chi''n rhan o''r drefn Hunanasesiad ar hyn o bryd
