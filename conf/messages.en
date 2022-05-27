@@ -96,6 +96,7 @@ calc.resident.personalAllowance.list.title = In the tax year {0} to {1} the UK P
 calc.resident.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
 calc.resident.personalAllowance.list.one = earned more than £100,000
 calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
+calc.resident.personalAllowance.list.three = claimed Marriage Allowance
 calc.resident.personalAllowance.link.text = Find out more about
 calc.resident.personalAllowance.link = Income tax rates and Personal Allowances
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?

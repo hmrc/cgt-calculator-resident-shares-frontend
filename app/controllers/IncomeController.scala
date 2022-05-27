@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -158,7 +158,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   def submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def getMaxPA(year: Int): Future[Option[BigDecimal]] = {
-      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true)
+      calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true, isEligibleMarriageAllowance = true )
     }
 
 
