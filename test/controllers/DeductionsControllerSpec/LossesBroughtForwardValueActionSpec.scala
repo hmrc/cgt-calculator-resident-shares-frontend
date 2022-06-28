@@ -177,7 +177,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         lazy val target = setPostTarget(gainModel, summaryModel,
           ChargeableGainResultModel(2000, 0, 0, 0, 2000, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
           disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
         lazy val result = target.submitLossesBroughtForwardValue(request)
 
         "return a status of 303" in {
@@ -195,7 +195,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         lazy val target = setPostTarget(gainModel, summaryModel,
           ChargeableGainResultModel(2000, -1000, 0, 0, 3000, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
           disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
         lazy val result = target.submitLossesBroughtForwardValue(request)
 
         "return a status of 303" in {
@@ -213,7 +213,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         lazy val target = setPostTarget(gainModel, summaryModel,
           ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
           disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+        lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
         lazy val result = target.submitLossesBroughtForwardValue(request)
 
         "return a status of 303" in {
@@ -232,7 +232,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       lazy val target = setPostTarget(gainModel, summaryModel,
         ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
         disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-      lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitLossesBroughtForwardValue(request)
 
       "return a status of 400" in {

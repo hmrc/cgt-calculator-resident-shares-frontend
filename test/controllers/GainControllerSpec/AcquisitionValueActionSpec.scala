@@ -132,7 +132,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     "a valid form is submitted" should {
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
       lazy val result = target.submitAcquisitionValue(request)
 
       "return a 303" in {
@@ -146,7 +146,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     "an invalid form is submitted" should {
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitAcquisitionValue(request)
       lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 

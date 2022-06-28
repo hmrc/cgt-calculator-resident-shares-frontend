@@ -149,7 +149,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
 
       lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
       lazy val target = setupTarget(Some(PersonalAllowanceModel(1000)), disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val result = target.submitPersonalAllowance(request)
 
@@ -167,7 +167,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       lazy val disposalDateModel = DisposalDateModel(10, 10, 2015)
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val target = setupTarget(None, disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
-      lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitPersonalAllowance(request)
       lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 

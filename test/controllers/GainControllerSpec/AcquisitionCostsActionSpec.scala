@@ -247,7 +247,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
         gainAnswersModel,
         BigDecimal(0)
       )
-      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
       lazy val result = target.submitAcquisitionCosts(request)
 
       "return a 303" in {
@@ -267,7 +267,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
         gainAnswersModel,
         BigDecimal(-1500)
       )
-      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
       lazy val result = target.submitAcquisitionCosts(request)
 
       "return a 303" in {
@@ -287,7 +287,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
         gainAnswersModel,
         BigDecimal(1000)
       )
-      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000"))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "1000")).withMethod("POST")
       lazy val result = target.submitAcquisitionCosts(request)
 
       "return a 303" in {
@@ -307,7 +307,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
         gainAnswersModel,
         BigDecimal(0)
       )
-      lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitAcquisitionCosts(request)
       lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 

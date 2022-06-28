@@ -126,7 +126,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
   "Calling .submitValueBeforeLegislationStart with a valid request" should {
     lazy val target = setupTarget(None)
-    lazy val request = fakeRequestToPOSTWithSession(("amount", "100"))
+    lazy val request = fakeRequestToPOSTWithSession(("amount", "100")).withMethod("POST")
     lazy val result = target.submitValueBeforeLegislationStart(request)
 
     "return a status of 303" in {
@@ -140,7 +140,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
   "Calling .submitValueBeforeLegislationStart with an invalid request" should {
     lazy val target = setupTarget(None)
-    lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
+    lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
     lazy val result = target.submitValueBeforeLegislationStart(request)
 
     "render with a status of 400" in {

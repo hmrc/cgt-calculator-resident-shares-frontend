@@ -104,7 +104,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     val target = setupTarget()
-    val result = target.submitDisposalDate(fakeRequestToPOSTWithSession(inputOne, inputTwo, inputThree))
+    val result = target.submitDisposalDate(fakeRequestToPOSTWithSession(inputOne, inputTwo, inputThree).withMethod("POST"))
     val doc = Jsoup.parse(bodyOf(result)(materializer))
   }
 

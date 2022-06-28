@@ -122,7 +122,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     "a valid form with the answer 'Yes' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("wereInherited", "Yes"))
+      lazy val request = fakeRequestToPOSTWithSession(("wereInherited", "Yes")).withMethod("POST")
       lazy val result = target.submitDidYouInheritThem(request)
 
       "return a status of 303" in {
@@ -137,7 +137,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     "a valid form with the answer 'No' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("wereInherited", "No"))
+      lazy val request = fakeRequestToPOSTWithSession(("wereInherited", "No")).withMethod("POST")
       lazy val result = target.submitDidYouInheritThem(request)
 
       "return a status of 303" in {
@@ -152,7 +152,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     "an invalid form with the answer '' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("wereInherited", ""))
+      lazy val request = fakeRequestToPOSTWithSession(("wereInherited", "")).withMethod("POST")
       lazy val result = target.submitDidYouInheritThem(request)
       lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 

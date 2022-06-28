@@ -33,7 +33,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
   
   case class FakePOST(value: String) {
-    lazy val request = fakeRequestToPOSTWithSession(("amount", value))
+    lazy val request = fakeRequestToPOSTWithSession(("amount", value)).withMethod("POST")
     lazy val form = disposalValueForm.bind(Map(("amount", value)))
     lazy val view = disposalValueView(form, "home-link")(request, mockMessage)
     lazy val doc = Jsoup.parse(view.body)

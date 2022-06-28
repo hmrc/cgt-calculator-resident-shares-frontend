@@ -150,7 +150,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), gainModel, summaryModel,
           ChargeableGainResultModel(1000, 1000, 0, 0, 0, BigDecimal(0), BigDecimal(0),
             None, None, 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
-        lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
+        lazy val request = fakeRequestToPOSTWithSession(("option", "No")).withMethod("POST")
         lazy val result = target.submitLossesBroughtForward(request)
 
 
@@ -168,7 +168,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         lazy val target = setupTarget(Some(LossesBroughtForwardModel(false)), gainModel, summaryModel,
           ChargeableGainResultModel(1000, 0, 0, 0, 1000, BigDecimal(0), BigDecimal(0),
             None, None, 0, 0), Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
-        lazy val request = fakeRequestToPOSTWithSession(("option", "No"))
+        lazy val request = fakeRequestToPOSTWithSession(("option", "No")).withMethod("POST")
         lazy val result = target.submitLossesBroughtForward(request)
 
         "return a 303" in {
@@ -185,7 +185,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), gainModel, summaryModel,
           ChargeableGainResultModel(0, 0, 0, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0),
           Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
-        lazy val request = fakeRequestToPOSTWithSession(("option", "Yes"))
+        lazy val request = fakeRequestToPOSTWithSession(("option", "Yes")).withMethod("POST")
         lazy val result = target.submitLossesBroughtForward(request)
 
         "return a 303" in {
@@ -202,7 +202,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
 
         lazy val target = setupTarget(Some(LossesBroughtForwardModel(true)), gainModel, summaryModel, chargeableGainModel,
           Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
-        lazy val request = fakeRequestToPOSTWithSession(("option", ""))
+        lazy val request = fakeRequestToPOSTWithSession(("option", "")).withMethod("POST")
         lazy val result = target.submitLossesBroughtForward(request)
 
         "return a 400" in {
