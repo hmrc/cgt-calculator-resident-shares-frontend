@@ -149,7 +149,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "a valid form with the answer 'Yes' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "Yes"))
+      lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "Yes")).withMethod("POST")
       lazy val result = target.submitSellForLess(request)
 
       "return a status of 303" in {
@@ -164,7 +164,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "a valid form with the answer 'No' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "No"))
+      lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "No")).withMethod("POST")
       lazy val result = target.submitSellForLess(request)
 
       "return a status of 303" in {
@@ -179,7 +179,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "an invalid form with the answer '' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("sellForLess", ""))
+      lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "")).withMethod("POST")
       lazy val result = target.submitSellForLess(request)
       lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 

@@ -124,7 +124,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     "a valid form with the answer 'Yes' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", "Yes"))
+      lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", "Yes")).withMethod("POST")
       lazy val result = target.submitOwnerBeforeLegislationStart(request)
 
       "return a status of 303" in {
@@ -139,7 +139,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     "a valid form with the answer 'No' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", "No"))
+      lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", "No")).withMethod("POST")
       lazy val result = target.submitOwnerBeforeLegislationStart(request)
 
       "return a status of 303" in {
@@ -154,7 +154,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     "an invalid form with the answer '' is submitted" should {
 
       lazy val target = setupTarget(None)
-      lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", ""))
+      lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", "")).withMethod("POST")
       lazy val result = target.submitOwnerBeforeLegislationStart(request)
       lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
 

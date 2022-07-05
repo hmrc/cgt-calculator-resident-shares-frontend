@@ -104,9 +104,8 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "return a status of 200 when form body is correct" in {
-        lazy val result = controller.submitSaUser(fakeRequestWithSession.withFormUrlEncodedBody(
-          "isInSa" -> "Yes"
-        ))
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(("isInSa", "Yes")).withMethod("POST"))
+
         status(result) shouldBe 303
         redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/what-next-sa-no-gain-over-limit")
       }
@@ -137,7 +136,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
 
       "there is no tax liability" should {
         lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
-        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
           status(result) shouldBe 303
@@ -150,7 +149,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
 
       "there is a tax liability" should {
         lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
-        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
           status(result) shouldBe 303
@@ -167,7 +166,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
 
       "there is a tax liability" should {
         lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
-        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
           status(result) shouldBe 303
@@ -180,7 +179,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
 
       "there is no tax liability and a disposal value less than 4*AEA" should {
         lazy val controller = setupController(ModelsAsset.gainLowDisposalValue, 0, -10000, 0)
-        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
           status(result) shouldBe 303
@@ -193,7 +192,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
 
       "there is no tax liability and a disposal value greater than 4*AEA" should {
         lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
-        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form))
+        lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
           status(result) shouldBe 303

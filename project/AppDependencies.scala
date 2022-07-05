@@ -20,11 +20,11 @@ import play.core.PlayVersion
 
 object AppDependencies {
 
-  val bootstrapVersion         = "5.4.0"
-  val govUKTemplateVersion     = "5.68.0-play-28"
-  val playUiVersion            = "9.5.0-play-28"
-  val playPartialsVersion      = "8.1.0-play-28"
-  val httpCachingClientVersion = "9.5.0-play-28"
+  val bootstrapVersion         = "5.24.0"
+  val govUKTemplateVersion     = "5.77.0-play-28"
+  val playUiVersion            = "9.10.0-play-28"
+  val playPartialsVersion      = "8.3.0-play-28"
+  val httpCachingClientVersion = "9.6.0-play-28"
   val play2PdfVersion          = "1.10.0"
   val jsonJodaVersion          = "2.9.2"
 
@@ -49,11 +49,11 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq(
+        "uk.gov.hmrc" %% "bootstrap-test-play-28" % "5.24.0" % scope,
         "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0" % scope,
         "org.scalatestplus" %%  "scalatestplus-mockito" % "1.0.0-M2" % scope,
-        "org.mockito" % "mockito-core" % "3.3.3" % scope,
-        "com.vladsch.flexmark" % "flexmark-all" % "0.35.10" % scope,
-        "org.jsoup" % "jsoup" % "1.13.1" % scope,
+        "org.mockito" % "mockito-core" % "3.11.2" % scope,
+        "org.jsoup" % "jsoup" % "1.14.3" % scope,
         "com.typesafe.play" %% "play-test" % PlayVersion.current % scope
       )
     }.test

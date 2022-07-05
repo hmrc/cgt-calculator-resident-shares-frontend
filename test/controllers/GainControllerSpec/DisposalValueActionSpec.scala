@@ -123,7 +123,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .submitDisposalValue from the GainController" should {
     lazy val target = setupTarget(None)
-    lazy val request = fakeRequestToPOSTWithSession(("amount", "100"))
+    lazy val request = fakeRequestToPOSTWithSession(("amount", "100")).withMethod("POST")
     lazy val result = target.submitDisposalValue(request)
 
     "re-direct to the disposal Costs page when supplied with a valid form" in {
@@ -134,7 +134,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
   "Calling .submitDisposalValue from the GainController" should {
     lazy val target = setupTarget(None)
-    lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
+    lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
     lazy val result = target.submitDisposalValue(request)
 
     "render the disposal value page when supplied with an invalid form" in {

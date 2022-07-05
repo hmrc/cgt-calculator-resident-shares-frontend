@@ -189,7 +189,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       lazy val target = setupTarget(Some(CurrentIncomeModel(40000)), disposalDate = Some(DisposalDateModel(10, 10, 2015)),
                                     taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val result = target.submitCurrentIncome(fakeRequestToPOSTWithSession(("amount", "40000")))
+      lazy val result = target.submitCurrentIncome(fakeRequestToPOSTWithSession(("amount", "40000")).withMethod("POST"))
 
       "return a status of 303" in {
         status(result) shouldBe 303
@@ -204,7 +204,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       lazy val target = setupTarget(Some(CurrentIncomeModel(-40000)), otherProperties = false,
                                     disposalDate = Some(DisposalDateModel(10, 10, 2015)), taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
-      lazy val result = target.submitCurrentIncome(fakeRequestToPOSTWithSession(("amount", "-40000")))
+      lazy val result = target.submitCurrentIncome(fakeRequestToPOSTWithSession(("amount", "-40000")).withMethod("POST"))
 
       "return a status of 400" in {
         status(result) shouldBe 400

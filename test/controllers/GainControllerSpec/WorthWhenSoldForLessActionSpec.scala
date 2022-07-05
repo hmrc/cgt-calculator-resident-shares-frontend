@@ -120,7 +120,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
 
   "Calling .submitWorthWhenSoldForLess from the GainController" should {
     lazy val target = setupTarget(None)
-    lazy val request = fakeRequestToPOSTWithSession(("amount", "100"))
+    lazy val request = fakeRequestToPOSTWithSession(("amount", "100")).withMethod("POST")
     lazy val result = target.submitWorthWhenSoldForLess(request)
 
     "when supplied with a valid form" which {
@@ -137,7 +137,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
 
   "Calling .submitWorthWhenSoldForLess from the GainController" should {
     lazy val target = setupTarget(None)
-    lazy val request = fakeRequestToPOSTWithSession(("amount", ""))
+    lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
     lazy val result = target.submitWorthWhenSoldForLess(request)
 
     "when supplied with an invalid form" which {

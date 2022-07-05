@@ -131,7 +131,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     "given a valid form should" should {
 
       lazy val target = setupTarget(Some(DisposalCostsModel(100.99)))
-      lazy val request = fakeRequestToPOSTWithSession(("amount", "100"))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "100")).withMethod("POST")
       lazy val result = target.submitDisposalCosts(request)
 
       "return a status of 303" in {
@@ -146,7 +146,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     "given an invalid form" should {
 
       lazy val target = setupTarget(Some(DisposalCostsModel(100.99)))
-      lazy val request = fakeRequestToPOSTWithSession(("amount", "-100"))
+      lazy val request = fakeRequestToPOSTWithSession(("amount", "-100")).withMethod("POST")
       lazy val result = target.submitDisposalCosts(request)
 
       "return a status of 400" in {
