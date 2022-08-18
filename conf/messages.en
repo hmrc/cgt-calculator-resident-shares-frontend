@@ -1,3 +1,5 @@
+service.name = Calculate your Capital Gains Tax
+
 ## Base ##
 calc.base.continue = Continue
 calc.base.calculate.tax.heading = Calculate your Capital Gains Tax
@@ -16,6 +18,7 @@ calc.base.period = .
 
 ## Error Summary ##
 calc.error.summary.heading = This page has errors
+site.title.error = Error: {0}
 
 ## Session Timeout message ##
 session.timeout.message = Your session has ended

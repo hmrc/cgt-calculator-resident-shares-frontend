@@ -21,6 +21,7 @@ import play.core.PlayVersion
 object AppDependencies {
 
   val bootstrapVersion         = "5.24.0"
+  val playFrontendVersion      = "0.88.0-play-28"
   val govUKTemplateVersion     = "5.77.0-play-28"
   val playUiVersion            = "9.10.0-play-28"
   val playPartialsVersion      = "8.3.0-play-28"
@@ -31,6 +32,7 @@ object AppDependencies {
   val compile = Seq(
     ws,
     "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % bootstrapVersion,
+    "uk.gov.hmrc" %% "play-frontend-hmrc"   % playFrontendVersion,
     "uk.gov.hmrc" %% "govuk-template" % govUKTemplateVersion,
     "uk.gov.hmrc" %% "play-ui" % playUiVersion,
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
