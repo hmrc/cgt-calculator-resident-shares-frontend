@@ -711,7 +711,8 @@ object MessageLookup {
   }
 
   object SharesAcquisitionValue {
-    val title = "How much did you pay for the shares?"
+    val title = "How much did you pay for the shares? - Calculate your Capital Gains Tax - GOV.UK"
+    val question = "How much did you pay for the shares?"
     val hintText = "If you owned them with someone else, only enter your share of the purchase."
     val bulletListTitle = "Put the market value of the shares instead if you:"
     val bulletListOne = "inherited them"

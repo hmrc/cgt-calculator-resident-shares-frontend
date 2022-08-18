@@ -42,7 +42,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     s"have title ${messages.title}" in {
@@ -58,7 +58,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link to Disposal Costs" in {
@@ -70,17 +70,17 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       lazy val heading = doc.select("h1")
       lazy val form = doc.select("form")
 
-      s"have the page heading '${messages.title}'" in {
-        heading.text shouldBe messages.title
+      s"have the page heading '${messages.question}'" in {
+        heading.text shouldBe messages.question
       }
 
-      "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldBe true
+      "have the govuk-heading-xl class" in {
+        heading.hasClass("govuk-heading-xl") shouldBe true
       }
 
       "have a p tag" which {
         s"with the extra text ${messages.hintText}" in {
-          form.select("p.panel-indent").text shouldBe messages.hintText
+          doc.getElementsByClass("govuk-inset-text").text shouldBe messages.hintText
         }
       }
     }
@@ -102,12 +102,12 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.title}" in {
-          label.text should include(messages.title)
+        s"have the question ${messages.question}" in {
+          label.text should include(messages.question)
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.select("span").hasClass("visuallyhidden") shouldBe true
+        "has the class visually hidden" in {
+          label.select(".govuk-visually-hidden").hasClass("govuk-visually-hidden") shouldEqual true
         }
       }
 
@@ -124,28 +124,25 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         }
 
         "have a type of number" in {
-          input.attr("type") shouldBe "number"
+          input.attr("type") shouldBe "text"
         }
 
-        "have a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
-        }
       }
 
       "has a continue button that" should {
 
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.getElementsByClass("govuk-button")
 
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
 
-        "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
+        "have id submit" in {
+          continueButton.attr("id") shouldBe "submit"
         }
 
-        "have the class 'button'" in {
-          continueButton.hasClass("button") shouldBe true
+        "have the class 'govuk-button'" in {
+          continueButton.hasClass("govuk-button") shouldBe true
         }
       }
     }
@@ -166,11 +163,11 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.getElementsByClass("govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select("#main-content > div > div > div > div > ul > li > a").size shouldBe 1
     }
   }
 }
