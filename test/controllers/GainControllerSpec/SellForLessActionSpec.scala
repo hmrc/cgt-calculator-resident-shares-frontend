@@ -96,7 +96,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.newTitle
       }
     }
 
@@ -188,7 +188,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "render the Sell For Less page" in {
-        doc.title() shouldEqual messages.title
+        doc.title() shouldEqual s"Error: ${messages.newTitle}"
       }
     }
   }

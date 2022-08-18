@@ -435,6 +435,7 @@ object MessageLookup {
       //############ Sell For Less messages.en #################//
       object SellForLess {
         val title = "Did you sell the shares for less than they were worth to help the buyer?"
+        val newTitle = "Did you sell the shares for less than they were worth to help the buyer? - Calculate your Capital Gains Tax - GOV.UK"
         val errorSelect = s"Tell us if you sold the shares for less than they were worth to help the buyer."
       }
 

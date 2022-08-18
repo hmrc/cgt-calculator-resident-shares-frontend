@@ -44,7 +44,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
     }
 
     s"have a title ${messages.title}" in {
-      doc.title shouldBe messages.title
+      doc.title shouldBe messages.newTitle
     }
 
     "have a H1 tag that" should {
@@ -56,24 +56,20 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+        h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
       }
-    }
-
-    s"have the home link to 'home'" in {
-      doc.select("#homeNavHref").attr("href") shouldEqual "home-link"
     }
 
     "have a back button" which {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.getElementsByClass("govuk-back-link")
 
       "has the correct back link text" in {
         backLink.text shouldBe commonMessages.back
       }
 
-      "has the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+      "has the back-link id" in {
+        backLink.attr("id") shouldBe "back-link"
       }
 
       "has a back link to 'back'" in {
@@ -89,51 +85,37 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
       form.attr("method") shouldBe "POST"
     }
 
-    "have a legend for the radio inputs" which {
-
-      lazy val legend = doc.select("legend")
-
-      s"contain the text ${messages.title}" in {
-        legend.text should include(s"${messages.title}")
-      }
-
-      "that is visually hidden" in {
-        legend.hasClass("visuallyhidden") shouldEqual true
-      }
-    }
-
     "have a set of radio inputs" which {
 
-      "are surrounded in a div with class form-group" in {
-        doc.select("div#radio-input").hasClass("form-group") shouldEqual true
+      "are surrounded in a div with class govuk-radios govuk-radios--inline" in {
+        doc.select("#main-content > div > div > form > div > fieldset > div").hasClass("govuk-radios govuk-radios--inline") shouldEqual true
       }
 
       "for the option 'Yes'" should {
+        lazy val YesRadioOption = doc.select("#sellForLess")
 
-        lazy val YesRadioOption = doc.select(".block-label[for=sellForLess-yes]")
-
-        "have a label with class 'block-label'" in {
-          YesRadioOption.hasClass("block-label") shouldEqual true
+        "have a label with class 'govuk-radios__input'" in {
+          YesRadioOption.hasClass("govuk-radios__input") shouldEqual true
         }
 
-        "have the property 'for'" in {
-          YesRadioOption.hasAttr("for") shouldEqual true
+        "have the property 'value'" in {
+          YesRadioOption.hasAttr("value") shouldEqual true
         }
 
-        "the for attribute has the value sellForLess-Yes" in {
-          YesRadioOption.attr("for") shouldEqual "sellForLess-yes"
+        "the for attribute has the value Yes" in {
+          YesRadioOption.attr("value") shouldEqual "Yes"
         }
 
         "have the text 'Yes'" in {
-          YesRadioOption.text shouldEqual "Yes"
+          doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(1) > label").text shouldEqual "Yes"
         }
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#sellForLess-yes")
+          lazy val optionLabel = doc.select("#sellForLess")
 
           "have the id 'sellForLess-Yes'" in {
-            optionLabel.attr("id") shouldEqual "sellForLess-yes"
+            optionLabel.attr("id") shouldEqual "sellForLess"
           }
 
           "have the value 'Yes'" in {
@@ -148,30 +130,30 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
 
       "for the option 'No'" should {
 
-        lazy val NoRadioOption = doc.select(".block-label[for=sellForLess-no]")
+        lazy val NoRadioOption = doc.select("#sellForLess-2")
 
         "have a label with class 'block-label'" in {
-          NoRadioOption.hasClass("block-label") shouldEqual true
+          NoRadioOption.hasClass("govuk-radios__input") shouldEqual true
         }
 
-        "have the property 'for'" in {
-          NoRadioOption.hasAttr("for") shouldEqual true
+        "have the property 'value'" in {
+          NoRadioOption.hasAttr("value") shouldEqual true
         }
 
-        "the for attribute has the value sellForLess-No" in {
-          NoRadioOption.attr("for") shouldEqual "sellForLess-no"
+        "the id attribute has the value sellForLess-No" in {
+          NoRadioOption.attr("id") shouldEqual "sellForLess-2"
         }
 
         "have the text 'No'" in {
-          NoRadioOption.text shouldEqual "No"
+          doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(2) > label").text shouldEqual "No"
         }
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#sellForLess-no")
+          lazy val optionLabel = doc.select("#sellForLess-2")
 
           "have the id 'livedInProperty-No'" in {
-            optionLabel.attr("id") shouldEqual "sellForLess-no"
+            optionLabel.attr("id") shouldEqual "sellForLess-2"
           }
 
           "have the value 'No'" in {
@@ -187,26 +169,14 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
 
     "have a continue button" which {
 
-      lazy val button = doc.select("button")
-
-      "has class 'button'" in {
-        button.hasClass("button") shouldEqual true
-      }
-
-      "has attribute 'type'" in {
-        button.hasAttr("type") shouldEqual true
-      }
-
-      "has type value of 'submit'" in {
-        button.attr("type") shouldEqual "submit"
-      }
+      lazy val button = doc.getElementsByClass("govuk-button")
 
       "has attribute id" in {
         button.hasAttr("id") shouldEqual true
       }
 
       "has id equal to continue-button" in {
-        button.attr("id") shouldEqual "continue-button"
+        button.attr("id") shouldEqual "submit"
       }
 
       s"has the text ${commonMessages.continue}" in {
@@ -230,10 +200,10 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
 
     "for the option 'Yes'" should {
 
-      lazy val YesRadioOption = doc.select(".block-label[for=sellForLess-yes]")
+      lazy val YesRadioOption = doc.select("#sellForLess")
 
       "have the option auto-selected" in {
-        YesRadioOption.attr("class") shouldBe "block-label selected"
+        YesRadioOption.hasAttr("checked") shouldBe true
       }
     }
   }
@@ -246,11 +216,11 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
 
     "have an error summary" which {
       "display an error summary message for the page" in {
-        doc.body.select("#sellForLess-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary__body").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select("#sellForLess-error").size shouldBe 1
       }
     }
   }
