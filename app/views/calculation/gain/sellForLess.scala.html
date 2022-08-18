@@ -15,46 +15,43 @@
  *@
 
 @import models.resident.SellForLessModel
-@import views.html.helpers._
-@import views.html.calculation._
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     inputRadioGroup: InputRadioGroup,
     form: FormWithCSRF,
-    residentMainTemplate: resident_main_template,
-    errorSummary: errorSummary
+    layout: Layout,
+    inputRadio: playHelpers.inputRadio,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(sellForLessForm: Form[SellForLessModel], homeHref: String, backLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.shares.sellForLess.question"),
-    backLink = Some(backLink),
-    homeLink = homeHref,
-    navTitle = Messages("calc.base.resident.shares.home")
+@title = @{
+    if (sellForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.sellForLess.question")) else Messages("calc.resident.shares.sellForLess.question")
+}
+
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(backLink)
 ) {
 
-    @errorSummary(sellForLessForm, "sellForLess")
-
-    <h1 class="heading-large">@Messages("calc.resident.shares.sellForLess.question")</h1>
+    @errorSummary(sellForLessForm.errors, Some("sellForLess"))
 
     @form(action = controllers.routes.GainController.submitSellForLess) {
-
-        <div id="radio-input" class="form-group">
-            @inputRadioGroup(
-                field = sellForLessForm("sellForLess"),
-                Seq(
-                    "Yes" -> Messages("calc.base.yes"),
-                    "No" -> Messages("calc.base.no")),
-                '_legend -> Messages("calc.resident.shares.sellForLess.question"),
-                '_labelClass -> "block-label",
-                '_legendClass -> "visuallyhidden",
-                '_groupClass -> "inline"
-            )
-        </div>
+        @inputRadio(
+            legend = Messages("calc.resident.shares.sellForLess.question"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = sellForLessForm("sellForLess")
+        )
 
         <input type="hidden" name="sellForLess" value="" />
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+        @submitButton()
     }
 }
