@@ -447,6 +447,7 @@ object MessageLookup {
 
       //############ Worth When Sold For Less messages.en #################//
       object WorthWhenSoldForLess {
+        val title = "What were the shares worth when you sold them? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What were the shares worth when you sold them?"
         val informationText = "Get information from the stock exchange or talk to your stockbroker or fund manager."
         val jointOwnershipText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
