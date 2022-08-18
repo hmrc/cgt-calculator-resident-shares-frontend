@@ -15,34 +15,37 @@
  *@
 
 @import models.resident.DisposalDateModel
-@import views.html.helpers._
 @import views.html.calculation._
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    dateFieldsFreeInlineLegend: DateFieldsFreeInlineLegend,
+    dateInput: playHelpers.dateInput,
     form: FormWithCSRF,
-    residentMainTemplate: resident_main_template,
-    errorSummary: errorSummary
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(disposalDateForm: Form[DisposalDateModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.shares.disposalDate.question"),
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.shares.home")
+@title = @{
+    if (disposalDateForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.disposalDate.question")) else Messages("calc.resident.shares.disposalDate.question")
+}
+@layout(
+    pageTitle = title
 ) {
 
-    @errorSummary(disposalDateForm, "disposal-date", "disposalDateDay")
-
-    <h1 class="heading-large">@Messages("calc.resident.shares.disposalDate.question")</h1>
+    @errorSummary(disposalDateForm.errors, Some("disposal-date"))
 
     @form(action = controllers.routes.GainController.submitDisposalDate){
 
-        @dateFieldsFreeInlineLegend(disposalDateForm,
-            "disposalDate",
-            '_inputHint -> Messages("calc.common.date.hint"))
+        @dateInput(
+            content = Messages("calc.resident.shares.disposalDate.question"),
+            field = disposalDateForm("disposalDate"),
+            hintContent = Some(Messages("calc.common.date.hint")),
+            pageHeading = true
+        )
 
-        <button id="continue-button" class="button">@Messages("calc.base.button.continue")</button>
+        @submitButton()
     }
 }

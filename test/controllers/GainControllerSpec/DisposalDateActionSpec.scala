@@ -182,7 +182,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "return a page with the title ''When did you sign the contract that made someone else the owner?'" in {
-        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe s"Error: ${messages.title}"
       }
     }
 
@@ -209,7 +209,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "return a page with the title 'When did you sell or give away the shares?'" in {
-        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe s"Error: ${messages.title}"
       }
     }
   }

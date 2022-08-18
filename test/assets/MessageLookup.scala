@@ -692,7 +692,8 @@ object MessageLookup {
 
   //############ Shares messages.en ##############//
   object SharesDisposalDate {
-    val title = "When did you sell or give away the shares?"
+    val title = "When did you sell or give away the shares? - Calculate your Capital Gains Tax - GOV.UK"
+    val question = "When did you sell or give away the shares?"
   }
 
   object SharesAcquisitionCosts {

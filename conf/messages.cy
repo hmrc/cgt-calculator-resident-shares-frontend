@@ -1,3 +1,5 @@
+service.name = Cyfrifo''ch Treth Enillion Cyfalaf
+
 calc.base.back = Yn ôl
 calc.base.button.continue = Yn eich blaen
 calc.base.calculate.tax.heading = Cyfrifo''ch Treth Enillion Cyfalaf
@@ -32,6 +34,7 @@ calc.common.error.minimumAmount = Nodwch swm sy''n £0 neu fwy
 calc.common.readMore = Rhagor o wybodaeth
 
 calc.error.summary.heading = Mae gwallau ar y dudalen hon
+site.title.error = Gwall: {0}
 
 calc.resident.currentIncome.question = Yn y flwyddyn dreth {0}, beth oedd eich incwm?
 calc.resident.currentIncome.questionCurrentYear = Faint ydych yn disgwyl i''ch incwm fod yn y flwyddyn dreth hon?
