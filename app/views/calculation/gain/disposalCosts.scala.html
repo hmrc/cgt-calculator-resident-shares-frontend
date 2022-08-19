@@ -15,38 +15,44 @@
  *@
 
 @import models.resident.DisposalCostsModel
-@import views.html.helpers._
-@import views.html.calculation._
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: resident_main_template,
+    layout: Layout,
     form: FormWithCSRF,
-    errorSummary: errorSummary,
-    formInputMoney: formInputMoney
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton,
+    formInputMoney: playHelpers.formInputMoney
 )
 
 @(disposalCostsForm: Form[DisposalCostsModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.shares.disposalCosts.question"),
-    backLink = Some(controllers.routes.GainController.disposalValue().toString),
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.shares.home")
+@title = @{
+    if(disposalCostsForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.disposalCosts.question"))
+    else Messages("calc.resident.shares.disposalCosts.question")
+}
+
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.disposalValue().toString)
 ) {
 
-    @errorSummary(disposalCostsForm, "disposal-costs")
+    @errorSummary(disposalCostsForm.errors,Some("disposal-costs"))
 
-    <h1 class="heading-large">@Messages("calc.resident.shares.disposalCosts.question")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.disposalCosts.question")</h1>
 
     @form(action = controllers.routes.GainController.submitDisposalCosts){
 
-        <p class="form-hint"> @Messages("calc.resident.shares.disposalCosts.helpText")</p>
+        <p class="govuk-hint"> @Messages("calc.resident.shares.disposalCosts.helpText")</p>
 
-        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.disposalCosts.jointOwnership")</p>
+        <p class="govuk-inset-text">@Messages("calc.resident.shares.disposalCosts.jointOwnership")</p>
 
-        @formInputMoney(disposalCostsForm, "amount", Messages("calc.resident.shares.disposalCosts.question"), hideLabel = true)
+        @formInputMoney(
+            field = disposalCostsForm("amount"),
+            question = Messages("calc.resident.shares.disposalCosts.question"),
+            hideLabel = true
+        )
 
-        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
-    }
+        @submitButton()
+}
 }
