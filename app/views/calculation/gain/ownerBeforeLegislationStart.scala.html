@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,49 +14,46 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation._
 @import models.resident.shares.OwnerBeforeLegislationStartModel
 @import models.resident.shares._
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup,
-    residentMainTemplate: resident_main_template,
-    errorSummary: errorSummary
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    inputRadio: playHelpers.inputRadio,
+    submitButton: playHelpers.submitButton
 )
 
 @(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    title = Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),
-    backLink = navBackLink,
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.shares.home")
+@title = @{
+    if (ownerBeforeLegislationStart.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.ownerBeforeLegislationStart.title")) else Messages("calc.resident.shares.ownerBeforeLegislationStart.title")
+}
+
+@layout(
+    pageTitle = title,
+    backLinkHref = navBackLink
 ){
 
-    @errorSummary(ownerBeforeLegislationStart, "ownerBeforeLegislationStart")
-
-    <h1 class="heading-large">@Messages("calc.resident.shares.ownerBeforeLegislationStart.title")</h1>
+    @errorSummary(ownerBeforeLegislationStart.errors, Some("ownerBeforeLegislationStart"))
 
     @form(action = controllers.routes.GainController.submitOwnerBeforeLegislationStart) {
 
-        <div id="radio-input" class="form-group">
-            @inputRadioGroup(
-                field = ownerBeforeLegislationStart("ownerBeforeLegislationStart"),
-                Seq(
-                    "Yes" -> Messages("calc.base.yes"),
-                    "No" -> Messages("calc.base.no")
+            @inputRadio(
+                legend = Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),
+                items =  Seq(
+                    RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                    RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
                 ),
-                '_legend -> Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),
-                '_labelClass -> "block-label",
-                '_legendClass -> "visuallyhidden",
-                '_groupClass -> "inline"
+                isPageHeading = true,
+                inLine = true,
+                field = ownerBeforeLegislationStart("ownerBeforeLegislationStart")
             )
-        </div>
 
         <input type="hidden" name="ownerBeforeLegislationStart" value=""/>
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+
+        @submitButton()
     }
 }

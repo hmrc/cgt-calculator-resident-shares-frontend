@@ -100,7 +100,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
     "has an option/radiobutton output row for the Owned Before Start of Tax" which {
 
       s"should have the question text '${sharesMessages.OwnerBeforeLegislationStart.title}'" in {
-        doc.select("#ownerBeforeLegislationStart-question").text shouldBe sharesMessages.OwnerBeforeLegislationStart.title
+        doc.select("#ownerBeforeLegislationStart-question").text shouldBe sharesMessages.OwnerBeforeLegislationStart.heading
       }
 
       "should have the value 'No'" in {
@@ -290,7 +290,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
     "has an option/radiobutton output row for the Owned Before Start of Tax" which {
 
       s"should have the question text '${sharesMessages.OwnerBeforeLegislationStart.title}'" in {
-        doc.select("#ownerBeforeLegislationStart-question").text shouldBe sharesMessages.OwnerBeforeLegislationStart.title
+        doc.select("#ownerBeforeLegislationStart-question").text shouldBe sharesMessages.OwnerBeforeLegislationStart.heading
       }
 
       "should have the value 'Yes'" in {

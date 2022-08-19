@@ -51,29 +51,29 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
       lazy val h1Tag = doc.select("h1")
 
-      s"have the page heading '${Messages.title}'" in {
-        h1Tag.text shouldBe Messages.title
+      s"have the page heading '${Messages.heading}'" in {
+        h1Tag.text shouldBe Messages.heading
       }
 
-      "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+      "have the govuk-fieldset__heading class" in {
+        h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
       }
     }
 
     s"have the home link to 'home'" in {
-      doc.select("#homeNavHref").attr("href") shouldEqual "home-link"
+      doc.body.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have a back button" which {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.body.getElementById("back-link")
 
       "has the correct back link text" in {
         backLink.text shouldBe commonMessages.back
       }
 
-      "has the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+      "has the govuk-back-link class" in {
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "has a back link to 'back'" in {
@@ -93,47 +93,43 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
       lazy val legend = doc.select("legend")
 
-      s"contain the text ${Messages.title}" in {
-        legend.text should include(s"${Messages.title}")
-      }
-
-      "that is visually hidden" in {
-        legend.hasClass("visuallyhidden") shouldEqual true
+      s"contain the text ${Messages.heading}" in {
+        legend.text should include(s"${Messages.heading}")
       }
     }
 
     "have a set of radio inputs" which {
 
-      "are surrounded in a div with class form-group" in {
-        doc.select("div#radio-input").hasClass("form-group") shouldEqual true
+      "are surrounded in a div with class govuk-fieldset" in {
+        doc.select("#main-content > div > div > form > div > fieldset").hasClass("govuk-fieldset") shouldEqual true
       }
 
       "for the option 'Yes'" should {
 
-        lazy val YesRadioOption = doc.select(".block-label[for=ownerBeforeLegislationStart-yes]")
+        lazy val YesRadioOption = doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(1)")
 
-        "have a label with class 'block-label'" in {
-          YesRadioOption.hasClass("block-label") shouldEqual true
+        "have a label with class 'govuk-radios__item'" in {
+          YesRadioOption.hasClass("govuk-radios__item") shouldEqual true
         }
 
         "have the property 'for'" in {
-          YesRadioOption.hasAttr("for") shouldEqual true
+          YesRadioOption.select("label").hasAttr("for") shouldEqual true
         }
 
         "the for attribute has the value ownerBeforeLegislationStart-Yes" in {
-          YesRadioOption.attr("for") shouldEqual "ownerBeforeLegislationStart-yes"
+          YesRadioOption.select("label").attr("for") shouldEqual "ownerBeforeLegislationStart"
         }
 
         "have the text 'Yes'" in {
-          YesRadioOption.text shouldEqual "Yes"
+          YesRadioOption.select("label").text shouldEqual "Yes"
         }
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#ownerBeforeLegislationStart-yes")
+          lazy val optionLabel = doc.select("#ownerBeforeLegislationStart")
 
-          "have the id 'ownerBeforeLegislationStart-Yes'" in {
-            optionLabel.attr("id") shouldEqual "ownerBeforeLegislationStart-yes"
+          "have the id 'ownerBeforeLegislationStart'" in {
+            optionLabel.attr("id") shouldEqual "ownerBeforeLegislationStart"
           }
 
           "have the value 'Yes'" in {
@@ -148,30 +144,30 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
       "for the option 'No'" should {
 
-        lazy val NoRadioOption = doc.select(".block-label[for=ownerBeforeLegislationStart-no]")
+        lazy val NoRadioOption = doc.select("#main-content > div > div > form > div > fieldset > div > div:nth-child(2)")
 
-        "have a label with class 'block-label'" in {
-          NoRadioOption.hasClass("block-label") shouldEqual true
+        "have a label with class 'govuk-radios__item'" in {
+          NoRadioOption.hasClass("govuk-radios__item") shouldEqual true
         }
 
         "have the property 'for'" in {
-          NoRadioOption.hasAttr("for") shouldEqual true
+          NoRadioOption.select("label").hasAttr("for") shouldEqual true
         }
 
         "the for attribute has the value ownerBeforeLegislationStart-No" in {
-          NoRadioOption.attr("for") shouldEqual "ownerBeforeLegislationStart-no"
+          NoRadioOption.select("label").attr("for") shouldEqual "ownerBeforeLegislationStart-2"
         }
 
         "have the text 'No'" in {
-          NoRadioOption.text shouldEqual "No"
+          NoRadioOption.select("label").text shouldEqual "No"
         }
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#ownerBeforeLegislationStart-no")
+          lazy val optionLabel = doc.select("#ownerBeforeLegislationStart-2")
 
           "have the id 'livedInProperty-No'" in {
-            optionLabel.attr("id") shouldEqual "ownerBeforeLegislationStart-no"
+            optionLabel.attr("id") shouldEqual "ownerBeforeLegislationStart-2"
           }
 
           "have the value 'No'" in {
@@ -187,18 +183,10 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
     "have a continue button" which {
 
-      lazy val button = doc.select("button")
+      lazy val button = doc.select("#submit")
 
       "has class 'button'" in {
-        button.hasClass("button") shouldEqual true
-      }
-
-      "has attribute 'type'" in {
-        button.hasAttr("type") shouldEqual true
-      }
-
-      "has type value of 'submit'" in {
-        button.attr("type") shouldEqual "submit"
+        button.hasClass("govuk-button") shouldEqual true
       }
 
       "has attribute id" in {
@@ -206,7 +194,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       }
 
       "has id equal to continue-button" in {
-        button.attr("id") shouldEqual "continue-button"
+        button.attr("id") shouldEqual "submit"
       }
 
       s"has the text ${commonMessages.continue}" in {
@@ -226,21 +214,6 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
   }
 
-  "Owned Before 1982 view with a filled form" which {
-    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm.fill(OwnerBeforeLegislationStartModel(true)),
-      "home-link", Some("back-link"))(fakeRequest, mockMessage)
-    lazy val doc = Jsoup.parse(view.body)
-
-    "for the option 'Yes'" should {
-
-      lazy val YesRadioOption = doc.select(".block-label[for=ownerBeforeLegislationStart-yes]")
-
-      "have the option auto-selected" in {
-        YesRadioOption.attr("class") shouldBe "block-label selected"
-      }
-    }
-  }
-
   "Owned Before 1982 view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownerBeforeLegislationStart" -> ""))
@@ -249,11 +222,11 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
     "have an error summary" which {
       "display an error summary message for the page" in {
-        doc.body.select("#ownerBeforeLegislationStart-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select(".govuk-error-message").size shouldBe 1
       }
     }
   }

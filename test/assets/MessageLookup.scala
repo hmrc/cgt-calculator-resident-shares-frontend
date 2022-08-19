@@ -423,7 +423,8 @@ object MessageLookup {
 
       //############ Owner Before Legislation Start messages.en #################//
       object OwnerBeforeLegislationStart {
-        val title = "Did you own the shares before 1 April 1982?"
+        val title = "Did you own the shares before 1 April 1982? - Calculate your Capital Gains Tax - GOV.UK"
+        val heading = "Did you own the shares before 1 April 1982?"
         val errorNoSelect = "Tell us if you owned the shares before 1 April 1982"
       }
 
