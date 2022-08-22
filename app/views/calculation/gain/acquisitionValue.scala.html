@@ -20,36 +20,44 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: resident_main_template,
-    errorSummary: errorSummary,
-    formInputMoney: formInputMoney,
-    form: FormWithCSRF
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
+    formInputMoney: playHelpers.formInputMoney,
+    form: FormWithCSRF,
+    submitButton: playHelpers.submitButton
 )
 
 @(acquisitionValueForm: Form[AcquisitionValueModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.shares.acquisitionValue.question"),
-    backLink = Some(controllers.routes.GainController.didYouInheritThem().url),
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.shares.home")
+@title = @{
+    if(acquisitionValueForm.errors.nonEmpty) {
+        messages("site.title.error", messages("calc.resident.shares.acquisitionValue.question"))
+    } else {
+        messages("calc.resident.shares.acquisitionValue.question")
+    }
+}
+
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.didYouInheritThem().url)
 ) {
 
-    @errorSummary(acquisitionValueForm, "amount")
+    @errorSummary(acquisitionValueForm.errors)
 
-    <h1 class="heading-large">@Messages("calc.resident.shares.acquisitionValue.question")</h1>
+    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.acquisitionValue.question")</h1>
+
+    <p class="govuk-inset-text">@messages("calc.resident.shares.acquisitionValue.hintText")</p>
 
     @form(action = controllers.routes.GainController.submitAcquisitionValue) {
 
-    <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.acquisitionValue.hintText")</p>
-
         @formInputMoney(
-            acquisitionValueForm,
-            "amount",
-            Messages("calc.resident.shares.acquisitionValue.question"),
+            field = acquisitionValueForm("amount"),
+            question = messages("calc.resident.shares.acquisitionValue.question"),
             hideLabel = true
         )
 
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+    @submitButton()
+
     }
+
 }
