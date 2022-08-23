@@ -20,32 +20,46 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentSharesMainTemplate: resident_shares_main_template,
+    layout: Layout,
     form: FormWithCSRF,
-    formInputMoney: formInputMoney,
-    errorSummary: errorSummary
+    formInputMoney: playHelpers.formInputMoney,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(valueBeforeLegislationStartForm: Form[ValueBeforeLegislationStartModel])(implicit request: Request[_], messages: Messages)
 
-@residentSharesMainTemplate(
-    title = Messages("calc.resident.shares.valueBeforeLegislationStart.question"),
-    backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart.toString)) {
+@title = @{
+    if(valueBeforeLegislationStartForm.errors.nonEmpty) {
+        messages("site.title.error", messages("calc.resident.shares.valueBeforeLegislationStart.question"))
+    } else {
+        messages("calc.resident.shares.valueBeforeLegislationStart.question")
+    }
+}
 
-    @errorSummary(valueBeforeLegislationStartForm, "amount")
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
+) {
+    @errorSummary(valueBeforeLegislationStartForm.errors)
 
-    <h1 class="heading-large">@Messages("calc.resident.shares.valueBeforeLegislationStart.question")</h1>
+    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.valueBeforeLegislationStart.question")</h1>
+
+    <p class="govuk-body">@messages("calc.resident.shares.valueBeforeLegislationStart.information")</p>
+
+    <p class="govuk-hint">@messages("calc.resident.shares.valueBeforeLegislationStart.help")</p>
+
+    <p class="govuk-inset-text">@messages("calc.resident.shares.valueBeforeLegislationStart.hintText")</p>
 
     @form(action = controllers.routes.GainController.submitValueBeforeLegislationStart) {
 
-        <p> @Messages("calc.resident.shares.valueBeforeLegislationStart.information")</p>
+        @formInputMoney(
+            field = valueBeforeLegislationStartForm("amount"),
+            question = messages("calc.resident.shares.valueBeforeLegislationStart.question"),
+            hideLabel = true
+        )
 
-        <p class="form-hint"> @Messages("calc.resident.shares.valueBeforeLegislationStart.help")</p>
-
-        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.valueBeforeLegislationStart.hintText")</p>
-
-        @formInputMoney(valueBeforeLegislationStartForm, "amount", Messages("calc.resident.shares.valueBeforeLegislationStart.question"), hideLabel = true)
-
-        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+    @submitButton()
     }
+
 }
