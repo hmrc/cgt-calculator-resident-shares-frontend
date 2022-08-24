@@ -701,7 +701,8 @@ object MessageLookup {
   }
 
   object SharesAcquisitionCosts {
-    val title = "How much did you pay in costs when you got the shares?"
+    val title = "How much did you pay in costs when you got the shares? - Calculate your Capital Gains Tax - GOV.UK"
+    val question = "How much did you pay in costs when you got the shares?"
     val helpText = "This includes costs for stockbroker fees and Stamp Duty."
     val hintText = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
   }
