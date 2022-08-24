@@ -23,6 +23,7 @@ import org.jsoup.Jsoup
 import views.html.calculation.gain.didYouInheritThem
 import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
+import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import play.api.mvc.MessagesControllerComponents
@@ -32,6 +33,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val didYouInheritThemView = fakeApplication.injector.instanceOf[didYouInheritThem]
+  val title = s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
   "Sell for less view with an empty form" should {
 
     lazy val view = didYouInheritThemView(didYouInheritThemForm)(fakeRequest, mockMessage)
@@ -42,8 +44,8 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.question}" in {
-      doc.title shouldBe messages.question
+    s"have a title $title" in {
+      doc.title shouldBe title
     }
 
     "have a H1 tag that" should {
@@ -54,13 +56,13 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         h1Tag.text shouldBe messages.question
       }
 
-      "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+      "have the govuk-fieldset__heading class" in {
+        h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
       }
     }
 
     s"have the home link to 'home'" in {
-      doc.select("#homeNavHref").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.select(".govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have a back button" which {
@@ -72,7 +74,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "has the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "has a back link to 'back'" in {
@@ -95,24 +97,20 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       s"contain the text ${messages.question}" in {
         legend.text should include(s"${messages.question}")
       }
-
-      "that is visually hidden" in {
-        legend.hasClass("visuallyhidden") shouldEqual true
-      }
     }
 
     "have a set of radio inputs" which {
 
       "are surrounded in a div with class form-group" in {
-        doc.select("div#radio-input").hasClass("form-group") shouldEqual true
+        doc.select("div.govuk-radios").hasClass("govuk-radios--inline") shouldEqual true
       }
 
       "for the option 'Yes'" should {
 
-        lazy val YesRadioOption = doc.select(".block-label[for=wereInherited-yes]")
+        lazy val YesRadioOption = doc.select(".govuk-label[for=wereInherited]")
 
-        "have a label with class 'block-label'" in {
-          YesRadioOption.hasClass("block-label") shouldEqual true
+        "have a label with class 'govuk-radios__label'" in {
+          YesRadioOption.hasClass("govuk-radios__label") shouldEqual true
         }
 
         "have the property 'for'" in {
@@ -120,7 +118,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         "the for attribute has the value wereInherited-Yes" in {
-          YesRadioOption.attr("for") shouldEqual "wereInherited-yes"
+          YesRadioOption.attr("for") shouldEqual "wereInherited"
         }
 
         "have the text 'Yes'" in {
@@ -129,10 +127,10 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#wereInherited-yes")
+          lazy val optionLabel = doc.select("#wereInherited")
 
-          "have the id 'wereInherited-Yes'" in {
-            optionLabel.attr("id") shouldEqual "wereInherited-yes"
+          "have the id 'wereInherited'" in {
+            optionLabel.attr("id") shouldEqual "wereInherited"
           }
 
           "have the value 'Yes'" in {
@@ -147,18 +145,18 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "for the option 'No'" should {
 
-        lazy val NoRadioOption = doc.select(".block-label[for=wereInherited-no]")
+        lazy val NoRadioOption = doc.select(".govuk-label[for=wereInherited-2]")
 
-        "have a label with class 'block-label'" in {
-          NoRadioOption.hasClass("block-label") shouldEqual true
+        "have a label with class 'govuk-radios__label'" in {
+          NoRadioOption.hasClass("govuk-radios__label") shouldEqual true
         }
 
         "have the property 'for'" in {
           NoRadioOption.hasAttr("for") shouldEqual true
         }
 
-        "the for attribute has the value wereInherited-No" in {
-          NoRadioOption.attr("for") shouldEqual "wereInherited-no"
+        "the for attribute has the value wereInherited-2" in {
+          NoRadioOption.attr("for") shouldEqual "wereInherited-2"
         }
 
         "have the text 'No'" in {
@@ -167,10 +165,10 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
         "have an input under the label that" should {
 
-          lazy val optionLabel = doc.select("#wereInherited-no")
+          lazy val optionLabel = doc.select("#wereInherited-2")
 
           "have the id 'livedInProperty-No'" in {
-            optionLabel.attr("id") shouldEqual "wereInherited-no"
+            optionLabel.attr("id") shouldEqual "wereInherited-2"
           }
 
           "have the value 'No'" in {
@@ -188,24 +186,16 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val button = doc.select("button")
 
-      "has class 'button'" in {
-        button.hasClass("button") shouldEqual true
-      }
-
-      "has attribute 'type'" in {
-        button.hasAttr("type") shouldEqual true
-      }
-
-      "has type value of 'submit'" in {
-        button.attr("type") shouldEqual "submit"
+      "has class 'govuk-button'" in {
+        button.hasClass("govuk-button") shouldEqual true
       }
 
       "has attribute id" in {
         button.hasAttr("id") shouldEqual true
       }
 
-      "has id equal to continue-button" in {
-        button.attr("id") shouldEqual "continue-button"
+      "has id equal to submit" in {
+        button.attr("id") shouldEqual "submit"
       }
 
       s"has the text ${commonMessages.continue}" in {
@@ -223,29 +213,6 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
   }
 
-  "Sell for less view with a filled form" which {
-
-    "for the option 'Yes'" should {
-      lazy val view = didYouInheritThemView(didYouInheritThemForm.fill(DidYouInheritThemModel(true)))(fakeRequest, mockMessage)
-      lazy val doc = Jsoup.parse(view.body)
-      lazy val YesRadioOption = doc.select(".block-label[for=wereInherited-yes]")
-
-      "have the option auto-selected" in {
-        YesRadioOption.attr("class") shouldBe "block-label selected"
-      }
-    }
-
-    "for the option 'No'" should {
-      lazy val view = didYouInheritThemView(didYouInheritThemForm.fill(DidYouInheritThemModel(false)))(fakeRequest, mockMessage)
-      lazy val doc = Jsoup.parse(view.body)
-      lazy val NoRadioOption = doc.select(".block-label[for=wereInherited-no]")
-
-      "have the option auto-selected" in {
-        NoRadioOption.attr("class") shouldBe "block-label selected"
-      }
-    }
-  }
-
   "Sell for less view with form errors" should {
 
     lazy val form = didYouInheritThemForm.bind(Map("wereInherited" -> ""))
@@ -254,11 +221,11 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "have an error summary" which {
       "display an error summary message for the page" in {
-        doc.body.select("#wereInherited-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select("#wereInherited-error").size shouldBe 1
       }
     }
   }

@@ -21,39 +21,43 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: resident_main_template,
+    layout: Layout,
     form: FormWithCSRF,
-    errorSummary: errorSummary,
-    inputRadioGroup: InputRadioGroup
+    errorSummary: playHelpers.errorSummary,
+    inputRadio: playHelpers.inputRadio,
+    submitButton: playHelpers.submitButton
 )
 
 @(didYouInheritThemForm: Form[DidYouInheritThemModel])(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(title = Messages("calc.resident.shares.didYouInheritThem.question"),
-backLink = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url),
-homeLink = controllers.routes.GainController.disposalDate().url,
-navTitle = Messages("calc.base.resident.shares.home")){
+@title = @{
+    if(didYouInheritThemForm.errors.nonEmpty) {
+        messages("site.title.error", messages("calc.resident.shares.didYouInheritThem.question"))
+    } else {
+        messages("calc.resident.shares.didYouInheritThem.question")
+    }
+}
 
-    @errorSummary(didYouInheritThemForm, "wereInherited")
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.ownerBeforeLegislationStart().url)
+){
 
-    <h1 class="heading-large">@Messages("calc.resident.shares.didYouInheritThem.question")</h1>
+    @errorSummary(didYouInheritThemForm.errors, Some("wereInherited"))
 
     @form(action = controllers.routes.GainController.submitDidYouInheritThem) {
 
-        <div id="radio-input" class="form-group">
-            @inputRadioGroup(
-            field = didYouInheritThemForm("wereInherited"),
-            Seq(
-            "Yes" -> Messages("calc.base.yes"),
-            "No" -> Messages("calc.base.no")),
-            '_legend -> Messages("calc.resident.shares.didYouInheritThem.question"),
-            '_labelClass -> "block-label",
-            '_legendClass -> "visuallyhidden",
-            '_groupClass -> "inline"
-            )
-        </div>
+        @inputRadio(
+            legend = Messages("calc.resident.shares.didYouInheritThem.question"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = didYouInheritThemForm("wereInherited")
+        )
 
         <input type="hidden" name="wereInherited" value="" />
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }
