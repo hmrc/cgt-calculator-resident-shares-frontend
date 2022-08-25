@@ -443,6 +443,7 @@ object MessageLookup {
 
       //############ Worth When Inherited messages.en #################//
       object WorthWhenInherited {
+        val title = "What were the shares worth when you inherited them? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What were the shares worth when you inherited them?"
         val helpText = "Use information from the stock exchange or talk to your stockbroker or fund manager."
         val hintText = "If you owned the shares with someone else, only enter the market value for your portion of the shares."
