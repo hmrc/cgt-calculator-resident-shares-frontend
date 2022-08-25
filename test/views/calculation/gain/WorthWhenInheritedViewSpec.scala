@@ -46,19 +46,19 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     s"have a nav title of 'navTitle'" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe commonMessages.homeText
+      doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe commonMessages.homeText
     }
 
     s"have a home link to 'homeLink'" in {
-      doc.select("a#homeNavHref").attr("href") shouldBe controllers.routes.GainController.disposalDate().url
+      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.GainController.disposalDate().url
     }
 
-    s"have a title of ${Messages.question}" in {
-      doc.title() shouldBe Messages.question
+    s"have a title of ${Messages.title}" in {
+      doc.title() shouldBe Messages.title
     }
 
     s"have a question of ${Messages.question}" in {
-      doc.select("h1.heading-large").text() shouldBe Messages.question
+      doc.select("h1.govuk-heading-xl").text() shouldBe Messages.question
     }
 
     "have a form tag" in {
@@ -74,7 +74,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     s"have a label for an input with text ${Messages.question}" in {
-      doc.select("label > span.visuallyhidden").text() shouldEqual Messages.question
+      doc.select("label").text() shouldEqual Messages.question
     }
 
     s"have an input field with id amount " in {
@@ -84,19 +84,19 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     "has help text that" should {
 
       s"have the text ${Messages.helpText}" in {
-        doc.body.getElementsByClass("form-hint").text shouldBe Messages.helpText
+        doc.body.getElementsByClass("govuk-hint").text shouldBe Messages.helpText
       }
     }
 
     "have a p tag" which {
       lazy val form = doc.getElementsByTag("form")
       s"with the extra text ${Messages.hintText}" in {
-        form.select("p.panel-indent").text shouldBe Messages.hintText
+        form.select("p.govuk-inset-text").text shouldBe Messages.hintText
       }
     }
 
     "have a continue button " in {
-      doc.select("#continue-button").text shouldBe commonMessages.continue
+      doc.body.getElementsByClass("govuk-button").text shouldBe commonMessages.continue
     }
 
     "generate the same template when .render and .f are called" in {
@@ -120,11 +120,11 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     "display no error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 0
+      doc.body.select(".govuk-error-summary").size shouldBe 0
     }
 
     "display no error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 0
+      doc.body.select(".govuk-error-message").size shouldBe 0
     }
   }
 
@@ -134,11 +134,11 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 }
