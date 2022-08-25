@@ -139,7 +139,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "render the disposal value page when supplied with an invalid form" in {
       status(result) shouldEqual 400
-      Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual s"Error: ${messages.title}"
     }
   }
 }

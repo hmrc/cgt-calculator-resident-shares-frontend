@@ -49,11 +49,11 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
-    s"have the title of the page ${messages.question}" in {
-      doc.title shouldEqual messages.question
+    s"have the title of the page ${messages.title}" in {
+      doc.title shouldEqual messages.title
     }
 
     s"have a back link to the Sell For Less Page with text ${commonMessages.back}" in {
@@ -69,7 +69,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"have a label for an input with text ${messages.question}" in {
-      doc.select("label > span.visuallyhidden").text() shouldEqual messages.question
+      doc.body.getElementsByClass("govuk-label govuk-visually-hidden").text() shouldEqual messages.question
     }
 
     s"have an input field with id amount " in {
@@ -77,11 +77,11 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have continue button " in {
-      doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
+      doc.body.getElementById("submit").text shouldEqual commonMessages.continue
     }
 
     "have the joint ownership text" in {
-      doc.select("p.panel-indent").text shouldBe messages.jointOwnership
+      doc.select("p.govuk-inset-text").text shouldBe messages.jointOwnership
     }
 
     "generate the same template when .render and .f are called" in {
@@ -106,11 +106,11 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "display no error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 0
+      doc.body.select(".govuk-error-summary").size shouldBe 0
     }
 
     "display no error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 0
+      doc.body.select(".govuk-error-message").size shouldBe 0
     }
   }
 
@@ -121,11 +121,11 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 }

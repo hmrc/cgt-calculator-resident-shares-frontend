@@ -417,6 +417,7 @@ object MessageLookup {
       }
 
       object DisposalValue {
+        val title = "How much did you sell the shares for? - Calculate your Capital Gains Tax - GOV.UK"
         val question = "How much did you sell the shares for?"
         val jointOwnership = "If you owned the shares with someone else, only enter your portion of the sale value."
         val nonValidDate = "Enter a real date Enter a date that is after 6 4 2015"
