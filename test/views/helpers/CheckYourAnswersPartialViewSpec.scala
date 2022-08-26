@@ -187,8 +187,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
     "has a numeric output row for brought forward losses value" which {
 
-      s"should have the question text '${baseMessages.LossesBroughtForwardValue.title("2015/16")}'" in {
-        doc.select("#broughtForwardLossesValue-question").text shouldBe baseMessages.LossesBroughtForwardValue.title("2015/16")
+      s"should have the question text '${baseMessages.LossesBroughtForwardValue.question("2015/16")}'" in {
+        doc.select("#broughtForwardLossesValue-question").text shouldBe baseMessages.LossesBroughtForwardValue.question("2015/16")
       }
 
       "should have the value '£10,000'" in {
