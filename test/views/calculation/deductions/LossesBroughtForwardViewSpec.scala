@@ -43,7 +43,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a dynamic navTitle of navTitle" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
     }
 
     s"have a title ${messages.title("2015/16")}" in {
@@ -51,25 +51,15 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
-    }
-
-    "have a fieldset with aria-details attribute" in {
-      doc.select("fieldset").attr("aria-details") shouldBe "help"
-    }
-
-
-    "have a hidden legend" in {
-      val legend = doc.select("legend")
-      legend.hasClass("visuallyhidden") shouldBe true
+      doc.select("body > header > div > div > div.govuk-header__logo > a").attr("href") shouldEqual "https://www.gov.uk"
     }
 
     s"have a back link with text ${commonMessages.back}" in {
-      doc.select("#back-link").text shouldEqual commonMessages.back
+      doc.getElementsByClass("govuk-back-link").text shouldEqual commonMessages.back
     }
 
     s"have the question of the page ${messages.question("2015/16")}" in {
-      doc.select("h1").text() shouldEqual messages.question("2015/16")
+      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015/16")
     }
 
     s"render a form tag with a POST action" in {
@@ -77,22 +67,22 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     s"have a visually hidden legend for an input with text ${messages.question("2015/16")}" in {
-      doc.select("legend.visuallyhidden").text() shouldEqual messages.question("2015/16")
+      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2015/16")
     }
 
     s"have an input field with id option-yes " in {
-      doc.body.getElementById("option-yes").tagName() shouldEqual "input"
+      doc.body.getElementById("option").tagName() shouldEqual "input"
     }
 
     s"have an input field with id option-no " in {
-      doc.body.getElementById("option-no").tagName() shouldEqual "input"
+      doc.body.getElementById("option-2").tagName() shouldEqual "input"
     }
     s"have a help section with the text ${messages.helpText}" in {
-      doc.select("article > p").text shouldEqual messages.helpText
+      doc.getElementsByClass("govuk-hint").text shouldEqual messages.helpText
     }
 
     "have a continue button " in {
-      doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
+      doc.getElementsByClass("govuk-button").text shouldEqual commonMessages.continue
     }
 
     "generate the same template when .render and .f are called" in {
@@ -114,7 +104,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
-      doc.body.getElementById("option-yes").attr("checked") shouldBe "checked"
+      doc.body.getElementById("option").hasAttr("checked")
     }
   }
 
@@ -125,7 +115,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
-      doc.body.getElementById("option-no").attr("checked") shouldBe "checked"
+      doc.body.getElementById("option-2").hasAttr("checked")
     }
   }
 
@@ -135,12 +125,12 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       "home", "navTitle")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
-    "display an error summary message for the amount" in {
-      doc.body.select("#option-error-summary").size shouldBe 1
+    "display an error summary message for the page" in {
+      doc.body.select(".govuk-error-summary__body").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select("span.error-notification").size shouldBe 1
+      doc.getElementsByClass("govuk-form-group govuk-form-group--error").size shouldBe 1
     }
   }
 }

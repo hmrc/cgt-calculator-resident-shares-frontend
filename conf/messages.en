@@ -84,6 +84,8 @@ calc.resident.lossesBroughtForward.helpInfo.point1 = are covered by Capital Gain
 calc.resident.lossesBroughtForward.helpInfo.point2 = you''ve declared within 4 years of making the loss
 calc.resident.lossesBroughtForward.helpInfo.point3 = you haven''t already used to reduce the amount of Capital Gains Tax you had to pay
 calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before 2015/16
+calc.resident.lossesBroughtForward.helpButton = Show me an example
+
 
 ##Losses Brought Forward Value messages
 calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0}?

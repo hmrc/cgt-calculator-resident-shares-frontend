@@ -52,6 +52,7 @@ calc.resident.lossesBroughtForward.helpInfo.subtitle = Maent yn golledion rydych
 calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEM amdanynt.
 calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
+calc.resident.lossesBroughtForward.helpButton = Rhowch enghraifft i mi
 
 calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForwardValue.title = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
