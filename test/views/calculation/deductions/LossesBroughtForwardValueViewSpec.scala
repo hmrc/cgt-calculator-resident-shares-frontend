@@ -50,11 +50,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       }
 
       "have a dynamic navTitle of navTitle" in {
-        doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+        doc.body.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a home link to 'home-link'" in {
-        doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
+        doc.body.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       "have a back button that" should {
@@ -66,7 +66,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
         }
 
         "have the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+          backLink.hasClass("govuk-back-link") shouldBe true
         }
 
         "have a link to 'back-link'" in {
@@ -82,8 +82,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
           h1Tag.text shouldBe messages.question("2015/16")
         }
 
-        "have the heading-large class" in {
-          h1Tag.hasClass("heading-large") shouldBe true
+        "have the heading-xl class" in {
+          h1Tag.select("label").hasClass("govuk-label--xl") shouldBe true
         }
       }
 
@@ -105,10 +105,6 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
           s"have the question ${messages.question("2015/16")}" in {
             label.text should include(messages.question("2015/16"))
           }
-
-          "have the class 'visuallyhidden'" in {
-            label.select("span.visuallyhidden").size shouldBe 1
-          }
         }
 
         "has a numeric input field" which {
@@ -124,28 +120,24 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
           }
 
           "is of type number" in {
-            input.attr("type") shouldBe "number"
-          }
-
-          "has a step value of '0.01'" in {
-            input.attr("step") shouldBe "0.01"
+            input.attr("type") shouldBe "text"
           }
         }
 
         "have a continue button that" should {
 
-          lazy val continueButton = doc.select("button#continue-button")
+          lazy val continueButton = doc.select("button#submit")
 
           s"have the button text '${commonMessages.continue}'" in {
             continueButton.text shouldBe commonMessages.continue
           }
 
           "be of type submit" in {
-            continueButton.attr("type") shouldBe "submit"
+            continueButton.attr("id") shouldBe "submit"
           }
 
           "have the class 'button'" in {
-            continueButton.hasClass("button") shouldBe true
+            continueButton.hasClass("govuk-button") shouldBe true
           }
         }
       }
@@ -183,8 +175,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
           h1Tag.text shouldBe messages.question("2014/15")
         }
 
-        "have the heading-large class" in {
-          h1Tag.hasClass("heading-large") shouldBe true
+        "have the heading-xl class" in {
+          h1Tag.select("label").hasClass("govuk-label--xl") shouldBe true
         }
       }
 
@@ -194,10 +186,6 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
         s"have the question ${messages.question("2014/15")}" in {
           label.text should include(messages.question("2014/15"))
-        }
-
-        "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
         }
       }
     }
@@ -224,11 +212,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select("span.error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 }
