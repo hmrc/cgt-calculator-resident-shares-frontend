@@ -634,7 +634,7 @@ object MessageLookup {
 
   //Losses Brought Forward messages.en
   object LossesBroughtForward {
-    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
+    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
 
     def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
 
