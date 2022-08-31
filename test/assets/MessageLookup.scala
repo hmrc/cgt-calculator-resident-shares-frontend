@@ -658,11 +658,11 @@ object MessageLookup {
 
   //Current Income messages.en
   object CurrentIncome {
-    def title(input: String): String = s"In the $input tax year, what was your income?"
+    def title(input: String): String = s"In the $input tax year, what was your income? - Calculate your Capital Gains Tax - GOV.UK"
 
     def question(input: String): String = s"In the $input tax year, what was your income?"
 
-    val currentYearTitle = "How much do you expect your income to be in this tax year?"
+    val currentYearTitle = "How much do you expect your income to be in this tax year? - Calculate your Capital Gains Tax - GOV.UK"
     val currentYearQuestion = "How much do you expect your income to be in this tax year?"
     val helpText = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property."
     val helpTextShares = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares."
