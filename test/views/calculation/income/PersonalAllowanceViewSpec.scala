@@ -47,12 +47,12 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.question("2015/16")}" in {
-        doc.title() shouldBe messages.question("2015/16")
+      s"have a title ${messages.title("2015/16")}" in {
+        doc.title() shouldBe messages.title("2015/16")
       }
 
-      "have a dynamic navTitle of navTitle" in {
-        doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+      "have a navTitle of Calculate your Capital Gains Tax" in {
+        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a back button that" should {
@@ -62,7 +62,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         "have the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+          backLink.hasClass("govuk-back-link") shouldBe true
         }
 
         "have a link to Current Income" in {
@@ -71,7 +71,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a home link to the shares disposal date" in {
-        doc.select("#homeNavHref").attr("href") shouldEqual "home"
+        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       s"have the page heading '${messages.question("2015/16")}'" in {
@@ -79,34 +79,32 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have the help text ${messages.help}" in {
-        doc.select("form p").get(0).text() shouldBe messages.help
+        doc.getElementsByClass("govuk-body").get(0).text() shouldBe messages.help
       }
 
       s"have a list title of ${messages.listTitle("2015", "2016", "")}" in {
-        doc.select("form p").get(1).text() shouldBe messages.listTitle("2015", "2016", "£10,600")
+        doc.getElementsByClass("govuk-body").get(1).text() shouldBe messages.listTitle("2015", "2016", "£10,600")
       }
 
       s"have a list with the first entry of ${messages.listOne}" in {
-        doc.select("form li").get(0).text() shouldBe messages.listOne
+        doc.select("li").get(2).text() shouldBe messages.listOne
       }
 
       s"have a list with the second entry of ${messages.listTwo}" in {
-        doc.select("form li").get(1).text() shouldBe messages.listTwo
+        doc.select("li").get(3).text() shouldBe messages.listTwo
       }
 
       "have a link" which {
-        lazy val link = doc.select("form div").first()
-
-        s"has the initial text ${messages.linkText}" in {
-          link.select("span").text() shouldBe messages.linkText
+        s"has the full text ${messages.linkText + " " + messages.link}" in {
+          doc.getElementsByClass("govuk-body").get(2).text() shouldBe messages.linkText + " " + messages.link
         }
 
         "has the href to the gov uk rates page" in {
-          link.select("a").attr("href") shouldBe "https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
+          doc.getElementsByClass("govuk-link").get(1).attr("href") shouldBe "https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
         }
 
         s"has the link text ${messages.link}" in {
-          link.select("a").text() shouldBe messages.link
+          doc.getElementsByClass("govuk-link").get(1).text() shouldBe messages.link
         }
       }
 
@@ -122,7 +120,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         s"have a legend for an input with text ${messages.question("2015/16")}" in {
-          doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question("2015/16")
+          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015/16")
         }
       }
 
@@ -137,31 +135,27 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           input.attr("name") shouldBe "amount"
         }
 
-        "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '1'" in {
-          input.attr("step") shouldBe "1"
+        "is of type text" in {
+          input.attr("type") shouldBe "text"
         }
       }
 
       "have a continue button that" should {
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.getElementsByClass("govuk-button")
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
-        "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
+        "be of id submit" in {
+          continueButton.attr("id") shouldBe "submit"
         }
         "have the class 'button'" in {
-          continueButton.hasClass("button") shouldBe true
+          continueButton.hasClass("govuk-button") shouldBe true
         }
       }
 
 
       "Personal Allowance view with stored values" should {
-        lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
+        lazy val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map(("amount", "1000")))
         lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(10600), "home", postAction,
           Some("back-link"), JourneyKeys.shares, "navTitle", "2015/16")(fakeRequest, mockMessage)
@@ -194,8 +188,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
-        s"have a title ${messages.inYearQuestion}" in {
-          doc.title() shouldBe messages.inYearQuestion
+        s"have a title ${messages.inYearTitle}" in {
+          doc.title() shouldBe messages.inYearTitle
         }
 
         s"have the page heading '${messages.inYearQuestion}'" in {
@@ -203,7 +197,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         s"have a legend for an input with text ${messages.inYearQuestion}" in {
-          doc.body.getElementsByClass("heading-large").text() shouldEqual messages.inYearQuestion
+          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.inYearQuestion
         }
     }
 
@@ -217,8 +211,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
 
-      s"have a title ${messages.question(s"$nextTaxYear")}" in {
-        doc.title() shouldBe messages.question(s"$nextTaxYear")
+      s"have a title ${messages.title(s"$nextTaxYear")}" in {
+        doc.title() shouldBe messages.title(s"$nextTaxYear")
       }
 
       s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
@@ -226,7 +220,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("heading-large").text() shouldEqual messages.question(s"$nextTaxYear")
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(s"$nextTaxYear")
       }
     }
 
@@ -241,11 +235,11 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         lazy val doc = Jsoup.parse(view.body)
 
         "display an error summary message for the amount" in {
-          doc.body.select("#amount-error-summary").size shouldBe 1
+          doc.body.select("#main-content > div > div > div").size shouldBe 1
         }
 
         "display an error message for the input" in {
-          doc.body.select(".form-group .error-notification").size shouldBe 1
+          doc.body.select("#main-content > div > div > div > div > ul > li > a").size shouldBe 1
         }
       }
     }

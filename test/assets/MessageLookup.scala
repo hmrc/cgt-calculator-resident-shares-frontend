@@ -671,6 +671,7 @@ object MessageLookup {
   //Personal Allowance messages.en
   object PersonalAllowance {
     def question(input: String): String = s"In the $input tax year, what was your Personal Allowance?"
+    def title(input: String): String = s"In the $input tax year, what was your Personal Allowance? - Calculate your Capital Gains Tax - GOV.UK"
     val link = "Income tax rates and Personal Allowances"
     val linkText = "Find out more about"
     val help = "This is the amount of your income that you don't pay tax on."
@@ -679,6 +680,7 @@ object MessageLookup {
     val listOne = "earned more than £100,000"
     val listTwo = "claimed Blind Person's Allowance"
     val inYearQuestion = "How much is your Personal Allowance?"
+    val inYearTitle = inYearQuestion + " - Calculate your Capital Gains Tax - GOV.UK"
   }
 
   //############ Private Residence Relief messages.en #################//
