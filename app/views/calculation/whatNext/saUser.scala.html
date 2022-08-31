@@ -22,38 +22,37 @@
 
 @this(
     residentMainTemplate: resident_main_template,
+    layout: Layout,
     form: FormWithCSRF,
-    inputRadioGroup: InputRadioGroup,
-    errorSummary: errorSummary
+    inputRadio: playHelpers.inputRadio,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(saUserForm: Form[SaUserModel])(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-  title = Messages("calc.resident.saUser.title"),
-  homeLink = controllers.routes.GainController.disposalDate().url,
-  navTitle = Messages("calc.base.resident.shares.home"),
-  backLink = Some(controllers.routes.SummaryController.summary().url)) {
-
-  @errorSummary(saUserForm, "isInSa")
-
-  <h1 class="heading-large">@Messages("calc.resident.saUser.title")</h1>
-
-  @form(action = controllers.routes.SaUserController.submitSaUser()) {
-    @inputRadioGroup(
-      saUserForm("isInSa"),
-      Seq(
-        "Yes" -> Messages("calc.base.yes"),
-        "No" -> Messages("calc.base.no")),
-      '_legend -> Messages("calc.resident.saUser.title"),
-      '_legendID -> "isClaiming",
-      '_legendClass -> "visuallyhidden",
-      '_labelAfter -> true,
-      '_labelClass -> "block-label",
-      '_groupClass -> "inline form-group radio-list",
-      '_fieldsetAttributes -> ""
-    )
-
-    <button class="button yes-no-button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
-  }
+@title = @{
+    if(saUserForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.saUser.title")) else Messages("calc.resident.saUser.title")
 }
+
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.SummaryController.summary().url)
+) {
+
+    @errorSummary(saUserForm.errors, Some("isInSa"))
+
+    @form(action = controllers.routes.SaUserController.submitSaUser()) {
+        @inputRadio(
+            legend = Messages("calc.resident.saUser.title"),
+            items = Seq(
+                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+            ),
+            inLine = true,
+            field = saUserForm("isInSa")
+        )
+
+        @submitButton()
+    }
+  }
