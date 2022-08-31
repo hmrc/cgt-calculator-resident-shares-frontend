@@ -57,7 +57,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "has the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "has a link to Previous Taxable Gains" in {
@@ -90,13 +90,17 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.question("2015/16"))
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
+        "have the class" in {
+          label.hasAttr("class") shouldBe true
+        }
+
+        "have the class that contains govuk-visually-hidden" in {
+          doc.getElementsByClass("govuk-visually-hidden").size shouldEqual 2
         }
       }
 
       s"have the help text ${messages.helpText}" in {
-        doc.body.getElementsByClass("form-hint").text shouldBe messages.helpTextShares
+        doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpTextShares
       }
 
       "has a numeric input field" which {
@@ -111,29 +115,21 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           input.attr("name") shouldBe "amount"
         }
 
-        "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
+        "is of type text" in {
+          input.attr("type") shouldBe "text"
         }
       }
 
       "have a continue button that" should {
 
-        lazy val continueButton = doc.select("button#continue-button")
+        lazy val continueButton = doc.getElementsByClass("govuk-button")
 
         s"have the button text '${commonMessages.continue}'" in {
           continueButton.text shouldBe commonMessages.continue
         }
 
         "be of type submit" in {
-          continueButton.attr("type") shouldBe "submit"
-        }
-
-        "have the class 'button'" in {
-          continueButton.hasClass("button") shouldBe true
+          continueButton.attr("id") shouldBe "submit"
         }
       }
     }
@@ -159,23 +155,23 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select(".govuk-error-message").size shouldBe 1
       }
 
       "have a back button" which {
 
-        lazy val backLink = doc.select("a#back-link")
+        lazy val backLink = doc.getElementsByClass("govuk-back-link")
 
         "has the correct back link text" in {
           backLink.text shouldBe commonMessages.back
         }
 
-        "has the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+        "has the back-link id" in {
+          backLink.attr("id") shouldBe "back-link"
         }
 
         "has a link to Annual Exempt Amount" in {
