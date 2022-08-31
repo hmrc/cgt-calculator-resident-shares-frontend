@@ -339,7 +339,7 @@ object MessageLookup {
 
     object Summary {
 
-      val title = "Summary"
+      val title = "Summary - Calculate your Capital Gains Tax - GOV.UK"
       val secondaryHeading = "You owe"
       val amountOwed = "Amount you owe"
       val calculationDetailsTitle = "Calculation details"
@@ -573,7 +573,8 @@ object MessageLookup {
 
   //Summary messages.en
   object SummaryPage {
-    val title = "Summary"
+    val title = "Summary - Calculate your Capital Gains Tax - GOV.UK"
+    val oldTitle = "Summary"
     val pageHeading = "Tax owed"
     val secondaryHeading = "You owe"
     val calcDetailsHeading = "Calculation details"
@@ -746,7 +747,8 @@ object MessageLookup {
   }
 
   object SummaryDetails extends Common {
-    val title = "Summary"
+    val title = "Summary - Calculate your Capital Gains Tax - GOV.UK"
+    val oldTitle = "Summary"
 
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
 
@@ -788,11 +790,10 @@ object MessageLookup {
       " Do not use these figures to report your Capital Gains Tax."
     val ratesHelp = "These rates are based on your Income Tax bands:"
 
-    val bannerPanelTitle = "Help improve GOV.UK"
+    val bannerPanelTitle = "Help improve HMRC services"
     val bannerPanelLinkURL = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
-    val bannerPanelLinkText = "Help improve this digital service by joining the HMRC user panel (opens in new window)"
+    val bannerPanelLinkText = "Sign up to take part in user research (opens in new tab)"
     val bannerPanelCloseVisibleText = "No thanks"
-    val bannerPanelCloseHiddenText = "I don't want to answer any questions about joining the research panel"
 
   }
 

@@ -16,11 +16,11 @@
 
 @import models.resident._
 @import models.resident.shares._
-@import views.html.helpers.resident._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
 
 @this(
-    summaryNumericRow: summaryNumericRow
+    summaryNumericRow: playHelpers.resident.summaryNumericRow,
+    govukWarningText : GovukWarningText
 )
 
 @(gainAnswers: GainAnswersModel,
@@ -29,77 +29,74 @@
         totalCosts: BigDecimal,
         maxAEA: BigDecimal = 0)(implicit request: Request[_], messages: Messages)
 
-<div id="tax-owed-banner" class="transaction-banner--complete">
-  <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(0, 2).quantity</span></h1>
-  <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</h2>
+<div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
+  <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</span></h1>
+  <h2 class="govuk-panel__body">&pound;@MoneyPounds(0, 2).quantity</h2>
 </div>
 
 @{if (!taxYear.isValidYear) {
-    <div id="notice-summary" class="notice-wrapper">
-      <div class="notice">
-        <i class="icon icon-important">
-          <span class="visuallyhidden">{Messages("calc.resident.summary.warning")}</span>
-        </i>
-        <strong class="bold-small">
-          {Messages("calc.summary.noticeSummary")}
-        </strong>
-      </div>
-    </div>
-  }
+    govukWarningText(WarningText(
+        iconFallbackText = "Warning",
+        content = Text(Messages("calc.summary.noticeSummary"))
+    ))
+    }
 }
 
   <!-- Calculation Details Section -->
 <section id="calcDetails">
     <!-- Header -->
-  <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
+  <h2 class="govuk-heading-m">@Messages("calc.summary.calculationDetails.heading")</h2>
 
-  <div id="yourTotalLoss" class="resident summary-partial summary-underline summary-details-padding">
+  <table id="yourTotalLoss" class="govuk-table">
     @if(gain == 0){
-      <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
+      <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTotalGain")</caption>
     } else {
-      <h3>@Messages("calc.summary.calculationDetails.yourTotalLoss")</h3>
+      <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTotalLoss")</caption>
     }
+      <tbody class="govuk-table__body">
+        @gainAnswers.soldForLessThanWorth match {
+          case (true) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+          case (false) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+        }
 
-    @gainAnswers.soldForLessThanWorth match {
-      case (true) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
-      case (false) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
-    }
+        @{if(gainAnswers.ownerBeforeLegislationStart)
+          summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+        }
 
-    @{if(gainAnswers.ownerBeforeLegislationStart)
-      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
-    }
+        @{if(gainAnswers.displayWorthWhenBought)
+          summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+        }
 
-    @{if(gainAnswers.displayWorthWhenBought)
-      summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
-    }
+        @{if(gainAnswers.displayWorthWhenInherited)
+          summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+        }
 
-    @{if(gainAnswers.displayWorthWhenInherited)
-      summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
-    }
+        @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
 
-    @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
+        @if(gain == 0){
+          @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), gain, isTotal = true)
+        } else {
+          @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), gain, isTotal = true)
+        }
+      </tbody>
 
-    @if(gain == 0){
-      @summaryNumericRow("totalGain", Messages("calc.summary.calculationDetails.totalGain"), gain, isTotal = true)
-    } else {
-      @summaryNumericRow("totalLoss", Messages("calc.summary.calculationDetails.totalLoss"), gain, isTotal = true)
-    }
+  </table>
 
-  </div>
+  <table id="yourDeductions" class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourDeductions")</caption>
+      <tbody class="govuk-table__body">
+            @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), 0)
+            @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), 0, isTotal = true)
+      </tbody>
+  </table>
 
-  <div id="yourDeductions" class="resident summary-partial summary-underline summary-details-padding">
-    <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
-    @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), 0)
-    @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), 0, isTotal = true)
-  </div>
-
-  <div id="yourTaxableGain" class="resident summary-partial summary-underline summary-details-padding">
+  <table id="yourTaxableGain" class="govuk-table">
   @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), 0, isTotal = true)
-  </div>
+  </table>
 
-  <div id="yourTaxRate" class="resident summary-partial summary-underline summary-details-padding">
+  <table id="yourTaxRate" class="govuk-table">
   @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), 0, isTotal = true)
-  </div>
+  </table>
 
 </section>
 
@@ -107,12 +104,18 @@
 <section id="remainingDeductions">
 
     <!-- Header -->
-  <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
-  <div id="aeaLeftSummary" class="summary-partial summary-details-padding">
-  @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
+    <table class="govuk-table">
+  <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
+  <div id="aeaLeftSummary">
+      <tbody class="govuk-table__body">
+        @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
+      </tbody>
   </div>
-  <div id="lossesToCarryForward" class="summary-partial summary-details-padding">
-  @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
+  <div id="lossesToCarryForward">
+      <tbody class="govuk-table__body">
+        @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
+      </tbody>
   </div>
+    </table>
 
 </section>

@@ -17,10 +17,10 @@
 @import models.resident._
 @import models.resident.shares._
 @import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import views.html.helpers.resident._
 
 @this(
-    summaryNumericRowPartial: summaryNumericRowPartial
+    summaryNumericRowPartial: playHelpers.resident.summaryNumericRowPartial,
+    govukWarningText : GovukWarningText
 )
 
 @(gainAnswers: GainAnswersModel,
@@ -30,97 +30,97 @@
         totalCosts: BigDecimal,
         totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages)
 
-    <div id="tax-owed-banner" class="transaction-banner--complete">
-        <h1 class="bold-xlarge"><span>&pound;@MoneyPounds(result.taxOwed, 2).quantity</span></h1>
-        <h2 class="heading-medium">@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</h2>
+    <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
+        <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</span></h1>
+        <h2 class="govuk-panel__body">&pound;@MoneyPounds(result.taxOwed, 2).quantity</h2>
     </div>
 
-    @if(!taxYear.isValidYear) {
-        <div id="notice-summary" class="notice-wrapper">
-            <div class="notice">
-                <i class="icon icon-important">
-                    <span class="visuallyhidden">@{Messages("calc.resident.summary.warning")}</span>
-                </i>
-                <strong class="bold-small">
-                    @{Messages("calc.summary.noticeSummary")}
-                </strong>
-            </div>
-        </div>
+    @{if (!taxYear.isValidYear) {
+        govukWarningText(WarningText(
+            iconFallbackText = "Warning",
+            content = Text(Messages("calc.summary.noticeSummary"))
+        ))
+        }
     }
 
     <!-- Calculation Details Section -->
 <section id="calcDetails">
         <!-- Header -->
-    <h2>@Messages("calc.summary.calculationDetails.heading")</h2>
+    <h2 class="govuk-heading-m">@Messages("calc.summary.calculationDetails.heading")</h2>
 
-    <div id="yourTotalGain" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourTotalGain")</h3>
+    <table id="yourTotalGain" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTotalGain")</caption>
+        <tbody class="govuk-table__body">
+            @(gainAnswers.soldForLessThanWorth) match {
+                case (true) => {@summaryNumericRowPartial("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
+                case (false) => {@summaryNumericRowPartial("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
+            }
 
-        @(gainAnswers.soldForLessThanWorth) match {
-            case (true) => {@summaryNumericRowPartial("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.worthWhenSoldForLess.get)}
-            case (false) => {@summaryNumericRowPartial("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
-        }
+            @if(gainAnswers.ownerBeforeLegislationStart){
+                @summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+            }
 
-        @if(gainAnswers.ownerBeforeLegislationStart){
-            @summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
-        }
+            @{if(gainAnswers.displayWorthWhenBought)
+                summaryNumericRowPartial("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+            }
 
-        @{if(gainAnswers.displayWorthWhenBought)
-            summaryNumericRowPartial("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
-        }
+            @{if(gainAnswers.displayWorthWhenInherited)
+                summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+            }
 
-        @{if(gainAnswers.displayWorthWhenInherited)
-            summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
-        }
+            @summaryNumericRowPartial("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
+            @summaryNumericRowPartial("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
+        </tbody>
+    </table>
 
-        @summaryNumericRowPartial("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
-        @summaryNumericRowPartial("totalGain", Messages("calc.summary.calculationDetails.totalGain"), result.gain, isTotal = true)
+    <table id="yourDeductions" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourDeductions")</caption>
+        <tbody class="govuk-table__body">
+            @summaryNumericRowPartial("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
+            @if(result.broughtForwardLossesUsed > 0) {
+                @summaryNumericRowPartial("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
+            }
+            @summaryNumericRowPartial("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
+        </tbody>
+    </table>
 
-    </div>
+    <table id="yourTaxableGain" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxableGain")</caption>
+        <tbody class="govuk-table__body">
+            @summaryNumericRowPartial("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
+            @summaryNumericRowPartial("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
+            @summaryNumericRowPartial("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
+        </tbody>
+    </table>
 
-    <div id="yourDeductions" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourDeductions")</h3>
+    <table id="yourTaxRate" class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxRate")</caption>
+        <caption class="govuk-table__caption govuk-table__caption--s">@Messages("calc.summary.ratesHelp")</caption>
+        <tbody class="govuk-table__body">
+            @if(result.firstBand != 0 && result.firstRate != 0){
+                @summaryNumericRowPartial("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
+                    result.baseRateTotal)
+            }
 
-        @summaryNumericRowPartial("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), result.aeaUsed)
-        @if(result.broughtForwardLossesUsed > 0) {
-            @summaryNumericRowPartial("lossesUsed", Messages("calc.summary.calculationDetails.lossesUsed"), result.broughtForwardLossesUsed)
-        }
-        @summaryNumericRowPartial("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), totalDeductions, isTotal = true)
-    </div>
-
-    <div id="yourTaxableGain" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourTaxableGain")</h3>
-
-        @summaryNumericRowPartial("gain", Messages("calc.summary.calculationDetails.totalGain"), result.gain)
-        @summaryNumericRowPartial("minusDeductions", Messages("calc.summary.calculationDetails.minusDeductions"), totalDeductions)
-        @summaryNumericRowPartial("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), result.chargeableGain, isTotal = true)
-    </div>
-
-    <div id="yourTaxRate" class="resident summary-partial summary-underline summary-details-padding">
-        <h3>@Messages("calc.summary.calculationDetails.yourTaxRate")</h3>
-        <h4>@Messages("calc.summary.ratesHelp")</h4>
-
-        @if(result.firstBand != 0 && result.firstRate != 0){
-            @summaryNumericRowPartial("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),
-                result.baseRateTotal)
-        }
-
-        @if(result.secondRate.isDefined && result.secondBand.isDefined) {
-            @summaryNumericRowPartial("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
-                result.upperRateTotal)
-        }
-        @summaryNumericRowPartial("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
-    </div>
+            @if(result.secondRate.isDefined && result.secondBand.isDefined) {
+                @summaryNumericRowPartial("secondBand", Messages("calc.summary.calculationDetails.taxRate", result.secondBand.get, result.secondRate.get),
+                    result.upperRateTotal)
+            }
+            @summaryNumericRowPartial("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), result.taxOwed, isTotal = true)
+        </tbody>
+    </table>
 
 </section>
 
     <!--Remaining Details Section-->
 <section id="remainingDeductions">
 
+    <table class="govuk-table">
         <!-- Header -->
-    <h2>@Messages("calc.summary.remainingDeductions.heading")</h2>
+    <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
 
-    <div class="summary-partial">
+    <tbody class="govuk-table__body">
         @summaryNumericRowPartial("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), 0, hintText = false)
-    </div>
+    </tbody>
+    </table>
 </section>
