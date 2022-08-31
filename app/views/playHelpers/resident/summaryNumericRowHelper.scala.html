@@ -27,37 +27,37 @@
 }
 
 @if(link.isDefined && displayLink) {
-<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
-    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
-        @question
+    <div id="@rowId" class="govuk-summary-list__row">
+        <dt id="@{rowId}-question" class="govuk-summary-list__key">
+            @question
+        </dt>
+        <dd id="@{rowId}-amount" class="govuk-summary-list__value">
+            &pound;@{amount.scale match {
+            case 0 => MoneyPounds(amount, 0).quantity
+            case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => MoneyPounds(amount, 0).quantity
+            case _ => MoneyPounds(amount, 2).quantity
+            }}
+            @{if(additionalContent.isDefined){additionalContent.get.map{ case (additionalText, additionalAmount) => additionalDetails(additionalText, additionalAmount)}}}
+        </dd>
+        <dd id="@{rowId}-change-link" class="govuk-summary-list__actions">
+            <a href="@link" class="govuk-link govuk-body">
+                @Messages("calc.base.change")
+                <span class="govuk-visually-hidden">@question</span>
+            </a>
+        </dd>
     </div>
-    <div id="@{rowId}-amount" class="grid-layout__column grid-layout__column--1-4">
-        &pound;@{amount.scale match {
-        case 0 => MoneyPounds(amount, 0).quantity
-        case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => MoneyPounds(amount, 0).quantity
-        case _ => MoneyPounds(amount, 2).quantity
-        }}
-        @{if(additionalContent.isDefined){additionalContent.get.map{ case (additionalText, additionalAmount) => additionalDetails(additionalText, additionalAmount)}}}
-    </div>
-    <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
-        <a href="@link" class="bold-small">
-            @Messages("calc.base.change")
-            <span class="visuallyhidden">@question</span>
-        </a>
-    </div>
-</div>
 } else {
-<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
-    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
-        @question
-    </div>
-    <div id="@{rowId}-amount" class="grid-layout__column grid-layout__column--1-2 text--right">
-        &pound;@{amount.scale match {
-        case 0 => MoneyPounds(amount, 0).quantity
-        case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => MoneyPounds(amount, 0).quantity
-        case _ => MoneyPounds(amount, 2).quantity
-        }}
-        @{if(additionalContent.isDefined){additionalContent.get.map{ case (additionalText, additionalAmount) => additionalDetails(additionalText, additionalAmount)}}}
-    </div>
-</div>
+    <tr id="@rowId" class="govuk-table__row">
+        <th id="@{rowId}-question" class="govuk-table__header">
+            @question
+        </th>
+        <td id="@{rowId}-amount" class="govuk-table__cell">
+            &pound;@{amount.scale match {
+            case 0 => MoneyPounds(amount, 0).quantity
+            case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => MoneyPounds(amount, 0).quantity
+            case _ => MoneyPounds(amount, 2).quantity
+            }}
+            @{if(additionalContent.isDefined){additionalContent.get.map{ case (additionalText, additionalAmount) => additionalDetails(additionalText, additionalAmount)}}}
+        </td>
+    </tr>
 }

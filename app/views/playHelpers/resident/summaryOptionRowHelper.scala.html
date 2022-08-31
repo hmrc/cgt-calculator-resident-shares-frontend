@@ -19,27 +19,27 @@
 @(rowId: String, question: String, answer: Boolean, link: Option[String] = None, displayLink: Boolean = true)(implicit messages: Messages)
 
 @if(link.isDefined && displayLink) {
-<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
-    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
-        @question
+    <div id="@rowId" class="govuk-summary-list__row">
+        <dt id="@{rowId}-question" class="govuk-summary-list__key">
+            @question
+        </dt>
+        <dd id="@{rowId}-option" class="govuk-summary-list__value">
+            @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
+        </dd>
+        <dd id="@{rowId}-change-link" class="govuk-summary-list__actions">
+            <a href="@link" class="govuk-link govuk-body">
+                @Messages("calc.base.change")
+                <span class="govuk-visually-hidden">@question</span>
+            </a>
+        </dd>
     </div>
-    <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-4">
-        @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
-    </div>
-    <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
-        <a href="@link" class="bold-small">
-            @Messages("calc.base.change")
-            <span class="visuallyhidden">@question</span>
-        </a>
-    </div>
-</div>
 } else {
-<div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline">
-    <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
-        @question
-    </div>
-    <div id="@{rowId}-option" class="grid-layout__column grid-layout__column--1-2 text--right">
-        @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
-    </div>
-</div>
+    <tr id="@rowId" class="govuk-table__row">
+        <th id="@{rowId}-question" class="govuk-table__header">
+            @question
+        </th>
+        <td id="@{rowId}-option" class="govuk-table__cell">
+            @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
+        </td>
+    </tr>
 }

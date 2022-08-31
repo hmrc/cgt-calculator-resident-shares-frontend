@@ -1,0 +1,12 @@
+
+.govuk-summary-list__key {
+    width: 70%;
+}
+
+.govuk-summary-list__value {
+    width: 20%;
+}
+
+.govuk-summary-list__actions {
+    width: 10%
+}

@@ -69,8 +69,8 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   s"have a page heading" which {
 
-    s"includes a secondary heading with text '${messages.title}'" in {
-      doc.select("h1.heading-large").text shouldBe messages.title
+    s"includes a secondary heading with text '${messages.heading}'" in {
+      doc.select("h1.govuk-heading-xl").text shouldBe messages.heading
     }
   }
 
@@ -93,18 +93,18 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   "have a continue button that" should {
 
-    lazy val continueButton = doc.select("button#continue-button")
+    lazy val continueButton = doc.select("button.govuk-button")
 
     s"have the button text '${commonMessages.continue}'" in {
       continueButton.text shouldBe commonMessages.continue
     }
 
     "be of type submit" in {
-      continueButton.attr("type") shouldBe "submit"
+      continueButton.attr("id") shouldBe "submit"
     }
 
     "have the class 'button'" in {
-      continueButton.hasClass("button") shouldBe true
+      continueButton.hasClass("govuk-button") shouldBe true
     }
   }
 

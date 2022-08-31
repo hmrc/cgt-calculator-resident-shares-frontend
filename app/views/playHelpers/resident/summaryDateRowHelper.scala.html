@@ -25,26 +25,26 @@
 
 
 @if(displayLink && link.isDefined) {
-    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
-        <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+    <div id="@rowId" class="govuk-summary-list__row">
+        <dt id="@{rowId}-question" class="govuk-summary-list__key">
             @question
-        </div>
-        <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-4">
+        </dt>
+        <dd id="@{rowId}-date" class="govuk-summary-list__value">
            @date.localFormat("d MMMM yyyy")
-        </div>
-        <div id="@{rowId}-change-link" class="grid-layout__column grid-layout__column--1-4 text--right">
-            <a href="@link" class="bold-small">@Messages("calc.base.change")
-                <span class="visuallyhidden">@question</span>
+        </dd>
+        <dd iid="@{rowId}-change-link" class="govuk-summary-list__actions">
+            <a href="@link" class="govuk-link govuk-body">@Messages("calc.base.change")
+                <span class="govuk-visually-hidden">@question</span>
             </a>
-        </div>
+        </dd>
     </div>
 } else {
-    <div id="@rowId" class="grid-layout grid-layout--stacked form-group resident summary-underline @extraClass">
-        <div id="@{rowId}-question" class="grid-layout__column grid-layout__column--1-2">
+    <tr id="@rowId" class="govuk-table__row">
+        <th id="@{rowId}-question" scope="row" class="govuk-table__header">
             @question
-        </div>
-        <div id="@{rowId}-date" class="grid-layout__column grid-layout__column--1-2 text--right">
+        </th>
+        <td id="@{rowId}-date" class="govuk-table__cell">
            @date.localFormat("d MMMM yyyy")
-        </div>
-    </div>
+        </td>
+    </tr>
 }
