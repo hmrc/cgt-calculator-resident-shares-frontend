@@ -19,28 +19,26 @@
 @import config.ApplicationConfig
 
 @this(
-    residentMainTemplate: resident_main_template
+    layout: Layout
 )
 
 @(iFormUrl: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.whatNextNonSa.loss.title"),
-    backLink = Some(controllers.routes.SaUserController.saUser().url),
-    homeLink = controllers.routes.GainController.disposalDate().url,
-    navTitle = Messages("calc.base.resident.shares.home")
+@layout(
+    pageTitle = Messages("calc.resident.whatNextNonSa.loss.title"),
+    backLinkHref = Some(controllers.routes.SaUserController.saUser().url)
 ) {
 
-    <h1 class="heading-large">@Messages("calc.resident.whatNextNonSa.loss.title")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.whatNextNonSa.loss.title")</h1>
 
-    <p id="details-one">@Messages("calc.resident.whatNextNonSa.loss.detailsOne")</p>
-    <p id="details-two">@Messages("calc.resident.whatNextNonSa.loss.detailsTwo")</p>
+    <p id="details-one" class="govuk-body">@Messages("calc.resident.whatNextNonSa.loss.detailsOne")</p>
+    <p id="details-two" class="govuk-body">@Messages("calc.resident.whatNextNonSa.loss.detailsTwo")</p>
 
     <p id="report-now">
-        <a class="button" href=@iFormUrl>@Messages("calc.resident.whatNextNonSa.loss.reportNow")</a>
+        <a class="govuk-button" href=@iFormUrl>@Messages("calc.resident.whatNextNonSa.loss.reportNow")</a>
     </p>
 
-    <p id="govUk">
-        <a href="http://www.gov.uk">@Messages("calc.resident.whatNextNonSa.loss.govUk")</a>
+    <p class="govuk-body" id="govUk">
+        <a class="govuk-link" href="http://www.gov.uk">@Messages("calc.resident.whatNextNonSa.loss.govUk")</a>
     </p>
 }
