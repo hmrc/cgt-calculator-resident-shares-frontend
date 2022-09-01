@@ -78,8 +78,8 @@ class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         false, 100, 100)(fakeRequestWithSession, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"have a title ${messages.oldTitle}" in {
+        doc.title() shouldBe messages.oldTitle
       }
 
       "have a page heading" which {

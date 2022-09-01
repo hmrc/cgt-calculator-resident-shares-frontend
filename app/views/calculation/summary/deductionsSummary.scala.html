@@ -28,8 +28,8 @@
 @import views.html.calculation._
 
 @this(
-    residentMainTemplate: resident_main_template,
-    deductionsSummaryPartial: deductionsSummaryPartial
+    layout: Layout,
+    deductionsSummaryPartial: playHelpers.deductionsSummaryPartial
 )
 
 @(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
@@ -50,16 +50,14 @@
     <span>@Messages("calc.resident.summary.annualExemptAmountHelp")</span>
 }
 
-@residentMainTemplate(
-    title = Messages("calc.resident.summary.title"),
-    backLink = Some(backUrl),
-    homeLink = navHomeLink,
-    navTitle = Messages("calc.base.resident.shares.home"),
+@layout(
+    pageTitle = Messages("calc.resident.summary.title"),
+    backLinkHref = Some(backUrl),
     isUserResearchBannerVisible = showUserResearchPanel
 ) {
 
     <!-- Google Analytics -->
-    <div id="ga-reporting" class="visuallyhidden">
+    <div id="ga-reporting" class="govuk-visually-hidden">
 
         <!-- Tax Year -->
         <span data-metrics="rtt-shares-summary:calculationYear:@{taxYear.calculationTaxYear}"></span>
@@ -86,23 +84,23 @@
 
     @if(taxYear.isValidYear) {
         <section id="whatToDoNext">
-            <h2 id="whatToDoNextTitle" class="bold-medium">@Messages("calc.summary.whatToDoNext.heading")</h2>
-            <p class="font-small">@Messages("calc.summary.whatToDoNext.details")</p>
+            <h2 id="whatToDoNextTitle" class="govuk-heading-m">@Messages("calc.summary.whatToDoNext.heading")</h2>
+            <p class="govuk-body">@Messages("calc.summary.whatToDoNext.details")</p>
         </section>
     }
 
     <div id="save-as-a-pdf" class="notice download-pdf">
         <div class="icon-file-download">
-            <span class="visuallyhidden">@Messages("calc.summary.download")</span>
+            <span class="govuk-visually-hidden">@Messages("calc.summary.download")</span>
         </div>
 
-        <a class="bold-small save-pdf-link" href="@controllers.routes.ReportController.deductionsReport()"
+        <a class="govuk-link govuk-body" href="@controllers.routes.ReportController.deductionsReport()"
         data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
+    </br>
 
     @if(taxYear.isValidYear) {
-        <div class="summary-details-padding">
-            <a class="button" id="continue-button" href="@controllers.routes.SaUserController.saUser.url">@Messages("calc.base.button.continue")</a>
-        </div>
+        <a class="govuk-button" id="continue-button" href="@controllers.routes.SaUserController.saUser.url">@Messages("calc.base.button.continue")</a>
+        </br>
     }
 }

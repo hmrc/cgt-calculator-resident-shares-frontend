@@ -72,8 +72,8 @@ class SharesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeA
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"have a title ${messages.oldTitle}" in {
+        doc.title() shouldBe messages.oldTitle
       }
 
       "have the hmrc logo with the hmrc name" in {

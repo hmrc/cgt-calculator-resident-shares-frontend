@@ -122,16 +122,16 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "contains a h1" which {
           lazy val h1 = banner.select("h1")
 
-          s"has the text '£3,600.00'" in {
-            h1.text() shouldEqual "£3,600.00"
+          s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
+            h1.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
           }
         }
 
         "contains a h2" which {
           lazy val h2 = banner.select("h2")
 
-          s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
-            h2.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
+          s"has the text '£3,600.00'" in {
+            h2.text() shouldEqual "£3,600.00"
           }
         }
       }
@@ -153,10 +153,10 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
           lazy val div = doc.select("#yourTotalGain")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourTotalGain
+              div.select("caption").text shouldBe summaryMessages.yourTotalGain
             }
           }
 
@@ -206,10 +206,10 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
           lazy val div = doc.select("#yourDeductions")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourDeductions
+              div.select("caption").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -250,10 +250,10 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
           lazy val div = doc.select("#yourTaxableGain")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("h3").text shouldBe summaryMessages.yourTaxableGain
+              div.select("caption").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -292,10 +292,10 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
           lazy val div = doc.select("#yourTaxRate")
 
-          "has a h3 tag" which {
+          "has a caption" which {
 
             s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("h3").text shouldBe summaryMessages.yourTaxRate
+              div.select("caption.govuk-table__caption.govuk-table__caption--m").text shouldBe summaryMessages.yourTaxRate
             }
           }
 
@@ -338,10 +338,10 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
             lazy val div = doc.select("#remainingDeductions")
 
-            "has a h2 tag" which {
+            "has a caption" which {
 
               s"has the text ${summaryMessages.remainingDeductions}" in {
-                div.select("h2").text shouldBe summaryMessages.remainingDeductions
+                div.select("caption").text shouldBe summaryMessages.remainingDeductions
               }
             }
 
@@ -379,7 +379,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         "has a paragraph" which {
           s"has the text ${summaryMessages.whatToDoNextContinue}" in {
-            section.select("p.font-small").text shouldBe summaryMessages.whatToDoNextContinue
+            section.select(".govuk-body").text shouldBe summaryMessages.whatToDoNextContinue
           }
         }
 
@@ -399,8 +399,8 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
               lazy val informationTag = icon.select("span")
 
-              "has the class visuallyhidden" in {
-                informationTag.hasClass("visuallyhidden") shouldBe true
+              "has the class govuk-visually-hidden" in {
+                informationTag.hasClass("govuk-visually-hidden") shouldBe true
               }
 
               "has the text Download" in {
@@ -412,12 +412,12 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
               lazy val link = savePDFSection.select("a")
 
-              "has the class bold-small" in {
-                link.hasClass("bold-small") shouldBe true
+              "has the class govuk-body" in {
+                link.hasClass("govuk-body") shouldBe true
               }
 
-              "has the class save-pdf-link" in {
-                link.hasClass("save-pdf-link") shouldBe true
+              "has the class govuk-link govuk-body" in {
+                link.hasClass("govuk-link govuk-body") shouldBe true
               }
 
               s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
@@ -433,26 +433,18 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         "has a continue button" which {
           s"has the text ${summaryMessages.continue}" in {
-            doc.select("a.button").text shouldBe summaryMessages.continue
+            doc.select("a.govuk-button").text shouldBe summaryMessages.continue
           }
 
           s"has a link to ${controllers.routes.SaUserController.saUser().url}" in {
-            doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+            doc.select("a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
           }
         }
 
         "does have ur panel" in {
-          doc.select("div#ur-panel").size() shouldBe 1
-
-          doc.select(".banner-panel__close").size() shouldBe 1
-          doc.select(".banner-panel__title").text() shouldBe summaryMessages.bannerPanelTitle
-
-          doc.select("section > a").first().attr("href") shouldBe summaryMessages.bannerPanelLinkURL
-          doc.select("section > a").first().text() shouldBe summaryMessages.bannerPanelLinkText
-
-          doc.select("a > span").first().text() shouldBe summaryMessages.bannerPanelCloseVisibleText
-          doc.select("a > span").eq(1).text() shouldBe summaryMessages.bannerPanelCloseHiddenText
-
+          doc.toString.contains(summaryMessages.bannerPanelTitle)
+          doc.toString.contains(summaryMessages.bannerPanelLinkText)
+          doc.toString.contains(summaryMessages.bannerPanelCloseVisibleText)
         }
       }
 
