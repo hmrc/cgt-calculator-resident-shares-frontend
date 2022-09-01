@@ -621,7 +621,7 @@ object MessageLookup {
     val remainingAllowableLossHelp = "to reduce your Capital Gains Tax if you sell something in the same tax year"
     val remainingBroughtForwardLossHelp = "to reduce your Capital Gains Tax in the future"
     val lettingReliefsUsed = "Letting Relief used"
-    val noticeSummary = "Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax."
+    val noticeSummary = "Warning Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax."
 
     def deductionsDetailsAllowableLosses(taxYear: String): String = s"Loss from $taxYear tax year"
 
@@ -751,7 +751,6 @@ object MessageLookup {
 
   object SummaryDetails extends Common {
     val title = "Summary - Calculate your Capital Gains Tax - GOV.UK"
-    val oldTitle = "Summary"
 
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
 
@@ -789,7 +788,7 @@ object MessageLookup {
     val whatToDoNextWhatToDoNext = "What to do next"
     val whatToDoNextHeading = "What to do next"
     val whatToDoNextContinue = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
-    val noticeSummary: String = "Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
+    val noticeSummary: String = "Warning Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
     val ratesHelp = "These rates are based on your Income Tax bands:"
 

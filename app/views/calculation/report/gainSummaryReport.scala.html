@@ -14,7 +14,6 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers.resident._
 @import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.shares._
@@ -24,8 +23,8 @@
 @import play.api.i18n.Lang
 
 @this(
-    gainSummaryPartial: gainSummaryPartial,
-    checkYourAnswersPartial: checkYourAnswersPartial
+    gainSummaryPartial: playHelpers.gainSummaryPartial,
+    checkYourAnswersPartial: playHelpers.checkYourAnswersPartial
 )
 
 @(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages, lang: Lang)
@@ -37,7 +36,8 @@
     <meta name="viewport" content="width=device-width"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" type="text/css" href="@routes.Assets.versioned("stylesheets/cgt.css")">
-    <title>@Messages("calc.resident.summary.title")</title>
+    <link href="/calculate-your-capital-gains/resident/shares/hmrc-frontend/assets/hmrc-frontend-ie8-2.0.0.min.css" media="all" rel="stylesheet" type="text/css" />
+    <title>@Messages("calc.resident.summary.title") - @Messages("service.name") - GOV.UK</title>
 </head>
 
 <div class="pdf">
