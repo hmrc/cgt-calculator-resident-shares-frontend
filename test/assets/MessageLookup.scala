@@ -848,7 +848,8 @@ object MessageLookup {
   }
 
   object WhatNextNonSaLoss extends Common {
-    val title = "What to do next"
+    val title = "What to do next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What to do next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can report it using our online form."
