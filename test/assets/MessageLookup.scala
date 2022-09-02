@@ -804,7 +804,8 @@ object MessageLookup {
     val title = "What to do next"
     val finish = "Return to GOV.UK"
     val reportNow = "Report now"
-    val yourOptionsTitle = "Your options"
+    val yourOptionsTitle = "Your options - Calculate your Capital Gains Tax - GOV.UK"
+    val yourOptionHEading = "Your options"
 
     object FourTimesAEA {
       val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
