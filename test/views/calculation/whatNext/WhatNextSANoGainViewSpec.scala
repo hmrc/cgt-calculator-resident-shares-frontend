@@ -43,7 +43,7 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have the correct heading" in {
-      doc.select("h1").text shouldBe commonMessages.title
+      doc.select("h1").text shouldBe commonMessages.heading
     }
 
     "have a bullet point list" which {
@@ -53,11 +53,11 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"has a first bullet point of ${pageMessages.bulletPointOne("2016 to 2017")}" in {
-        doc.select("article.content__body ul li").get(0).text shouldBe pageMessages.bulletPointOne("2016 to 2017")
+        doc.select("#main-content > div > div > div > ul > li:nth-child(1)").text shouldBe pageMessages.bulletPointOne("2016 to 2017")
       }
 
       s"has a second bullet point of ${pageMessages.bulletPointTwo}" in {
-        doc.select("article.content__body ul li").get(1).text shouldBe pageMessages.bulletPointTwo
+        doc.select("#main-content > div > div > div > ul > li:nth-child(2)").text shouldBe pageMessages.bulletPointTwo
       }
     }
 
@@ -78,7 +78,7 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "has the class button" in {
-        reportNowButton.hasClass("button") shouldBe true
+        reportNowButton.hasClass("govuk-button") shouldBe true
       }
 
       "has a link to the 'iFormUrl'" in {
