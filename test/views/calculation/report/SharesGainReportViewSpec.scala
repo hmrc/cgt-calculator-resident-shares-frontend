@@ -55,8 +55,8 @@ class SharesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       lazy val view = gainSummaryReportView(testModel, -2000, taxYearModel, 1000)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title ${messages.oldTitle}" in {
-        doc.title() shouldBe messages.oldTitle
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
       "have the hmrc logo with the hmrc name" in {
@@ -122,11 +122,11 @@ class SharesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {
-      doc.select("div.notice-wrapper").isEmpty shouldBe false
+      doc.select(".govuk-warning-text__text").isEmpty shouldBe false
     }
 
     s"have the text ${messages.noticeSummary}" in {
-      doc.select("strong.bold-small").text shouldBe messages.noticeSummary
+      doc.select(".govuk-warning-text__text").text shouldBe messages.noticeSummary
     }
   }
 }

@@ -72,8 +72,8 @@ class SharesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeA
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.oldTitle}" in {
-        doc.title() shouldBe messages.oldTitle
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
       "have the hmrc logo with the hmrc name" in {
@@ -152,11 +152,11 @@ class SharesDeductionsReportViewSpec extends CommonPlaySpec with WithCommonFakeA
     "has a notice summary that" should {
 
       "have the class notice-wrapper" in {
-        doc.select("div.notice-wrapper").isEmpty shouldBe false
+        doc.select(".govuk-warning-text__text").isEmpty shouldBe false
       }
 
       s"have the text ${messages.noticeSummary}" in {
-        doc.select("strong.bold-small").text shouldBe messages.noticeSummary
+        doc.select(".govuk-warning-text__text").text shouldBe messages.noticeSummary
       }
 
     }

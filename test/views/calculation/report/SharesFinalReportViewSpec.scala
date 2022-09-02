@@ -78,14 +78,14 @@ class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         false, 100, 100)(fakeRequestWithSession, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title ${messages.oldTitle}" in {
-        doc.title() shouldBe messages.oldTitle
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
       "have a page heading" which {
 
         "includes an amount of tax due of £3,600.00" in {
-          doc.select("h1").text should include("£3,600.00")
+          doc.select("h2").text should include("£3,600.00")
         }
       }
 
@@ -159,11 +159,11 @@ class SharesFinalReportViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     lazy val doc = Jsoup.parse(view.body)
 
     "have the class notice-wrapper" in {
-      doc.select("div.notice-wrapper").isEmpty shouldBe false
+      doc.select(".govuk-warning-text__text").isEmpty shouldBe false
     }
 
     s"have the text ${messages.noticeSummary}" in {
-      doc.select("strong.bold-small").text shouldBe messages.noticeSummary
+      doc.select(".govuk-warning-text__text").text shouldBe messages.noticeSummary
     }
   }
 }
