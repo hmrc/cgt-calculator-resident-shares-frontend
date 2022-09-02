@@ -801,7 +801,8 @@ object MessageLookup {
   }
 
   object WhatNextPages {
-    val title = "What to do next"
+    val title = "What to do next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What to do next"
     val finish = "Return to GOV.UK"
     val reportNow = "Report now"
     val yourOptionsTitle = "Your options - Calculate your Capital Gains Tax - GOV.UK"
