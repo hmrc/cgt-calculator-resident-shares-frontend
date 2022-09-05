@@ -96,7 +96,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "have a link" which {
         s"has the full text ${messages.linkText + " " + messages.link}" in {
-          doc.getElementsByClass("govuk-body").get(2).text() shouldBe messages.linkText + " " + messages.link
+          doc.getElementsByClass("govuk-body").get(2).text() shouldBe messages.linkText + " " + messages.link + "."
         }
 
         "has the href to the gov uk rates page" in {

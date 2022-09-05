@@ -5,7 +5,7 @@ calc.base.button.continue = Yn eich blaen
 calc.base.calculate.tax.heading = Cyfrifo''ch Treth Enillion Cyfalaf
 calc.base.change = Newid
 calc.base.continue = Yn eich blaen
-calc.base.externalLink = (yn agor ffenestr newydd)
+calc.base.externalLink = (yn agor mewn tab newydd)
 calc.base.govUk = GOV.UK
 calc.base.hmrc = Cyllid a Thollau EM
 calc.base.home = Hafan
@@ -205,7 +205,7 @@ session.timeout.message = Mae''ch sesiwn wedi dod i ben
 calc.summary.dismissBanner = No thanks
 calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
 calc.summary.userResearchLink.title = Help improve GOV.UK
-calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
+calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new tab)
 
 ##Month Names##
 calc.month.1 = Ionawr

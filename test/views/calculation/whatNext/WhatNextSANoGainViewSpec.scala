@@ -17,6 +17,7 @@
 package views.calculation.whatNext
 
 import assets.MessageLookup.{WhatNextPages => commonMessages}
+import assets.MessageLookup.{NonResident => messages}
 import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
@@ -35,7 +36,7 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {
-      doc.title() shouldBe commonMessages.heading
+      doc.title() shouldBe commonMessages.title
     }
 
     "have a back link to 'back-link'" in {

@@ -34,8 +34,8 @@ class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeA
     lazy val view = whatNextSAFourTimesAEAView("back-link")(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
-    s"have a title ${commonMessages.heading}" in {
-      doc.title() shouldBe commonMessages.heading
+    s"have a title ${commonMessages.title}" in {
+      doc.title() shouldBe commonMessages.title
     }
 
     "have a back link to 'back-link'" in {
