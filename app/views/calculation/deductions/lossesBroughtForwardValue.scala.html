@@ -25,10 +25,10 @@
     submitButton: playHelpers.submitButton
 )
 
-@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages)
+@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @title = @{
-    if (lossesBroughtForwardValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied)) else Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.taxYearSupplied)
+    if (lossesBroughtForwardValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 }
 
 @layout(
@@ -42,7 +42,7 @@
 
         @formInputMoney(
             field = lossesBroughtForwardValueForm("amount"),
-            question = Messages("calc.resident.lossesBroughtForwardValue.pageHeading", taxYear.taxYearSupplied),
+            question = Messages("calc.resident.lossesBroughtForwardValue.pageHeading", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
             hideLabel = false
         )
 

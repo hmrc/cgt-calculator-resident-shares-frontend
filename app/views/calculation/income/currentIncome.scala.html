@@ -30,11 +30,11 @@
 
 )
 
-@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
+@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @title = @{
     if(inCurrentTaxYear) Messages("calc.resident.currentIncome.questionCurrentYear")
-    else Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)
+    else Messages("calc.resident.currentIncome.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 }
 @titleWithError = @{
     if (currentIncomeForm.errors.nonEmpty) Messages("site.title.error",  title) else title

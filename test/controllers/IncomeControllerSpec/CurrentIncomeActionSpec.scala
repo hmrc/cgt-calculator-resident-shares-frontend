@@ -97,7 +97,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Current Income view for 2015/16" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
       }
 
       "supplied with no pre-existing stored data for 2016/17" should {

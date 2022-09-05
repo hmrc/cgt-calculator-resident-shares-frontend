@@ -83,7 +83,7 @@ calc.resident.lossesBroughtForward.helpInfo.subtitle = They''re losses you''ve m
 calc.resident.lossesBroughtForward.helpInfo.point1 = are covered by Capital Gains Tax
 calc.resident.lossesBroughtForward.helpInfo.point2 = you''ve declared within 4 years of making the loss
 calc.resident.lossesBroughtForward.helpInfo.point3 = you haven''t already used to reduce the amount of Capital Gains Tax you had to pay
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before 2015/16
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before 2015 to 2016
 calc.resident.lossesBroughtForward.helpButton = Show me an example
 
 
@@ -97,7 +97,7 @@ calc.resident.currentIncome.questionCurrentYear = How much do you expect your in
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
-calc.resident.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
+calc.resident.personalAllowance.list.title = In the tax year {0} the UK Personal Allowance was £{1} unless you:
 calc.resident.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
 calc.resident.personalAllowance.list.one = earned more than £100,000
 calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
