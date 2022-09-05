@@ -30,7 +30,7 @@ calc.common.date.error.beforeMinimum = Enter a date that is after 6 4 2015
 calc.common.date.fields.day = Day
 calc.common.date.fields.month = Month
 calc.common.date.fields.year = Year
-calc.common.date.hint = For example, 4 9 2016
+calc.common.date.hint = For example, 4 9 2021
 calc.common.date.error.invalidDate = Enter a real date
 calc.common.readMore = Read more
 calc.common.error.maxAmountExceeded = Enter an amount that''s {0} or less
@@ -51,7 +51,7 @@ calc.checkYourAnswers.tableHeading = You''ve told us
 calc.resident.disposalDate.invalidDayError = Enter a day
 calc.resident.disposalDate.invalidMonthError = Enter a month
 calc.resident.disposalDate.invalidYearError = Enter a year
-calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2015
+calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2020
 
 ## Outside Tax Years messages
 calc.resident.outsideTaxYears.title = The date you''ve entered isn''t supported by this calculator

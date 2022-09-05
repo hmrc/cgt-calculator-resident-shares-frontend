@@ -23,7 +23,7 @@ calc.common.date.error.invalidDate = Nodwch ddyddiad go iawn
 calc.common.date.fields.day = Diwrnod
 calc.common.date.fields.month = Mis
 calc.common.date.fields.year = Blwyddyn
-calc.common.date.hint = Er enghraifft, 4 9 2016
+calc.common.date.hint = Er enghraifft, 4 9 2021
 
 calc.common.error.invalidAmount = Nodwch swm yn y fformat cywir, e.e. 10000.00
 calc.common.error.invalidAmountNoDecimal = Nodwch swm yn y fformat cywir, e.e. 10000
@@ -42,7 +42,7 @@ calc.resident.currentIncome.questionCurrentYear = Faint ydych yn disgwyl i''ch i
 calc.resident.disposalDate.invalidDayError = Nodwch ddiwrnod
 calc.resident.disposalDate.invalidMonthError = Nodwch fis
 calc.resident.disposalDate.invalidYearError = Nodwch flwyddyn
-calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat cywir, e.e. 9 12 2015
+calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat cywir, e.e. 9 12 2020
 
 calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015/16
 calc.resident.lossesBroughtForward.helpInfo.point1 = a gwmpesir gan Dreth Enillion Cyfalaf

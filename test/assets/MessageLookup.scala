@@ -478,7 +478,7 @@ object MessageLookup {
   object DisposalDate {
     val title = "When did you sell or give away the property?"
     val question = "When did you sell or give away the property?"
-    val helpText = "For example, 4 9 2016"
+    val helpText = "For example, 4 9 2021"
     val day = "Day"
     val month = "Month"
     val year = "Year"
