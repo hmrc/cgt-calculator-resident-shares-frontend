@@ -35,7 +35,7 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     lazy val doc = Jsoup.parse(view.body)
 
     s"have a title ${commonMessages.title}" in {
-      doc.title() shouldBe commonMessages.title
+      doc.title() shouldBe commonMessages.heading
     }
 
     "have a back link to 'back-link'" in {
@@ -43,7 +43,7 @@ class WhatNextSANoGainViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have the correct heading" in {
-      doc.select("h1").text shouldBe commonMessages.title
+      doc.select("h1").text shouldBe commonMessages.heading
     }
 
     "have a bullet point list" which {
