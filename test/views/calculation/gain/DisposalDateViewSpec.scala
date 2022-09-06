@@ -54,7 +54,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       doc.body.getElementsByTag("h1").text should include(messages.question)
     }
 
-    "have the helptext 'For example, 4 9 2016'" in {
+    "have the helptext 'For example, 4 9 2021'" in {
       doc.body.getElementsByClass("govuk-hint").text should include(viewMessages.helpText)
     }
 
