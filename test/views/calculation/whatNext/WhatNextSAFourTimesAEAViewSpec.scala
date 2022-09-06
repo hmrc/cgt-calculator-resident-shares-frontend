@@ -47,16 +47,16 @@ class WhatNextSAFourTimesAEAViewSpec extends CommonPlaySpec with WithCommonFakeA
     }
 
     s"have the first paragraph of ${pageMessages.paragraphOne}" in {
-      doc.select("article.content__body p").get(0).text shouldBe pageMessages.paragraphOne
+      doc.select("#main-content > div > div > p:nth-child(2)").get(0).text shouldBe pageMessages.paragraphOne
     }
 
     s"have the second paragraph of ${pageMessages.paragraphTwo}" in {
-      doc.select("article.content__body p").get(1).text shouldBe pageMessages.paragraphTwo
+      doc.select("#main-content > div > div > p:nth-child(3)").get(0).text shouldBe pageMessages.paragraphTwo
     }
 
     "have a finish button" which {
 
-      lazy val finishButton = doc.select("article.content__body #finish")
+      lazy val finishButton = doc.select("#finish")
 
       s"has the text ${commonMessages.finish}" in {
         finishButton.text shouldBe commonMessages.finish
