@@ -27,10 +27,10 @@
         taxYear: TaxYearModel,
         gain: BigDecimal,
         totalCosts: BigDecimal,
-        maxAEA: BigDecimal = 0)(implicit request: Request[_], messages: Messages)
+        maxAEA: BigDecimal = 0)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
-  <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</span></h1>
+  <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))</span></h1>
   <h2 class="govuk-panel__body">&pound;@MoneyPounds(0, 2).quantity</h2>
 </div>
 
@@ -108,7 +108,7 @@
   <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
   <div id="aeaLeftSummary">
       <tbody class="govuk-table__body">
-        @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), maxAEA, hintText = false)
+        @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)), maxAEA, hintText = false)
       </tbody>
   </div>
   <div id="lossesToCarryForward">

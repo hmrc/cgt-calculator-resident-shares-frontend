@@ -26,7 +26,7 @@ import javax.inject.Inject
 import models.resident._
 import models.resident.shares.GainAnswersModel
 import play.api.data.Form
-import play.api.i18n.{I18nSupport, Messages}
+import play.api.i18n.{I18nSupport, Lang, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
@@ -91,6 +91,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
   val lossesBroughtForward = ValidateSession.async { implicit request =>
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
       sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
         case Some(data) => Ok(lossesBroughtForwardView(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
           backLinkUrl, taxYear, homeLink, navTitle))
@@ -110,6 +111,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
   val submitLossesBroughtForward = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
       lossesBroughtForwardForm.bindFromRequest.fold(
         errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
           homeLink, navTitle))),
@@ -151,6 +153,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
     }
 
     def routeRequest(taxYear: TaxYearModel, formData: Form[LossesBroughtForwardValueModel]): Future[Result] = {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
       Future.successful(Ok(lossesBroughtForwardValueView(
         formData,
         taxYear,
@@ -170,6 +173,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
   }
 
   val submitLossesBroughtForwardValue = ValidateSession.async { implicit request =>
+    implicit val lang: Lang = messagesApi.preferred(request).lang
     lossesBroughtForwardValueForm.bindFromRequest.fold(
       errors => {
         for {

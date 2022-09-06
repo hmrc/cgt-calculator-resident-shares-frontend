@@ -26,12 +26,12 @@ import controllers.utils.RecoverableFuture
 import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import play.api.i18n.I18nSupport
+import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.summary.{finalSummary, gainSummary, deductionsSummary}
+import views.html.calculation.summary.{deductionsSummary, finalSummary, gainSummary}
 
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
@@ -96,7 +96,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                      totalCosts: BigDecimal,
                      maxAea: BigDecimal,
                      showUserResearchPanel: Boolean): Future[Result] = {
-
+      implicit val lang: Lang = messagesApi.preferred(request).lang
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(finalSummaryView(totalGainAnswers, deductionGainAnswers,

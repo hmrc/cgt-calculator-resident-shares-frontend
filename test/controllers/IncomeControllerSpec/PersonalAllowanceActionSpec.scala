@@ -102,7 +102,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
       }
     }
 
@@ -122,7 +122,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
       }
     }
   }
@@ -176,7 +176,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "render the personal allowance page" in {
-        doc.title() shouldEqual "Error: " + messages.title("2015/16")
+        doc.title() shouldEqual "Error: " + messages.title("2015 to 2016")
       }
     }
   }

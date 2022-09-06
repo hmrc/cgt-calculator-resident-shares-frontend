@@ -24,6 +24,7 @@ import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{IncomeAnswersModel, _}
 import org.jsoup.Jsoup
+import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.summary.finalSummary
 
@@ -32,6 +33,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val finalSummaryView = fakeApplication.injector.instanceOf[finalSummary]
+  val fakeLang: Lang = Lang("en")
 
   "ShareFinalSummaryViewSpec" when {
     val incomeAnswers = IncomeAnswersModel(
@@ -88,7 +90,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "",
         100,
         100,
-        showUserResearchPanel = true)(fakeRequestWithSession, mockMessage)
+        showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -451,10 +453,10 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       "generate the same template when .render and .f are called" in {
 
         val f = finalSummaryView.f(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
-          true)(fakeRequestWithSession, mockMessage)
+          true)(fakeRequestWithSession, mockMessage, fakeLang)
 
         val render = finalSummaryView.render(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
-          true, fakeRequestWithSession, mockMessage)
+          true, fakeRequestWithSession, mockMessage, fakeLang)
 
         f shouldBe render
       }
@@ -505,7 +507,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "",
         100,
         100,
-        showUserResearchPanel = false)(fakeRequestWithSession, mockMessage)
+        showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

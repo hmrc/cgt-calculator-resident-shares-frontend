@@ -28,10 +28,10 @@
   deductionAnswers: DeductionGainAnswersModel,
   result: ChargeableGainResultModel,
   taxYear: TaxYearModel,
-  totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages)
+  totalCosts: BigDecimal)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
-    <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied))</span></h1>
+    <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))</span></h1>
     <h2 class="govuk-panel__body">&pound;@MoneyPounds(0, 2).quantity</h2>
 </div>
 
@@ -108,12 +108,12 @@
     <table class="govuk-table">
     <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.remainingDeductions.heading")</caption>
         <tbody class="govuk-table__body">
-            @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)), result.aeaRemaining, hintText = false)
+            @summaryNumericRow("aeaRemaining", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)), result.aeaRemaining, hintText = false)
 
             @if(result.broughtForwardLossesRemaining > 0) {
                 @summaryNumericRow("broughtForwardLossesRemaining",
                     Messages("calc.summary.remainingDeductions.broughtForwardLossesRemaining",
-                        TaxYearModel.convertToSummaryFormat(taxYear.taxYearSupplied)),
+                        TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
                     result.broughtForwardLossesRemaining,
                     hintText = false)
             }

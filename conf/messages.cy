@@ -44,7 +44,7 @@ calc.resident.disposalDate.invalidMonthError = Nodwch fis
 calc.resident.disposalDate.invalidYearError = Nodwch flwyddyn
 calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat cywir, e.e. 9 12 2020
 
-calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015/16
+calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015 i 2016
 calc.resident.lossesBroughtForward.helpInfo.point1 = a gwmpesir gan Dreth Enillion Cyfalaf
 calc.resident.lossesBroughtForward.helpInfo.point2 = rydych wedi''u datgan cyn pen 4 blynedd ar ôl gwneud y golled
 calc.resident.lossesBroughtForward.helpInfo.point3 = nad ydych eisoes wedi''u defnyddio i ostwng swm y Dreth Enillion Cyfalaf yr oedd yn rhaid i chi''i dalu
@@ -67,7 +67,7 @@ calc.resident.personalAllowance.help = Dyma swm eich incwm nad ydych yn talu tre
 calc.resident.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol
 calc.resident.personalAllowance.link.text = Rhagor o wybodaeth am
 calc.resident.personalAllowance.list.one = ennill mwy na £100,000
-calc.resident.personalAllowance.list.title = Yn y flwyddyn dreth {0} i {1}, £{2} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
+calc.resident.personalAllowance.list.title = Yn y flwyddyn dreth {0}, £{1} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
 calc.resident.personalAllowance.list.two = hawlio Lwfans Person Dall
 calc.resident.personalAllowance.list.three = hawlio Lwfans Priodasol
 calc.resident.personalAllowance.question = Yn y flwyddyn dreth {0}, faint oedd eich Lwfans Personol?

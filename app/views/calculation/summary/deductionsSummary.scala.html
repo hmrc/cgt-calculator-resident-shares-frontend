@@ -32,7 +32,7 @@
     deductionsSummaryPartial: playHelpers.deductionsSummaryPartial
 )
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
+@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @broughtForwardLossesHelpText() = {
     <span>
