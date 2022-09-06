@@ -22,7 +22,7 @@ object MessageLookup {
 
   trait Common {
 
-    val externalLink = "(opens in a new window)"
+    val externalLink = "(opens in new tab)"
     val change = "Change"
     val back = "Back"
     val continue = "Continue"
@@ -470,7 +470,7 @@ object MessageLookup {
     val title = "Work out how much Capital Gains Tax you owe"
     val subheading = "Do you need to use this calculator?"
     val paragraph = "You probably don't need to pay Capital Gains Tax if the property you've sold is your own home. You'll be entitled to a tax relief called Private Residence Relief."
-    val entitledLinkText = "Find out if you're entitled to Private Residence Relief (opens in a new window)."
+    val entitledLinkText = "Find out if you're entitled to Private Residence Relief (opens in new tab)."
     val continuationInstructions = "Continue to use this calculator if you've never lived at the property, or you're entitled to only some or no Private Residence Relief."
   }
 
