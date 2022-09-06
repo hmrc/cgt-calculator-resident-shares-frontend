@@ -361,7 +361,7 @@ object MessageLookup {
       val propertyDetailsTitle = "Property details"
       val salesDetailsTitle = "Selling or giving away the property"
       val deductionsTitle = "Deductions"
-      val whatToDoNextText = "What to do next"
+      val whatToDoNextText = "What happens next"
       val whatToDoNextContent = "You need to"
       val whatToDoNextLink = "tell HMRC about the property"
       val startAgain = "Start again"
@@ -594,7 +594,7 @@ object MessageLookup {
     def noticeWarning(input: String): String = s"These figures are based on the tax rates from the $input tax year"
 
     val warning = "Warning"
-    val whatToDoNextTitle = "What to do next"
+    val whatToDoNextTitle = "What happens next"
     val whatToDoNextText = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
     val whatNextYouCan = "You can "
     val whatNextLink = "tell us about this loss "
@@ -783,10 +783,10 @@ object MessageLookup {
 
     val lossesToCarryForwardFromCalculation = "Losses you can carry forward from this calculation"
     val broughtForwardLossesRemaining = "Losses to carry forward from previous tax years"
-    val whatToDoNext = "What to do next"
+    val whatToDoNext = "What happens next"
     val whatToDoNextDetails = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
-    val whatToDoNextWhatToDoNext = "What to do next"
-    val whatToDoNextHeading = "What to do next"
+    val whatToDoNextWhatToDoNext = "What happens next"
+    val whatToDoNextHeading = "What happens next"
     val whatToDoNextContinue = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
     val noticeSummary: String = "Warning Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
@@ -800,12 +800,12 @@ object MessageLookup {
   }
 
   object WhatNextPages {
-    val title = "What to do next - Calculate your Capital Gains Tax - GOV.UK"
-    val heading = "What to do next"
+    val title = "What happens next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What happens next"
     val finish = "Return to GOV.UK"
     val reportNow = "Report now"
-    val yourOptionsTitle = "Your options - Calculate your Capital Gains Tax - GOV.UK"
-    val yourOptionHEading = "Your options"
+    val yourOptionsTitle = "Your options for reporting your Capital Gains Tax - Calculate your Capital Gains Tax - GOV.UK"
+    val yourOptionHEading = "Your options for reporting your Capital Gains Tax"
 
     object FourTimesAEA {
       val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
@@ -838,8 +838,8 @@ object MessageLookup {
   }
 
   object WhatNextNonSaGain extends Common {
-    val title = "What to do next - Calculate your Capital Gains Tax - GOV.UK"
-    val heading = "What to do next"
+    val title = "What happens next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What happens next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
@@ -850,8 +850,8 @@ object MessageLookup {
   }
 
   object WhatNextNonSaLoss extends Common {
-    val title = "What to do next - Calculate your Capital Gains Tax - GOV.UK"
-    val heading = "What to do next"
+    val title = "What happens next - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "What happens next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can report it using our online form."

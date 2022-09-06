@@ -135,13 +135,13 @@ calc.resident.whatNextNonSa.gain.detailsOne = Defnyddiwch ein ffurflen ar-lein i
 calc.resident.whatNextNonSa.gain.detailsTwo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.resident.whatNextNonSa.gain.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.gain.reportNow = Rhowch wybod nawr
-calc.resident.whatNextNonSa.gain.title = Yr hyn i''w wneud nesaf
+calc.resident.whatNextNonSa.gain.title = Yr hyn sy''n digwydd nesaf
 
 calc.resident.whatNextNonSa.loss.detailsOne = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn Treth Enillion Cyfalaf yn y dyfodol, gallwch roi gwybod amdani gan ddefnyddio ein ffurflen ar-lein.
 calc.resident.whatNextNonSa.loss.detailsTwo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.resident.whatNextNonSa.loss.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.loss.reportNow = Rhowch wybod nawr
-calc.resident.whatNextNonSa.loss.title = Yr hyn i''w wneud nesaf
+calc.resident.whatNextNonSa.loss.title = Yr hyn sy''n digwydd nesaf
 
 calc.summary.calculationDetails.acquisitionValue = Llai gwerth y cyfranddaliadau pan wnaethoch eu caffael
 calc.summary.calculationDetails.acquisitionValueBeforeLegislation = Llai gwerth y cyfranddaliadau ar 31 Mawrth 1982
@@ -176,7 +176,7 @@ calc.summary.remainingDeductions.lossesToCarryForward = Y colledion y gallwch eu
 calc.summary.startAgain = Dechrau eto
 
 calc.summary.whatToDoNext.details = Cyn i chi fynd yn eich blaen, cadwch gopi o''ch cyfrifiad. Bydd angen hwn arnoch pan fyddwch yn rhoi gwybod am eich Treth Enillion Cyfalaf.
-calc.summary.whatToDoNext.heading = Yr hyn i''w wneud nesaf
+calc.summary.whatToDoNext.heading = Yr hyn sy''n digwydd nesaf
 
 calc.whatToDoNext.finish = Yn ôl i GOV.UK
 calc.whatToDoNext.fourAEA.information = Bydd yn rhaid i chi roi gwybod am eich ffigurau Treth Enillion Cyfalaf drwy Hunanasesiad.
@@ -198,8 +198,8 @@ calc.whatToDoNext.noGain.reportImportant = Os byddwch yn rhoi gwybod am hyn nawr
 calc.whatToDoNext.noGain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 
 calc.whatToDoNext.reportNow = Rhowch wybod nawr
-calc.whatToDoNext.title = Yr hyn i''w wneud nesaf
-calc.yourOptions.title = Eich opsiynau
+calc.whatToDoNext.title = Yr hyn sy''n digwydd nesaf
+calc.yourOptions.title = Eich opsiynau ar gyfer rhoi gwybod am eich Treth Enillion Cyfalaf
 session.timeout.message = Mae''ch sesiwn wedi dod i ben
 
 calc.summary.dismissBanner = No thanks
