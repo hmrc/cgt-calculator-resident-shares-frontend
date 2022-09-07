@@ -40,7 +40,7 @@
     navHomeLink: String,
     totalCosts: BigDecimal,
     totalDeductions: BigDecimal,
-    showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
+    showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @layout(
     pageTitle = Messages("calc.resident.summary.title"),

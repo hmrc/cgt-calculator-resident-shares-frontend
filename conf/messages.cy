@@ -5,7 +5,7 @@ calc.base.button.continue = Yn eich blaen
 calc.base.calculate.tax.heading = Cyfrifo''ch Treth Enillion Cyfalaf
 calc.base.change = Newid
 calc.base.continue = Yn eich blaen
-calc.base.externalLink = (yn agor ffenestr newydd)
+calc.base.externalLink = (yn agor mewn tab newydd)
 calc.base.govUk = GOV.UK
 calc.base.hmrc = Cyllid a Thollau EM
 calc.base.home = Hafan
@@ -23,7 +23,7 @@ calc.common.date.error.invalidDate = Nodwch ddyddiad go iawn
 calc.common.date.fields.day = Diwrnod
 calc.common.date.fields.month = Mis
 calc.common.date.fields.year = Blwyddyn
-calc.common.date.hint = Er enghraifft, 4 9 2016
+calc.common.date.hint = Er enghraifft, 4 9 2021
 
 calc.common.error.invalidAmount = Nodwch swm yn y fformat cywir, e.e. 10000.00
 calc.common.error.invalidAmountNoDecimal = Nodwch swm yn y fformat cywir, e.e. 10000
@@ -42,9 +42,9 @@ calc.resident.currentIncome.questionCurrentYear = Faint ydych yn disgwyl i''ch i
 calc.resident.disposalDate.invalidDayError = Nodwch ddiwrnod
 calc.resident.disposalDate.invalidMonthError = Nodwch fis
 calc.resident.disposalDate.invalidYearError = Nodwch flwyddyn
-calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat cywir, e.e. 9 12 2015
+calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat cywir, e.e. 9 12 2020
 
-calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015/16
+calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015 i 2016
 calc.resident.lossesBroughtForward.helpInfo.point1 = a gwmpesir gan Dreth Enillion Cyfalaf
 calc.resident.lossesBroughtForward.helpInfo.point2 = rydych wedi''u datgan cyn pen 4 blynedd ar ôl gwneud y golled
 calc.resident.lossesBroughtForward.helpInfo.point3 = nad ydych eisoes wedi''u defnyddio i ostwng swm y Dreth Enillion Cyfalaf yr oedd yn rhaid i chi''i dalu
@@ -67,7 +67,7 @@ calc.resident.personalAllowance.help = Dyma swm eich incwm nad ydych yn talu tre
 calc.resident.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol
 calc.resident.personalAllowance.link.text = Rhagor o wybodaeth am
 calc.resident.personalAllowance.list.one = ennill mwy na £100,000
-calc.resident.personalAllowance.list.title = Yn y flwyddyn dreth {0} i {1}, £{2} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
+calc.resident.personalAllowance.list.title = Yn y flwyddyn dreth {0}, £{1} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
 calc.resident.personalAllowance.list.two = hawlio Lwfans Person Dall
 calc.resident.personalAllowance.list.three = hawlio Lwfans Priodasol
 calc.resident.personalAllowance.question = Yn y flwyddyn dreth {0}, faint oedd eich Lwfans Personol?
@@ -205,7 +205,7 @@ session.timeout.message = Mae''ch sesiwn wedi dod i ben
 calc.summary.dismissBanner = No thanks
 calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
 calc.summary.userResearchLink.title = Help improve GOV.UK
-calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
+calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new tab)
 
 ##Month Names##
 calc.month.1 = Ionawr

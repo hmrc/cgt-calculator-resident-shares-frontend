@@ -23,7 +23,7 @@
     layout: Layout
 )
 
-@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, maxAea: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages)
+@(answers: GainAnswersModel, gain: BigDecimal, taxYear: TaxYearModel, navHomeLink: String, totalCosts: BigDecimal, maxAea: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @layout(
     pageTitle = Messages("calc.resident.summary.title"),

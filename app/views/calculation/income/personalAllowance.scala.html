@@ -29,12 +29,12 @@
     submitButton: playHelpers.submitButton
 )
 
-@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages)
+@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
         if(taxYearValid) messages("calc.resident.personalAllowance.currentYearQuestion")
-        else messages("calc.resident.personalAllowance.question", taxYear.taxYearSupplied)) { question =>
+        else messages("calc.resident.personalAllowance.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) { question =>
 
         @layout(
             pageTitle = if (personalAllowanceForm.errors.nonEmpty) messages("site.title.error", question) else question,
@@ -48,13 +48,7 @@
             <p class="govuk-body">@messages("calc.resident.personalAllowance.help")</p>
 
             <p class="govuk-body">
-                @{
-                    val splitYear = taxYear.taxYearSupplied.split("/")
-                    messages("calc.resident.personalAllowance.list.title",
-                    splitYear.apply(0),
-                    splitYear.apply(0).substring(0, 2) + splitYear.apply(1),
-                    MoneyPounds(standardPA, 0).quantity)
-                }
+                @messages("calc.resident.personalAllowance.list.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), MoneyPounds(standardPA, 0).quantity)
             </p>
 
             <ul class="govuk-list govuk-list--bullet">
@@ -63,7 +57,7 @@
                 <li>@messages("calc.resident.personalAllowance.list.three")</li>
             </ul>
 
-            <p class="govuk-body">@messages("calc.resident.personalAllowance.link.text") <a href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" class="govuk-link">@messages("calc.resident.personalAllowance.link")</a></p>
+            <p class="govuk-body">@messages("calc.resident.personalAllowance.link.text") <a href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" class="govuk-link">@messages("calc.resident.personalAllowance.link")</a>.</p>
 
             @form(action = postAction) {
 

@@ -25,6 +25,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.PersonalAllowanceForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import play.api.i18n.Lang
 import views.html.calculation.income.personalAllowance
 import play.api.mvc.MessagesControllerComponents
 
@@ -34,21 +35,22 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
+  val fakeLang: Lang = Lang("en")
   "Personal Allowance view" when {
 
-    "supplied with a 2015/16 tax year" should {
+    "supplied with a 2015 to 2016 tax year" should {
 
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage,fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title("2015/16")}" in {
-        doc.title() shouldBe messages.title("2015/16")
+      s"have a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       "have a navTitle of Calculate your Capital Gains Tax" in {
@@ -74,8 +76,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
-      s"have the page heading '${messages.question("2015/16")}'" in {
-        doc.select("h1").text shouldBe messages.question("2015/16")
+      s"have the page heading '${messages.question("2015 to 2016")}'" in {
+        doc.select("h1").text shouldBe messages.question("2015 to 2016")
       }
 
       s"have the help text ${messages.help}" in {
@@ -96,7 +98,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "have a link" which {
         s"has the full text ${messages.linkText + " " + messages.link}" in {
-          doc.getElementsByClass("govuk-body").get(2).text() shouldBe messages.linkText + " " + messages.link
+          doc.getElementsByClass("govuk-body").get(2).text() shouldBe messages.linkText + " " + messages.link + "."
         }
 
         "has the href to the gov uk rates page" in {
@@ -119,8 +121,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           form.attr("method") shouldBe "POST"
         }
 
-        s"have a legend for an input with text ${messages.question("2015/16")}" in {
-          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015/16")
+        s"have a legend for an input with text ${messages.question("2015 to 2016")}" in {
+          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
         }
       }
 
@@ -158,7 +160,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         lazy val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map(("amount", "1000")))
         lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", "2015/16")(fakeRequest, mockMessage)
+          Some("back-link"), JourneyKeys.shares, "navTitle", "2015 to 16")(fakeRequest, mockMessage, fakeLang)
         lazy val doc = Jsoup.parse(view.body)
 
         "have the value of 1000 auto-filled in the input" in {
@@ -170,10 +172,10 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "generate the same template when .render and .f are called" in {
 
         val f = personalAllowanceView.f(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeLang)
 
         val render = personalAllowanceView.render(personalAllowanceForm(), taxYearModel, BigDecimal(10600), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear, fakeRequest, mockMessage)
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear, fakeRequest, mockMessage, fakeLang)
 
         f shouldBe render
       }
@@ -184,7 +186,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
       lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
@@ -205,22 +207,24 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       lazy val taxYearModel = TaxYearModel(DateAsset.getYearAfterCurrentTaxYear, false, Dates.getCurrentTaxYear)
       lazy val view = personalAllowanceView(personalAllowanceForm(), taxYearModel, BigDecimal(11000), "home", postAction,
-        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
+        Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
       val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
+      val splitYear = nextTaxYear.split("/")
+      val nextTaxYearFormatted = splitYear(0) + " to " + splitYear(0).substring(0, 2) + splitYear(1)
 
-      s"have a title ${messages.title(s"$nextTaxYear")}" in {
-        doc.title() shouldBe messages.title(s"$nextTaxYear")
+      s"have a title ${messages.title(s"$nextTaxYearFormatted")}" in {
+        doc.title() shouldBe messages.title(s"$nextTaxYearFormatted")
       }
 
-      s"have the page heading '${messages.question(s"$nextTaxYear")}'" in {
-        h1Tag.text shouldBe messages.question(s"$nextTaxYear")
+      s"have the page heading '${messages.question(s"$nextTaxYearFormatted")}'" in {
+        h1Tag.text shouldBe messages.question(s"$nextTaxYearFormatted")
       }
 
-      s"have a legend for an input with text ${messages.question(s"$nextTaxYear")}" in {
-        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(s"$nextTaxYear")
+      s"have a legend for an input with text ${messages.question(s"$nextTaxYearFormatted")}" in {
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(s"$nextTaxYearFormatted")
       }
     }
 
@@ -231,7 +235,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
         lazy val form = personalAllowanceForm().bind(Map("amount" -> ""))
         lazy val view = personalAllowanceView(form, taxYearModel, BigDecimal(11000), "home", postAction,
-          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage)
+          Some("back-link"), JourneyKeys.shares, "navTitle", Dates.getCurrentTaxYear)(fakeRequest, mockMessage, fakeLang)
         lazy val doc = Jsoup.parse(view.body)
 
         "display an error summary message for the amount" in {

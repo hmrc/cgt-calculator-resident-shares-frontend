@@ -24,6 +24,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.CurrentIncomeForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import play.api.i18n.Lang
 import views.html.calculation.income.currentIncome
 import play.api.mvc.MessagesControllerComponents
 
@@ -32,20 +33,21 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
+  val fakeLang: Lang = Lang("en")
 
   "Current Income view" should {
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
     lazy val backLink = controllers.routes.IncomeController.personalAllowance().toString
-    lazy val view = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage)
+    lazy val view = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
       doc.charset().toString shouldBe "UTF-8"
     }
 
-    s"have a title ${messages.title("2015/16")}" in {
-      doc.title() shouldBe messages.title("2015/16")
+    s"have a title ${messages.title("2015 to 2016")}" in {
+      doc.title() shouldBe messages.title("2015 to 2016")
     }
 
     "have a back button" which {
@@ -65,8 +67,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
     }
 
-    s"have the question of the page ${messages.question("2015/16")}" in {
-      doc.select("h1").text shouldEqual messages.question("2015/16")
+    s"have the question of the page ${messages.question("2015 to 2016")}" in {
+      doc.select("h1").text shouldEqual messages.question("2015 to 2016")
     }
 
     "have a form" which {
@@ -86,8 +88,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.question("2015/16")}" in {
-          label.text should include(messages.question("2015/16"))
+        s"have the question ${messages.question("2015 to 2016")}" in {
+          label.text should include(messages.question("2015 to 2016"))
         }
 
         "have the class" in {
@@ -136,9 +138,9 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "generate the same template when .render and .f are called" in {
 
-      val f = currentIncomeView.f(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage)
+      val f = currentIncomeView.f(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
 
-      val render = currentIncomeView.render(currentIncomeForm, backLink, taxYearModel, false, fakeRequest, mockMessage)
+      val render = currentIncomeView.render(currentIncomeForm, backLink, taxYearModel, false, fakeRequest, mockMessage, fakeLang)
 
       f shouldBe render
     }
@@ -151,7 +153,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward().toString
-      lazy val view = currentIncomeView(form, backLink, taxYearModel, false)(fakeRequest, mockMessage)
+      lazy val view = currentIncomeView(form, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

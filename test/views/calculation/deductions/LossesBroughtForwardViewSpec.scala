@@ -23,6 +23,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import play.api.i18n.Lang
 import views.html.calculation.deductions.lossesBroughtForward
 import play.api.mvc.MessagesControllerComponents
 
@@ -31,11 +32,12 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
   val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
+  val fakeLang: Lang = Lang("en")
 
   "Reliefs view" should {
 
     lazy val view = lossesBroughtForwardView(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home-link", "navTitle")(fakeRequest, mockMessage)
+      "home-link", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -46,8 +48,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
     }
 
-    s"have a title ${messages.title("2015/16")}" in {
-      doc.title() shouldBe messages.title("2015/16")
+    s"have a title ${messages.title("2015 to 2016")}" in {
+      doc.title() shouldBe messages.title("2015 to 2016")
     }
 
     "have a home link to 'home-link'" in {
@@ -58,16 +60,16 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.getElementsByClass("govuk-back-link").text shouldEqual commonMessages.back
     }
 
-    s"have the question of the page ${messages.question("2015/16")}" in {
-      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015/16")
+    s"have the question of the page ${messages.question("2015 to 2016")}" in {
+      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
     }
 
     s"render a form tag with a POST action" in {
       doc.select("form").attr("method") shouldEqual "POST"
     }
 
-    s"have a visually hidden legend for an input with text ${messages.question("2015/16")}" in {
-      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2015/16")
+    s"have a visually hidden legend for an input with text ${messages.question("2015 to 2016")}" in {
+      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2015 to 2016")
     }
 
     s"have an input field with id option-yes " in {
@@ -88,10 +90,10 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     "generate the same template when .render and .f are called" in {
 
       val f = lossesBroughtForwardView.f(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-        "home-link", "navTitle")(fakeRequest, mockMessage)
+        "home-link", "navTitle")(fakeRequest, mockMessage, fakeLang)
 
       val render = lossesBroughtForwardView.render(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-        "home-link", "navTitle", fakeRequest, mockMessage)
+        "home-link", "navTitle", fakeRequest, mockMessage, fakeLang)
 
       f shouldBe render
     }
@@ -100,7 +102,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "Losses Brought Forward view with pre-selected value of yes" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "Yes")))
     lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage)
+      "home", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
@@ -111,7 +113,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "Losses Brought Forward view with pre-selected value of no" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "No")))
     lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage)
+      "home", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
@@ -122,7 +124,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "Losses Brought Forward view with errors" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "")))
     lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage)
+      "home", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the page" in {

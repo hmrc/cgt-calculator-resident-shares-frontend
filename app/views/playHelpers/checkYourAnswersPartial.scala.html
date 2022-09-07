@@ -70,10 +70,10 @@
     <!--Deductions Answers Section-->
     @if(deductionAnswers.isDefined) {
 
-        @summaryOptionRowHelper("broughtForwardLosses", Messages("calc.resident.lossesBroughtForward.title", taxYear.get.taxYearSupplied), deductionAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString), displayLink = displayLinks)
+        @summaryOptionRowHelper("broughtForwardLosses", Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)), deductionAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString), displayLink = displayLinks)
 
         @{if(deductionAnswers.get.broughtForwardModel.get.option)
-            summaryNumericRowHelper("broughtForwardLossesValue", Messages("calc.resident.lossesBroughtForwardValue.title", taxYear.get.taxYearSupplied), deductionAnswers.get.broughtForwardValueModel.get.amount, Some(deductionRoutes.lossesBroughtForwardValue().toString), displayLink = displayLinks)
+            summaryNumericRowHelper("broughtForwardLossesValue", Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)), deductionAnswers.get.broughtForwardValueModel.get.amount, Some(deductionRoutes.lossesBroughtForwardValue().toString), displayLink = displayLinks)
         }
     }
 
@@ -81,11 +81,11 @@
     @if(incomeAnswers.isDefined) {
 
         @{summaryNumericRowHelper("currentIncome", if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}
-        else{Messages("calc.resident.currentIncome.question", taxYear.get.taxYearSupplied)},
+        else{Messages("calc.resident.currentIncome.question", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied))},
         incomeAnswers.get.currentIncomeModel.get.amount, Some(incomeRoutes.currentIncome().toString), displayLink = displayLinks)}
 
         @{summaryNumericRowHelper("personalAllowance", {if(isCurrentTaxYear) {Messages("calc.resident.personalAllowance.currentYearQuestion")}
-        else {Messages("calc.resident.personalAllowance.question", taxYear.get.taxYearSupplied)}},
+        else {Messages("calc.resident.personalAllowance.question", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied))}},
         incomeAnswers.get.personalAllowanceModel.get.amount, Some(incomeRoutes.personalAllowance().toString), displayLink = displayLinks)}
 
     }

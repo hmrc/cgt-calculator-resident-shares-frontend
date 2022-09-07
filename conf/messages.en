@@ -8,7 +8,7 @@ calc.base.yes = Yes
 calc.base.no = No
 calc.base.back = Back
 calc.base.optionReqError = Choose one of the options
-calc.base.externalLink = (opens in a new window)
+calc.base.externalLink = (opens in new tab)
 calc.base.change = Change
 calc.base.resident.shares.home = Calculate your Capital Gains Tax
 calc.base.govUk = GOV.UK
@@ -30,7 +30,7 @@ calc.common.date.error.beforeMinimum = Enter a date that is after 6 4 2015
 calc.common.date.fields.day = Day
 calc.common.date.fields.month = Month
 calc.common.date.fields.year = Year
-calc.common.date.hint = For example, 4 9 2016
+calc.common.date.hint = For example, 4 9 2021
 calc.common.date.error.invalidDate = Enter a real date
 calc.common.readMore = Read more
 calc.common.error.maxAmountExceeded = Enter an amount that''s {0} or less
@@ -51,7 +51,7 @@ calc.checkYourAnswers.tableHeading = You''ve told us
 calc.resident.disposalDate.invalidDayError = Enter a day
 calc.resident.disposalDate.invalidMonthError = Enter a month
 calc.resident.disposalDate.invalidYearError = Enter a year
-calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2015
+calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2020
 
 ## Outside Tax Years messages
 calc.resident.outsideTaxYears.title = The date you''ve entered isn''t supported by this calculator
@@ -83,7 +83,7 @@ calc.resident.lossesBroughtForward.helpInfo.subtitle = They''re losses you''ve m
 calc.resident.lossesBroughtForward.helpInfo.point1 = are covered by Capital Gains Tax
 calc.resident.lossesBroughtForward.helpInfo.point2 = you''ve declared within 4 years of making the loss
 calc.resident.lossesBroughtForward.helpInfo.point3 = you haven''t already used to reduce the amount of Capital Gains Tax you had to pay
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before 2015/16
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before 2015 to 2016
 calc.resident.lossesBroughtForward.helpButton = Show me an example
 
 
@@ -97,7 +97,7 @@ calc.resident.currentIncome.questionCurrentYear = How much do you expect your in
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
-calc.resident.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
+calc.resident.personalAllowance.list.title = In the tax year {0} the UK Personal Allowance was £{1} unless you:
 calc.resident.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
 calc.resident.personalAllowance.list.one = earned more than £100,000
 calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
@@ -199,7 +199,7 @@ calc.summary.ratesHelp = These rates are based on your Income Tax bands:
 calc.summary.dismissBanner = No thanks
 calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
 calc.summary.userResearchLink.title = Help improve GOV.UK
-calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
+calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new tab)
 
 #WhatToDoNext
 calc.whatToDoNext.title = What happens next
