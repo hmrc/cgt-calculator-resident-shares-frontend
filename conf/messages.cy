@@ -176,7 +176,7 @@ calc.summary.remainingDeductions.lossesToCarryForward = Y colledion y gallwch eu
 calc.summary.startAgain = Dechrau eto
 
 calc.summary.whatToDoNext.details = Cyn i chi fynd yn eich blaen, cadwch gopi o''ch cyfrifiad. Bydd angen hwn arnoch pan fyddwch yn rhoi gwybod am eich Treth Enillion Cyfalaf.
-calc.summary.whatToDoNext.heading = Yr hyn i''w wneud nesaf
+calc.summary.whatToDoNext.heading = Yr hyn sy''n digwydd nesaf
 
 calc.whatToDoNext.finish = Yn ôl i GOV.UK
 calc.whatToDoNext.fourAEA.information = Bydd yn rhaid i chi roi gwybod am eich ffigurau Treth Enillion Cyfalaf drwy Hunanasesiad.
