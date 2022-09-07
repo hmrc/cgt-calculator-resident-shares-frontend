@@ -202,10 +202,10 @@ calc.summary.userResearchLink.title = Help improve GOV.UK
 calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new tab)
 
 #WhatToDoNext
-calc.whatToDoNext.title = What to do next
+calc.whatToDoNext.title = What happens next
 calc.whatToDoNext.finish = Return to GOV.UK
 calc.whatToDoNext.reportNow = Report now
-calc.yourOptions.title = Your options
+calc.yourOptions.title = Your options for reporting your Capital Gains Tax
 
 calc.whatToDoNext.fourAEA.information = You''ll have to report your Capital Gains Tax figures through Self Assessment.
 calc.whatToDoNext.fourAEA.youMustDoThis = You must do this, even though there''s no tax to pay.
@@ -224,14 +224,14 @@ calc.whatToDoNext.gain.reportNowInfo = To report now you''ll need a Government G
 calc.whatToDoNext.exitSurveyMessage = If you do not wish to report capital gains at this time, you can exit now or
 calc.whatToDoNext.exitSurveyLink = leave feedback for the CGT calculator service (takes 2 minutes)
 ## What Next Non-SA Gain messages
-calc.resident.whatNextNonSa.gain.title = What to do next
+calc.resident.whatNextNonSa.gain.title = What happens next
 calc.resident.whatNextNonSa.gain.reportNow = Report now
 calc.resident.whatNextNonSa.gain.govUk = Return to GOV.UK
 calc.resident.whatNextNonSa.gain.detailsOne = Use our online form to report and pay your Capital Gains Tax.
 calc.resident.whatNextNonSa.gain.detailsTwo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
 
 ## What Next Non-SA Loss messages
-calc.resident.whatNextNonSa.loss.title = What to do next
+calc.resident.whatNextNonSa.loss.title = What happens next
 calc.resident.whatNextNonSa.loss.reportNow = Report now
 calc.resident.whatNextNonSa.loss.govUk = Return to GOV.UK
 calc.resident.whatNextNonSa.loss.detailsOne = If you''ve made a loss that you''d like to use against any future Capital Gains Tax, you can report it using our online form.
