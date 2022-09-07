@@ -23,7 +23,6 @@ object AppDependencies {
   val bootstrapVersion         = "5.24.0"
   val playFrontendVersion      = "0.88.0-play-28"
   val govUKTemplateVersion     = "5.77.0-play-28"
-  val playUiVersion            = "9.10.0-play-28"
   val playPartialsVersion      = "8.3.0-play-28"
   val httpCachingClientVersion = "9.6.0-play-28"
   val play2PdfVersion          = "1.10.0"
@@ -34,7 +33,6 @@ object AppDependencies {
     "uk.gov.hmrc" %% "bootstrap-frontend-play-28" % bootstrapVersion,
     "uk.gov.hmrc" %% "play-frontend-hmrc"   % playFrontendVersion,
     "uk.gov.hmrc" %% "govuk-template" % govUKTemplateVersion,
-    "uk.gov.hmrc" %% "play-ui" % playUiVersion,
     "uk.gov.hmrc" %% "play-partials" % playPartialsVersion,
     "uk.gov.hmrc" %% "http-caching-client" % httpCachingClientVersion,
     "it.innove" % "play2-pdf" % play2PdfVersion exclude("com.typesafe.play","*"),

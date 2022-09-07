@@ -23,7 +23,7 @@ import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
-import views.html.helpers.resident.summaryDateRowHelper
+import views.html.playHelpers.resident.summaryDateRowHelper
 
 class SummaryDateRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper{
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
@@ -34,71 +34,6 @@ class SummaryDateRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplica
   lazy val doc = Jsoup.parse(row.body)
 
   "The Summary Date Row Helper" should {
-
-    "have an outer div" which {
-
-      lazy val outerDiv = doc.select("div#testID")
-
-      "has the id 'testID" in {
-        outerDiv.attr("id") shouldBe "testID"
-      }
-
-      "has the class 'grid-layout'" in {
-        outerDiv.hasClass("grid-layout") shouldBe true
-      }
-
-      "has the class 'grid-layout--stacked'" in {
-        outerDiv.hasClass("grid-layout--stacked") shouldBe true
-      }
-
-      "has the class 'form-group'" in {
-        outerDiv.hasClass("form-group") shouldBe true
-      }
-    }
-
-    "have an inner question div" which {
-
-      lazy val questionDiv = doc.select("div#testID-question")
-
-      "has the id 'testID-question" in {
-        questionDiv.attr("id") shouldBe "testID-question"
-      }
-
-      "has the class 'grid-layout__column'" in {
-        questionDiv.hasClass("grid-layout__column") shouldBe true
-      }
-
-      "has the class 'grid-layout__column--1-2'" in {
-        questionDiv.hasClass("grid-layout__column--1-2") shouldBe true
-      }
-
-      "has the text 'testQ'" in {
-        questionDiv.text shouldBe "testQ"
-      }
-
-    }
-
-    "have an inner date div" which {
-
-      lazy val amountDiv = doc.select("div#testID-date")
-
-      "has the id 'testID-date" in {
-        amountDiv.attr("id") shouldBe "testID-date"
-      }
-
-      "has the class 'grid-layout__column'" in {
-        amountDiv.hasClass("grid-layout__column") shouldBe true
-      }
-
-      "has the class 'grid-layout__column--1-2'" in {
-        amountDiv.hasClass("grid-layout__column--1-2") shouldBe true
-      }
-
-      "has a span with the text '12 September 1990'" in {
-        amountDiv.text shouldBe "12 September 1990"
-      }
-
-    }
 
     s"if given data that includes a change link " should {
 
@@ -115,8 +50,8 @@ class SummaryDateRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplica
           link.text shouldBe commonMessages.change + " testQ"
         }
 
-        "has the question visually hidden as part of the link" in {
-          link.select("span.visuallyhidden").text shouldBe "testQ"
+        "has the question govuk visually hidden as part of the link" in {
+          link.select("span.govuk-visually-hidden").text shouldBe "testQ"
         }
       }
     }

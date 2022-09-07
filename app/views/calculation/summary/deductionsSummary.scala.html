@@ -14,8 +14,6 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers.resident._
-@import views.html.helpers._
 @import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.shares._
@@ -24,8 +22,7 @@
 @import constructors.CalculateRequestConstructor._
 @import controllers.routes.{GainController => gainRoutes}
 @import controllers.routes.{DeductionsController => deductionRoutes}
-@import uk.gov.hmrc.play.views.helpers.MoneyPounds
-@import views.html.calculation._
+@import common.resident.MoneyPounds
 
 @this(
     layout: Layout,
