@@ -21,6 +21,7 @@ import org.jsoup.Jsoup
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 import assets.MessageLookup.Resident.Shares.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import assets.{MessageLookup => allMessages}
 import assets.ModelsAsset._
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
@@ -76,6 +77,43 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   "have a section for the check your answers" in {
     doc.select("section").attr("id") shouldBe "yourAnswers"
+  }
+
+  "have a row for dates" which {
+
+    "has the correct text" in {
+      lazy val questionDiv = doc.select("#disposalDate-question")
+      questionDiv.text shouldBe assets.MessageLookup.SharesDisposalDate.question
+    }
+
+    "has the correct value" in {
+      lazy val amountDiv = doc.select("#disposalDate-date")
+      amountDiv.text shouldBe "10 October 2016"
+    }
+  }
+
+  "have a row for numeric values" which {
+    "has the correct text" in {
+      lazy val questionDiv = doc.select("#disposalValue-question")
+      questionDiv.text shouldBe allMessages.Resident.Shares.SharesSummaryMessages.disposalValueQuestion
+    }
+    "has the correct value" in {
+      lazy val amountDiv = doc.select("#disposalValue-amount")
+      amountDiv.text shouldBe "£200,000"
+
+    }
+  }
+
+  "have a row for option values" which {
+    "has the correct text" in {
+      lazy val questionDiv = doc.select("#soldForLessThanWorth-question")
+      questionDiv.text shouldBe allMessages.Resident.Shares.SellForLess.title
+    }
+    "has the correct value" in {
+      lazy val amountDiv = doc.select("#soldForLessThanWorth-option")
+      amountDiv.text shouldBe "No"
+
+    }
   }
 
   "have a form" which {

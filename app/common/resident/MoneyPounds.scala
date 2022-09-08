@@ -1,5 +1,5 @@
-@*
- * Copyright 2021 HM Revenue & Customs
+/*
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,12 +12,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *@
+ */
 
-@this()
+package common.resident
 
-@(sectionTitle: String)(implicit messages: Messages)
+case class MoneyPounds(value: BigDecimal, decimalPlaces: Int = 2, roundUp: Boolean = false) {
 
-<h2 class="heading-large summary-underline">
-    @sectionTitle
-</h2>
+  def isNegative = value < 0
+
+  def quantity =
+    s"%,.${decimalPlaces}f".format(
+      value
+        .setScale(decimalPlaces, if (roundUp) BigDecimal.RoundingMode.CEILING else BigDecimal.RoundingMode.FLOOR)
+        .abs
+    )
+}

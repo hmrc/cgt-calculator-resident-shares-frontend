@@ -47,20 +47,20 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
         doc.title shouldBe messages.title
       }
 
-      "have a dynamic navTitle of navTitle" in {
-        doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+      "have a navTitle" in {
+        doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a home link to 'home-link'" in {
-        doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
+        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
-      s"have a heading of ${messages.title}" in {
-        doc.select("h1").text() shouldBe messages.title
+      s"have a heading of ${messages.heading}" in {
+        doc.select("h1").text() shouldBe messages.heading
       }
 
       s"have a message of ${messages.tooEarly}" in {
-        doc.select("p.lede").text() shouldBe messages.tooEarly
+        doc.select("p.govuk-body").text() shouldBe messages.tooEarly
       }
 
       "have a 'Change your date' link that" should {
@@ -70,8 +70,8 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
           backLink.text shouldBe messages.changeDate
         }
 
-        "have the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+        "have the govuk-body govuk-link class" in {
+          backLink.hasClass("govuk-body govuk-link") shouldBe true
         }
 
         "have a link to 'back-link'" in {
@@ -105,12 +105,12 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
         doc.title shouldBe messages.title
       }
 
-      s"have a heading of ${messages.title}" in {
-        doc.select("h1").text() shouldBe messages.title
+      s"have a heading of ${messages.heading}" in {
+        doc.select("h1").text() shouldBe messages.heading
       }
 
       s"have a message of ${messages.content("2016/17")}" in {
-        doc.select("p.lede").text() shouldBe messages.content("2016/17")
+        doc.select("p.govuk-body").text() shouldBe messages.content("2016/17")
       }
 
       "have a back link that" should {
@@ -120,8 +120,8 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
           backLink.text shouldBe commonMessages.back
         }
 
-        "have the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+        "have the govuk-back-link class" in {
+          backLink.hasClass("govuk-back-link") shouldBe true
         }
 
         "have a link to 'back-link'" in {
@@ -148,7 +148,7 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a message of ${messages.sharesTooEarly}" in {
-        doc.select("p.lede").text() shouldBe messages.sharesTooEarly
+        doc.select("p.govuk-body").text() shouldBe messages.sharesTooEarly
       }
     }
   }

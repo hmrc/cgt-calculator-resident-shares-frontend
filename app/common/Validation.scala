@@ -21,7 +21,7 @@ import java.time.{LocalDate, ZonedDateTime}
 import common.Dates.constructDate
 import models.resident.DisposalDateModel
 import play.api.data.validation.{Invalid, ValidationError, _}
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import common.resident.MoneyPounds
 
 import scala.util.{Failure, Success, Try}
 

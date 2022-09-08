@@ -20,7 +20,7 @@ import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-import views.html.helpers.resident.summaryGainAndRateHelper
+import views.html.playHelpers.resident.summaryGainAndRateHelper
 
 class SummaryGainAndRateHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

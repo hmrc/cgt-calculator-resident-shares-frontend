@@ -26,7 +26,7 @@ import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import views.html.helpers.checkYourAnswersPartial
+import views.html.playHelpers.checkYourAnswersPartial
 import play.twirl.api.HtmlFormat
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
@@ -60,8 +60,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#disposalDate-change-link a").text shouldBe s"${commonMessages.change} ${sharesSummaryMessages.disposalDateQuestion}"
       }
 
-      "has the question component of the link is visuallyhidden" in {
-        doc.select("#disposalDate-change-link a span.visuallyhidden").text shouldBe sharesSummaryMessages.disposalDateQuestion
+      "has the question component of the link is govuk-visually-hidden" in {
+        doc.select("#disposalDate-change-link a span.govuk-visually-hidden").text shouldBe sharesSummaryMessages.disposalDateQuestion
       }
     }
 
@@ -164,8 +164,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
     "has an option output row for brought forward losses" which {
 
-      s"should have the question text '${baseMessages.LossesBroughtForward.title("2015/16")}'" in {
-        doc.select("#broughtForwardLosses-question").text shouldBe baseMessages.LossesBroughtForward.question("2015/16")
+      s"should have the question text '${baseMessages.LossesBroughtForward.question("2015 to 2016")}'" in {
+        doc.select("#broughtForwardLosses-question").text shouldBe baseMessages.LossesBroughtForward.question("2015 to 2016")
       }
 
       "should have the value 'Yes'" in {
@@ -177,18 +177,18 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
       }
 
       "has the question as part of the link" in {
-        doc.select("#broughtForwardLosses-change-link a").text shouldBe s"${commonMessages.change} ${baseMessages.LossesBroughtForward.question("2015/16")}"
+        doc.select("#broughtForwardLosses-change-link a").text shouldBe s"${commonMessages.change} ${baseMessages.LossesBroughtForward.question("2015 to 2016")}"
       }
 
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#broughtForwardLosses-change-link a span.visuallyhidden").text shouldBe baseMessages.LossesBroughtForward.question("2015/16")
+      "has the question component of the link as govuk-visually-hidden" in {
+        doc.select("#broughtForwardLosses-change-link a span.govuk-visually-hidden").text shouldBe baseMessages.LossesBroughtForward.question("2015 to 2016")
       }
     }
 
     "has a numeric output row for brought forward losses value" which {
 
-      s"should have the question text '${baseMessages.LossesBroughtForwardValue.question("2015/16")}'" in {
-        doc.select("#broughtForwardLossesValue-question").text shouldBe baseMessages.LossesBroughtForwardValue.question("2015/16")
+      s"should have the question text '${baseMessages.LossesBroughtForwardValue.question("2015 to 2016")}'" in {
+        doc.select("#broughtForwardLossesValue-question").text shouldBe baseMessages.LossesBroughtForwardValue.question("2015 to 2016")
       }
 
       "should have the value '£10,000'" in {
@@ -202,8 +202,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
     "has a numeric output row for current income" which {
 
-      s"should have the question text '${baseMessages.CurrentIncome.title("2015/16")}'" in {
-        doc.select("#currentIncome-question").text shouldBe baseMessages.CurrentIncome.question("2015/16")
+      s"should have the question text '${baseMessages.CurrentIncome.title("2015 to 2016")}'" in {
+        doc.select("#currentIncome-question").text shouldBe baseMessages.CurrentIncome.question("2015 to 2016")
       }
 
       "should have the value '£0'" in {
@@ -217,8 +217,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
     "has a numeric output row for personal allowance" which {
 
-      s"should have the question text '${baseMessages.PersonalAllowance.question("2015/16")}'" in {
-        doc.select("#personalAllowance-question").text shouldBe baseMessages.PersonalAllowance.question("2015/16")
+      s"should have the question text '${baseMessages.PersonalAllowance.question("2015 to 2016")}'" in {
+        doc.select("#personalAllowance-question").text shouldBe baseMessages.PersonalAllowance.question("2015 to 2016")
       }
 
       "should have the value '£0'" in {
@@ -266,8 +266,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
           s"${sharesMessages.WorthWhenSoldForLess.question}"
       }
 
-      "has the question component of the link as visuallyhidden" in {
-        doc.select("#worthWhenSoldForLess-change-link a span.visuallyhidden").text shouldBe
+      "has the question component of the link as govuk-visually-hidden" in {
+        doc.select("#worthWhenSoldForLess-change-link a span.govuk-visually-hidden").text shouldBe
           sharesMessages.WorthWhenSoldForLess.question
       }
     }
