@@ -28,12 +28,12 @@ object DisposalCostsForm {
   lazy val disposalCostsForm = Form(
     mapping(
       "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+        .verifying("calc.resident.shares.disposalCosts.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.shares.disposalCosts.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.disposalCosts.error.minimumAmount", isPositive)
+        .verifying("calc.resident.shares.disposalCosts.error.invalidAmount", decimalPlacesCheck)
     )(DisposalCostsModel.apply)(DisposalCostsModel.unapply)
   )
 }

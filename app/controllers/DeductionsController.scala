@@ -21,30 +21,33 @@ import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.LossesBroughtForwardForm._
-import forms.LossesBroughtForwardValueForm._
+import forms.LossesBroughtForwardValueForm
+
 import javax.inject.Inject
 import models.resident._
 import models.resident.shares.GainAnswersModel
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Lang, Messages}
-import play.api.mvc.{Call, MessagesControllerComponents, Request, Result}
+import play.api.mvc.{Action, AnyContent, Call, MessagesControllerComponents, Request, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
-import scala.concurrent.{ExecutionContext, Future}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      sessionCacheConnector: SessionCacheConnector,
                                      sessionCacheService: SessionCacheService,
                                      mcc: MessagesControllerComponents,
+                                     lossesBroughtForwardValueForm: LossesBroughtForwardValueForm,
                                      lossesBroughtForwardView: lossesBroughtForward,
                                      lossesBroughtForwardValueView: lossesBroughtForwardValue)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  override val homeLink = routes.GainController.disposalDate().url
-  override val sessionTimeoutUrl = homeLink
+  override val homeLink: String = routes.GainController.disposalDate().url
+  override val sessionTimeoutUrl: String = homeLink
   def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
 
 
@@ -88,7 +91,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
 
   val lossesBroughtForwardBackUrl: String = controllers.routes.GainController.acquisitionCosts().url
 
-  val lossesBroughtForward = ValidateSession.async { implicit request =>
+  val lossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
       implicit val lang: Lang = messagesApi.preferred(request).lang
@@ -108,7 +111,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
     } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
-  val submitLossesBroughtForward = ValidateSession.async { implicit request =>
+  val submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       implicit val lang: Lang = messagesApi.preferred(request).lang
@@ -143,12 +146,15 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
   private val lossesBroughtForwardValueBackLink: String = routes.DeductionsController.lossesBroughtForward().url
   private val lossesBroughtForwardValuePostAction: Call = routes.DeductionsController.submitLossesBroughtForwardValue()
 
-  val lossesBroughtForwardValue = ValidateSession.async { implicit request =>
+  val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    def retrieveKeystoreData(): Future[Form[LossesBroughtForwardValueModel]] = {
+    def retrieveKeystoreData(taxYear: TaxYearModel): Future[Form[LossesBroughtForwardValueModel]] = {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
+      val form: Form[LossesBroughtForwardValueModel] = lossesBroughtForwardValueForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
+
       sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue).map {
-        case Some(data) => lossesBroughtForwardValueForm.fill(data)
-        case _ => lossesBroughtForwardValueForm
+        case Some(data) => form.fill(data)
+        case _ => form
       }
     }
 
@@ -167,14 +173,27 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
       disposalDate <- getDisposalDate
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
-      formData <- retrieveKeystoreData()
+      formData <- retrieveKeystoreData(taxYear.get)
       route <- routeRequest(taxYear.get, formData)
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
   }
 
-  val submitLossesBroughtForwardValue = ValidateSession.async { implicit request =>
+  val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
     implicit val lang: Lang = messagesApi.preferred(request).lang
-    lossesBroughtForwardValueForm.bindFromRequest.fold(
+    val taxYearFuture: Future[Option[TaxYearModel]] = for {
+      disposalDate <- getDisposalDate
+      disposalDateString <- formatDisposalDate(disposalDate.get)
+      taxYear <- calcConnector.getTaxYear(disposalDateString)
+    } yield taxYear
+
+    val taxYear = Await.result(
+      taxYearFuture,
+      Duration.Inf
+    ).get
+
+    val form = lossesBroughtForwardValueForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
+
+    form.bindFromRequest.fold(
       errors => {
         for {
           disposalDate <- getDisposalDate

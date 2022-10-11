@@ -19,21 +19,32 @@ package forms
 import common.Constants
 import common.Transformers._
 import common.Validation._
+import models.resident.TaxYearModel
+
+import javax.inject.Inject
 import models.resident.income.CurrentIncomeModel
+import play.api.Logging
 import play.api.data.Forms._
 import play.api.data._
+import play.api.i18n.{Lang, MessagesApi}
+import uk.gov.hmrc.time.TaxYear
 
-object CurrentIncomeForm {
+class CurrentIncomeForm @Inject()(implicit val messagesApi: MessagesApi) extends Logging {
 
-  lazy val currentIncomeForm = Form(
-    mapping(
-      "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
-        .transform[BigDecimal](stringToBigDecimal, _.toString())
-        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
-    )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)
-  )
+  def apply(taxYear: String, lang: Lang): Form[CurrentIncomeModel] = {
+    val question =  if(taxYear == TaxYearModel.convertWithWelsh(TaxYear.current.startYear.toString)(lang)) "questionCurrentYear" else "question"
+
+    Form(
+      mapping(
+        "amount" -> text
+          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.mandatoryAmount", taxYear)(lang), mandatoryCheck)
+          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear)(lang), bigDecimalCheck)
+          .transform[BigDecimal](stringToBigDecimal, _.toString())
+          .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
+          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.minimumAmount", taxYear)(lang), isPositive)
+          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear)(lang), decimalPlacesCheck)
+      )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)
+    )
+  }
+
 }

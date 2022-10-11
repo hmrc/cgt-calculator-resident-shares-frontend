@@ -20,9 +20,10 @@ import assets.MessageLookup.{LossesBroughtForwardValue => messages, Resident => 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.LossesBroughtForwardValueForm._
-import models.resident.TaxYearModel
+import forms.LossesBroughtForwardValueForm
+import models.resident.{LossesBroughtForwardValueModel, TaxYearModel}
 import org.jsoup.Jsoup
+import play.api.data.Form
 import play.api.i18n.Lang
 import views.html.calculation.deductions.lossesBroughtForwardValue
 import play.api.mvc.MessagesControllerComponents
@@ -31,8 +32,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val fakeLang: Lang = Lang("en")
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val lossesBroughtForwardValueView: lossesBroughtForwardValue = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
+
+  val injectedForm: LossesBroughtForwardValueForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
+  val lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel] = injectedForm("2022", fakeLang)
 
   "Losses Brought Forward Value view" when {
 

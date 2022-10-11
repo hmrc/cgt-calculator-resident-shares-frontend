@@ -21,22 +21,25 @@ import common.Validation._
 import models.resident.income.PersonalAllowanceModel
 import play.api.data.Forms._
 import play.api.data._
+import play.api.i18n.{Lang, MessagesApi}
 
-object PersonalAllowanceForm {
+import javax.inject.Inject
+
+class PersonalAllowanceForm @Inject()(implicit val messagesApi: MessagesApi) {
 
   def validateMaxPA (maxPersonalAllowance: BigDecimal): BigDecimal => Boolean = {
     input => if(input > maxPersonalAllowance) false else true
   }
 
-  def personalAllowanceForm(maxPA: BigDecimal = BigDecimal(0)): Form[PersonalAllowanceModel] = Form(
+  def apply(maxPA: BigDecimal = BigDecimal(0), taxYear: String, lang: Lang): Form[PersonalAllowanceModel] = Form(
     mapping(
       "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmountNoDecimal", bigDecimalCheck)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.mandatoryAmount", taxYear)(lang), mandatoryCheck)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(lang), bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, _.toString())
         .verifying(maxMonetaryValueConstraint(maxPA))
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmountNoDecimal", decimalPlacesCheckNoDecimal)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.minimumAmount", taxYear)(lang), isPositive)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(lang), decimalPlacesCheckNoDecimal)
     )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)
   )
 
