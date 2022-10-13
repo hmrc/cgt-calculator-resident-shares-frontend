@@ -100,7 +100,7 @@ calc.resident.shares.acquisitionValue.error.minimumAmount = Mae''n rhaid i faint
 calc.resident.shares.currentIncome.helpText = Dylech gynnwys eich cyflog cyn treth, ac unrhyw beth arall rydych yn talu treth incwm arno, ond nid yr arian a wnaethoch wrth werthu''r cyfranddaliadau.
 calc.resident.currentIncome.question.error.mandatoryAmount = Nodwch eich incwm ar gyfer blwyddyn dreth {0}
 calc.resident.currentIncome.question.error.invalidAmount = Mae''n rhaid i''ch incwm ar gyfer blwyddyn dreth {0} fod yn y fformat cywir, megis 10000.00
-calc.resident.currentIncome.question.error.minimumAmount = Mae''n rhaid i''ch incwm ar gyfer blwyddyn dreth {0} fod yn £0 neu’n fwy
+calc.resident.currentIncome.question.error.minimumAmount = Mae''n rhaid i''ch incwm ar gyfer blwyddyn dreth {0} fod yn £0 neu''n fwy
 
 calc.resident.shares.didYouInheritThem.errorSelect = Rhowch wybod i ni a wnaethoch etifeddu''r cyfranddaliadau
 calc.resident.shares.didYouInheritThem.question = A wnaethoch etifeddu''r cyfranddaliadau?
