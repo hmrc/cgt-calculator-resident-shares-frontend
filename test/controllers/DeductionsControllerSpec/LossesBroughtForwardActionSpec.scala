@@ -26,6 +26,7 @@ import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.DeductionsController
 import controllers.helpers.FakeRequestHelper
+import forms.LossesBroughtForwardValueForm
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
@@ -53,6 +54,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val lossesBroughForwardValueForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
   val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
   val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
 
@@ -92,7 +94,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
 
       )
 
-    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardView, lossesBroughtForwardValueView)
+    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {

@@ -17,17 +17,21 @@
 package forms
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.CurrentIncomeForm._
 import models.resident.income.CurrentIncomeModel
+import play.api.data.Form
+import play.api.i18n.{Lang, MessagesApi}
 
 class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 
+  lazy val injectedForm: CurrentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
+  lazy val currentIncomeForm: Form[CurrentIncomeModel] = injectedForm("2022", Lang("en"))
+  lazy val messagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
+
   "Creating a form using an empty model" should {
 
-    lazy val form = currentIncomeForm
 
     "return an empty string for amount" in {
-      form.data.isEmpty shouldBe true
+      currentIncomeForm.data.isEmpty shouldBe true
     }
   }
 
@@ -56,7 +60,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.mandatoryAmount", "2022")(Lang("en"))
       }
     }
 
@@ -74,7 +78,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.mandatoryAmount", "2022")(Lang("en"))
       }
     }
 
@@ -91,7 +95,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidAmount", "2022")(Lang("en"))
       }
     }
 
@@ -108,7 +112,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidAmount", "2022")(Lang("en"))
       }
     }
 
@@ -142,7 +146,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.minimumAmount", "2022")(Lang("en"))
       }
     }
   }

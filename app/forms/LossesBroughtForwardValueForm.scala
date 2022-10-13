@@ -22,18 +22,21 @@ import common.Validation._
 import models.resident.LossesBroughtForwardValueModel
 import play.api.data.Forms._
 import play.api.data._
+import play.api.i18n.{Lang, MessagesApi}
 
-object LossesBroughtForwardValueForm {
+import javax.inject.Inject
 
-  lazy val lossesBroughtForwardValueForm = Form(
+class LossesBroughtForwardValueForm @Inject()(implicit val messagesApi: MessagesApi) {
+
+  def apply(year: String, lang: Lang): Form[LossesBroughtForwardValueModel] = Form(
     mapping(
       "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", year)(lang), mandatoryCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(lang), bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.minimumAmount", year)(lang), isPositive)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(lang), decimalPlacesCheck)
     )(LossesBroughtForwardValueModel.apply)(LossesBroughtForwardValueModel.unapply)
   )
 

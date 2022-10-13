@@ -21,7 +21,7 @@ import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.CurrentIncomeForm._
+import forms.CurrentIncomeForm
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
@@ -34,6 +34,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
   val fakeLang: Lang = Lang("en")
+  val injectedForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
+  val currentIncomeForm = injectedForm("2022", fakeLang)
 
   "Current Income view" should {
 

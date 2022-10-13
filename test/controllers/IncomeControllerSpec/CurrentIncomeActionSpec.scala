@@ -24,6 +24,7 @@ import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.IncomeController
 import controllers.helpers.FakeRequestHelper
+import forms.{CurrentIncomeForm, PersonalAllowanceForm}
 import models.resident._
 import models.resident.income._
 import org.jsoup.Jsoup
@@ -53,7 +54,9 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     val mockCalcConnector = mock[CalculatorConnector]
     val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+    val personalAllowanceForm = fakeApplication.injector.instanceOf[PersonalAllowanceForm]
     val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
+    val currentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
     val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
 
     when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel]
@@ -78,7 +81,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       )
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceView, currentIncomeView)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceForm, personalAllowanceView,  currentIncomeForm, currentIncomeView)
   }
 
   "Calling .currentIncome from the IncomeController with a session" when {

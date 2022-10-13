@@ -46,7 +46,7 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"return a form with the error message ${messages.mandatoryAmount}" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionValue.error.mandatoryAmount"
       }
     }
 
@@ -58,7 +58,7 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"return a form with the error message ${messages.invalidAmount}" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionValue.error.invalidAmount"
       }
     }
 
@@ -82,7 +82,7 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"return a form with the error message ${messages.minimumAmount}" in {
-        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionValue.error.minimumAmount"
       }
     }
 
@@ -94,7 +94,7 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"return a form with the error message ${messages.invalidAmount}" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionValue.error.invalidAmount"
       }
     }
   }
