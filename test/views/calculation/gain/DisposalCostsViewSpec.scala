@@ -101,19 +101,12 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         s"has a p with the text ${messages.jointOwnership}" in {
           doc.getElementsByClass("govuk-inset-text").text shouldBe messages.jointOwnership
         }
-
-        "has help text that" should {
-
-          s"have the text ${messages.helpText}" in {
-            doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpText
-          }
-        }
       }
 
       "has help text that" should {
 
         s"have the text ${messages.helpText}" in {
-          doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpText
+          doc.body.getElementsByClass("govuk-body").text shouldBe messages.helpText
         }
       }
 

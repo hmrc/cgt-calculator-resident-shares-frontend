@@ -84,7 +84,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     "has help text that" should {
 
       s"have the text ${Messages.helpText}" in {
-        doc.body.getElementsByClass("govuk-hint").text shouldBe Messages.helpText
+        doc.body.getElementsByClass("govuk-body").text shouldBe Messages.helpText
       }
     }
 

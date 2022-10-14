@@ -106,7 +106,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       "has help text that" should {
 
         s"have the text ${messages.helpText}" in {
-          doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpText
+          doc.body.getElementsByClass("govuk-body").text shouldBe messages.helpText
         }
       }
 

@@ -99,7 +99,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
         "has help text that" should {
 
           s"have the text ${messages.helpText}" in {
-            doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpText
+            doc.select("#main-content > div > div > p:nth-child(3)").text shouldBe messages.helpText
           }
         }
 
