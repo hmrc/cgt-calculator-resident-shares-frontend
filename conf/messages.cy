@@ -15,7 +15,7 @@ calc.base.resident.shares.home = Cyfrifo''ch Treth Enillion Cyfalaf
 calc.base.yes = Iawn
 calc.base.period = .
 
-calc.checkYourAnswers.tableHeading = Rydych wedi rhoi gwybod i ni am:
+calc.checkYourAnswers.tableHeading = Rydych wedi rhoi gwybod i ni
 calc.checkYourAnswers.title = Gwirio''ch atebion
 
 calc.common.date.error.beforeMinimum = Nodwch ddyddiad sydd ar ôl 6 4 2015
@@ -50,9 +50,9 @@ calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat 
 calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015 i 2016
 calc.resident.lossesBroughtForward.helpInfo.point1 = a gwmpesir gan Dreth Enillion Cyfalaf
 calc.resident.lossesBroughtForward.helpInfo.point2 = rydych wedi''u datgan cyn pen 4 blynedd ar ôl gwneud y golled
-calc.resident.lossesBroughtForward.helpInfo.point3 = nad ydych eisoes wedi''u defnyddio i ostwng swm y Dreth Enillion Cyfalaf yr oedd yn rhaid i chi''i dalu
-calc.resident.lossesBroughtForward.helpInfo.subtitle = Maent yn golledion rydych wedi''u gwneud:
-calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEM amdanynt.
+calc.resident.lossesBroughtForward.helpInfo.point3 = nad ydych eisoes wedi''u defnyddio i ostwng swm y Dreth Enillion Cyfalaf yr oedd yn rhaid i chi ei dalu
+calc.resident.lossesBroughtForward.helpInfo.subtitle = Maent yn golledion rydych wedi''u gwneud ac:
+calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEF amdanynt.
 calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForward.helpButton = Rhowch enghraifft i mi
@@ -66,7 +66,7 @@ calc.resident.lossesBroughtForwardValue.error.minimumAmount = Mae''n rhaid i gyf
 calc.resident.outsideTaxYears.changeDate = Newid eich dyddiad
 calc.resident.outsideTaxYears.message = Gallwch barhau i''w defnyddio, ond byddwn yn defnyddio''r cyfraddau treth o''r flwyddyn dreth {0}.
 calc.resident.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu eiddo ers 5 Ebrill 2015.
-calc.resident.outsideTaxYears.title = Nid yw''r gyfrifiannell hon yn cefnogi''r dyddiad rydych wedi''i nodi
+calc.resident.outsideTaxYears.title = Nid yw''r gyfrifiannell hon yn cefnogi''r dyddiad rydych wedi''i roi
 
 calc.resident.personalAllowance.currentYearQuestion = Faint yw''ch Lwfans Personol?
 calc.resident.personalAllowance.help = Dyma swm eich incwm nad ydych yn talu treth arno.
@@ -170,7 +170,7 @@ calc.resident.whatNextNonSa.gain.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.gain.reportNow = Rhowch wybod nawr
 calc.resident.whatNextNonSa.gain.title = Yr hyn sy''n digwydd nesaf
 
-calc.resident.whatNextNonSa.loss.detailsOne = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn Treth Enillion Cyfalaf yn y dyfodol, gallwch roi gwybod amdani gan ddefnyddio ein ffurflen ar-lein.
+calc.resident.whatNextNonSa.loss.detailsOne = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn unrhyw Dreth Enillion Cyfalaf yn y dyfodol, gallwch roi gwybod amdani gan ddefnyddio ein ffurflen ar-lein.
 calc.resident.whatNextNonSa.loss.detailsTwo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.resident.whatNextNonSa.loss.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.loss.reportNow = Rhowch wybod nawr
@@ -218,7 +218,7 @@ calc.whatToDoNext.fourAEA.youMustDoThis = Mae''n rhaid i chi wneud hyn, er nad o
 calc.whatToDoNext.gain.bulletPointOne = rhoi gwybod, a thalu, ar eich Ffurflen Dreth Hunanasesiad ar gyfer y flwyddyn dreth {0}
 calc.whatToDoNext.gain.bulletPointTwo = rhoi gwybod, a thalu, nawr gan ddefnyddio ein ffurflen ar-lein
 calc.whatToDoNext.gain.bulletTitle = Gallwch wneud un o''r canlynol:
-calc.whatToDoNext.gain.reportImportant = Os byddwch yn rhoi gwybod ac yn talu nawr, bydd dal yn rhaid i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
+calc.whatToDoNext.gain.reportImportant = Os byddwch yn rhoi gwybod ac yn talu nawr, bydd dal angen i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
 calc.whatToDoNext.gain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 calc.whatToDoNext.exitSurveyMessage = Os nad ydych am roi gwybod am enillion cyfalaf ar hyn o bryd, gallwch adael y dudalen nawr neu
 calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifiannell Treth Enillion Cyfalaf (mae''n cymryd 2 funud).
@@ -226,8 +226,8 @@ calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifianne
 
 calc.whatToDoNext.noGain.bulletPointOne = rhoi gwybod am hyn ar eich Ffurflen Dreth Hunanasesiad ar gyfer y flwyddyn dreth {0}
 calc.whatToDoNext.noGain.bulletPointTwo = rhoi gwybod am hyn nawr gan ddefnyddio ein ffurflen ar-lein
-calc.whatToDoNext.noGain.bulletTitle = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn Treth Enillion Cyfalaf yn y dyfodol, gallwch wneud un o''r canlynol:
-calc.whatToDoNext.noGain.reportImportant = Os byddwch yn rhoi gwybod am hyn nawr, bydd dal yn rhaid i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
+calc.whatToDoNext.noGain.bulletTitle = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn unrhyw Dreth Enillion Cyfalaf yn y dyfodol, gallwch wneud un o''r canlynol:
+calc.whatToDoNext.noGain.reportImportant = Os byddwch yn rhoi gwybod am hyn nawr, bydd dal angen i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
 calc.whatToDoNext.noGain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
 
 calc.whatToDoNext.reportNow = Rhowch wybod nawr
@@ -236,7 +236,7 @@ calc.yourOptions.title = Eich opsiynau ar gyfer rhoi gwybod am eich Treth Enilli
 session.timeout.message = Mae''ch sesiwn wedi dod i ben
 
 calc.summary.dismissBanner = No thanks
-calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
+calc.summary.dismissBanner.screenreader = Dydw i ddim eisiau ateb cwestiynau ynglŷn ag ymuno â''r panel ymchwil
 calc.summary.userResearchLink.title = Help improve GOV.UK
 calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new tab)
 

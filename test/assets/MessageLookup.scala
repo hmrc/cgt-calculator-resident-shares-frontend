@@ -235,7 +235,7 @@ object MessageLookup {
     object PersonalAllowance {
       val question = "What was your UK Personal Allowance in the tax year when you stopped owning the property?"
       val link = "Personal Allowances"
-      val help = "This the amount of your income that you don't pay tax on. Find out more about"
+      val help = "This the amount of your income that you do not pay tax on. Find out more about"
       val errorNegative = "Enter a positive number for your Personal Allowance"
       val errorDecimalPlaces = "Enter a whole number for your Personal Allowance"
       val errorMaxLimit = "Enter a Personal Allowance that's £"
@@ -492,13 +492,13 @@ object MessageLookup {
 
   //Outside Tax Years messages.en
   object OutsideTaxYears {
-    val title = "The date you've entered isn't supported by this calculator - Calculate your Capital Gains Tax - GOV.UK"
-    val heading = "The date you've entered isn't supported by this calculator"
-    val tooEarly = "You can use this calculator if you've sold a property since 5 April 2015."
-    val sharesTooEarly = "You can use this calculator if you've sold shares since 5 April 2015."
+    val title = "The date you have entered is not supported by this calculator - Calculate your Capital Gains Tax - GOV.UK"
+    val heading = "The date you have entered is not supported by this calculator"
+    val tooEarly = "You can use this calculator if you have sold a property since 5 April 2015."
+    val sharesTooEarly = "You can use this calculator if you have sold shares since 5 April 2015."
     val changeDate = "Change your date"
 
-    def content(year: String): String = s"You can continue to use it, but we'll use the tax rates from the $year tax year."
+    def content(year: String): String = s"You can continue to use it, but we will use the tax rates from the $year tax year."
   }
 
   //No Tax To Pay messages.en
@@ -646,16 +646,16 @@ object MessageLookup {
     val helpInfoPoint1 = "are covered by Capital Gains Tax"
     val helpInfoPoint2 = "you've declared within 4 years of making the loss"
     val helpInfoPoint3 = "you haven't already used to reduce the amount of Capital Gains Tax you had to pay"
-    val helpText = "These are unused losses that are covered by Capital Gains Tax and that you've already reported to HMRC."
+    val helpText = "These are unused losses that are covered by Capital Gains Tax and that you have already reported to HMRC."
 
     def errorSelect(input: String): String = s"Tell us if you're claiming any Capital Gains Tax losses from tax years before $input"
   }
 
   //Losses Brought Forward Value messages.en
   object LossesBroughtForwardValue {
-    def title(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
+    def title(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
 
-    def question(input: String): String = s"What's the total value of your Capital Gains Tax losses from tax years before $input?"
+    def question(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input?"
   }
 
   //Current Income messages.en
@@ -677,7 +677,7 @@ object MessageLookup {
     def title(input: String): String = s"In the $input tax year, what was your Personal Allowance? - Calculate your Capital Gains Tax - GOV.UK"
     val link = "Income tax rates and Personal Allowances"
     val linkText = "Find out more about"
-    val help = "This is the amount of your income that you don't pay tax on."
+    val help = "This is the amount of your income that you do not pay tax on."
     def listTitle(yearOne: String, yearTwo: String, value: String): String =
       s"In the tax year $yearOne to $yearTwo the UK Personal Allowance was $value unless you:"
     val listOne = "earned more than £100,000"
@@ -755,7 +755,7 @@ object MessageLookup {
 
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
 
-    val howWeWorkedThisOut = "How we've worked this out"
+    val howWeWorkedThisOut = "How we have worked this out"
     val yourTotalGain = "Your total gain"
     val yourTotalLoss = "Your total loss"
     val disposalValue = "Value when you sold the shares"
@@ -809,29 +809,29 @@ object MessageLookup {
     val yourOptionHEading = "Your options for reporting your Capital Gains Tax"
 
     object FourTimesAEA {
-      val paragraphOne = s"You'll have to report your Capital Gains Tax figures through Self Assessment."
-      val paragraphTwo = "You must do this, even though there's no tax to pay."
+      val paragraphOne = s"You will have to report your Capital Gains Tax figures through Self Assessment."
+      val paragraphTwo = "You must do this, even though there is no tax to pay."
     }
 
     object WhatNextGain {
       val bulletPointTitle = "You can either:"
       val bulletPointOne: String => String = year => s"report and pay on your Self Assessment return for the $year tax year"
       val bulletPointTwo = "report and pay now using our online form"
-      val importantInformation = s"If you report and pay now, you'll still need to declare your capital gains through Self Assessment."
+      val importantInformation = s"If you report and pay now, you will still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
-        "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+        "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
       val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
       val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
       val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
     }
 
     object WhatNextNoGain {
-      val bulletPointTitle = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can either:"
+      val bulletPointTitle = "If you have made a loss that you would like to use against any future Capital Gains Tax, you can either:"
       val bulletPointOne: String => String = year => s"report it on your Self Assessment return for the $year tax year"
       val bulletPointTwo = "report it now using our online form"
-      val importantInformation = s"If you report it now, you'll still need to declare your capital gains through Self Assessment."
+      val importantInformation = s"If you report it now, you will still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
-        "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+        "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
       val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
       val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
       val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
@@ -844,7 +844,7 @@ object MessageLookup {
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
-    val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+    val detailsTwo = "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
     val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
     val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
     val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
@@ -855,8 +855,8 @@ object MessageLookup {
     val heading = "What happens next"
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
-    val detailsOne = "If you've made a loss that you'd like to use against any future Capital Gains Tax, you can report it using our online form."
-    val detailsTwo = "To report now you'll need a Government Gateway account. If you don't already have an account, you can get one before you sign in."
+    val detailsOne = "If you have made a loss that you would like to use against any future Capital Gains Tax, you can report it using our online form."
+    val detailsTwo = "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
   }
 
   object SaUser extends Common {
