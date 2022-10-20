@@ -25,6 +25,7 @@ import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.helpers.FakeRequestHelper
 import controllers.DeductionsController
+import forms.LossesBroughtForwardValueForm
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
@@ -50,6 +51,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
   val gainModel = mock[GainAnswersModel]
   val summaryModel = mock[DeductionGainAnswersModel]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val lossesBroughtForwardValueForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
   val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
   val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
 
@@ -70,7 +72,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardView, lossesBroughtForwardValueView)
+      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm, lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "request has a valid session with no keystore data" should {
@@ -87,8 +89,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2015/16")
+      s"return a title of ${messages.title("2015 to 2016")}" in {
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2015 to 2016")
       }
 
       s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward().url}'" in {
@@ -111,8 +113,8 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title of ${messages.title("2015/15")}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2014/15")
+      s"return a title of ${messages.title("2015 to 2015")}" in {
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2014 to 2015")
       }
     }
 
@@ -166,7 +168,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
 
         )
 
-      new DeductionsController(mockCalcConnector,mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardView, lossesBroughtForwardValueView)
+      new DeductionsController(mockCalcConnector,mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "given a valid form" when {
@@ -240,7 +242,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual s"Error: ${messages.title("2015 to 2016")}"
       }
     }
   }

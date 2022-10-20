@@ -1,3 +1,5 @@
+service.name = Calculate your Capital Gains Tax
+
 ## Base ##
 calc.base.continue = Continue
 calc.base.calculate.tax.heading = Calculate your Capital Gains Tax
@@ -6,7 +8,7 @@ calc.base.yes = Yes
 calc.base.no = No
 calc.base.back = Back
 calc.base.optionReqError = Choose one of the options
-calc.base.externalLink = (opens in a new window)
+calc.base.externalLink = (opens in new tab)
 calc.base.change = Change
 calc.base.resident.shares.home = Calculate your Capital Gains Tax
 calc.base.govUk = GOV.UK
@@ -16,6 +18,7 @@ calc.base.period = .
 
 ## Error Summary ##
 calc.error.summary.heading = This page has errors
+site.title.error = Error: {0}
 
 ## Session Timeout message ##
 session.timeout.message = Your session has ended
@@ -27,18 +30,18 @@ calc.common.date.error.beforeMinimum = Enter a date that is after 6 4 2015
 calc.common.date.fields.day = Day
 calc.common.date.fields.month = Month
 calc.common.date.fields.year = Year
-calc.common.date.hint = For example, 4 9 2016
+calc.common.date.hint = For example, 4 9 2021
 calc.common.date.error.invalidDate = Enter a real date
 calc.common.readMore = Read more
-calc.common.error.maxAmountExceeded = Enter an amount that''s {0} or less
+calc.common.error.maxAmountExceeded = Enter an amount that is {0} or less
 calc.common.error.mandatoryAmount = Enter an amount
-calc.common.error.minimumAmount = Enter an amount that''s £0 or more
+calc.common.error.minimumAmount = Enter an amount that is £0 or more
 calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 10000.00
 calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format e.g. 10000
 
 ## Check Your Answers ##
 calc.checkYourAnswers.title = Check your answers
-calc.checkYourAnswers.tableHeading = You''ve told us
+calc.checkYourAnswers.tableHeading = You have told us
 
 ###############################################################################################
 ## Resident messages ##
@@ -48,13 +51,13 @@ calc.checkYourAnswers.tableHeading = You''ve told us
 calc.resident.disposalDate.invalidDayError = Enter a day
 calc.resident.disposalDate.invalidMonthError = Enter a month
 calc.resident.disposalDate.invalidYearError = Enter a year
-calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2015
+calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2020
 
 ## Outside Tax Years messages
-calc.resident.outsideTaxYears.title = The date you''ve entered isn''t supported by this calculator
-calc.resident.outsideTaxYears.message = You can continue to use it, but we''ll use the tax rates from the {0} tax year.
-calc.resident.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold a property since 5 April 2015.
-calc.resident.shares.outsideTaxYears.message.tooEarly = You can use this calculator if you''ve sold shares since 5 April 2015.
+calc.resident.outsideTaxYears.title = The date you have entered is not supported by this calculator
+calc.resident.outsideTaxYears.message = You can continue to use it, but we will use the tax rates from the {0} tax year.
+calc.resident.outsideTaxYears.message.tooEarly = You can use this calculator if you have sold a property since 5 April 2015.
+calc.resident.shares.outsideTaxYears.message.tooEarly = You can use this calculator if you have sold shares since 5 April 2015.
 calc.resident.outsideTaxYears.changeDate = Change your date
 
 ## Summary messages
@@ -67,39 +70,56 @@ calc.resident.summary.remainingBroughtForwardLoss = Remaining loss from tax year
 calc.resident.summary.remainingLossHelp = You can
 calc.resident.summary.remainingLossLink = use this loss
 calc.resident.summary.remainingBroughtForwardLossHelp = to reduce your Capital Gains Tax in the future
-calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your tax if you sell something else that''s covered by Capital Gains Tax in the same tax year.
+calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your tax if you sell something else that is covered by Capital Gains Tax in the same tax year.
 
 ## Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are there any previous losses you want to bring forward?
-calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you''ve already reported to HMRC.
+calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you have already reported to HMRC.
 
 ##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.helpInfo.subtitle = They''re losses you''ve made that:
+calc.resident.lossesBroughtForward.helpInfo.subtitle = They are losses you have made that:
 calc.resident.lossesBroughtForward.helpInfo.point1 = are covered by Capital Gains Tax
-calc.resident.lossesBroughtForward.helpInfo.point2 = you''ve declared within 4 years of making the loss
-calc.resident.lossesBroughtForward.helpInfo.point3 = you haven''t already used to reduce the amount of Capital Gains Tax you had to pay
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you''re claiming any Capital Gains Tax losses from tax years before 2015/16
+calc.resident.lossesBroughtForward.helpInfo.point2 = you have declared within 4 years of making the loss
+calc.resident.lossesBroughtForward.helpInfo.point3 = you have not already used to reduce the amount of Capital Gains Tax you had to pay
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you are claiming any Capital Gains Tax losses from tax years before 2015 to 2016
+calc.resident.lossesBroughtForward.helpButton = Show me an example
+
 
 ##Losses Brought Forward Value messages
-calc.resident.lossesBroughtForwardValue.title = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForwardValue.pageHeading = What''s the total value of your Capital Gains Tax losses from tax years before {0}?
+calc.resident.lossesBroughtForwardValue.title = What is the total value of your Capital Gains Tax losses from tax years before {0}?
+calc.resident.lossesBroughtForwardValue.pageHeading = What is the total value of your Capital Gains Tax losses from tax years before {0}?
+calc.resident.lossesBroughtForwardValue.error.mandatoryAmount = Enter the total value of your Capital Gains Tax losses from tax years before {0}
+calc.resident.lossesBroughtForwardValue.error.invalidAmount = The total value of your Capital Gains Tax losses from tax years before {0} must be in the correct format, like 10000.00
+calc.resident.lossesBroughtForwardValue.error.minimumAmount = The total value of your Capital Gains Tax losses from tax years before {0} must be 0 or more
 
 ## Current Income messages
 calc.resident.currentIncome.question = In the {0} tax year, what was your income?
 calc.resident.currentIncome.questionCurrentYear = How much do you expect your income to be in this tax year?
+calc.resident.shares.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares.
+
+calc.resident.currentIncome.question.error.mandatoryAmount = Enter your income for the {0} tax year
+calc.resident.currentIncome.question.error.invalidAmount = Your income for the {0} tax year must be in the correct format, like 10000.00
+calc.resident.currentIncome.question.error.minimumAmount = Your income for the {0} tax year must be £0 or more
+
+calc.resident.currentIncome.questionCurrentYear.error.mandatoryAmount = Enter how much you expect your income to be in this tax year
+calc.resident.currentIncome.questionCurrentYear.error.invalidAmount = How much you expect your income to be in this tax year must be in the correct format, like 10000.00
+calc.resident.currentIncome.questionCurrentYear.error.minimumAmount = How much you expect your income to be in this year must be £0 or more
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
-calc.resident.personalAllowance.list.title = In the tax year {0} to {1} the UK Personal Allowance was £{2} unless you:
-calc.resident.personalAllowance.help = This is the amount of your income that you don''t pay tax on.
+calc.resident.personalAllowance.list.title = In the tax year {0} the UK Personal Allowance was £{1} unless you:
+calc.resident.personalAllowance.help = This is the amount of your income that you do not pay tax on.
 calc.resident.personalAllowance.list.one = earned more than £100,000
 calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
 calc.resident.personalAllowance.list.three = claimed Marriage Allowance
 calc.resident.personalAllowance.link.text = Find out more about
 calc.resident.personalAllowance.link = Income tax rates and Personal Allowances
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
+calc.resident.personalAllowance.error.mandatoryAmount = Enter what your Personal Allowance was for the {0} tax year
+calc.resident.personalAllowance.error.invalidAmount = Your Personal Allowance for the {0} tax year must be in the correct format, like 10000
+calc.resident.personalAllowance.error.minimumAmount = Your Personal Allowance for the {0} tax year must be 0 or more
 
 ###############################################################################################
 ## Resident Shares messages ##
@@ -111,6 +131,9 @@ calc.resident.shares.disposalDate.question = When did you sell or give away the 
 ## Disposal Value messages
 calc.resident.shares.disposalValue.question = How much did you sell the shares for?
 calc.resident.shares.disposalValue.jointOwnership = If you owned the shares with someone else, only enter your portion of the sale value.
+calc.resident.shares.disposalValue.error.mandatoryAmount = Enter how much you sold the shares for
+calc.resident.shares.disposalValue.error.invalidAmount = How much you sold the shares for must be in the correct format, like 10000.00
+calc.resident.shares.disposalValue.error.minimumAmount = How much you sold the shares for must be 0 or more
 
 ## Sell for Less messages
 calc.resident.shares.sellForLess.question = Did you sell the shares for less than they were worth to help the buyer?
@@ -120,17 +143,26 @@ calc.resident.shares.sellForLess.noSelectError = Tell us if you sold the shares 
 calc.resident.shares.worthWhenSoldForLess.question = What were the shares worth when you sold them?
 calc.resident.shares.worthWhenSoldForLess.informationText = Get information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.worthWhenSoldForLess.jointOwnershipText = If you owned the shares with someone else, only enter the value of your portion of the shares.
+calc.resident.shares.worthWhenSoldForLess.error.mandatoryAmount = Enter how much the shares were worth when you sold them
+calc.resident.shares.worthWhenSoldForLess.error.invalidAmount = How much the shares were worth when you sold them must be in the correct format, like 10000.00
+calc.resident.shares.worthWhenSoldForLess.error.minimumAmount = How much the shares were worth when you sold them must be 0 or more
 
 ## Disposal Costs messages
 calc.resident.shares.disposalCosts.question = How much did you pay in costs when you sold the shares?
 calc.resident.shares.disposalCosts.helpText = This includes costs for stockbroker fees.
 calc.resident.shares.disposalCosts.jointOwnership = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
+calc.resident.shares.disposalCosts.error.mandatoryAmount = Enter how much you paid in costs when you sold the shares
+calc.resident.shares.disposalCosts.error.invalidAmount = How much you paid in costs when you sold the shares must be in the correct format, like 10000.00
+calc.resident.shares.disposalCosts.error.minimumAmount = How much you paid in costs when you sold the shares must be 0 or more
 
 ## Worth On messages
 calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?
 calc.resident.shares.valueBeforeLegislationStart.information = If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost.
 calc.resident.shares.valueBeforeLegislationStart.help = Get valuation information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.valueBeforeLegislationStart.hintText = If you owned the shares with someone else, only enter the value of your portion of the shares.
+calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount = Enter what the shares were worth on 31 March 1982
+calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount = What the shares were worth on 31 March 1982 must be in the correct format, like 10000.00
+calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount = What the shares were worth on 31 March 1982 must be 0 or more
 
 ## Owner Before Legislation Start Messages
 calc.resident.shares.ownerBeforeLegislationStart.title = Did you own the shares before 1 April 1982?
@@ -141,7 +173,9 @@ calc.resident.shares.ownerBeforeLegislationStart.noSelectError = Tell us if you 
 calc.resident.shares.worthWhenInherited.question = What were the shares worth when you inherited them?
 calc.resident.shares.worthWhenInherited.help = Use information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.worthWhenInherited.hintText = If you owned the shares with someone else, only enter the market value for your portion of the shares.
-
+calc.resident.shares.worthWhenInherited.error.mandatoryAmount = Enter what the shares were worth when you inherited them
+calc.resident.shares.worthWhenInherited.error.invalidAmount = How much the shares were worth when you inherited them must be in the correct format, like 10000.00
+calc.resident.shares.worthWhenInherited.error.minimumAmount = What the shares were worth when you inherited them must be 0 or more
 
 ## Inherited Shares Messages
 calc.resident.shares.didYouInheritThem.errorSelect = Tell us if you inherited the shares
@@ -150,18 +184,21 @@ calc.resident.shares.didYouInheritThem.question = Did you inherit the shares?
 ## Acquisition Value messages
 calc.resident.shares.acquisitionValue.question = How much did you pay for the shares?
 calc.resident.shares.acquisitionValue.hintText = If you owned them with someone else, only enter your share of the purchase.
+calc.resident.shares.acquisitionValue.error.mandatoryAmount = Enter how much you paid for the shares
+calc.resident.shares.acquisitionValue.error.invalidAmount = How much you paid for the shares must be in the correct format, like 10000.00
+calc.resident.shares.acquisitionValue.error.minimumAmount = How much you paid for the shares must be 0 or more
 
 ## Acquisition Costs messages
 calc.resident.shares.acquisitionCosts.question = How much did you pay in costs when you got the shares?
 calc.resident.shares.acquisitionCosts.help = This includes costs for stockbroker fees and Stamp Duty.
 calc.resident.shares.acquisitionCosts.hintText = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
-
-## Current Income messages
-calc.resident.shares.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares.
+calc.resident.shares.acquisitionCosts.error.mandatoryAmount = Enter how much you paid in costs when you got the shares
+calc.resident.shares.acquisitionCosts.error.invalidAmount = How much you paid in costs when you got the shares must be in the correct format, like 10000.00
+calc.resident.shares.acquisitionCosts.error.minimumAmount = How much you paid in costs when you got the shares must be 0 or more
 
 ## Final Summary messages
 calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
-calc.summary.calculationDetails.heading = How we''ve worked this out
+calc.summary.calculationDetails.heading = How we have worked this out
 calc.summary.calculationDetails.yourTotalGain = Your total gain
 calc.summary.calculationDetails.yourTotalLoss = Your total loss
 calc.summary.calculationDetails.disposalValue = Value when you sold the shares
@@ -184,7 +221,7 @@ calc.summary.calculationDetails.yourTaxRate = Your tax rate
 calc.summary.calculationDetails.taxRate = £{0} taxable gain multiplied by {1}% tax rate
 calc.summary.remainingDeductions.broughtForwardLossesRemaining = Losses to carry forward from previous tax years
 calc.summary.remainingDeductions.lossesToCarryForward = Losses you can carry forward from this calculation
-calc.summary.whatToDoNext.heading = What to do next
+calc.summary.whatToDoNext.heading = What happens next
 calc.summary.whatToDoNext.details = Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax.
 calc.summary.noticeSummary = Your result may be slightly inaccurate because the calculator does not support the dates you entered. Do not use these figures to report your Capital Gains Tax.
 calc.summary.download = Download
@@ -192,45 +229,45 @@ calc.summary.ratesHelp = These rates are based on your Income Tax bands:
 
 #Summary User Banner
 calc.summary.dismissBanner = No thanks
-calc.summary.dismissBanner.screenreader = I don''t want to answer any questions about joining the research panel
+calc.summary.dismissBanner.screenreader = I do not want to answer any questions about joining the research panel
 calc.summary.userResearchLink.title = Help improve GOV.UK
-calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new window)
+calc.summary.userResearchLink.link = Help improve this digital service by joining the HMRC user panel (opens in new tab)
 
 #WhatToDoNext
-calc.whatToDoNext.title = What to do next
+calc.whatToDoNext.title = What happens next
 calc.whatToDoNext.finish = Return to GOV.UK
 calc.whatToDoNext.reportNow = Report now
-calc.yourOptions.title = Your options
+calc.yourOptions.title = Your options for reporting your Capital Gains Tax
 
-calc.whatToDoNext.fourAEA.information = You''ll have to report your Capital Gains Tax figures through Self Assessment.
-calc.whatToDoNext.fourAEA.youMustDoThis = You must do this, even though there''s no tax to pay.
+calc.whatToDoNext.fourAEA.information = You will have to report your Capital Gains Tax figures through Self Assessment.
+calc.whatToDoNext.fourAEA.youMustDoThis = You must do this, even though there is no tax to pay.
 
-calc.whatToDoNext.noGain.bulletTitle = If you''ve made a loss that you''d like to use against any future Capital Gains Tax, you can either:
+calc.whatToDoNext.noGain.bulletTitle = If you have made a loss that you would like to use against any future Capital Gains Tax, you can either:
 calc.whatToDoNext.noGain.bulletPointOne = report it on your Self Assessment return for the {0} tax year
 calc.whatToDoNext.noGain.bulletPointTwo = report it now using our online form
-calc.whatToDoNext.noGain.reportImportant = If you report it now, you''ll still need to declare your capital gains through Self Assessment.
-calc.whatToDoNext.noGain.reportNowInfo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
+calc.whatToDoNext.noGain.reportImportant = If you report it now, you will still need to declare your capital gains through Self Assessment.
+calc.whatToDoNext.noGain.reportNowInfo = To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in.
 
 calc.whatToDoNext.gain.bulletTitle = You can either:
 calc.whatToDoNext.gain.bulletPointOne = report and pay on your Self Assessment return for the {0} tax year
 calc.whatToDoNext.gain.bulletPointTwo = report and pay now using our online form
-calc.whatToDoNext.gain.reportImportant = If you report and pay now, you''ll still need to declare your capital gains through Self Assessment.
-calc.whatToDoNext.gain.reportNowInfo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
+calc.whatToDoNext.gain.reportImportant = If you report and pay now, you will still need to declare your capital gains through Self Assessment.
+calc.whatToDoNext.gain.reportNowInfo = To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in.
 calc.whatToDoNext.exitSurveyMessage = If you do not wish to report capital gains at this time, you can exit now or
 calc.whatToDoNext.exitSurveyLink = leave feedback for the CGT calculator service (takes 2 minutes)
 ## What Next Non-SA Gain messages
-calc.resident.whatNextNonSa.gain.title = What to do next
+calc.resident.whatNextNonSa.gain.title = What happens next
 calc.resident.whatNextNonSa.gain.reportNow = Report now
 calc.resident.whatNextNonSa.gain.govUk = Return to GOV.UK
 calc.resident.whatNextNonSa.gain.detailsOne = Use our online form to report and pay your Capital Gains Tax.
-calc.resident.whatNextNonSa.gain.detailsTwo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
+calc.resident.whatNextNonSa.gain.detailsTwo = To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in.
 
 ## What Next Non-SA Loss messages
-calc.resident.whatNextNonSa.loss.title = What to do next
+calc.resident.whatNextNonSa.loss.title = What happens next
 calc.resident.whatNextNonSa.loss.reportNow = Report now
 calc.resident.whatNextNonSa.loss.govUk = Return to GOV.UK
-calc.resident.whatNextNonSa.loss.detailsOne = If you''ve made a loss that you''d like to use against any future Capital Gains Tax, you can report it using our online form.
-calc.resident.whatNextNonSa.loss.detailsTwo = To report now you''ll need a Government Gateway account. If you don''t already have an account, you can get one before you sign in.
+calc.resident.whatNextNonSa.loss.detailsOne = If you have made a loss that you would like to use against any future Capital Gains Tax, you can report it using our online form.
+calc.resident.whatNextNonSa.loss.detailsTwo = To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in.
 
 ## SA User Messages
 calc.resident.saUser.title = Are you currently in Self Assessment?

@@ -110,8 +110,8 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
         redirectLocation(result) shouldBe Some("/calculate-your-capital-gains/resident/shares/what-next-sa-no-gain-over-limit")
       }
 
-      "load the saUser page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.SaUser.title
+      "load the saUser page with an error" in {
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.SaUser.errorTitle
       }
     }
   }

@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,17 +15,15 @@
  *@
 
 @this(
-    govukWrapper: govuk_wrapper
+    layout: Layout
 )
 
 @(pageTitle: String, heading: String, message: String, homeNavLink: String)(implicit request: Request[_], messages: Messages)
 
-@contentHeader = {
-  <h1>@heading</h1>
-}
+@layout(
+ pageTitle = pageTitle
+){
+ <h1 class="govuk-heading-xl">@heading</h1>
 
-@mainContent = {
-  <p>@message</p>
+ <p class="govuk-body">@message</p>
 }
-
-@govukWrapper(title = pageTitle, contentHeader = Some(contentHeader), mainContent = mainContent, homeLink = homeNavLink)

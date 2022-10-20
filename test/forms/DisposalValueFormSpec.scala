@@ -56,7 +56,7 @@ class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.disposalValue.error.mandatoryAmount"
       }
     }
 
@@ -74,7 +74,7 @@ class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.disposalValue.error.mandatoryAmount"
       }
     }
 
@@ -91,7 +91,7 @@ class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.disposalValue.error.invalidAmount"
       }
     }
 
@@ -108,7 +108,7 @@ class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.disposalValue.error.invalidAmount"
       }
     }
 
@@ -142,7 +142,7 @@ class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.disposalValue.error.minimumAmount"
       }
     }
   }

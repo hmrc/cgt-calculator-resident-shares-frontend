@@ -147,7 +147,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "stay on the shares Worth When Sold page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+        Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual s"Error: ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.title}"
       }
     }
   }

@@ -51,7 +51,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
 
         "have the back-link class" in {
-          backLink.hasClass("back-link") shouldBe true
+          backLink.hasClass("govuk-back-link") shouldBe true
         }
 
         "have a link to Summary" in {
@@ -59,8 +59,8 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
       }
 
-      s"have a heading with the text ${messages.title}" in {
-        doc.select("h1").text() shouldBe messages.title
+      s"have a heading with the text ${messages.heading}" in {
+        doc.getElementsByClass("govuk-fieldset__heading").text() shouldBe messages.heading
       }
 
       "have a form" which {
@@ -78,12 +78,12 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
       "have a legend" which {
         lazy val legend = doc.select("legend")
 
-        s"has the text ${messages.title}" in {
-          legend.text() shouldBe messages.title
+        s"has the text ${messages.heading}" in {
+          legend.text() shouldBe messages.heading
         }
 
         "has the class 'visuallyhidden'" in {
-          legend.attr("class") shouldBe "visuallyhidden"
+          legend.attr("class") shouldBe "govuk-fieldset__legend govuk-label--xl"
         }
       }
 
@@ -94,7 +94,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
 
         s"has a value of ${MessageLookup.Resident.yes}" in {
-          doc.select("input#isInSa-yes").attr("value") shouldBe MessageLookup.Resident.yes
+          doc.select("input").get(0).attr("value") shouldBe MessageLookup.Resident.yes
         }
       }
 
@@ -105,7 +105,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
 
         s"has a value of ${MessageLookup.Resident.no}" in {
-          doc.select("input#isInSa-no").attr("value") shouldBe MessageLookup.Resident.no
+          doc.select("input").get(1).attr("value") shouldBe MessageLookup.Resident.no
         }
       }
 
@@ -117,7 +117,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
 
         "has the type 'submit'" in {
-          button.attr("type") shouldBe "submit"
+          button.attr("id") shouldBe "submit"
         }
       }
 
@@ -136,11 +136,11 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#isInSa-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary__body").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select("span.error-notification").size shouldBe 1
+        doc.getElementsByClass("govuk-error-summary").size shouldBe 1
       }
     }
 

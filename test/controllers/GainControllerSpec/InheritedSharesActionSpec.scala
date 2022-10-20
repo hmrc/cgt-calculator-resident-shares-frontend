@@ -19,6 +19,7 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
+import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import connectors.{CalculatorConnector, SessionCacheConnector}
@@ -42,6 +43,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
   lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
+  lazy val title = s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
 
   def setupTarget(getData: Option[DidYouInheritThemModel]): GainController= {
 
@@ -87,8 +89,8 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
         status(result) shouldBe 200
       }
 
-      s"return some html with title of ${messages.question}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.question
+      s"return some html with title of $title" in {
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual title
       }
     }
 
@@ -161,7 +163,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "render the Inherited Shares page" in {
-        doc.title() shouldEqual messages.question
+        doc.title() shouldEqual s"Error: $title"
       }
     }
   }

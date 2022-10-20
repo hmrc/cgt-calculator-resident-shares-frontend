@@ -14,31 +14,29 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation._
 @import models.resident._
 
 @this(
-    residentMainTemplate: resident_main_template
+    layout: Layout
 )
 
 @(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, navHomeLink: String, continueUrl: String, navTitle: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(
-    Messages("calc.resident.outsideTaxYears.title"),
-    backLink = if(isAfterApril15){Some(navBackLink)} else { None },
-    homeLink = navHomeLink,
-    navTitle = navTitle
+@layout(
+    pageTitle = Messages("calc.resident.outsideTaxYears.title"),
+    backLinkHref = if(isAfterApril15){Some(navBackLink)} else { None }
 ) {
 
-    <h1 class="heading-large">@Messages("calc.resident.outsideTaxYears.title")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.outsideTaxYears.title")</h1>
 
     @if(isAfterApril15) {
-        <p class="lede">@Messages("calc.resident.outsideTaxYears.message", taxYear.calculationTaxYear)</p>
-        <a href="@continueUrl" id="continue-button" class="button">@Messages("calc.base.button.continue")</a>
+        <p class="govuk-body">@Messages("calc.resident.outsideTaxYears.message", taxYear.calculationTaxYear)</p>
+        <a href="@continueUrl" id="continue-button" class="govuk-button">@Messages("calc.base.button.continue")</a>
     } else {
-        <p class="lede">@{if (isProperty) Messages("calc.resident.outsideTaxYears.message.tooEarly")
+        <p class="govuk-body">@{if (isProperty) Messages("calc.resident.outsideTaxYears.message.tooEarly")
             else Messages("calc.resident.shares.outsideTaxYears.message.tooEarly")}</p>
-        <a id="change-date-link" class="back-link" href="@navBackLink">@Messages("calc.resident.outsideTaxYears.changeDate")</a>
+        <a id="change-date-link" class="govuk-body govuk-link" href="@navBackLink">@Messages("calc.resident.outsideTaxYears.changeDate")</a>
+        <br/>
     }
+    <br/>
 }

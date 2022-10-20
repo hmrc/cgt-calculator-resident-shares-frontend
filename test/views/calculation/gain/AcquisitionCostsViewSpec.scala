@@ -46,14 +46,14 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "have a back button that" should {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.select("#back-link")
 
       "have the correct back link text" in {
         backLink.text shouldBe commonMessages.back
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link with href 'back-link'" in {
@@ -62,19 +62,19 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have a H1 tag that" should {
 
       lazy val h1Tag = doc.select("H1")
 
-      s"have the page heading '${messages.title}'" in {
-        h1Tag.text shouldBe messages.title
+      s"have the page heading '${messages.question}'" in {
+        h1Tag.text shouldBe messages.question
       }
 
-      "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+      "have the govuk-heading-xl class" in {
+        h1Tag.hasClass("govuk-heading-xl") shouldBe true
       }
     }
 
@@ -94,25 +94,25 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.title}" in {
-          label.text should include(messages.title)
+        s"have the question ${messages.question}" in {
+          label.text should include(messages.question)
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
+        "have the class 'govuk-visually-hidden'" in {
+          label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
         }
       }
 
       "has help text that" should {
 
         s"have the text ${messages.helpText}" in {
-          doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+          doc.body.getElementsByClass("govuk-body").text shouldBe messages.helpText
         }
       }
 
       "have a p tag" which {
         s"with the extra text ${messages.hintText}" in {
-          form.select("p.panel-indent").text shouldBe messages.hintText
+          form.select("p.govuk-inset-text").text shouldBe messages.hintText
         }
       }
 
@@ -129,11 +129,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         }
 
         "is of type number" in {
-          input.attr("type") shouldBe "number"
-        }
-
-        "has a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
+          input.attr("type") shouldBe "text"
         }
 
       }
@@ -141,18 +137,18 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "have a continue button that" should {
 
-      lazy val continueButton = doc.select("button#continue-button")
+      lazy val continueButton = doc.select("button#submit")
 
       s"have the button text '${commonMessages.continue}'" in {
         continueButton.text shouldBe commonMessages.continue
       }
 
       "be of type submit" in {
-        continueButton.attr("type") shouldBe "submit"
+        continueButton.attr("id") shouldBe "submit"
       }
 
       "have the class 'button'" in {
-        continueButton.hasClass("button") shouldBe true
+        continueButton.hasClass("govuk-button") shouldBe true
       }
 
     }
@@ -177,11 +173,11 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select(".govuk-error-message").size shouldBe 1
       }
     }
   }

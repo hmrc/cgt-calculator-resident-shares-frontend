@@ -16,30 +16,32 @@
 
 @import models.resident._
 @import models.resident.shares._
-@import views.html.helpers._
-@import views.html.calculation._
 @import controllers.routes.{GainController => gainRoutes}
 @import controllers.routes.{DeductionsController => deductionRoutes}
 @import controllers.routes.{IncomeController => incomeRoutes}
 @import play.api.i18n.Lang
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: resident_main_template,
+    layout: Layout,
     form: FormWithCSRF,
-    checkYourAnswersPartial: checkYourAnswersPartial
+    checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
+    submitButton: playHelpers.submitButton
 )
 
 @(postAction: Call, backUrl: String, gainAnswers: GainAnswersModel, deductionsAnswers: Option[DeductionGainAnswersModel] = None, taxYear: Option[TaxYearModel] = None, incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, lang: Lang)
 
-@residentMainTemplate(title = Messages("calc.checkYourAnswers.title"), backLink = Some(backUrl), articleLayout = false, homeLink = controllers.routes.GainController.disposalDate().url, navTitle = Messages("calc.base.resident.shares.home")) {
+@layout(
+    pageTitle = Messages("calc.checkYourAnswers.title"),
+    backLinkHref = Some(backUrl),
+    fullGrid = true
+) {
 
-    <h1 class="heading-large">@Messages("calc.checkYourAnswers.title")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.checkYourAnswers.title")</h1>
 
-    <div class="form-group">
-        @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
-    </div>
+    @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
 
     @form(action = postAction) {
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }

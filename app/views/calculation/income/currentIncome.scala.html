@@ -14,50 +14,45 @@
  * limitations under the License.
  *@
 
-@import views.html.calculation._
 @import models.resident.income.CurrentIncomeModel
 @import models.resident._
-@import views.html.helpers._
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentMainTemplate: resident_main_template,
-    errorSummary: errorSummary,
+    layout: Layout,
+    errorSummary: playHelpers.errorSummary,
     form: FormWithCSRF,
-    formInputMoney: formInputMoney
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 
 )
 
-@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages)
+@(currentIncomeForm: Form[CurrentIncomeModel], backUrl: String, taxYear: TaxYearModel, inCurrentTaxYear: Boolean)(implicit request: Request[_], messages: Messages, lang: Lang)
 
-@title = {
-    @{if(inCurrentTaxYear) {
-        Messages("calc.resident.currentIncome.questionCurrentYear")
-    } else {
-        Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)
-    }}
+@title = @{
+    if(inCurrentTaxYear) Messages("calc.resident.currentIncome.questionCurrentYear")
+    else Messages("calc.resident.currentIncome.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
+}
+@titleWithError = @{
+    if (currentIncomeForm.errors.nonEmpty) Messages("site.title.error",  title) else title
 }
 
-@residentMainTemplate(title = title.toString,
-                        backLink = Some(backUrl),
-                        homeLink = controllers.routes.GainController.disposalDate().url,
-                        navTitle = Messages("calc.base.resident.shares.home")) {
+@layout(
+    pageTitle = titleWithError,
+    backLinkHref = Some(backUrl)
+) {
 
-    @errorSummary(currentIncomeForm, "current-income")
-
-
-    <h1 class="heading-large">
-        @if(inCurrentTaxYear){@Messages("calc.resident.currentIncome.questionCurrentYear")
-        } else {@Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)}
-    </h1>
+    @errorSummary(currentIncomeForm.errors, Some("current-income"))
 
     @form(action = controllers.routes.IncomeController.submitCurrentIncome){
 
-        @formInputMoney(currentIncomeForm, "amount",
-                        if(inCurrentTaxYear) {Messages("calc.resident.currentIncome.questionCurrentYear")
-                        } else {Messages("calc.resident.currentIncome.question", taxYear.taxYearSupplied)},
-                        Some(Messages("calc.resident.shares.currentIncome.helpText")),
-                        hideLabel = true)
+        @formInputMoney(
+            field = currentIncomeForm("amount"),
+            question = title,
+            hintText = Some(Messages("calc.resident.shares.currentIncome.helpText")),
+            hideLabel = false
+        )
 
-        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }

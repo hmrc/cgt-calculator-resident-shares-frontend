@@ -28,12 +28,12 @@ object WorthWhenInheritedForm {
   lazy val worthWhenInheritedForm = Form(
     mapping(
       "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+        .verifying("calc.resident.shares.worthWhenInherited.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.shares.worthWhenInherited.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.worthWhenInherited.error.minimumAmount", isPositive)
+        .verifying("calc.resident.shares.worthWhenInherited.error.invalidAmount", decimalPlacesCheck)
     )(WorthWhenInheritedModel.apply)(WorthWhenInheritedModel.unapply)
   )
 }

@@ -22,13 +22,13 @@ import common.{Dates, TaxDates}
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
-import forms.CurrentIncomeForm._
-import forms.PersonalAllowanceForm._
+import forms.CurrentIncomeForm
+import forms.PersonalAllowanceForm
 import javax.inject.Inject
 import models.resident._
 import models.resident.income._
 import play.api.data.Form
-import play.api.i18n.{I18nSupport, Messages}
+import play.api.i18n.{I18nSupport, Lang, Messages}
 import play.api.mvc._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
@@ -39,7 +39,9 @@ import scala.concurrent.{ExecutionContext, Future}
 class IncomeController @Inject()(calcConnector: CalculatorConnector,
                                  sessionCacheConnector: SessionCacheConnector,
                                  mcc: MessagesControllerComponents,
+                                 personalAllowanceForm: PersonalAllowanceForm,
                                  personalAllowanceView: personalAllowance,
+                                 currentIncomeForm: CurrentIncomeForm,
                                  currentIncomeView: currentIncome)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
@@ -72,12 +74,14 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
 
   def currentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
     def routeRequest(backUrl: String, taxYear: TaxYearModel, currentTaxYear: String): Future[Result] = {
-
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
+      implicit val lang: Lang = messagesApi.preferred(request).lang
+
+      val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
 
       sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
-        case Some(data) => Ok(currentIncomeView(currentIncomeForm.fill(data), backUrl, taxYear, inCurrentTaxYear))
-        case None => Ok(currentIncomeView(currentIncomeForm, backUrl, taxYear, inCurrentTaxYear))
+        case Some(data) => Ok(currentIncomeView(form.fill(data), backUrl, taxYear, inCurrentTaxYear))
+        case None => Ok(currentIncomeView(form, backUrl, taxYear, inCurrentTaxYear))
       }
     }
 
@@ -96,8 +100,9 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
     def routeRequest(taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
 
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
-
-      currentIncomeForm.bindFromRequest.fold(
+      implicit val lang: Lang = messagesApi.preferred(request).lang
+      val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied), lang)
+      form.bindFromRequest.fold(
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url,
           taxYearModel, inCurrentTaxYear)))),
         success => {
@@ -131,15 +136,19 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
 
   def personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
-    def fetchStoredPersonalAllowance(): Future[Form[PersonalAllowanceModel]] = {
+    def fetchStoredPersonalAllowance(maxPA: BigDecimal, taxYear: TaxYearModel): Future[Form[PersonalAllowanceModel]] = {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
+      val form: Form[PersonalAllowanceModel] = personalAllowanceForm(maxPA, TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
+
       sessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](keystoreKeys.personalAllowance).map {
-        case Some(data) => personalAllowanceForm().fill(data)
-        case _ => personalAllowanceForm()
+        case Some(data) => form.fill(data)
+        case _ => form
       }
     }
 
     def routeRequest(taxYearModel: TaxYearModel, standardPA: BigDecimal, formData: Form[PersonalAllowanceModel], currentTaxYear: String):
     Future[Result] = {
+      implicit val lang: Lang = messagesApi.preferred(request).lang
       Future.successful(Ok(personalAllowanceView(formData, taxYearModel, standardPA, homeLink,
         postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear)))
     }
@@ -149,7 +158,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       year <- taxYearValue(taxYear.get.calculationTaxYear)
       standardPA <- getStandardPA(year, hc)
-      formData <- fetchStoredPersonalAllowance()
+      formData <- fetchStoredPersonalAllowance(standardPA.get, taxYear.get)
       currentTaxYear = Dates.getCurrentTaxYear
       route <- routeRequest(taxYear.get, standardPA.get, formData, currentTaxYear)
     } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
@@ -163,7 +172,10 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
 
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
-      personalAllowanceForm(maxPA).bindFromRequest.fold(
+      implicit val lang: Lang = messagesApi.preferred(request).lang
+      val form: Form[PersonalAllowanceModel] = personalAllowanceForm(maxPA, TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied), lang)
+
+      form.bindFromRequest.fold(
         errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear))),
         success => {

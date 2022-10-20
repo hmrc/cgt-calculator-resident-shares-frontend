@@ -14,21 +14,25 @@
  * limitations under the License.
  *@
 
-@import views.html.calculation.gain.resident_shares_main_template
 
 @this(
-    residentSharesMainTemplate: resident_shares_main_template
+    layout: Layout
 )
 
 @(backUrl: String)(implicit request : Request[_], messages: Messages)
 
-@residentSharesMainTemplate(title = Messages("calc.whatToDoNext.title"), backLink = Some(backUrl)) {
+@layout(
+    pageTitle = Messages("calc.whatToDoNext.title"),
+    backLinkHref = Some(backUrl)
+) {
+    <h1 class="govuk-heading-xl">@Messages("calc.whatToDoNext.title")</h1>
 
-    <h1>@Messages("calc.whatToDoNext.title")</h1>
+    <p class="govuk-body">@Messages("calc.whatToDoNext.fourAEA.information")</p>
 
-    <p>@Messages("calc.whatToDoNext.fourAEA.information")</p>
+    <p class="govuk-body">@Messages("calc.whatToDoNext.fourAEA.youMustDoThis")</p>
 
-    <p>@Messages("calc.whatToDoNext.fourAEA.youMustDoThis")</p>
+    <p>
+        <a id="finish" class="govuk-body govuk-link" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
+    </p>
 
-    <a id="finish" href="http://www.gov.uk">@Messages("calc.whatToDoNext.finish")</a>
 }

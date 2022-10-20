@@ -16,6 +16,7 @@
 
 package models.resident
 
+import play.api.i18n.Lang
 import play.api.libs.json.{Json, OFormat}
 
 case class TaxYearModel (taxYearSupplied: String, isValidYear: Boolean, calculationTaxYear: String)
@@ -28,5 +29,12 @@ object TaxYearModel {
     val startYear = taxYear.take(4)
     val endYear = startYear.toInt + 1
     startYear + " to " + endYear
+  }
+
+  def convertWithWelsh(taxYear: String)(implicit lang: Lang): String = {
+    val startYear = taxYear.take(4)
+    val endYear = startYear.toInt + 1
+    if (lang.language == "cy") startYear + " i " + endYear
+    else startYear + " to " + endYear
   }
 }

@@ -1,0 +1,77 @@
+@*
+* Copyright 2022 HM Revenue & Customs
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*@
+
+@import config.ApplicationConfig
+
+@this(
+    govukLayout: GovukLayout,
+    hmrcAccountMenu: HmrcAccountMenu,
+    hmrcHead: HmrcHead,
+    hmrcStandardHeader: HmrcStandardHeader,
+    hmrcStandardFooter: HmrcStandardFooter,
+    hmrcScripts: HmrcScripts,
+    hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
+    hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
+    hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
+    backLink: playHelpers.backLink,
+    appConfig: ApplicationConfig
+)
+
+@(
+    pageTitle: String,
+    backLinkHref: Option[String] = None,
+    isUserResearchBannerVisible: Boolean = false,
+    timeoutEnabled: Boolean = true,
+    fullGrid: Boolean = false
+)(
+    contentBlock: Html
+)(
+    implicit request: RequestHeader,
+    messages: Messages
+)
+
+@accountMenu = {
+
+    @hmrcLanguageSelectHelper()
+    @if(backLinkHref.nonEmpty) { @backLink(backLinkHref.get) }
+}
+
+@head = {
+    @if(timeoutEnabled) {
+        @hmrcTimeoutDialogHelper(
+            signOutUrl = controllers.utils.routes.TimeoutController.timeout(controllers.routes.GainController.disposalDate.url, controllers.routes.GainController.disposalDate.url).url
+        )
+    }
+    <link rel="stylesheet" type="text/css" href ='@routes.Assets.versioned("stylesheets/cgt-calculator-resident-shares.css")'>
+}
+
+@mainContent = {
+    @contentBlock
+    @hmrcReportTechnicalIssueHelper()
+}
+
+@govukLayout(
+    pageTitle = Some(s"""$pageTitle - ${messages("service.name")} - GOV.UK"""),
+    headBlock = Some(hmrcHead(headBlock = Some(head))),
+    headerBlock = Some(hmrcStandardHeader(
+        serviceUrl = Some(controllers.routes.GainController.disposalDate.url),
+        userResearchBanner = if (isUserResearchBannerVisible) {Some(UserResearchBanner(url = appConfig.urBannerLink))} else None
+    )),
+    beforeContentBlock = Some(accountMenu),
+    mainContentLayout = if (fullGrid) Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-full'>$mainContent</div></div>")) else Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-two-thirds'>$mainContent</div></div>")),
+    scriptsBlock = Some(hmrcScripts()),
+    footerBlock = Some(hmrcStandardFooter())
+)(mainContent)

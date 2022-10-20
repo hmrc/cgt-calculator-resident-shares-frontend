@@ -19,10 +19,14 @@ package forms
 import assets.MessageLookup.{Resident => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
-import forms.LossesBroughtForwardValueForm._
 import models.resident.LossesBroughtForwardValueModel
+import play.api.i18n.{Lang, MessagesApi}
 
 class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+
+  val injectedForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
+  val lossesBroughtForwardValueForm = injectedForm("2022", Lang("en"))
+  implicit val messagesApi = fakeApplication.injector.instanceOf[MessagesApi]
 
   "Creating a form using a valid model" should {
 
@@ -52,7 +56,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", "2022")(Lang("en"))
       }
     }
 
@@ -65,7 +69,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", "2022")(Lang("en"))
       }
     }
 
@@ -91,7 +95,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.minimumAmount", "2022")(Lang("en"))
       }
     }
 
@@ -104,7 +108,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", "2022")(Lang("en"))
       }
     }
   }

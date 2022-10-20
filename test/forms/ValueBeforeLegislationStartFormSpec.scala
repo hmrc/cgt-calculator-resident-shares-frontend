@@ -57,7 +57,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount"
       }
     }
 
@@ -75,7 +75,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.mandatoryAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount"
       }
     }
 
@@ -92,7 +92,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount"
       }
     }
 
@@ -109,7 +109,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.invalidAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount"
       }
     }
 
@@ -143,7 +143,7 @@ class ValueBeforeLegislationStartFormSpec extends CommonPlaySpec with WithCommon
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.minimumAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount"
       }
     }
   }

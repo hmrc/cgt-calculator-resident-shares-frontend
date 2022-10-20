@@ -14,17 +14,20 @@
  * limitations under the License.
  *@
 
-@import views.html.calculation.resident_main_template
-
 @this(
-    residentMainTemplate: resident_main_template
+ layout: Layout
 )
 
 @(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
 
-@residentMainTemplate(Messages("session.timeout.message"), homeLink = homeLink, navTitle = Messages("calc.base.calculate.tax.heading")) {
+@layout(
+ pageTitle = Messages("session.timeout.message")
+) {
 
-    <h1 class="heading-large">@Messages("session.timeout.message")</h1>
+    <h1 class="govuk-heading-xl">@Messages("session.timeout.message")</h1>
 
-    <a id="startAgain" class="button" role="button" href="@restartUrl" data-journey-click="nav:calc:restart">@Messages("calc.summary.startAgain")</a>
+    <a id="startAgain" class="govuk-button" role="button" href="@restartUrl" data-journey-click="nav:calc:restart">@Messages("calc.summary.startAgain")</a>
+
+   <br/>
+
 }
