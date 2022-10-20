@@ -22,12 +22,14 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
+import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
-import views.html.helpers.gainSummaryPartial
+import views.html.playHelpers.gainSummaryPartial
 
 class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val gainSummaryPartialView = fakeApplication.injector.instanceOf[gainSummaryPartial]
+  val fakeLang: Lang = Lang("en")
   
   "The shares were sold for less than worth" should {
 
@@ -47,7 +49,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a banner" which {
@@ -56,16 +58,15 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       "contains a h1" which {
         lazy val h1 = banner.select("h1")
 
-        s"has the text '£0.00'" in {
-          h1.text() shouldEqual "£0.00"
+        s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
+          h1.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
         }
       }
-
       "contains a h2" which {
         lazy val h2 = banner.select("h2")
 
-        s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
-          h2.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
+        s"has the text '£0.00'" in {
+          h2.text() shouldEqual "£0.00"
         }
       }
     }
@@ -87,10 +88,10 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTotalLoss")
 
-        "has a h3 tag" which {
+        "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourTotalLoss}'" in {
-            div.select("h3").text shouldBe summaryMessages.yourTotalLoss
+            div.select("caption").text shouldBe summaryMessages.yourTotalLoss
           }
         }
 
@@ -139,10 +140,10 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourDeductions")
 
-        "has a h3 tag" which {
+        "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.select("h3").text shouldBe summaryMessages.yourDeductions
+            div.select("caption").text shouldBe summaryMessages.yourDeductions
           }
         }
 
@@ -177,8 +178,8 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTaxableGain")
 
-        "does not have a h3 tag" in {
-          div.select("h3") shouldBe empty
+        "does not have a caption tag" in {
+          div.select("caption") shouldBe empty
         }
 
         "does not have a row for gain" in {
@@ -204,8 +205,8 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTaxRate")
 
-        "does not have a h3 tag" in {
-          div.select("h3") shouldBe empty
+        "does not have a caption tag" in {
+          div.select("caption") shouldBe empty
         }
 
         "does not have a row for first band"  in {
@@ -235,10 +236,10 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#remainingDeductions")
 
-        "has a h2 tag" which {
+        "has a caption tag" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.select("h2").text shouldBe summaryMessages.remainingDeductions
+            div.select("caption").text shouldBe summaryMessages.remainingDeductions
           }
         }
 
@@ -287,16 +288,16 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, 0, 150, 11000)(fakeRequestWithSession, mockMessage)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, 0, 150, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
-    "has a h3 tag" which {
+    "has a caption tag" which {
 
       lazy val div = doc.select("#yourTotalLoss")
 
 
       s"has the text '${summaryMessages.yourTotalGain}'" in {
-        div.select("h3").text shouldBe summaryMessages.yourTotalGain
+        div.select("caption").text shouldBe summaryMessages.yourTotalGain
       }
 
       "has a row for total gain" which {
@@ -329,7 +330,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a banner" which {
@@ -338,16 +339,16 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       "contains a h1" which {
         lazy val h1 = banner.select("h1")
 
-        s"has the text '£0.00'" in {
-          h1.text() shouldEqual "£0.00"
+        s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
+          h1.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
         }
       }
 
       "contains a h2" which {
         lazy val h2 = banner.select("h2")
 
-        s"has the text ${summaryMessages.cgtToPay("2015 to 2016")}" in {
-          h2.text() shouldEqual summaryMessages.cgtToPay("2015 to 2016")
+        s"has the text '£0.00'" in {
+          h2.text() shouldEqual "£0.00"
         }
       }
     }
@@ -369,10 +370,10 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTotalLoss").get(0)
 
-        "has a h3 tag" which {
+        "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourTotalLoss}'" in {
-            div.select("h3").text shouldBe summaryMessages.yourTotalLoss
+            div.select("caption").text shouldBe summaryMessages.yourTotalLoss
           }
         }
 
@@ -421,10 +422,10 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourDeductions")
 
-        "has a h3 tag" which {
+        "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.select("h3").text shouldBe summaryMessages.yourDeductions
+            div.select("caption").text shouldBe summaryMessages.yourDeductions
           }
         }
 
@@ -463,8 +464,8 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTaxableGain")
 
-        "does not have a h3 tag" in {
-          div.select("h3") shouldBe empty
+        "does not have a caption tag" in {
+          div.select("caption") shouldBe empty
         }
 
         "does not have a row for gain" in {
@@ -490,8 +491,8 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTaxRate")
 
-        "does not have a h3 tag" in {
-          div.select("h3") shouldBe empty
+        "does not have a caption tag" in {
+          div.select("caption") shouldBe empty
         }
 
         "does not have a row for first band"  in {
@@ -521,10 +522,10 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#remainingDeductions")
 
-        "has a h2 tag" which {
+        "has a caption tag" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.select("h2").text shouldBe summaryMessages.remainingDeductions
+            div.select("caption").text shouldBe summaryMessages.remainingDeductions
           }
         }
 
@@ -573,11 +574,11 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
-      doc.select("div.notice-wrapper").text should include(summaryMessages.noticeSummary)
+      doc.select(".govuk-warning-text").text should include(summaryMessages.noticeSummary)
     }
 
   }
@@ -599,7 +600,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a row for acquisition value" which {

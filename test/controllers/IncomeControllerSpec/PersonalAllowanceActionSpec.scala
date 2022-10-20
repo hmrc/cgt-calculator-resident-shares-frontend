@@ -26,6 +26,7 @@ import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.IncomeController
 import controllers.helpers.FakeRequestHelper
+import forms.{CurrentIncomeForm, PersonalAllowanceForm}
 import models.resident.income.PersonalAllowanceModel
 import models.resident.{DisposalDateModel, TaxYearModel}
 import org.jsoup.Jsoup
@@ -48,7 +49,9 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val personalAllowanceForm = fakeApplication.injector.instanceOf[PersonalAllowanceForm]
   val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
+  val currentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
   val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
@@ -81,7 +84,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       .thenReturn(Future.successful(Some(taxYearModel)))
 
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceView, currentIncomeView)
+    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceForm, personalAllowanceView, currentIncomeForm, currentIncomeView)
   }
 
   "Calling .personalAllowance from the IncomeController" when {
@@ -102,7 +105,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.question("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
       }
     }
 
@@ -122,7 +125,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.question("2015/16")
+        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
       }
     }
   }
@@ -176,7 +179,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "render the personal allowance page" in {
-        doc.title() shouldEqual messages.question("2015/16")
+        doc.title() shouldEqual "Error: " + messages.title("2015 to 2016")
       }
     }
   }

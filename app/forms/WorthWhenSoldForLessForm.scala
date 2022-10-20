@@ -28,12 +28,12 @@ object WorthWhenSoldForLessForm {
   lazy val worthWhenSoldForLessForm = Form(
     mapping(
       "amount" -> text
-        .verifying("calc.common.error.mandatoryAmount", mandatoryCheck)
-        .verifying("calc.common.error.invalidAmount", bigDecimalCheck)
+        .verifying("calc.resident.shares.worthWhenSoldForLess.error.mandatoryAmount", mandatoryCheck)
+        .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
-        .verifying("calc.common.error.minimumAmount", isPositive)
-        .verifying("calc.common.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.worthWhenSoldForLess.error.minimumAmount", isPositive)
+        .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidAmount", decimalPlacesCheck)
     )(WorthWhenSoldForLessModel.apply)(WorthWhenSoldForLessModel.unapply)
   )
 }

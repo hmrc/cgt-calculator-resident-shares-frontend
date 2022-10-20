@@ -41,19 +41,19 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have the correct page title" in {
-      doc.title shouldBe messages.title
+      doc.title shouldBe messages.newTitle
     }
 
     "have a back button that" should {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.select("#back-link")
 
       "have the correct back link text" in {
         backLink.text shouldBe commonMessages.back
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link to Disposal Value" in {
@@ -70,7 +70,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("heading-large") shouldBe true
+        h1Tag.hasClass("govuk-heading-xl") shouldBe true
       }
     }
 
@@ -95,25 +95,18 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         }
 
         "have the class 'visuallyhidden'" in {
-          label.select("span.visuallyhidden").size shouldBe 1
+          label.hasClass("govuk-label govuk-visually-hidden")shouldBe true
         }
 
         s"has a p with the text ${messages.jointOwnership}" in {
-          doc.select("p.panel-indent").text shouldBe messages.jointOwnership
-        }
-
-        "has help text that" should {
-
-          s"have the text ${messages.helpText}" in {
-            doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
-          }
+          doc.getElementsByClass("govuk-inset-text").text shouldBe messages.jointOwnership
         }
       }
 
       "has help text that" should {
 
         s"have the text ${messages.helpText}" in {
-          doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+          doc.body.getElementsByClass("govuk-body").text shouldBe messages.helpText
         }
       }
 
@@ -129,31 +122,26 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           input.attr("name") shouldBe "amount"
         }
 
-        "is of type number" in {
-          input.attr("type") shouldBe "number"
+        "is of type text" in {
+          input.attr("type") shouldBe "text"
         }
-
-        "has a step value of '0.01'" in {
-          input.attr("step") shouldBe "0.01"
-        }
-
       }
     }
 
     "have a continue button that" should {
 
-      lazy val continueButton = doc.select("button#continue-button")
+      lazy val continueButton = doc.getElementsByClass("govuk-button")
 
       s"have the button text '${commonMessages.continue}'" in {
         continueButton.text shouldBe commonMessages.continue
       }
 
-      "be of type submit" in {
-        continueButton.attr("type") shouldBe "submit"
+      "be of id submit" in {
+        continueButton.attr("id") shouldBe "submit"
       }
 
       "have the class 'button'" in {
-        continueButton.hasClass("button") shouldBe true
+        continueButton.hasClass("govuk-button") shouldBe true
       }
 
     }
@@ -178,11 +166,11 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {
-        doc.body.select("#amount-error-summary").size shouldBe 1
+        doc.body.select(".govuk-error-summary").size shouldBe 1
       }
 
       "display an error message for the input" in {
-        doc.body.select(".form-group .error-notification").size shouldBe 1
+        doc.body.select(".govuk-error-message").size shouldBe 1
       }
     }
   }

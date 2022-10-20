@@ -23,6 +23,7 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
+import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.summary.deductionsSummary
 
@@ -31,6 +32,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val deductionsSummaryView = fakeApplication.injector.instanceOf[deductionsSummary]
+  val fakeLang: Lang = Lang("en")
 
   "Properties Deductions Summary view when a valid tax year is supplied" should {
 
@@ -69,7 +71,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage)
+      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -99,7 +101,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
 
     "has a h1" which {
       s"has the text '£0.00'" in {
-        doc.select("h1").text() should include("£0.00")
+        doc.select("h1").text() should include(messages.cgtToPay("2015 to 2016"))
       }
     }
 
@@ -132,8 +134,8 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
 
           lazy val informationTag = icon.select("span")
 
-          "has the class visuallyhidden" in {
-            informationTag.hasClass("visuallyhidden") shouldBe true
+          "has the class govuk-visually-hidden" in {
+            informationTag.hasClass("govuk-visually-hidden") shouldBe true
           }
 
           "has the text Download" in {
@@ -145,12 +147,8 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
 
           lazy val link = savePDFSection.select("a")
 
-          "has the class bold-small" in {
-            link.hasClass("bold-small") shouldBe true
-          }
-
-          "has the class save-pdf-link" in {
-            link.hasClass("save-pdf-link") shouldBe true
+          "has the class " in {
+            link.hasClass("govuk-link govuk-body") shouldBe true
           }
 
           s"links to ${controllers.routes.ReportController.deductionsReport()}" in {
@@ -165,34 +163,27 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     }
 
     "display the continue button" in {
-      doc.select("a.button").size() shouldBe 1
+      doc.select("a.govuk-button").size() shouldBe 1
     }
 
     s"the continue button has a link to ${controllers.routes.SaUserController.saUser().url}" in {
-      doc.select("a.button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+      doc.select("a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
     }
 
     "does have ur panel" in {
-      doc.select("div#ur-panel").size() shouldBe 1
-
-      doc.select(".banner-panel__close").size() shouldBe 1
-      doc.select(".banner-panel__title").text() shouldBe messages.bannerPanelTitle
-
-      doc.select("section > a").first().attr("href") shouldBe messages.bannerPanelLinkURL
-      doc.select("section > a").first().text() shouldBe messages.bannerPanelLinkText
-
-      doc.select("a > span").first().text() shouldBe messages.bannerPanelCloseVisibleText
-      doc.select("a > span").eq(1).text() shouldBe messages.bannerPanelCloseHiddenText
+      doc.toString.contains(messages.bannerPanelTitle)
+      doc.toString.contains(messages.bannerPanelLinkText)
+      doc.toString.contains(messages.bannerPanelCloseVisibleText)
 
     }
 
     "generate the same template when .render and .f are called" in {
 
       val f = deductionsSummaryView.f(gainAnswers, deductionAnswers, results, backUrl,
-        taxYearModel, "home-link", 100, true)(fakeRequestWithSession, mockMessage)
+        taxYearModel, "home-link", 100, true)(fakeRequestWithSession, mockMessage, fakeLang)
 
       val render = deductionsSummaryView.render(gainAnswers, deductionAnswers, results, backUrl,
-        taxYearModel, "home-link", 100, true, fakeRequestWithSession, mockMessage)
+        taxYearModel, "home-link", 100, true, fakeRequestWithSession, mockMessage, fakeLang)
 
       f shouldBe render
     }
@@ -235,7 +226,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage)
+      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {

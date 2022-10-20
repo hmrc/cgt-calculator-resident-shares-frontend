@@ -52,7 +52,7 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have the back-link class" in {
-        backLink.hasClass("back-link") shouldBe true
+        backLink.hasClass("govuk-back-link") shouldBe true
       }
 
       "have a link to Confirm self assessment" in {
@@ -61,8 +61,8 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
 
 
-    s"have a heading of ${messages.title}" in {
-      doc.select("h1").text shouldBe messages.title
+    s"have a heading of ${messages.heading}" in {
+      doc.select("h1").text shouldBe messages.heading
     }
 
     s"have a first paragraph with text ${messages.detailsOne}" in {

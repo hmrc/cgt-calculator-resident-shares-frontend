@@ -14,41 +14,43 @@
  * limitations under the License.
  *@
 
-@import views.html.helpers._
-@import views.html.calculation._
 @import models.resident.WorthWhenInheritedModel
 @import views.html.calculation.gain._
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    residentSharesMainTemplate: resident_shares_main_template,
+    layout: Layout,
     form: FormWithCSRF,
-    formInputMoney: formInputMoney,
-    errorSummary: errorSummary
+    formInputMoney: playHelpers.formInputMoney,
+    errorSummary: playHelpers.errorSummary,
+    submitButton: playHelpers.submitButton
 )
 
 @(worthWhenInheritedForm: Form[WorthWhenInheritedModel])(implicit request: Request[_], messages: Messages)
 
-@residentSharesMainTemplate(
-    title = Messages("calc.resident.shares.worthWhenInherited.question"),
-    backLink = Some(controllers.routes.GainController.didYouInheritThem.url)
+@title = @{
+    if (worthWhenInheritedForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.worthWhenInherited.question")) else Messages("calc.resident.shares.worthWhenInherited.question")
+}
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(controllers.routes.GainController.didYouInheritThem.url)
 ){
 
-    @errorSummary(worthWhenInheritedForm, "amount")
+    @errorSummary(worthWhenInheritedForm.errors, Some("amount"))
 
-    <h1 class="heading-large">@Messages("calc.resident.shares.worthWhenInherited.question")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.worthWhenInherited.question")</h1>
 
     @form(action = controllers.routes.GainController.submitWorthWhenInherited) {
 
-        <p class="form-hint"> @Messages("calc.resident.shares.worthWhenInherited.help")</p>
+        <p class="govuk-body"> @Messages("calc.resident.shares.worthWhenInherited.help")</p>
 
-        <p class="panel-indent panel-indent--wide panel-indent--gutter">@Messages("calc.resident.shares.worthWhenInherited.hintText")</p>
+        <p class="govuk-inset-text">@Messages("calc.resident.shares.worthWhenInherited.hintText")</p>
 
         @formInputMoney(
-            worthWhenInheritedForm,
-            "amount",
-            Messages("calc.resident.shares.worthWhenInherited.question"),
+            field = worthWhenInheritedForm("amount"),
+            question = Messages("calc.resident.shares.worthWhenInherited.question"),
             hideLabel = true
         )
-        <button class="button" type="submit" id="continue-button">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }

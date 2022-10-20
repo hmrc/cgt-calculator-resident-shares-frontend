@@ -15,34 +15,37 @@
  *@
 
 @import models.resident._
-@import views.html.helpers._
-@import views.html.calculation._
+@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
     form: FormWithCSRF,
-    errorSummary: errorSummary,
-    residentMainTemplate: resident_main_template,
-    formInputMoney: formInputMoney
+    errorSummary: playHelpers.errorSummary,
+    layout: Layout,
+    formInputMoney: playHelpers.formInputMoney,
+    submitButton: playHelpers.submitButton
 )
 
-@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages)
+@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages, lang: Lang)
 
-@residentMainTemplate(
-    title = Messages("calc.resident.lossesBroughtForwardValue.title",
-    taxYear.taxYearSupplied),
-    backLink = Some(navBackLink),
-    homeLink = navHomeLink,
-    navTitle = navTitle
+@title = @{
+    if (lossesBroughtForwardValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
+}
+
+@layout(
+    pageTitle = title,
+    backLinkHref = Some(navBackLink)
 ) {
 
-    @errorSummary(lossesBroughtForwardValueForm, "losses-brought-forward-value")
-
-    <h1 class="heading-large">@Messages("calc.resident.lossesBroughtForwardValue.pageHeading", taxYear.taxYearSupplied)</h1>
+    @errorSummary(lossesBroughtForwardValueForm.errors, Some("losses-brought-forward-value"))
 
     @form(action = postAction) {
 
-        @formInputMoney(lossesBroughtForwardValueForm, "amount", Messages("calc.resident.lossesBroughtForwardValue.pageHeading", taxYear.taxYearSupplied), None, hideLabel = true)
+        @formInputMoney(
+            field = lossesBroughtForwardValueForm("amount"),
+            question = Messages("calc.resident.lossesBroughtForwardValue.pageHeading", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
+            hideLabel = false
+        )
 
-        <button id="continue-button" class="button" type="submit">@Messages("calc.base.continue")</button>
+        @submitButton()
     }
 }

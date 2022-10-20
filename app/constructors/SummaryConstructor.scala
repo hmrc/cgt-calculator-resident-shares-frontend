@@ -20,7 +20,7 @@ import javax.inject.Inject
 import models.resident._
 import models.resident.shares.DeductionGainAnswersModel
 import play.api.i18n.{Messages, MessagesProvider}
-import uk.gov.hmrc.play.views.helpers.MoneyPounds
+import common.resident.MoneyPounds
 
 import scala.math.BigDecimal.RoundingMode
 

@@ -41,8 +41,8 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have a title of ${messages.question}" in {
-      doc.title shouldBe messages.question
+    s"have a title of ${messages.title}" in {
+      doc.title shouldBe messages.title
     }
 
     "have a back link" which {
@@ -66,8 +66,8 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
         heading.text shouldBe messages.question
       }
 
-      "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldEqual true
+      "have the govuk-heading-l class" in {
+        heading.hasClass("govuk-heading-l") shouldEqual true
       }
     }
 
@@ -92,11 +92,11 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
           lazy val label = doc.select("label")
 
           s"has the text ${messages.question}" in {
-            label.select("span.visuallyhidden").text() shouldEqual messages.question
+            label.select(".govuk-visually-hidden").text() shouldEqual messages.question
           }
 
           "has the class visually hidden" in {
-            label.select("span.visuallyhidden").hasClass("visuallyhidden") shouldEqual true
+            label.select(".govuk-visually-hidden").hasClass("govuk-visually-hidden") shouldEqual true
           }
 
           "is tied to the input field" in {
@@ -109,7 +109,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
         }
 
         s"has a p taf with the text ${messages.jointOwnershipText}" in {
-          doc.select("p.panel-indent").text shouldBe messages.jointOwnershipText
+          doc.select("p.govuk-inset-text").text shouldBe messages.jointOwnershipText
         }
 
         "renders in input tags" in {
@@ -123,18 +123,18 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
       "has a continue button" which {
 
-        lazy val button = doc.select("#continue-button")
+        lazy val button = doc.select(".govuk-button")
 
         "renders as button tags" in {
           button.is("button") shouldEqual true
         }
 
-        "has type equal to 'submit'" in {
-          button.attr("type") shouldEqual "submit"
+        "has id equal to 'submit'" in {
+          button.attr("id") shouldEqual "submit"
         }
 
         "has class of button" in {
-          button.hasClass("button") shouldEqual true
+          button.hasClass("govuk-button") shouldEqual true
         }
 
         s"has the text ${commonMessages.continue}" in {
@@ -179,11 +179,11 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.select(".govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select(".govuk-error-message").size shouldBe 1
     }
   }
 }

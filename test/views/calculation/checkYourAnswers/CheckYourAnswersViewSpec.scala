@@ -21,6 +21,7 @@ import org.jsoup.Jsoup
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 import assets.MessageLookup.Resident.Shares.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
+import assets.{MessageLookup => allMessages}
 import assets.ModelsAsset._
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
@@ -69,13 +70,50 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   s"have a page heading" which {
 
-    s"includes a secondary heading with text '${messages.title}'" in {
-      doc.select("h1.heading-large").text shouldBe messages.title
+    s"includes a secondary heading with text '${messages.heading}'" in {
+      doc.select("h1.govuk-heading-xl").text shouldBe messages.heading
     }
   }
 
   "have a section for the check your answers" in {
     doc.select("section").attr("id") shouldBe "yourAnswers"
+  }
+
+  "have a row for dates" which {
+
+    "has the correct text" in {
+      lazy val questionDiv = doc.select("#disposalDate-question")
+      questionDiv.text shouldBe assets.MessageLookup.SharesDisposalDate.question
+    }
+
+    "has the correct value" in {
+      lazy val amountDiv = doc.select("#disposalDate-date")
+      amountDiv.text shouldBe "10 October 2016"
+    }
+  }
+
+  "have a row for numeric values" which {
+    "has the correct text" in {
+      lazy val questionDiv = doc.select("#disposalValue-question")
+      questionDiv.text shouldBe allMessages.Resident.Shares.SharesSummaryMessages.disposalValueQuestion
+    }
+    "has the correct value" in {
+      lazy val amountDiv = doc.select("#disposalValue-amount")
+      amountDiv.text shouldBe "£200,000"
+
+    }
+  }
+
+  "have a row for option values" which {
+    "has the correct text" in {
+      lazy val questionDiv = doc.select("#soldForLessThanWorth-question")
+      questionDiv.text shouldBe allMessages.Resident.Shares.SellForLess.title
+    }
+    "has the correct value" in {
+      lazy val amountDiv = doc.select("#soldForLessThanWorth-option")
+      amountDiv.text shouldBe "No"
+
+    }
   }
 
   "have a form" which {
@@ -93,18 +131,18 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   "have a continue button that" should {
 
-    lazy val continueButton = doc.select("button#continue-button")
+    lazy val continueButton = doc.select("button.govuk-button")
 
     s"have the button text '${commonMessages.continue}'" in {
       continueButton.text shouldBe commonMessages.continue
     }
 
     "be of type submit" in {
-      continueButton.attr("type") shouldBe "submit"
+      continueButton.attr("id") shouldBe "submit"
     }
 
     "have the class 'button'" in {
-      continueButton.hasClass("button") shouldBe true
+      continueButton.hasClass("govuk-button") shouldBe true
     }
   }
 

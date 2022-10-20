@@ -41,8 +41,8 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have the title of the page ${messages.question}" in {
-      doc.title shouldEqual messages.question
+    s"have the title of the page ${messages.title}" in {
+      doc.title shouldEqual messages.title
     }
 
     s"have a back link to the owner before April 1982 page" in {
@@ -57,8 +57,8 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
         heading.text shouldBe messages.question
       }
 
-      "have the heading-large class" in {
-        heading.hasClass("heading-large") shouldEqual true
+      "have the govuk-heading-xl class" in {
+        heading.hasClass("govuk-heading-xl") shouldEqual true
       }
     }
 
@@ -81,14 +81,14 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
         "has a label" which {
 
-          lazy val label = doc.select("label")
+          lazy val label = doc.body.getElementsByTag("label")
 
           s"has the correct text" in {
-            label.select("span").first().text() shouldEqual messages.question
+            label.text shouldEqual messages.question
           }
 
-          "has the class visually hidden" in {
-            label.select("span").hasClass("visuallyhidden") shouldEqual true
+          "has the class govuk-visually-hidden" in {
+            label.select(".govuk-visually-hidden").hasClass("govuk-visually-hidden") shouldEqual true
           }
 
           "is tied to the input field" in {
@@ -99,13 +99,13 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
         "has help text that" should {
 
           s"have the text ${messages.helpText}" in {
-            doc.body.getElementsByClass("form-hint").text shouldBe messages.helpText
+            doc.select("#main-content > div > div > p:nth-child(3)").text shouldBe messages.helpText
           }
         }
 
         "have a p tag" which {
           s"with the extra text ${messages.hintText}" in {
-            form.select("p.panel-indent").text shouldBe messages.hintText
+            doc.body.getElementsByClass("govuk-inset-text").text shouldBe messages.hintText
           }
         }
 
@@ -120,18 +120,14 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
       "has a continue button" which {
 
-        lazy val button = doc.select("#continue-button")
+        lazy val button = doc.getElementsByClass("govuk-button")
 
-        "renders as button tags" in {
-          button.is("button") shouldEqual true
+        "has id equal to 'submit'" in {
+          button.attr("id") shouldEqual "submit"
         }
 
-        "has type equal to 'submit'" in {
-          button.attr("type") shouldEqual "submit"
-        }
-
-        "has class of button" in {
-          button.hasClass("button") shouldEqual true
+        "has class of 'govuk-button'" in {
+          button.hasClass("govuk-button") shouldEqual true
         }
 
         s"has the text ${commonMessages.continue}" in {
@@ -176,11 +172,11 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
-      doc.body.select("#amount-error-summary").size shouldBe 1
+      doc.body.getElementsByClass("govuk-error-summary").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select(".form-group .error-notification").size shouldBe 1
+      doc.body.select("#main-content > div > div > div > div > ul > li > a").size shouldBe 1
     }
   }
 }

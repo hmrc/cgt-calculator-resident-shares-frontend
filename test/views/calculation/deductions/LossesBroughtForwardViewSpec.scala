@@ -23,6 +23,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
+import play.api.i18n.Lang
 import views.html.calculation.deductions.lossesBroughtForward
 import play.api.mvc.MessagesControllerComponents
 
@@ -31,11 +32,12 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
   val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
+  val fakeLang: Lang = Lang("en")
 
   "Reliefs view" should {
 
     lazy val view = lossesBroughtForwardView(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home-link", "navTitle")(fakeRequest, mockMessage)
+      "home-link", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -43,65 +45,55 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a dynamic navTitle of navTitle" in {
-      doc.select("span.header__menu__proposition-name").text() shouldBe "navTitle"
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
     }
 
-    s"have a title ${messages.title("2015/16")}" in {
-      doc.title() shouldBe messages.title("2015/16")
+    s"have a title ${messages.title("2015 to 2016")}" in {
+      doc.title() shouldBe messages.title("2015 to 2016")
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
-    }
-
-    "have a fieldset with aria-details attribute" in {
-      doc.select("fieldset").attr("aria-details") shouldBe "help"
-    }
-
-
-    "have a hidden legend" in {
-      val legend = doc.select("legend")
-      legend.hasClass("visuallyhidden") shouldBe true
+      doc.select("body > header > div > div > div.govuk-header__logo > a").attr("href") shouldEqual "https://www.gov.uk"
     }
 
     s"have a back link with text ${commonMessages.back}" in {
-      doc.select("#back-link").text shouldEqual commonMessages.back
+      doc.getElementsByClass("govuk-back-link").text shouldEqual commonMessages.back
     }
 
-    s"have the question of the page ${messages.question("2015/16")}" in {
-      doc.select("h1").text() shouldEqual messages.question("2015/16")
+    s"have the question of the page ${messages.question("2015 to 2016")}" in {
+      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
     }
 
     s"render a form tag with a POST action" in {
       doc.select("form").attr("method") shouldEqual "POST"
     }
 
-    s"have a visually hidden legend for an input with text ${messages.question("2015/16")}" in {
-      doc.select("legend.visuallyhidden").text() shouldEqual messages.question("2015/16")
+    s"have a visually hidden legend for an input with text ${messages.question("2015 to 2016")}" in {
+      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2015 to 2016")
     }
 
     s"have an input field with id option-yes " in {
-      doc.body.getElementById("option-yes").tagName() shouldEqual "input"
+      doc.body.getElementById("option").tagName() shouldEqual "input"
     }
 
     s"have an input field with id option-no " in {
-      doc.body.getElementById("option-no").tagName() shouldEqual "input"
+      doc.body.getElementById("option-2").tagName() shouldEqual "input"
     }
     s"have a help section with the text ${messages.helpText}" in {
-      doc.select("article > p").text shouldEqual messages.helpText
+      doc.getElementsByClass("govuk-hint").text shouldEqual messages.helpText
     }
 
     "have a continue button " in {
-      doc.body.getElementById("continue-button").text shouldEqual commonMessages.continue
+      doc.getElementsByClass("govuk-button").text shouldEqual commonMessages.continue
     }
 
     "generate the same template when .render and .f are called" in {
 
       val f = lossesBroughtForwardView.f(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-        "home-link", "navTitle")(fakeRequest, mockMessage)
+        "home-link", "navTitle")(fakeRequest, mockMessage, fakeLang)
 
       val render = lossesBroughtForwardView.render(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-        "home-link", "navTitle", fakeRequest, mockMessage)
+        "home-link", "navTitle", fakeRequest, mockMessage, fakeLang)
 
       f shouldBe render
     }
@@ -110,37 +102,37 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "Losses Brought Forward view with pre-selected value of yes" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "Yes")))
     lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage)
+      "home", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'Yes' auto selected" in {
-      doc.body.getElementById("option-yes").attr("checked") shouldBe "checked"
+      doc.body.getElementById("option").hasAttr("checked")
     }
   }
 
   "Losses Brought Forward view with pre-selected value of no" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "No")))
     lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage)
+      "home", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the option 'No' auto selected" in {
-      doc.body.getElementById("option-no").attr("checked") shouldBe "checked"
+      doc.body.getElementById("option-2").hasAttr("checked")
     }
   }
 
   "Losses Brought Forward view with errors" should {
     lazy val form = lossesBroughtForwardForm.bind(Map(("option", "")))
     lazy val view = lossesBroughtForwardView(form, postAction, "", TaxYearModel("2015/16", true, "2015/16"),
-      "home", "navTitle")(fakeRequest, mockMessage)
+      "home", "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
-    "display an error summary message for the amount" in {
-      doc.body.select("#option-error-summary").size shouldBe 1
+    "display an error summary message for the page" in {
+      doc.body.select(".govuk-error-summary__body").size shouldBe 1
     }
 
     "display an error message for the input" in {
-      doc.body.select("span.error-notification").size shouldBe 1
+      doc.getElementsByClass("govuk-form-group govuk-form-group--error").size shouldBe 1
     }
   }
 }

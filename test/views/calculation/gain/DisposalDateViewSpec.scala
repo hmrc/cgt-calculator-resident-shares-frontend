@@ -43,7 +43,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementById("homeNavHref").attr("href") shouldEqual "home-link"
+      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have the title 'When did you sell or give away the shares?'" in {
@@ -51,11 +51,11 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have the heading question 'When did you sell or give away the shares?'" in {
-      doc.body.getElementsByTag("h1").text should include(messages.title)
+      doc.body.getElementsByTag("h1").text should include(messages.question)
     }
 
-    "have the helptext 'For example, 4 9 2016'" in {
-      doc.body.getElementsByClass("form-hint").text should include(viewMessages.helpText)
+    "have the helptext 'For example, 4 9 2021'" in {
+      doc.body.getElementsByClass("govuk-hint").text should include(viewMessages.helpText)
     }
 
     "have an input box for day" in {
@@ -71,7 +71,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a button with the text 'Continue'" in {
-      doc.body.getElementById("continue-button").text shouldBe commonMessages.continue
+      doc.body.getElementsByClass("govuk-button").text shouldBe commonMessages.continue
     }
 
     "generate the same template when .render and .f are called" in {
@@ -117,7 +117,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     lazy val doc = Jsoup.parse(view.body)
 
     "have the error summary message 'Enter a real date'" in {
-      doc.body.getElementById("disposalDateDay-error-summary").text shouldBe commonMessages.errorInvalidDate
+      doc.body.getElementsByClass("govuk-list govuk-error-summary__list").text should  include(commonMessages.errorInvalidDate)
     }
   }
 
@@ -132,7 +132,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {
-      doc.body.getElementById("disposalDate.day-error-summary").text should include(viewMessages.invalidDayError)
+      doc.body.getElementsByClass("govuk-list govuk-error-summary__list").text should include(viewMessages.invalidDayError)
     }
   }
 
@@ -147,15 +147,15 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {
-      doc.body.getElementById("disposalDate.day-error-summary").text should include(viewMessages.invalidDayError)
+      doc.body.getElementsByClass("govuk-list govuk-error-summary__list").text should include(viewMessages.invalidDayError)
     }
 
     s"have the error summary message '${viewMessages.invalidMonthError}'" in {
-      doc.body.getElementById("disposalDate.month-error-summary").text should include(viewMessages.invalidMonthError)
+      doc.body.getElementsByClass("govuk-list govuk-error-summary__list").text should include(viewMessages.invalidMonthError)
     }
 
     s"have the error summary message '${viewMessages.invalidYearError}'" in {
-      doc.body.getElementById("disposalDate.year-error-summary").text should include(viewMessages.invalidYearError)
+      doc.body.getElementsByClass("govuk-list govuk-error-summary__list").text should include(viewMessages.invalidYearError)
     }
   }
 }
