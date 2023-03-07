@@ -57,7 +57,7 @@ class WhatNextNonSaGainViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a link to Confirm self assessment" in {
-        backLink.attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        backLink.attr("href") shouldBe controllers.routes.SaUserController.saUser.url
       }
     }
 

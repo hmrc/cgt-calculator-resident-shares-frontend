@@ -1,6 +1,5 @@
 # microservice specific routes
 
-->         /govuk-frontend                     govuk.Routes
 ->         /hmrc-frontend                      hmrcfrontend.Routes
 
 #Assets routes

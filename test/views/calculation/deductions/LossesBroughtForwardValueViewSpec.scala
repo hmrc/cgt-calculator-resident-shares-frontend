@@ -44,7 +44,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
       lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm, taxYear, "back-link",
-        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, mockMessage, fakeLang)
+        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -56,11 +56,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       }
 
       "have a dynamic navTitle of navTitle" in {
-        doc.body.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
+        doc.body.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a home link to 'home-link'" in {
-        doc.body.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.body.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       "have a back button that" should {
@@ -96,8 +96,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       "have a form" which {
         lazy val form = doc.getElementsByTag("form")
 
-        s"has the action '${controllers.routes.DeductionsController.submitLossesBroughtForwardValue().url}'" in {
-          form.attr("action") shouldBe controllers.routes.DeductionsController.submitLossesBroughtForwardValue().url
+        s"has the action '${controllers.routes.DeductionsController.submitLossesBroughtForwardValue.url}'" in {
+          form.attr("action") shouldBe controllers.routes.DeductionsController.submitLossesBroughtForwardValue.url
         }
 
         "has the method of POST" in {
@@ -151,11 +151,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       "generate the same template when .render and .f are called" in {
 
         val f = lossesBroughtForwardValueView.f(lossesBroughtForwardValueForm, taxYear, "back-link",
-          "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest,
+          "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest,
           mockMessage, fakeLang)
 
         val render = lossesBroughtForwardValueView.render(lossesBroughtForwardValueForm, taxYear, "back-link",
-          "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle",
+          "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle",
           fakeRequest, mockMessage, fakeLang)
 
         f shouldBe render
@@ -166,7 +166,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       lazy val taxYear = TaxYearModel("2014/15", false, "2015/16")
       lazy val view = lossesBroughtForwardValueView(lossesBroughtForwardValueForm, taxYear, "back-link",
-        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, mockMessage, fakeLang)
+        "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title ${messages.title("2014 to 2015")}" in {
@@ -201,7 +201,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "1000")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
-      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, mockMessage, fakeLang)
+      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the value of 1000 auto-filled in the input" in {
@@ -214,7 +214,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
     lazy val form = lossesBroughtForwardValueForm.bind(Map(("amount", "")))
     lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
     lazy val view = lossesBroughtForwardValueView(form, taxYear, "back-link",
-      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue(), "navTitle")(fakeRequest, mockMessage, fakeLang)
+      "home-link", controllers.routes.DeductionsController.submitLossesBroughtForwardValue, "navTitle")(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

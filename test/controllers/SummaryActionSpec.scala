@@ -178,8 +178,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         doc.title() shouldBe messages.title
       }
 
-      s"has a back link to '${routes.ReviewAnswersController.reviewDeductionsAnswers().toString}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().toString
+      s"has a back link to '${routes.ReviewAnswersController.reviewDeductionsAnswers.toString}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers.toString
       }
     }
 
@@ -224,8 +224,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         doc.title() shouldBe messages.title
       }
 
-      s"has a link to '${routes.ReviewAnswersController.reviewDeductionsAnswers().toString}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers().toString
+      s"has a link to '${routes.ReviewAnswersController.reviewDeductionsAnswers.toString}'" in {
+        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers.toString
       }
     }
   }

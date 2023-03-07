@@ -46,7 +46,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
   def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
-  override val homeLink = controllers.routes.GainController.disposalDate().url
+  override val homeLink = controllers.routes.GainController.disposalDate.url
   override val sessionTimeoutUrl = homeLink
 
   def lossesBroughtForwardResponse(implicit hc: HeaderCarrier): Future[Boolean] = {
@@ -67,8 +67,8 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   //################################# Current Income Actions ##########################################
   def buildCurrentIncomeBackUrl(implicit hc: HeaderCarrier): Future[String] = {
     lossesBroughtForwardResponse.map { response =>
-      if (response) routes.DeductionsController.lossesBroughtForwardValue().url
-      else routes.DeductionsController.lossesBroughtForward().url
+      if (response) routes.DeductionsController.lossesBroughtForwardValue.url
+      else routes.DeductionsController.lossesBroughtForward.url
     }
   }
 
@@ -102,12 +102,12 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
       implicit val lang: Lang = messagesApi.preferred(request).lang
       val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied), lang)
-      form.bindFromRequest.fold(
+      form.bindFromRequest().fold(
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url,
           taxYearModel, inCurrentTaxYear)))),
         success => {
           sessionCacheConnector.saveFormData[CurrentIncomeModel](keystoreKeys.currentIncome, success).flatMap(
-            _ => Future.successful(Redirect(routes.IncomeController.personalAllowance()))
+            _ => Future.successful(Redirect(routes.IncomeController.personalAllowance))
           )
         }
       )
@@ -131,8 +131,8 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
     Future.successful(TaxDates.taxYearStringToInteger(taxYear))
   }
 
-  private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome().toString)
-  private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance()
+  private val backLinkPersonalAllowance = Some(controllers.routes.IncomeController.currentIncome.toString)
+  private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance
 
   def personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -175,12 +175,12 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       implicit val lang: Lang = messagesApi.preferred(request).lang
       val form: Form[PersonalAllowanceModel] = personalAllowanceForm(maxPA, TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied), lang)
 
-      form.bindFromRequest.fold(
+      form.bindFromRequest().fold(
         errors => Future.successful(BadRequest(personalAllowanceView(errors, taxYearModel, standardPA, homeLink,
           postActionPersonalAllowance, backLinkPersonalAllowance, JourneyKeys.shares, navTitle, currentTaxYear))),
         success => {
           sessionCacheConnector.saveFormData(keystoreKeys.personalAllowance, success).flatMap(
-            _ => Future.successful(Redirect(routes.ReviewAnswersController.reviewFinalAnswers()))
+            _ => Future.successful(Redirect(routes.ReviewAnswersController.reviewFinalAnswers))
           )
         }
       )

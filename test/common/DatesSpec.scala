@@ -105,7 +105,7 @@ class DatesSpec extends CommonPlaySpec with MockitoSugar {
 
       val localFormatString = richDate.localFormat("")(mockLanguage, mockMessages)
 
-      localFormatString shouldBe localDate.getDayOfMonth + " " + monthWelshTranslation + " " + localDate.getYear
+      localFormatString shouldBe s"${localDate.getDayOfMonth} $monthWelshTranslation ${localDate.getYear}"
     }
   }
 }

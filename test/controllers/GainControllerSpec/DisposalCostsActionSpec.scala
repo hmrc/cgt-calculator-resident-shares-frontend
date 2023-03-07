@@ -138,8 +138,8 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         status(result) shouldBe 303
       }
 
-      s"redirect to '${controllers.routes.GainController.acquisitionValue().toString}'" in {
-        redirectLocation(result).get shouldBe controllers.routes.GainController.ownerBeforeLegislationStart().toString
+      s"redirect to '${controllers.routes.GainController.acquisitionValue.toString}'" in {
+        redirectLocation(result).get shouldBe controllers.routes.GainController.ownerBeforeLegislationStart.toString
       }
     }
 

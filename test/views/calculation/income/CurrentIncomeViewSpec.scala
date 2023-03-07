@@ -40,7 +40,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   "Current Income view" should {
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-    lazy val backLink = controllers.routes.IncomeController.personalAllowance().toString
+    lazy val backLink = controllers.routes.IncomeController.personalAllowance.toString
     lazy val view = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
@@ -65,7 +65,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "has a link to Previous Taxable Gains" in {
-        backLink.attr("href") shouldBe controllers.routes.IncomeController.personalAllowance().toString
+        backLink.attr("href") shouldBe controllers.routes.IncomeController.personalAllowance.toString
       }
     }
 
@@ -77,8 +77,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.IncomeController.submitCurrentIncome().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.IncomeController.submitCurrentIncome().toString
+      s"has the action '${controllers.routes.IncomeController.submitCurrentIncome.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.IncomeController.submitCurrentIncome.toString
       }
 
       "has the method of POST" in {
@@ -154,7 +154,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
-      lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward().toString
+      lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward.toString
       lazy val view = currentIncomeView(form, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
@@ -179,7 +179,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
         }
 
         "has a link to Annual Exempt Amount" in {
-          backLink.attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward().toString
+          backLink.attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward.toString
         }
       }
     }

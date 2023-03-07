@@ -56,7 +56,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
     implicit request =>
       languageRequest { implicit lang =>
         getGainAnswers.map { answers =>
-          Ok(checkYourAnswersView(routes.SummaryController.summary(), controllers.routes.GainController.acquisitionCosts().url, answers, None, None))
+          Ok(checkYourAnswersView(routes.SummaryController.summary, controllers.routes.GainController.acquisitionCosts.url, answers, None, None))
         }
       }
   }
@@ -64,9 +64,9 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
   val reviewDeductionsAnswers: Action[AnyContent] = ValidateSession.async {
     def generateBackUrl(deductionGainAnswers: DeductionGainAnswersModel): Future[String] = {
       if (deductionGainAnswers.broughtForwardModel.getOrElse(LossesBroughtForwardModel(false)).option) {
-        Future.successful(routes.DeductionsController.lossesBroughtForwardValue().url)
+        Future.successful(routes.DeductionsController.lossesBroughtForwardValue.url)
       } else {
-        Future.successful(routes.DeductionsController.lossesBroughtForward().url)
+        Future.successful(routes.DeductionsController.lossesBroughtForward.url)
       }
     }
 
@@ -77,7 +77,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
           deductionsAnswers <- getDeductionsAnswers
           taxYear <- getTaxYear(gainAnswers.disposalDate)
           url <- generateBackUrl(deductionsAnswers)
-        } yield Ok(checkYourAnswersView(routes.SummaryController.summary(), url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
+        } yield Ok(checkYourAnswersView(routes.SummaryController.summary, url, gainAnswers, Some(deductionsAnswers), Some(taxYear)))
       }
   }
 
@@ -93,7 +93,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
           incomeAnswers <- getIncomeAnswers
           taxYear <- getTaxYear(gainAnswers.disposalDate)
           currentTaxYear = getCurrentTaxYear
-        } yield Ok(checkYourAnswersView(routes.SummaryController.summary(), routes.IncomeController.personalAllowance().url, gainAnswers,
+        } yield Ok(checkYourAnswersView(routes.SummaryController.summary, routes.IncomeController.personalAllowance.url, gainAnswers,
           Some(deductionsAnswers), Some(taxYear), Some(incomeAnswers), taxYear.taxYearSupplied == currentTaxYear))
       }
   }

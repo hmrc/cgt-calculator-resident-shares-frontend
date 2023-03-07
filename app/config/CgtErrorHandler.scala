@@ -35,7 +35,7 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
                                 errorTemplateView: error_template) extends FrontendErrorHandler with Logging{
 
   override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit req:Request[_]): Html = {
-    val homeNavLink = controllers.routes.GainController.disposalDate().url
+    val homeNavLink = controllers.routes.GainController.disposalDate.url
     errorTemplateView(pageTitle, heading, message, homeNavLink)
   }
 

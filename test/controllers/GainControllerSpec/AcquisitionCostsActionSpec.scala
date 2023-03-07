@@ -170,7 +170,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
           status(result) shouldBe 200
         }
 
-        s"have a back-link to '${controllers.routes.GainController.valueBeforeLegislationStart().url}'" in {
+        s"have a back-link to '${controllers.routes.GainController.valueBeforeLegislationStart.url}'" in {
           status(result) shouldBe 200
         }
       }
@@ -190,7 +190,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
           status(result) shouldBe 200
         }
 
-        s"have a back-link to '${controllers.routes.GainController.worthWhenInherited().url}'" in {
+        s"have a back-link to '${controllers.routes.GainController.worthWhenInherited.url}'" in {
           status(result) shouldBe 200
         }
       }
@@ -210,7 +210,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
           status(result) shouldBe 200
         }
 
-        s"have a back-link to '${controllers.routes.GainController.acquisitionValue().url}'" in {
+        s"have a back-link to '${controllers.routes.GainController.acquisitionValue.url}'" in {
           status(result) shouldBe 200
         }
       }
@@ -295,7 +295,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "redirect to the losses brought forward page" in {
-        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward().url)
+        redirectLocation(result) shouldBe Some(controllers.routes.DeductionsController.lossesBroughtForward.url)
       }
     }
 

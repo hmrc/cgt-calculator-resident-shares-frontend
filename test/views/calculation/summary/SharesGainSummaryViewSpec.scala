@@ -78,13 +78,13 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           backLink.text shouldBe commonMessages.back
         }
 
-        s"has the url ${routes.ReviewAnswersController.reviewGainAnswers().toString}" in {
-          backLink.attr("href") shouldEqual routes.ReviewAnswersController.reviewGainAnswers().toString
+        s"has the url ${routes.ReviewAnswersController.reviewGainAnswers.toString}" in {
+          backLink.attr("href") shouldEqual routes.ReviewAnswersController.reviewGainAnswers.toString
         }
       }
 
       "have a home link to 'home-link'" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       "has a banner" which {
@@ -326,8 +326,8 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           doc.select(".govuk-button").text shouldBe summaryMessages.continue
         }
 
-        s"has a link to ${controllers.routes.SaUserController.saUser().url}" in {
-          doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        s"has a link to ${controllers.routes.SaUserController.saUser.url}" in {
+          doc.select(".govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
         }
       }
 
@@ -364,8 +364,8 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
               link.hasClass("govuk-link govuk-body") shouldBe true
             }
 
-            s"links to ${controllers.routes.ReportController.gainSummaryReport()}" in {
-              link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport().toString
+            s"links to ${controllers.routes.ReportController.gainSummaryReport}" in {
+              link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport.toString
             }
 
             s"has the text ${messages.saveAsPdf}" in {

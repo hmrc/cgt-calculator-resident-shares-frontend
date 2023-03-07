@@ -34,7 +34,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector) {
 
-  val homeLink = controllers.routes.GainController.disposalDate().url
+  val homeLink = controllers.routes.GainController.disposalDate.url
 
   def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {
 

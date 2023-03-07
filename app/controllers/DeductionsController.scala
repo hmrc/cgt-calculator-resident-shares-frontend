@@ -46,7 +46,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      lossesBroughtForwardValueView: lossesBroughtForwardValue)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  override val homeLink: String = routes.GainController.disposalDate().url
+  override val homeLink: String = routes.GainController.disposalDate.url
   override val sessionTimeoutUrl: String = homeLink
   def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
 
@@ -87,9 +87,9 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
 
   //################# Brought Forward Losses Actions ##############################
 
-  private val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
+  private val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward
 
-  val lossesBroughtForwardBackUrl: String = controllers.routes.GainController.acquisitionCosts().url
+  val lossesBroughtForwardBackUrl: String = controllers.routes.GainController.acquisitionCosts.url
 
   val lossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -115,16 +115,16 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
 
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       implicit val lang: Lang = messagesApi.preferred(request).lang
-      lossesBroughtForwardForm.bindFromRequest.fold(
+      lossesBroughtForwardForm.bindFromRequest().fold(
         errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
           homeLink, navTitle))),
         success => {
           sessionCacheConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
-            _ =>if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue()))
+            _ =>if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue))
             else {
               positiveChargeableGainCheck.map { positiveChargeableGain =>
-                if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-                else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+                if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome)
+                else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)
               }
             }
           )
@@ -143,8 +143,8 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
 
   //################# Brought Forward Losses Value Actions ##############################
 
-  private val lossesBroughtForwardValueBackLink: String = routes.DeductionsController.lossesBroughtForward().url
-  private val lossesBroughtForwardValuePostAction: Call = routes.DeductionsController.submitLossesBroughtForwardValue()
+  private val lossesBroughtForwardValueBackLink: String = routes.DeductionsController.lossesBroughtForward.url
+  private val lossesBroughtForwardValuePostAction: Call = routes.DeductionsController.submitLossesBroughtForwardValue
 
   val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
 
@@ -193,7 +193,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
 
     val form = lossesBroughtForwardValueForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
 
-    form.bindFromRequest.fold(
+    form.bindFromRequest().fold(
       errors => {
         for {
           disposalDate <- getDisposalDate
@@ -212,8 +212,8 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
       success => {
         sessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
           _ => positiveChargeableGainCheck.map { positiveChargeableGain =>
-            if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome())
-            else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers())
+            if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome)
+            else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)
           }
         )
       }

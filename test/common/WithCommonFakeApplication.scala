@@ -32,12 +32,12 @@ trait WithCommonFakeApplication extends BeforeAndAfterAll {
 
   def bindModules: Seq[GuiceableModule] = Seq()
 
-  override def beforeAll() {
+  override def beforeAll(): Unit = {
     super.beforeAll()
     Play.start(fakeApplication)
   }
 
-  override def afterAll() {
+  override def afterAll(): Unit =  {
     super.afterAll()
     Play.stop(fakeApplication)
   }

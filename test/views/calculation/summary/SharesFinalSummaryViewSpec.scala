@@ -41,7 +41,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       personalAllowanceModel = Some(PersonalAllowanceModel(0))
     )
 
-    lazy val backLinkUrl: String = controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
+    lazy val backLinkUrl: String = controllers.routes.ReviewAnswersController.reviewFinalAnswers.url
 
     "the share was sold inside tax years, bought after legislation start," +
       " with reliefs and brought forward losses and taxed at both tax bands" should {
@@ -113,8 +113,8 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
           backLink.text shouldBe residentMessages.back
         }
 
-        s"has a link to ${controllers.routes.ReviewAnswersController.reviewFinalAnswers().url}" in {
-          backLink.attr("href") shouldEqual controllers.routes.ReviewAnswersController.reviewFinalAnswers().url
+        s"has a link to ${controllers.routes.ReviewAnswersController.reviewFinalAnswers.url}" in {
+          backLink.attr("href") shouldEqual controllers.routes.ReviewAnswersController.reviewFinalAnswers.url
         }
       }
 
@@ -422,8 +422,8 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
                 link.hasClass("govuk-link govuk-body") shouldBe true
               }
 
-              s"links to ${controllers.routes.ReportController.finalSummaryReport()}" in {
-                link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport().toString()
+              s"links to ${controllers.routes.ReportController.finalSummaryReport}" in {
+                link.attr("href") shouldBe controllers.routes.ReportController.finalSummaryReport.toString()
               }
 
               s"has the text ${messages.saveAsPdf}" in {
@@ -438,8 +438,8 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
             doc.select("a.govuk-button").text shouldBe summaryMessages.continue
           }
 
-          s"has a link to ${controllers.routes.SaUserController.saUser().url}" in {
-            doc.select("a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+          s"has a link to ${controllers.routes.SaUserController.saUser.url}" in {
+            doc.select("a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
           }
         }
 

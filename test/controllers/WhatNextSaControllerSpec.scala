@@ -86,7 +86,7 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementsByClass("govuk-back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementsByClass("govuk-back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
       }
     }
   }
@@ -119,7 +119,7 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select("a.govuk-back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.govuk-back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
       }
     }
   }
@@ -152,7 +152,7 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
       }
 
       "have a back link to the confirm-sa page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select("a.govuk-back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+        Jsoup.parse(bodyOf(result)(materializer)).select("a.govuk-back-link").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
       }
     }
   }

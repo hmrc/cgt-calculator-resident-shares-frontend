@@ -88,12 +88,12 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
         Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
       }
 
-      s"have a back link to '${controllers.routes.GainController.disposalDate().url}'" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate().url
+      s"have a back link to '${controllers.routes.GainController.disposalDate.url}'" in {
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
       }
 
-      s"have a continue link to '${controllers.routes.GainController.sellForLess().url}'" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess().url
+      s"have a continue link to '${controllers.routes.GainController.sellForLess.url}'" in {
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess.url
       }
     }
 

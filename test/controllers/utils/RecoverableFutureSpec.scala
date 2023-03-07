@@ -35,7 +35,7 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
     "convert a `NoSuchElementException` into an `ApplicationException`" in {
 
       implicit val request: Request[AnyContent] = FakeRequest()
-      val homeLink = controllers.routes.GainController.disposalDate().url
+      val homeLink = controllers.routes.GainController.disposalDate.url
       val sessionTimeoutUrl = homeLink
 
       val future: Future[Result] = Future.failed(new NoSuchElementException("test message")).recoverToStart(homeLink, sessionTimeoutUrl)
@@ -46,13 +46,14 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
           result.header.headers should contain("Location" -> url)
           result.header.status shouldBe SEE_OTHER
           message should equal("test message")
+        case _ => None
       }
     }
 
     "not convert any other exception into an `ApplicationException`" in {
 
       implicit val request: Request[AnyContent] = FakeRequest()
-      val homeLink = controllers.routes.GainController.disposalDate().url
+      val homeLink = controllers.routes.GainController.disposalDate.url
       val sessionTimeoutUrl = homeLink
       val ex = new IllegalArgumentException("test message")
 

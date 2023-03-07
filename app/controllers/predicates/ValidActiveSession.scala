@@ -26,7 +26,7 @@ import uk.gov.hmrc.http.SessionKeys
 trait ValidActiveSession  {
   self: FrontendController =>
 
-  val homeLink: String = controllers.routes.GainController.disposalDate().url
+  val homeLink: String = controllers.routes.GainController.disposalDate.url
   val sessionTimeoutUrl: String = homeLink
 
   private type AsyncRequest = Request[AnyContent] => Future[Result]

@@ -198,8 +198,8 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         status(result) shouldBe 303
       }
 
-      s"redirect to '${controllers.routes.IncomeController.personalAllowance().toString}'" in {
-        redirectLocation(result).get shouldBe controllers.routes.IncomeController.personalAllowance().toString
+      s"redirect to '${controllers.routes.IncomeController.personalAllowance.toString}'" in {
+        redirectLocation(result).get shouldBe controllers.routes.IncomeController.personalAllowance.toString
       }
     }
 

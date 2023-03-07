@@ -40,7 +40,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
   val mockHttp = mock[DefaultHttpClient]
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val sessionId = UUID.randomUUID.toString
-  val homeLink = controllers.routes.GainController.disposalDate().url
+  val homeLink = controllers.routes.GainController.disposalDate.url
   val mockConfig = mock[ApplicationConfig]
 
   object TargetCalculatorConnector extends CalculatorConnector(mockHttp, mockConfig) {

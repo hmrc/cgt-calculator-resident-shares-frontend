@@ -132,7 +132,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
       }
 
       "redirect to the valueBeforeLegislationStart page" in {
-        redirectLocation(result) shouldBe Some(controllers.routes.GainController.valueBeforeLegislationStart().toString)
+        redirectLocation(result) shouldBe Some(controllers.routes.GainController.valueBeforeLegislationStart.toString)
       }
     }
 

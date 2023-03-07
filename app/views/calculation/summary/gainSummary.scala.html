@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 
 @layout(
     pageTitle = Messages("calc.resident.summary.title"),
-    backLinkHref = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers().toString),
+    backLinkHref = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers.toString),
     isUserResearchBannerVisible = showUserResearchPanel
     ) {
 
@@ -65,7 +65,7 @@
             <span class="govuk-visually-hidden">@Messages("calc.summary.download")</span>
         </div>
 
-        <a class="govuk-link govuk-body" href="@controllers.routes.ReportController.gainSummaryReport()"
+        <a class="govuk-link govuk-body" href="@controllers.routes.ReportController.gainSummaryReport"
         data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
     </div>
     </br>

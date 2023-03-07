@@ -42,7 +42,7 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
     }
   }
 
-  val homeLink = controllers.routes.GainController.disposalDate().url
+  val homeLink = controllers.routes.GainController.disposalDate.url
   lazy val actionBuilder = fakeApplication.injector.instanceOf[DefaultActionBuilder]
 
   val routerForTest: Router = {

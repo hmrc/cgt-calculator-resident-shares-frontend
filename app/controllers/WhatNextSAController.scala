@@ -42,7 +42,7 @@ class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnecto
                                     (implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  val backLink: String = controllers.routes.SaUserController.saUser().url
+  val backLink: String = controllers.routes.SaUserController.saUser.url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
   def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {

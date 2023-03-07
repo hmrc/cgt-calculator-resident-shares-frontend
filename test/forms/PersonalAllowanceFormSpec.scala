@@ -73,7 +73,6 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "supplied with a negative amount" should {
 
-      val limit = BigDecimal(11100)
       lazy val form = personalAllowanceForm.bind(Map("amount" -> "-1000"))
 
       "raise form error" in {
@@ -87,7 +86,6 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "supplied with an amount that has too many decimal placed" should {
 
-      val limit = BigDecimal(11100)
       lazy val form = personalAllowanceForm.bind(Map("amount" -> "100.1234"))
 
       "raise form error" in {

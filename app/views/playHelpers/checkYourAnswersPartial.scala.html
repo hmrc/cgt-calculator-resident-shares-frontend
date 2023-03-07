@@ -1,5 +1,5 @@
 @*
- * Copyright 2021 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,44 +36,44 @@
     @if(displayLinks) {<dl class="govuk-summary-list">} else {<table class="govuk-table"> <tbody class="govuk-table__body">}
 
     <!--Gain Answers Section-->
-    @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate().toString), extraClass = "summary-overline", displayLink = displayLinks)
+    @summaryDateRowHelper("disposalDate",Messages("calc.resident.shares.disposalDate.question"),gainAnswers.disposalDate,Some(gainRoutes.disposalDate.toString), extraClass = "summary-overline", displayLink = displayLinks)
 
-    @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), gainAnswers.soldForLessThanWorth, Some(gainRoutes.sellForLess().toString), displayLink = displayLinks)
+    @summaryOptionRowHelper("soldForLessThanWorth", Messages("calc.resident.shares.sellForLess.question"), gainAnswers.soldForLessThanWorth, Some(gainRoutes.sellForLess.toString), displayLink = displayLinks)
 
     @{if(!gainAnswers.soldForLessThanWorth)
-        summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), gainAnswers.disposalValue.get, Some(gainRoutes.disposalValue().toString), displayLink = displayLinks)
+        summaryNumericRowHelper("disposalValue", Messages("calc.resident.shares.disposalValue.question"), gainAnswers.disposalValue.get, Some(gainRoutes.disposalValue.toString), displayLink = displayLinks)
     }
 
     @{if(gainAnswers.soldForLessThanWorth)
-        summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, Some(gainRoutes.worthWhenSoldForLess().toString), displayLink = displayLinks)
+        summaryNumericRowHelper("worthWhenSoldForLess", Messages("calc.resident.shares.worthWhenSoldForLess.question"), gainAnswers.worthWhenSoldForLess.get, Some(gainRoutes.worthWhenSoldForLess.toString), displayLink = displayLinks)
     }
 
-    @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),gainAnswers.disposalCosts,Some(gainRoutes.disposalCosts().toString), displayLink = displayLinks)
+    @summaryNumericRowHelper("disposalCosts",Messages("calc.resident.shares.disposalCosts.question"),gainAnswers.disposalCosts,Some(gainRoutes.disposalCosts.toString), displayLink = displayLinks)
 
-    @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),gainAnswers.ownerBeforeLegislationStart,Some(gainRoutes.ownerBeforeLegislationStart().url), displayLink = displayLinks)
+    @summaryOptionRowHelper("ownerBeforeLegislationStart",Messages("calc.resident.shares.ownerBeforeLegislationStart.title"),gainAnswers.ownerBeforeLegislationStart,Some(gainRoutes.ownerBeforeLegislationStart.url), displayLink = displayLinks)
 
     @if(gainAnswers.ownerBeforeLegislationStart){
-        @summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,Some(gainRoutes.valueBeforeLegislationStart().toString), displayLink = displayLinks)
+        @summaryNumericRowHelper("valueBeforeLegislationStart",Messages("calc.resident.shares.valueBeforeLegislationStart.question"),gainAnswers.valueBeforeLegislationStart.get,Some(gainRoutes.valueBeforeLegislationStart.toString), displayLink = displayLinks)
     }
     @if(!gainAnswers.ownerBeforeLegislationStart) {
-        @summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),gainAnswers.inheritedTheShares.get,Some(gainRoutes.didYouInheritThem().url), displayLink = displayLinks)
+        @summaryOptionRowHelper("inheritedTheShares",Messages("calc.resident.shares.didYouInheritThem.question"),gainAnswers.inheritedTheShares.get,Some(gainRoutes.didYouInheritThem.url), displayLink = displayLinks)
     }
     @if(gainAnswers.displayWorthWhenInherited){
-        @summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),gainAnswers.worthWhenInherited.get,Some(gainRoutes.worthWhenInherited().url), displayLink = displayLinks)
+        @summaryNumericRowHelper("worthWhenInherited",Messages("calc.resident.shares.worthWhenInherited.question"),gainAnswers.worthWhenInherited.get,Some(gainRoutes.worthWhenInherited.url), displayLink = displayLinks)
     }
     @if(gainAnswers.displayWorthWhenBought) {
-        @summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),gainAnswers.acquisitionValue.get,Some(gainRoutes.acquisitionValue().url), displayLink = displayLinks)
+        @summaryNumericRowHelper("acquisitionValue",Messages("calc.resident.shares.acquisitionValue.question"),gainAnswers.acquisitionValue.get,Some(gainRoutes.acquisitionValue.url), displayLink = displayLinks)
     }
 
-    @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,Some(gainRoutes.acquisitionCosts().toString), displayLink = displayLinks)
+    @summaryNumericRowHelper("acquisitionCosts",Messages("calc.resident.shares.acquisitionCosts.question"),gainAnswers.acquisitionCosts,Some(gainRoutes.acquisitionCosts.toString), displayLink = displayLinks)
 
     <!--Deductions Answers Section-->
     @if(deductionAnswers.isDefined) {
 
-        @summaryOptionRowHelper("broughtForwardLosses", Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)), deductionAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward().toString), displayLink = displayLinks)
+        @summaryOptionRowHelper("broughtForwardLosses", Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)), deductionAnswers.get.broughtForwardModel.get.option, Some(deductionRoutes.lossesBroughtForward.toString), displayLink = displayLinks)
 
         @{if(deductionAnswers.get.broughtForwardModel.get.option)
-            summaryNumericRowHelper("broughtForwardLossesValue", Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)), deductionAnswers.get.broughtForwardValueModel.get.amount, Some(deductionRoutes.lossesBroughtForwardValue().toString), displayLink = displayLinks)
+            summaryNumericRowHelper("broughtForwardLossesValue", Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)), deductionAnswers.get.broughtForwardValueModel.get.amount, Some(deductionRoutes.lossesBroughtForwardValue.toString), displayLink = displayLinks)
         }
     }
 
@@ -82,11 +82,11 @@
 
         @{summaryNumericRowHelper("currentIncome", if(isCurrentTaxYear){Messages("calc.resident.currentIncome.questionCurrentYear")}
         else{Messages("calc.resident.currentIncome.question", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied))},
-        incomeAnswers.get.currentIncomeModel.get.amount, Some(incomeRoutes.currentIncome().toString), displayLink = displayLinks)}
+        incomeAnswers.get.currentIncomeModel.get.amount, Some(incomeRoutes.currentIncome.toString), displayLink = displayLinks)}
 
         @{summaryNumericRowHelper("personalAllowance", {if(isCurrentTaxYear) {Messages("calc.resident.personalAllowance.currentYearQuestion")}
         else {Messages("calc.resident.personalAllowance.question", TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied))}},
-        incomeAnswers.get.personalAllowanceModel.get.amount, Some(incomeRoutes.personalAllowance().toString), displayLink = displayLinks)}
+        incomeAnswers.get.personalAllowanceModel.get.amount, Some(incomeRoutes.personalAllowance.toString), displayLink = displayLinks)}
 
     }
     @if(displayLinks) { </dl>} else {</tbody></table>}

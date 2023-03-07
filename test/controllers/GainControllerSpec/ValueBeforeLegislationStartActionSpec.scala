@@ -134,7 +134,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     }
 
     "re-direct to the acquisition Costs page when supplied with a valid form" in {
-      redirectLocation(result) shouldBe Some(routes.GainController.acquisitionCosts().url)
+      redirectLocation(result) shouldBe Some(routes.GainController.acquisitionCosts.url)
     }
   }
 

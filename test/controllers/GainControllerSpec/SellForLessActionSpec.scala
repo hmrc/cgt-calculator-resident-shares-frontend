@@ -105,7 +105,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the disposal date page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate.url
       }
     }
 
@@ -114,7 +114,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the outside tax years page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears.url
       }
     }
 

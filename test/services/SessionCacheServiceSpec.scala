@@ -34,7 +34,7 @@ import scala.concurrent.Future
 class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar {
 
   val mockSessionCacheConnector = mock[SessionCacheConnector]
-  val homeLink = controllers.routes.GainController.disposalDate().url
+  val homeLink = controllers.routes.GainController.disposalDate.url
   val mockSessionCacheService = mock[SessionCacheService]
 
   object TestSessionCacheService extends SessionCacheService(mockSessionCacheConnector) {

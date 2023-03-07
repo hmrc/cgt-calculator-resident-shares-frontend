@@ -57,7 +57,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have a link to Disposal Value" in {
-        backLink.attr("href") shouldBe controllers.routes.GainController.disposalValue().toString
+        backLink.attr("href") shouldBe controllers.routes.GainController.disposalValue.toString
       }
     }
 
@@ -78,8 +78,8 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.GainController.submitDisposalCosts().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.GainController.submitDisposalCosts().toString
+      s"has the action '${controllers.routes.GainController.submitDisposalCosts.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.GainController.submitDisposalCosts.toString
       }
 
       "has the method of POST" in {
