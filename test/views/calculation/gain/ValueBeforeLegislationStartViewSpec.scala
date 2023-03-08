@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a back link to the owner before April 1982 page" in {
-      doc.select("#back-link").attr("href") shouldEqual controllers.routes.GainController.ownerBeforeLegislationStart().toString
+      doc.select("#back-link").attr("href") shouldEqual controllers.routes.GainController.ownerBeforeLegislationStart.toString
     }
 
     "have a heading that" should {
@@ -68,7 +68,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       lazy val form = doc.select("form")
 
       "have the the correct action" in {
-        form.attr("action") shouldEqual controllers.routes.GainController.submitValueBeforeLegislationStart().toString
+        form.attr("action") shouldEqual controllers.routes.GainController.submitValueBeforeLegislationStart.toString
       }
 
       "have the method POST" in {
@@ -176,7 +176,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     "display an error message for the input" in {
-      doc.body.select("#main-content > div > div > div > div > ul > li > a").size shouldBe 1
+      doc.body.getElementsByClass("govuk-list govuk-error-summary__list").size shouldBe 1
     }
   }
 }

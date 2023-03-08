@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -40,7 +40,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
 
   val serviceUrl: String = appConfig.baseUrl
 
-  val homeLink: String = controllers.routes.GainController.disposalDate().url
+  val homeLink: String = controllers.routes.GainController.disposalDate.url
 
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 

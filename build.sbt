@@ -1,12 +1,11 @@
 import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, integrationTestSettings, scalaSettings, targetJvm}
-import uk.gov.hmrc.sbtdistributables.SbtDistributablesPlugin.publishingSettings
 
 lazy val appName = "cgt-calculator-resident-shares-frontend"
 
 lazy val appDependencies : Seq[ModuleID] = ???
 lazy val plugins : Seq[Plugins] = Seq(play.sbt.PlayScala)
 lazy val playSettings : Seq[Setting[_]] = Seq.empty
-val silencerVersion = "1.7.1"
+val silencerVersion = "1.7.12"
 
 lazy val scoverageSettings = {
   import scoverage.ScoverageKeys
@@ -27,14 +26,13 @@ lazy val microservice = Project(appName, file("."))
   .settings(playSettings : _*)
   .settings(PlayKeys.playDefaultPort := 9704)
   .settings(scalaSettings: _*)
-  .settings(publishingSettings: _*)
   .settings(defaultSettings(): _*)
   .settings(
     targetJvm := "jvm-1.8",
-    scalaVersion := "2.12.12",
+    scalaVersion := "2.13.8",
     libraryDependencies ++= AppDependencies(),
     retrieveManaged := true,
-    pipelineStages in Assets := Seq(digest),
+    Assets / pipelineStages := Seq(digest),
     scalacOptions += "-P:silencer:pathFilters=views;routes",
     libraryDependencies ++= Seq(
       compilerPlugin("com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full),
@@ -49,11 +47,10 @@ lazy val microservice = Project(appName, file("."))
   .settings(
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.govukfrontend.views.html.components._",
-      "uk.gov.hmrc.govukfrontend.views.html.helpers._",
       "uk.gov.hmrc.hmrcfrontend.views.html.components._",
       "uk.gov.hmrc.hmrcfrontend.views.html.helpers._",
       "uk.gov.hmrc.govukfrontend.views.html.components.implicits._"
     )
   )
 
-fork in run := true
+run / fork := true

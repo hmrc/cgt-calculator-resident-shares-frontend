@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -42,7 +42,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     s"have title ${messages.title}" in {
@@ -62,7 +62,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a link to Disposal Costs" in {
-        backLink.attr("href") shouldBe controllers.routes.GainController.didYouInheritThem().url
+        backLink.attr("href") shouldBe controllers.routes.GainController.didYouInheritThem.url
       }
     }
 
@@ -90,8 +90,8 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       lazy val form = doc.getElementsByTag("form")
 
-      s"has the action '${controllers.routes.GainController.submitAcquisitionValue().toString}'" in {
-        form.attr("action") shouldBe controllers.routes.GainController.submitAcquisitionValue().toString
+      s"has the action '${controllers.routes.GainController.submitAcquisitionValue.toString}'" in {
+        form.attr("action") shouldBe controllers.routes.GainController.submitAcquisitionValue.toString
       }
 
       "has the method of POST" in {
@@ -167,7 +167,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "display an error message for the input" in {
-      doc.body.select("#main-content > div > div > div > div > ul > li > a").size shouldBe 1
+      doc.body.getElementsByClass("govuk-list govuk-error-summary__list").size shouldBe 1
     }
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -61,7 +61,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have the home link to 'home'" in {
-      doc.body.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.body.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have a back button" which {
@@ -82,7 +82,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     "render a form tag with a submit action" in {
-      doc.select("form").attr("action") shouldEqual controllers.routes.GainController.submitOwnerBeforeLegislationStart().toString
+      doc.select("form").attr("action") shouldEqual controllers.routes.GainController.submitOwnerBeforeLegislationStart.toString
     }
 
     "has the method of POST" in {

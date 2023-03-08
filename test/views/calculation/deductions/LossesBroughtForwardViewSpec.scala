@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ import play.api.mvc.MessagesControllerComponents
 class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward()
+  lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward
   val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
   val fakeLang: Lang = Lang("en")
 
@@ -45,7 +45,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a dynamic navTitle of navTitle" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
+      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe "Calculate your Capital Gains Tax"
     }
 
     s"have a title ${messages.title("2015 to 2016")}" in {

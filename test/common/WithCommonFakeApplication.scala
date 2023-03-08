@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,12 +32,12 @@ trait WithCommonFakeApplication extends BeforeAndAfterAll {
 
   def bindModules: Seq[GuiceableModule] = Seq()
 
-  override def beforeAll() {
+  override def beforeAll(): Unit = {
     super.beforeAll()
     Play.start(fakeApplication)
   }
 
-  override def afterAll() {
+  override def afterAll(): Unit =  {
     super.afterAll()
     Play.stop(fakeApplication)
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -73,16 +73,16 @@ class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
 
     def saAction(disposalValue: BigDecimal, taxOwed: Option[BigDecimal], maxAEA: BigDecimal): Future[Result] = {
       taxOwed match {
-        case Some(tax) if tax > 0 => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAGain())}
-        case _ if disposalValue >= 4 * maxAEA => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA())}
-        case _ => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSANoGain())}
+        case Some(tax) if tax > 0 => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAGain)}
+        case _ if disposalValue >= 4 * maxAEA => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA)}
+        case _ => Future{Redirect(controllers.routes.WhatNextSAController.whatNextSANoGain)}
       }
     }
 
     def nonSaAction(taxOwed: Option[BigDecimal]) = {
       taxOwed match {
-        case Some(gain) if gain > 0 => Future{Redirect(controllers.routes.WhatNextNonSaController.whatNextNonSaGain())}
-        case _ => Future{Redirect(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss())}
+        case Some(gain) if gain > 0 => Future{Redirect(controllers.routes.WhatNextNonSaController.whatNextNonSaGain)}
+        case _ => Future{Redirect(controllers.routes.WhatNextNonSaController.whatNextNonSaLoss)}
       }
     }
 

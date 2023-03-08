@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -52,8 +52,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#disposalDate-date").text shouldBe "10 October 2016"
       }
 
-      s"should have a change link to ${routes.GainController.disposalDate().url}" in {
-        doc.select("#disposalDate-change-link a").attr("href") shouldBe routes.GainController.disposalDate().url
+      s"should have a change link to ${routes.GainController.disposalDate.url}" in {
+        doc.select("#disposalDate-change-link a").attr("href") shouldBe routes.GainController.disposalDate.url
       }
 
       "has the question as part of the link" in {
@@ -75,8 +75,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#disposalValue-amount").text shouldBe "£200,000"
       }
 
-      s"should have a change link to ${routes.GainController.disposalValue().url}" in {
-        doc.select("#disposalValue-change-link a").attr("href") shouldBe routes.GainController.disposalValue().url
+      s"should have a change link to ${routes.GainController.disposalValue.url}" in {
+        doc.select("#disposalValue-change-link a").attr("href") shouldBe routes.GainController.disposalValue.url
       }
 
     }
@@ -91,8 +91,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#disposalCosts-amount").text shouldBe "£10,000"
       }
 
-      s"should have a change link to ${routes.GainController.disposalCosts().url}" in {
-        doc.select("#disposalCosts-change-link a").attr("href") shouldBe routes.GainController.disposalCosts().url
+      s"should have a change link to ${routes.GainController.disposalCosts.url}" in {
+        doc.select("#disposalCosts-change-link a").attr("href") shouldBe routes.GainController.disposalCosts.url
       }
 
     }
@@ -107,8 +107,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#ownerBeforeLegislationStart-option").text shouldBe "No"
       }
 
-      s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-        doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
+      s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart.url}" in {
+        doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart.url
       }
     }
 
@@ -122,8 +122,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#inheritedTheShares-option").text shouldBe "No"
       }
 
-      s"should have a change link to ${routes.GainController.didYouInheritThem().url}" in {
-        doc.select("#inheritedTheShares-change-link a").attr("href") shouldBe routes.GainController.didYouInheritThem().url
+      s"should have a change link to ${routes.GainController.didYouInheritThem.url}" in {
+        doc.select("#inheritedTheShares-change-link a").attr("href") shouldBe routes.GainController.didYouInheritThem.url
       }
     }
 
@@ -141,8 +141,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#acquisitionValue-amount").text shouldBe "£100,000"
       }
 
-      s"should have a change link to ${routes.GainController.acquisitionValue().url}" in {
-        doc.select("#acquisitionValue-change-link a").attr("href") shouldBe routes.GainController.acquisitionValue().url
+      s"should have a change link to ${routes.GainController.acquisitionValue.url}" in {
+        doc.select("#acquisitionValue-change-link a").attr("href") shouldBe routes.GainController.acquisitionValue.url
       }
 
     }
@@ -157,8 +157,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#acquisitionCosts-amount").text shouldBe "£10,000"
       }
 
-      s"should have a change link to ${routes.GainController.acquisitionCosts().url}" in {
-        doc.select("#acquisitionCosts-change-link a").attr("href") shouldBe routes.GainController.acquisitionCosts().url
+      s"should have a change link to ${routes.GainController.acquisitionCosts.url}" in {
+        doc.select("#acquisitionCosts-change-link a").attr("href") shouldBe routes.GainController.acquisitionCosts.url
       }
     }
 
@@ -172,8 +172,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#broughtForwardLosses-option").text shouldBe "Yes"
       }
 
-      s"should have a change link to ${routes.DeductionsController.lossesBroughtForward().url}" in {
-        doc.select("#broughtForwardLosses-change-link a").attr("href") shouldBe routes.DeductionsController.lossesBroughtForward().url
+      s"should have a change link to ${routes.DeductionsController.lossesBroughtForward.url}" in {
+        doc.select("#broughtForwardLosses-change-link a").attr("href") shouldBe routes.DeductionsController.lossesBroughtForward.url
       }
 
       "has the question as part of the link" in {
@@ -195,8 +195,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#broughtForwardLossesValue-amount").text shouldBe "£10,000"
       }
 
-      s"should have a change link to ${routes.DeductionsController.lossesBroughtForwardValue().url}" in {
-        doc.select("#broughtForwardLossesValue-change-link a").attr("href") shouldBe routes.DeductionsController.lossesBroughtForwardValue().url
+      s"should have a change link to ${routes.DeductionsController.lossesBroughtForwardValue.url}" in {
+        doc.select("#broughtForwardLossesValue-change-link a").attr("href") shouldBe routes.DeductionsController.lossesBroughtForwardValue.url
       }
     }
 
@@ -210,8 +210,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#currentIncome-amount").text shouldBe "£0"
       }
 
-      s"should have a change link to ${routes.IncomeController.currentIncome().url}" in {
-        doc.select("#currentIncome-change-link a").attr("href") shouldBe routes.IncomeController.currentIncome().url
+      s"should have a change link to ${routes.IncomeController.currentIncome.url}" in {
+        doc.select("#currentIncome-change-link a").attr("href") shouldBe routes.IncomeController.currentIncome.url
       }
     }
 
@@ -225,8 +225,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#personalAllowance-amount").text shouldBe "£0"
       }
 
-      s"should have a change link to ${routes.IncomeController.personalAllowance().url}" in {
-        doc.select("#personalAllowance-change-link a").attr("href") shouldBe routes.IncomeController.personalAllowance().url
+      s"should have a change link to ${routes.IncomeController.personalAllowance.url}" in {
+        doc.select("#personalAllowance-change-link a").attr("href") shouldBe routes.IncomeController.personalAllowance.url
       }
     }
   }
@@ -257,8 +257,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#worthWhenSoldForLess-amount").text shouldBe "£3,000"
       }
 
-      s"should have a change link to ${routes.GainController.worthWhenSoldForLess().url}" in {
-        doc.select("#worthWhenSoldForLess-change-link a").attr("href") shouldBe routes.GainController.worthWhenSoldForLess().url
+      s"should have a change link to ${routes.GainController.worthWhenSoldForLess.url}" in {
+        doc.select("#worthWhenSoldForLess-change-link a").attr("href") shouldBe routes.GainController.worthWhenSoldForLess.url
       }
 
       "has the question as part of the link" in {
@@ -282,8 +282,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#disposalCosts-amount").text shouldBe "£200"
       }
 
-      s"should have a change link to ${routes.GainController.disposalCosts().url}" in {
-        doc.select("#disposalCosts-change-link a").attr("href") shouldBe routes.GainController.disposalCosts().url
+      s"should have a change link to ${routes.GainController.disposalCosts.url}" in {
+        doc.select("#disposalCosts-change-link a").attr("href") shouldBe routes.GainController.disposalCosts.url
       }
     }
 
@@ -297,8 +297,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#ownerBeforeLegislationStart-option").text shouldBe "Yes"
       }
 
-      s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart().url}" in {
-        doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart().url
+      s"should have a change link to ${routes.GainController.ownerBeforeLegislationStart.url}" in {
+        doc.select("#ownerBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.ownerBeforeLegislationStart.url
       }
     }
 
@@ -312,8 +312,8 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
         doc.select("#valueBeforeLegislationStart-amount").text shouldBe "£5,000"
       }
 
-      s"should have a change link to ${routes.GainController.valueBeforeLegislationStart().url}" in {
-        doc.select("#valueBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.valueBeforeLegislationStart().url
+      s"should have a change link to ${routes.GainController.valueBeforeLegislationStart.url}" in {
+        doc.select("#valueBeforeLegislationStart-change-link a").attr("href") shouldBe routes.GainController.valueBeforeLegislationStart.url
       }
 
     }

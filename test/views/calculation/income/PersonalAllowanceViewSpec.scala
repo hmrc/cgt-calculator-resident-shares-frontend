@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ import play.api.mvc.{Call, MessagesControllerComponents}
 
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
-  val postAction: Call = controllers.routes.IncomeController.submitPersonalAllowance()
+  val postAction: Call = controllers.routes.IncomeController.submitPersonalAllowance
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val personalAllowanceView: personalAllowance = fakeApplication.injector.instanceOf[personalAllowance]
@@ -59,7 +59,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a navTitle of Calculate your Capital Gains Tax" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").text() shouldBe "Calculate your Capital Gains Tax"
+        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a back button that" should {
@@ -78,7 +78,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a home link to the shares disposal date" in {
-        doc.getElementsByClass("govuk-header__link govuk-header__link--service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       s"have the page heading '${messages.question("2015 to 2016")}'" in {
@@ -118,8 +118,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "have a form" which {
         lazy val form = doc.getElementsByTag("form")
 
-        s"has the action '${controllers.routes.IncomeController.submitPersonalAllowance().url}'" in {
-          form.attr("action") shouldBe controllers.routes.IncomeController.submitPersonalAllowance().url
+        s"has the action '${controllers.routes.IncomeController.submitPersonalAllowance.url}'" in {
+          form.attr("action") shouldBe controllers.routes.IncomeController.submitPersonalAllowance.url
         }
 
         "has the method of POST" in {
@@ -248,7 +248,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         "display an error message for the input" in {
-          doc.body.select("#main-content > div > div > div > div > ul > li > a").size shouldBe 1
+          doc.body.getElementsByClass("govuk-list govuk-error-summary__list").size shouldBe 1
         }
       }
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                                  (implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  override val homeLink = controllers.routes.GainController.disposalDate().url
+  override val homeLink = controllers.routes.GainController.disposalDate.url
   override val sessionTimeoutUrl = homeLink
 
   val summary = ValidateSession.async { implicit request =>
@@ -68,7 +68,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
     }
 
     def buildDeductionsSummaryBackUrl(deductionGainAnswers: DeductionGainAnswersModel): Future[String] = {
-      Future.successful(routes.ReviewAnswersController.reviewDeductionsAnswers().url)
+      Future.successful(routes.ReviewAnswersController.reviewDeductionsAnswers.url)
     }
 
     def getTotalTaxableGain(chargeableGain: Option[ChargeableGainResultModel],
@@ -100,7 +100,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(finalSummaryView(totalGainAnswers, deductionGainAnswers,
-          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers().url, taxYear.get, homeLink, totalCosts, chargeableGain.get.deductions, showUserResearchPanel = false)))
+          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers.url, taxYear.get, homeLink, totalCosts, chargeableGain.get.deductions, showUserResearchPanel = false)))
 
       else if (grossGain > 0) Future.successful(Ok(deductionsSummaryView(totalGainAnswers, deductionGainAnswers,
         chargeableGain.get, backUrl, taxYear.get, homeLink, totalCosts, showUserResearchPanel)))

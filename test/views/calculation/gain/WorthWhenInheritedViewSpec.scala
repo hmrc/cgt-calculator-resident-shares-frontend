@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -41,8 +41,8 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have a back link to '${controllers.routes.GainController.didYouInheritThem().url}'" in {
-      doc.select("#back-link").attr("href") shouldBe controllers.routes.GainController.didYouInheritThem().url
+    s"have a back link to '${controllers.routes.GainController.didYouInheritThem.url}'" in {
+      doc.select("#back-link").attr("href") shouldBe controllers.routes.GainController.didYouInheritThem.url
     }
 
     s"have a nav title of 'navTitle'" in {
@@ -50,7 +50,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     s"have a home link to 'homeLink'" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.GainController.disposalDate().url
+      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
     }
 
     s"have a title of ${Messages.title}" in {
@@ -65,8 +65,8 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       doc.select("form").size() shouldBe 1
     }
 
-    s"have a form action of '${controllers.routes.GainController.submitWorthWhenInherited().url}'" in {
-      doc.select("form").attr("action") shouldBe controllers.routes.GainController.submitWorthWhenInherited().url
+    s"have a form action of '${controllers.routes.GainController.submitWorthWhenInherited.url}'" in {
+      doc.select("form").attr("action") shouldBe controllers.routes.GainController.submitWorthWhenInherited.url
     }
 
     "have a form method of 'POST'" in {

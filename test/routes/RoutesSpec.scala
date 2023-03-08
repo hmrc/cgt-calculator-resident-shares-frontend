@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Outside Tax Years routes */
   "The URL for the resident/shares outside tax years Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/outside-tax-years" in {
-      val path = GainController.outsideTaxYears().url
+      val path = GainController.outsideTaxYears.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/outside-tax-years"
     }
   }
@@ -33,14 +33,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Disposal Date routes */
   "The URL for the resident/shares disposal date Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/disposal-date" in {
-      val path = GainController.disposalDate().url
+      val path = GainController.disposalDate.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
   }
 
   "The URL for the resident/shares submit disposal date Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/disposal-date" in {
-      val path = GainController.submitDisposalDate().url
+      val path = GainController.submitDisposalDate.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
   }
@@ -48,14 +48,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Sell for Less routes */
   "The URL for the resident/shares sellForLess Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/sell-for-less" in {
-      val path = GainController.sellForLess().url
+      val path = GainController.sellForLess.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/sell-for-less"
     }
   }
 
   "The URL for the resident/shares submit sellForLess Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/sell-for-less" in {
-      val path = GainController.submitSellForLess().url
+      val path = GainController.submitSellForLess.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/sell-for-less"
     }
   }
@@ -63,14 +63,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Worth when Sold For Less routes */
   "The URL for the resident/shares worthWhenSoldForLess Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/worth-when-sold-for-less" in {
-      val path = GainController.worthWhenSoldForLess().url
+      val path = GainController.worthWhenSoldForLess.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/worth-when-sold-for-less"
     }
   }
 
   "The URL for the resident/shares submit worthWhenSoldForLess Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/worth-when-sold-for-less" in {
-      val path = GainController.submitWorthWhenSoldForLess().url
+      val path = GainController.submitWorthWhenSoldForLess.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/worth-when-sold-for-less"
     }
   }
@@ -78,14 +78,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Disposal Value routes */
   "The URL for the resident/shares disposal value Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/disposal-value" in {
-      val path = GainController.disposalValue().url
+      val path = GainController.disposalValue.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-value"
     }
   }
 
   "The URL for the resident/shares submit disposal value Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/disposal-value" in {
-      val path = GainController.submitDisposalValue().url
+      val path = GainController.submitDisposalValue.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-value"
     }
   }
@@ -93,14 +93,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Disposal Costs routes */
   "The URL for the resident/shares disposal costs Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/disposal-costs" in {
-      val path = GainController.disposalCosts().url
+      val path = GainController.disposalCosts.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-costs"
     }
   }
 
   "The URL for the resident/shares submit disposal costs Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/disposal-costs" in {
-      val path = GainController.submitDisposalCosts().url
+      val path = GainController.submitDisposalCosts.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-costs"
     }
   }
@@ -108,14 +108,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Shares Owner Before Legislation Start Routes */
   "The URL for the resident/shares owner before legislation start Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/owner-before-legislation-start" in {
-      val path = GainController.ownerBeforeLegislationStart().url
+      val path = GainController.ownerBeforeLegislationStart.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/owner-before-legislation-start"
     }
   }
 
   "The URL for the resident/shares submit owner before legislation start Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/owner-before-legislation-start" in {
-      val path = GainController.submitOwnerBeforeLegislationStart().url
+      val path = GainController.submitOwnerBeforeLegislationStart.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/owner-before-legislation-start"
     }
   }
@@ -123,14 +123,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Shares Value Before Legislation Start Routes */
   "The URL for the resident/shares value before legislation start Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/value-before-legislation-start" in {
-      val path = GainController.valueBeforeLegislationStart().url
+      val path = GainController.valueBeforeLegislationStart.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/value-before-legislation-start"
     }
   }
 
   "The URL for the resident/shares submit value before legislation start Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/value-before-legislation-start" in {
-      val path = GainController.submitValueBeforeLegislationStart().url
+      val path = GainController.submitValueBeforeLegislationStart.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/value-before-legislation-start"
     }
   }
@@ -138,14 +138,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Did You Inherit the Shares Routes */
   "The URL for the resident/shares didYouInheritThem Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/did-you-inherit-the-shares" in {
-      val path = GainController.didYouInheritThem().url
+      val path = GainController.didYouInheritThem.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/did-you-inherit-them"
     }
   }
 
   "The URL for the resident/shares submitDidYouInheritThem Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/did-you-inherit-the-shares" in {
-      val path = GainController.submitDidYouInheritThem().url
+      val path = GainController.submitDidYouInheritThem.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/did-you-inherit-them"
     }
   }
@@ -153,14 +153,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Worth when Inherited the Shares Routes */
   "The URL for the resident/shares Worth When You Inherited Shares GET Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/worth-when-inherited" in {
-      val path = GainController.worthWhenInherited().url
+      val path = GainController.worthWhenInherited.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/worth-when-inherited"
     }
   }
 
   "The URL for the resident/shares Worth When You Inherited Shares POST Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/worth-when-inherited" in {
-      val path = GainController.submitWorthWhenInherited().url
+      val path = GainController.submitWorthWhenInherited.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/worth-when-inherited"
     }
   }
@@ -168,14 +168,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Acquisition Value routes */
   "The URL for the resident/shares acquisition value Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/acquisition-value" in {
-      val path = GainController.acquisitionValue().url
+      val path = GainController.acquisitionValue.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/acquisition-value"
     }
   }
 
   "The URL for the resident/shares submit acquisition value Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/acquisition-value" in {
-      val path = GainController.submitAcquisitionValue().url
+      val path = GainController.submitAcquisitionValue.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/acquisition-value"
     }
   }
@@ -183,14 +183,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Acquisition Costs action */
   "The URL for the resident shares acquisitionCosts action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/acquisition-costs" in {
-      val path = GainController.acquisitionCosts().url
+      val path = GainController.acquisitionCosts.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/acquisition-costs"
     }
   }
 
   "The URL for the resident shares submitAcquisitionCosts action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/acquisition-costs" in {
-      val path = GainController.submitAcquisitionCosts().url
+      val path = GainController.submitAcquisitionCosts.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/acquisition-costs"
     }
   }
@@ -198,14 +198,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Losses Brought Forward routes */
   "The URL for the lossesBroughtForward action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/losses-brought-forward" in {
-      val path = DeductionsController.lossesBroughtForward().url
+      val path = DeductionsController.lossesBroughtForward.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/losses-brought-forward"
     }
   }
 
   "The URL for the submitLossesBroughtForward action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/losses-brought-forward" in {
-      val path = DeductionsController.submitLossesBroughtForward().url
+      val path = DeductionsController.submitLossesBroughtForward.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/losses-brought-forward"
     }
   }
@@ -213,14 +213,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Losses Brought Forward Value routes */
   "The URL for the resident/shares lossesBroughtForward Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/losses-brought-forward" in {
-      val path = DeductionsController.lossesBroughtForwardValue().url
+      val path = DeductionsController.lossesBroughtForwardValue.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/losses-brought-forward-value"
     }
   }
 
   "The URL for the resident/shares submitLossesBroughtForward Action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/losses-brought-forward" in {
-      val path = DeductionsController.submitLossesBroughtForwardValue().url
+      val path = DeductionsController.submitLossesBroughtForwardValue.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/losses-brought-forward-value"
     }
   }
@@ -228,14 +228,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Current Income routes */
   "The URL for the resident shares currentIncome action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/current-income" in {
-      val path = IncomeController.currentIncome().url
+      val path = IncomeController.currentIncome.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/current-income"
     }
   }
 
   "The URL for the resident shares submitCurrentIncome action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/current-income" in {
-      val path = IncomeController.submitCurrentIncome().url
+      val path = IncomeController.submitCurrentIncome.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/current-income"
     }
   }
@@ -243,14 +243,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Personal Allowance routes */
   "The URL for the resident shares personalAllowance action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/personal-allowance" in {
-      val path = IncomeController.personalAllowance().url
+      val path = IncomeController.personalAllowance.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/personal-allowance"
     }
   }
 
   "The URL for the resident shares submitPersonalAllowance action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/personal-allowance" in {
-      val path = IncomeController.submitPersonalAllowance().url
+      val path = IncomeController.submitPersonalAllowance.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/personal-allowance"
     }
   }
@@ -258,7 +258,7 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Gain Summary PDF routes */
   "The URL for the gainSummaryReport action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/gain-report" in {
-      val path = ReportController.gainSummaryReport().url
+      val path = ReportController.gainSummaryReport.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/gain-report"
     }
   }
@@ -266,7 +266,7 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Final Summary Report routes */
   "The URL for the finalSummaryReport action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/final-report" in {
-      val path = ReportController.finalSummaryReport().url
+      val path = ReportController.finalSummaryReport.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/final-report"
     }
   }
@@ -274,7 +274,7 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* Deductions Summary PDF routes */
   "The URL for the deductionsReport action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/deductions-report" in {
-      val path = ReportController.deductionsReport().url
+      val path = ReportController.deductionsReport.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/deductions-report"
     }
   }
@@ -282,14 +282,14 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* What Next Non-SA routes */
   "The URL for the whatNextNonSaGain action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/what-next-non-sa-gain" in {
-      val path = WhatNextNonSaController.whatNextNonSaGain().url
+      val path = WhatNextNonSaController.whatNextNonSaGain.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-non-sa-gain"
     }
   }
 
   "The URL for the whatNextNonSaLoss action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/what-next-non-sa-loss" in {
-      val path = WhatNextNonSaController.whatNextNonSaLoss().url
+      val path = WhatNextNonSaController.whatNextNonSaLoss.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-non-sa-loss"
     }
   }
@@ -297,33 +297,33 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
   /* What Next SA routes */
   "The URL for the whatNextSAOverFourTimesAEA action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/what-next-zero-gain-over-limit" in {
-      WhatNextSAController.whatNextSAOverFourTimesAEA().url shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-sa-no-gain-over-limit"
+      WhatNextSAController.whatNextSAOverFourTimesAEA.url shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-sa-no-gain-over-limit"
     }
   }
 
   "The URL for the whatNextSANoGain action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/what-next-no-gain" in {
-      WhatNextSAController.whatNextSANoGain().url shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-sa-no-gain"
+      WhatNextSAController.whatNextSANoGain.url shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-sa-no-gain"
     }
   }
 
   "The URL for the whatNextSAGain action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/what-next-gain" in {
-      WhatNextSAController.whatNextSAGain().url shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-sa-gain"
+      WhatNextSAController.whatNextSAGain.url shouldEqual "/calculate-your-capital-gains/resident/shares/what-next-sa-gain"
     }
   }
 
   /* SA user routes */
   "The URL for the saUser action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/confirm-self-assessment" in {
-      val path = SaUserController.saUser().url
+      val path = SaUserController.saUser.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/confirm-self-assessment"
     }
   }
 
   "The URL for the submitSaUser action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/confirm-self-assessment" in {
-      val path = SaUserController.submitSaUser().url
+      val path = SaUserController.submitSaUser.url
       path shouldEqual "/calculate-your-capital-gains/resident/shares/confirm-self-assessment"
     }
   }

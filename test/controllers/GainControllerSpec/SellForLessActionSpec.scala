@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -105,7 +105,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the disposal date page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate.url
       }
     }
 
@@ -114,7 +114,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the outside tax years page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears().url
+        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears.url
       }
     }
 

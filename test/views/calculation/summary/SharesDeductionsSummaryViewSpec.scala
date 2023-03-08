@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     )
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+    lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
       taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeLang)
@@ -94,8 +94,8 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
         backLink.text shouldBe residentMessages.back
       }
 
-      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url}'" in {
-        backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+      s"has a link to '${controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url}'" in {
+        backLink.attr("href") shouldBe controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
       }
     }
 
@@ -151,8 +151,8 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
             link.hasClass("govuk-link govuk-body") shouldBe true
           }
 
-          s"links to ${controllers.routes.ReportController.deductionsReport()}" in {
-            link.attr("href") shouldBe controllers.routes.ReportController.deductionsReport().toString
+          s"links to ${controllers.routes.ReportController.deductionsReport}" in {
+            link.attr("href") shouldBe controllers.routes.ReportController.deductionsReport.toString
           }
 
           s"has the text ${messages.saveAsPdf}" in {
@@ -166,8 +166,8 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
       doc.select("a.govuk-button").size() shouldBe 1
     }
 
-    s"the continue button has a link to ${controllers.routes.SaUserController.saUser().url}" in {
-      doc.select("a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser().url
+    s"the continue button has a link to ${controllers.routes.SaUserController.saUser.url}" in {
+      doc.select("a.govuk-button").attr("href") shouldBe controllers.routes.SaUserController.saUser.url
     }
 
     "does have ur panel" in {
@@ -223,7 +223,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     )
     val taxYearModel = TaxYearModel("2014/15", isValidYear = false, "2015/16")
 
-    lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers().url
+    lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
       taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeLang)

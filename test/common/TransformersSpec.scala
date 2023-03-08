@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 HM Revenue & Customs
+ * Copyright 2023 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ class TransformersSpec extends CommonPlaySpec {
 
       "successfully parse a valid string to a BigDecimal value" in {
 
-        val randomDouble: Double = Random.nextDouble
+        val randomDouble: Double = Random.nextDouble()
 
         Transformers.stringToBigDecimal(randomDouble.toString) shouldBe BigDecimal(randomDouble)
       }
