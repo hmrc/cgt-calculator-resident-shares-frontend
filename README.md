@@ -15,3 +15,11 @@ This service is written in [Scala](http://www.scala-lang.org/) and [Play](http:/
 
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html")
 
+## Running the service
+
+To run the microservce locally start the dependent microservices using service manager
+<code>sm --start CGT_ALL -r</code> </br>
+<code>sm --stop CGT_CALC_RES_SHARES_FRONTEND</code> </br>
+
+Then from the root directory execute 
+<code>sbt "run 9704"</code></br>
