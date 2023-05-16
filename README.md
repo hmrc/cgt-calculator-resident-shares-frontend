@@ -17,7 +17,7 @@ This code is open source software licensed under the [Apache 2.0 License]("http:
 
 ## Running the service
 
-To run the microservce locally start the dependent microservices using service manager
+To run the microservices locally start the dependent microservices using service manager
 <code>sm --start CGT_ALL -r</code> </br>
 <code>sm --stop CGT_CALC_RES_SHARES_FRONTEND</code> </br>
 
