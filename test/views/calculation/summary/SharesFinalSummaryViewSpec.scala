@@ -87,7 +87,6 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         results,
         backLinkUrl,
         taxYearModel,
-        "",
         100,
         100,
         showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeLang)
@@ -452,10 +451,10 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
       "generate the same template when .render and .f are called" in {
 
-        val f = finalSummaryView.f(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
+        val f = finalSummaryView.f(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, 100, 100,
           true)(fakeRequestWithSession, mockMessage, fakeLang)
 
-        val render = finalSummaryView.render(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, "", 100, 100,
+        val render = finalSummaryView.render(gainAnswers, deductionAnswers, results, backLinkUrl, taxYearModel, 100, 100,
           true, fakeRequestWithSession, mockMessage, fakeLang)
 
         f shouldBe render
@@ -504,7 +503,6 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         results,
         backLinkUrl,
         taxYearModel,
-        "",
         100,
         100,
         showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeLang)

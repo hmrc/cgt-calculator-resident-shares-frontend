@@ -47,19 +47,20 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   }
 
   val controller = new TimeoutController(mockMCC, sessionTimeoutView)
+  val homeLink = controllers.routes.GainController.disposalDate.url
 
   "TimeoutController.timeout" should {
 
     "when called with no session" should {
 
-      object timeoutTestDataItem extends fakeRequestTo("", controller.timeout("test", "test2"))
+      object timeoutTestDataItem extends fakeRequestTo("", controller.timeout())
 
       "return a 200" in {
         status(timeoutTestDataItem.result) shouldBe 200
       }
 
       s"have the home link too test2" in {
-        timeoutTestDataItem.jsoupDoc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        timeoutTestDataItem.jsoupDoc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual homeLink
       }
 
       "have the title" in {
@@ -71,7 +72,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "have a restart link to href of 'test'" in {
-        timeoutTestDataItem.jsoupDoc.getElementById("startAgain").attr("href") shouldEqual "test"
+        timeoutTestDataItem.jsoupDoc.getElementById("startAgain").attr("href") shouldEqual homeLink
       }
     }
   }

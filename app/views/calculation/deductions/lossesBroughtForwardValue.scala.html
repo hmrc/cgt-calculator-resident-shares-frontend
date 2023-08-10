@@ -25,7 +25,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, navHomeLink: String, postAction: Call, navTitle: String)(implicit request: Request[_], messages: Messages, lang: Lang)
+@(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @title = @{
     if (lossesBroughtForwardValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))

@@ -25,7 +25,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
+@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if (worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.worthWhenSoldForLess.question")) else Messages("calc.resident.shares.worthWhenSoldForLess.question")

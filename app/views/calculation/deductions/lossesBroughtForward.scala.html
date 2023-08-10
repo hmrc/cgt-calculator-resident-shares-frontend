@@ -28,7 +28,7 @@
 
 )
 
-@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel, navHomeLink: String, navTitle: String)(implicit request: Request[_], messages: Messages, lang: Lang)
+@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @hiddenHelpText = {
     <div id="helpInfo">

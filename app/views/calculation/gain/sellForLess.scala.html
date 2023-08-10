@@ -25,7 +25,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(sellForLessForm: Form[SellForLessModel], homeHref: String, backLink: String)(implicit request: Request[_], messages: Messages)
+@(sellForLessForm: Form[SellForLessModel], backLink: String)(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if (sellForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.sellForLess.question")) else Messages("calc.resident.shares.sellForLess.question")

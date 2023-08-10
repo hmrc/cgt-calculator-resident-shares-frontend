@@ -31,15 +31,14 @@ class SessionTimeoutViewSpec extends CommonPlaySpec with FakeRequestHelper with 
   val sessionTimeoutView = fakeApplication.injector.instanceOf[sessionTimeout]
 
   val restartUrl: String = ""
-  val homeLink: String = ""
 
   "Session timeout view" should {
     
     "generate the same template when .render and .f are called" in {
 
-      val f = sessionTimeoutView.f(restartUrl, homeLink)(fakeRequest, messages)
+      val f = sessionTimeoutView.f()(fakeRequest, messages)
 
-      val render = sessionTimeoutView.render(restartUrl, homeLink, fakeRequest, messages)
+      val render = sessionTimeoutView.render(fakeRequest, messages)
 
       f shouldBe render
     }

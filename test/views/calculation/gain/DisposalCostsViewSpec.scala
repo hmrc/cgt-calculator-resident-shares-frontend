@@ -33,7 +33,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   ]
   "Disposal Costs view" should {
 
-    lazy val view = disposalCostsView(disposalCostsForm, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalCostsView(disposalCostsForm)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -148,9 +148,9 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "generate the same template when .render and .f are called" in {
 
-      val f = disposalCostsView.f(disposalCostsForm, "home-link")(fakeRequest, mockMessage)
+      val f = disposalCostsView.f(disposalCostsForm)(fakeRequest, mockMessage)
 
-      val render = disposalCostsView.render(disposalCostsForm, "home-link", fakeRequest, mockMessage)
+      val render = disposalCostsView.render(disposalCostsForm, fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -162,7 +162,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "is due to mandatory field error" should {
 
       lazy val form = disposalCostsForm.bind(Map("amount" -> ""))
-      lazy val view = disposalCostsView(form, "home-link")(fakeRequest, mockMessage)
+      lazy val view = disposalCostsView(form)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

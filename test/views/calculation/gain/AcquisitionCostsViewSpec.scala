@@ -33,7 +33,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   "Acquisition Costs shares view" should {
 
-    lazy val view = acquisitionCostsView(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage)
+    lazy val view = acquisitionCostsView(acquisitionCostsForm, Some("back-link"))(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -155,9 +155,9 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "generate the same template when .render and .f are called" in {
 
-      val render = acquisitionCostsView.render(acquisitionCostsForm, Some("back-link"), "home-link", fakeRequest, mockMessage)
+      val render = acquisitionCostsView.render(acquisitionCostsForm, Some("back-link"), fakeRequest, mockMessage)
 
-      val f = acquisitionCostsView.f(acquisitionCostsForm, Some("back-link"), "home-link")(fakeRequest, mockMessage)
+      val f = acquisitionCostsView.f(acquisitionCostsForm, Some("back-link"))(fakeRequest, mockMessage)
 
 
       f shouldBe render
@@ -169,7 +169,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     "is due to mandatory field error" should {
 
       lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
-      lazy val view = acquisitionCostsView(form,  Some("back-link"), "home-link")(fakeRequest, mockMessage)
+      lazy val view = acquisitionCostsView(form,  Some("back-link"))(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

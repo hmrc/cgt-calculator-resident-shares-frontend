@@ -72,7 +72,7 @@ class ReportController @Inject()(config: Configuration,
       taxYear <- getTaxYear(answers.disposalDate)
       grossGain <- calcConnector.calculateRttShareGrossGain(answers)
     } yield {pdfGenerator.ok(gainSummaryReportView(answers, grossGain, taxYear.get, costs), host).asScala()
-      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart(homeLink, sessionTimeoutUrl)
+      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart()
   }
 
   //#####Deductions summary actions#####\\
@@ -89,7 +89,7 @@ class ReportController @Inject()(config: Configuration,
       chargeableGain <- calcConnector.calculateRttShareChargeableGain(answers, deductionAnswers, maxAEA.get)
     } yield
       {pdfGenerator.ok(deductionsSummaryReportView(answers, deductionAnswers, chargeableGain.get, taxYear.get, costs), host).asScala()
-      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart(homeLink, sessionTimeoutUrl)
+      .withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")}).recoverToStart()
 
   }
 
@@ -120,6 +120,6 @@ class ReportController @Inject()(config: Configuration,
         chargeableGain.get.deductions
       ),
         host).asScala().withHeaders("Content-Disposition" -> s"""attachment; filename="${Messages("calc.resident.summary.title")}.pdf"""")
-    }).recoverToStart(homeLink, sessionTimeoutUrl)
+    }).recoverToStart()
   }
 }

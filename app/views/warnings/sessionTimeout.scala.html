@@ -18,15 +18,16 @@
  layout: Layout
 )
 
-@(restartUrl: String, homeLink: String)(implicit request: Request[_], messages: Messages)
+@()(implicit request: Request[_], messages: Messages)
 
 @layout(
- pageTitle = Messages("session.timeout.message")
+ pageTitle = Messages("session.timeout.message"),
+ timeoutEnabled = false
 ) {
 
     <h1 class="govuk-heading-xl">@Messages("session.timeout.message")</h1>
 
-    <a id="startAgain" class="govuk-button" role="button" href="@restartUrl" data-journey-click="nav:calc:restart">@Messages("calc.summary.startAgain")</a>
+    <a id="startAgain" class="govuk-button" role="button" href="@controllers.routes.GainController.disposalDate.url" data-journey-click="nav:calc:restart">@Messages("calc.summary.startAgain")</a>
 
    <br/>
 
