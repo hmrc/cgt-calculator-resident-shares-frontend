@@ -16,7 +16,6 @@
 
 package controllers
 
-import akka.stream.Materializer
 import akka.util.Timeout
 import assets.MessageLookup
 import com.codahale.metrics.SharedMetricRegistries
@@ -34,7 +33,6 @@ import scala.concurrent.duration.Duration
 class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper with WithCommonFakeApplication with MockitoSugar {
 
   implicit val timeout: Timeout = new Timeout(Duration.create(20, "seconds"))
-  lazy val materializer = mock[Materializer]
 
 
   def setupController(): WhatNextNonSaController = {
@@ -64,7 +62,7 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
     "provided with a valid session" should {
       lazy val controller = setupController()
       lazy val result = controller.whatNextNonSaGain(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -98,7 +96,7 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
     "provided with a valid session" should {
       lazy val controller = setupController()
       lazy val result = controller.whatNextNonSaLoss(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200

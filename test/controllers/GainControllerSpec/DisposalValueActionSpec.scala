@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{DisposalValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -39,7 +38,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -107,7 +105,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     s"return some html with title of ${messages.question}" in {
       contentType(result) shouldBe Some("text/html")
-      Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.question
     }
   }
 
@@ -139,7 +137,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "render the disposal value page when supplied with an invalid form" in {
       status(result) shouldEqual 400
-      Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual s"Error: ${messages.title}"
+      Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${messages.title}"
     }
   }
 }

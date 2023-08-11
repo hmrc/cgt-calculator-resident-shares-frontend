@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -40,7 +39,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
   lazy val title = s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
@@ -90,7 +88,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"return some html with title of $title" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual title
+        Jsoup.parse(bodyOf(result)).title shouldEqual title
       }
     }
 
@@ -156,7 +154,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("wereInherited", "")).withMethod("POST")
       lazy val result = target.submitDidYouInheritThem(request)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

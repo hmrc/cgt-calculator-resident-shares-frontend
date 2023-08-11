@@ -17,10 +17,9 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{SharesAcquisitionCosts => messages}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import connectors.{CalculatorConnector, SessionCacheConnector}
 import controllers.GainController
@@ -36,13 +35,12 @@ import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
 import uk.gov.hmrc.http.cache.client.CacheMap
-import views.html.calculation.gain.{acquisitionCosts, acquisitionValue, didYouInheritThem, disposalCosts, disposalDate, disposalValue, ownerBeforeLegislationStart, sellForLess, valueBeforeLegislationStart, worthWhenInherited, worthWhenSoldForLess}
+import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
 import scala.concurrent.Future
 
 class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -125,7 +123,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 
@@ -149,7 +147,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 
@@ -309,7 +307,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       )
       lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitAcquisitionCosts(request)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 400" in {
         status(result) shouldBe 400

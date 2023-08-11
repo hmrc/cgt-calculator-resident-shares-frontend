@@ -16,6 +16,7 @@
 
 package controllers.utils
 
+import common.WithCommonFakeApplication
 import org.scalatest.concurrent.{IntegrationPatience, ScalaFutures}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
@@ -24,11 +25,10 @@ import play.api.mvc.{AnyContent, Request, ResponseHeader, Result}
 import play.api.test.FakeRequest
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
 
-class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers with IntegrationPatience with Status {
+class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers with IntegrationPatience with Status with WithCommonFakeApplication {
 
   ".recoverToStart" should {
 

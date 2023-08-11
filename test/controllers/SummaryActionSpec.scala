@@ -17,7 +17,6 @@
 package controllers
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{SummaryPage => messages}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import connectors.CalculatorConnector
@@ -41,7 +40,6 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
 
   implicit lazy val actorSystem = ActorSystem()
   implicit val hc = new HeaderCarrier()
-  lazy val materializer = mock[Materializer]
 
 
   def setupTarget
@@ -123,7 +121,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -164,7 +162,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -210,7 +208,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200

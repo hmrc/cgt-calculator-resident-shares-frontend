@@ -16,7 +16,7 @@
 
 package services
 
-import common.{CommonPlaySpec, KeystoreKeys}
+import common.{CommonPlaySpec, KeystoreKeys, WithCommonFakeApplication}
 import connectors.SessionCacheConnector
 import models.resident
 import models.resident.IncomeAnswersModel
@@ -31,7 +31,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.Future
 
-class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar {
+class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with WithCommonFakeApplication {
 
   val mockSessionCacheConnector = mock[SessionCacheConnector]
 

@@ -16,7 +16,6 @@
 
 package controllers
 
-import akka.stream.Materializer
 import assets.{MessageLookup, ModelsAsset}
 import com.codahale.metrics.SharedMetricRegistries
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -39,7 +38,6 @@ import scala.concurrent.Future
 
 class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
-  lazy val materializer = mock[Materializer]
   implicit val hc = HeaderCarrier(sessionId = Some(SessionId("sessionId")))
   val mockConnector = mock[CalculatorConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
@@ -111,7 +109,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "load the saUser page with an error" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.SaUser.errorTitle
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.SaUser.errorTitle
       }
     }
   }

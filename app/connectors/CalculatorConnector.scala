@@ -17,9 +17,9 @@
 package connectors
 
 import java.time.LocalDate
-
 import config.ApplicationConfig
 import constructors.CalculateRequestConstructor
+
 import javax.inject.Inject
 import models._
 import models.resident._
@@ -32,11 +32,10 @@ import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import uk.gov.hmrc.http.HttpReads.Implicits._
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class CalculatorConnector @Inject()(http: DefaultHttpClient,
-                                    appConfig: ApplicationConfig) {
+                                    appConfig: ApplicationConfig)(implicit ec: ExecutionContext) {
 
   val serviceUrl: String = appConfig.baseUrl
 

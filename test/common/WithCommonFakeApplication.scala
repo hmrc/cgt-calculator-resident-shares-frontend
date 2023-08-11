@@ -16,7 +16,9 @@
 
 package common
 
+import akka.stream.Materializer
 import org.scalatest.{BeforeAndAfterAll, Suite}
+import org.scalatestplus.mockito.MockitoSugar.mock
 import play.api.{Application, Play}
 import play.api.inject.guice.{GuiceApplicationBuilder, GuiceableModule}
 import play.api.test.Helpers.running
@@ -29,6 +31,7 @@ trait WithCommonFakeApplication extends BeforeAndAfterAll {
   lazy val fakeApplication: Application = new GuiceApplicationBuilder().bindings(bindModules:_*).build()
 
   implicit val ec: ExecutionContext = fakeApplication.injector.instanceOf[ExecutionContext]
+  implicit lazy val materializer = mock[Materializer]
 
   def bindModules: Seq[GuiceableModule] = Seq()
 

@@ -18,7 +18,6 @@ package controllers.DeductionsControllerSpec
 
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
@@ -48,7 +47,6 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
   val gainModel = mock[GainAnswersModel]
   val summaryModel = mock[DeductionGainAnswersModel]
   val chargeableGainModel = mock[ChargeableGainResultModel]
-  val materializer = mock[Materializer]
   val mockCalcConnector = mock[CalculatorConnector]
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
@@ -104,7 +102,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       lazy val target = setupTarget(None, gainModel, summaryModel,
         chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -134,7 +132,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       lazy val target = setupTarget(None, gainModel, summaryModel, chargeableGainModel,
         Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 200" in {
         status(result) shouldBe 200

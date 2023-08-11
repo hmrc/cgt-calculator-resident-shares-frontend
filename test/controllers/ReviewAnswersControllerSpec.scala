@@ -18,7 +18,6 @@ package controllers
 
 import java.time.LocalDate
 
-import akka.stream.Materializer
 import akka.util.Timeout
 import assets.MessageLookup
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -49,7 +48,6 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
   implicit val appApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
-  lazy val materializer = mock[Materializer]
   val date: LocalDate = LocalDate.of(2016, 5, 8)
   val totalLossModel: GainAnswersModel = GainAnswersModel(date, soldForLessThanWorth = false, Some(100000), None, 1000,
     ownerBeforeLegislationStart = false, None, Some(false), None, Some(150000), 1500)
@@ -108,11 +106,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the acquisition costs page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.GainController.acquisitionCosts.url
+        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.GainController.acquisitionCosts.url
       }
     }
   }
@@ -147,11 +145,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the brought forward losses value page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue.url
+        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForwardValue.url
       }
     }
 
@@ -167,11 +165,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the brought forward losses page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward.url
+        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward.url
       }
     }
   }
@@ -206,11 +204,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the personal allowance page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance.url
+        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldBe controllers.routes.IncomeController.personalAllowance.url
       }
     }
   }

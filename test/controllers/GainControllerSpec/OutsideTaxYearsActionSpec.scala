@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{OutsideTaxYears => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import connectors.{CalculatorConnector, SessionCacheConnector}
@@ -35,7 +34,6 @@ import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
 class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -85,15 +83,15 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"return a title of ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalDate.url}'" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
+        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
       }
 
       s"have a continue link to '${controllers.routes.GainController.sellForLess.url}'" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess.url
+        Jsoup.parse(bodyOf(result)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess.url
       }
     }
 
