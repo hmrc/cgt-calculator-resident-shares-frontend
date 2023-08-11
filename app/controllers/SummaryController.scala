@@ -45,9 +45,6 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                                  (implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  override val homeLink = controllers.routes.GainController.disposalDate.url
-  override val sessionTimeoutUrl = homeLink
-
   val summary = ValidateSession.async { implicit request =>
 
 
@@ -100,11 +97,11 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(finalSummaryView(totalGainAnswers, deductionGainAnswers,
-          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers.url, taxYear.get, homeLink, totalCosts, chargeableGain.get.deductions, showUserResearchPanel = false)))
+          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers.url, taxYear.get, totalCosts, chargeableGain.get.deductions, showUserResearchPanel = false)))
 
       else if (grossGain > 0) Future.successful(Ok(deductionsSummaryView(totalGainAnswers, deductionGainAnswers,
-        chargeableGain.get, backUrl, taxYear.get, homeLink, totalCosts, showUserResearchPanel)))
-      else Future.successful(Ok(gainSummaryView(totalGainAnswers, grossGain, taxYear.get, homeLink, totalCosts, maxAea, showUserResearchPanel)))
+        chargeableGain.get, backUrl, taxYear.get, totalCosts, showUserResearchPanel)))
+      else Future.successful(Ok(gainSummaryView(totalGainAnswers, grossGain, taxYear.get, totalCosts, maxAea, showUserResearchPanel)))
     }
 
     val showUserResearchPanel = setURPanelFlag
@@ -124,7 +121,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       currentTaxYear = Dates.getCurrentTaxYear
       routeRequest <- routeRequest(answers, grossGain, deductionAnswers, chargeableGain, incomeAnswers, totalGain,
                                    backLink, taxYear, currentTaxYear, totalCosts, maxAEA.get, showUserResearchPanel = showUserResearchPanel)
-    } yield routeRequest).recoverToStart(homeLink, homeLink)
+    } yield routeRequest).recoverToStart()
 
   }
 

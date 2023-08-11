@@ -34,12 +34,12 @@ package object utils {
     override def ready(atMost: Duration)(implicit permit: CanAwait): RecoverableFuture.this.type = ready(atMost)
     override def result(atMost: Duration)(implicit permit: CanAwait): Result = future.result(atMost)
 
-    def recoverToStart(homeLink:String, sessionTimeoutUrl: String)(implicit request: Request[_], ec: ExecutionContext): Future[Result] =
+    def recoverToStart()(implicit request: Request[_], ec: ExecutionContext): Future[Result] =
       future.recover {
         case e: NoSuchElementException =>
           logger.warn(s"${request.uri} resulted in None.get, user redirected to start")
           throw ApplicationException(
-            Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, sessionTimeoutUrl)),
+            Redirect(controllers.utils.routes.TimeoutController.timeout),
             e.getMessage
           )
       }

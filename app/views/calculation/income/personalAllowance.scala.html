@@ -27,7 +27,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, homeLink: String, postAction: Call, backLink: Option[String], journey: String, navTitle: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, lang: Lang)
+@(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, postAction: Call, backLink: Option[String], journey: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(

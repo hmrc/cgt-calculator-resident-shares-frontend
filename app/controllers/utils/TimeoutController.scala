@@ -27,7 +27,7 @@ class TimeoutController @Inject()(mcc: MessagesControllerComponents,
                                   sessionTimeoutView: sessionTimeout)
   extends FrontendController(mcc) {
 
-  def timeout(restartUrl: String, homeLink: String) : Action[AnyContent] = Action.async { implicit request =>
-    Future.successful(Ok(sessionTimeoutView(restartUrl, homeLink)))
+  def timeout(): Action[AnyContent] = Action.async { implicit request =>
+    Future.successful(Ok(sessionTimeoutView()))
   }
 }

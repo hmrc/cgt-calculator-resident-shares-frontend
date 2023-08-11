@@ -20,7 +20,7 @@
     layout: Layout
 )
 
-@(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, navHomeLink: String, continueUrl: String, navTitle: String)(implicit request: Request[_], messages: Messages)
+@(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, continueUrl: String)(implicit request: Request[_], messages: Messages)
 
 @layout(
     pageTitle = Messages("calc.resident.outsideTaxYears.title"),

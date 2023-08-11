@@ -25,7 +25,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(disposalValueForm : Form[DisposalValueModel], navHomeLink: String)(implicit request: Request[_], messages: Messages)
+@(disposalValueForm : Form[DisposalValueModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if (disposalValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.disposalValue.question")) else Messages("calc.resident.shares.disposalValue.question")

@@ -71,7 +71,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeLang)
+      taxYearModel, 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -180,10 +180,10 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     "generate the same template when .render and .f are called" in {
 
       val f = deductionsSummaryView.f(gainAnswers, deductionAnswers, results, backUrl,
-        taxYearModel, "home-link", 100, true)(fakeRequestWithSession, mockMessage, fakeLang)
+        taxYearModel, 100, true)(fakeRequestWithSession, mockMessage, fakeLang)
 
       val render = deductionsSummaryView.render(gainAnswers, deductionAnswers, results, backUrl,
-        taxYearModel, "home-link", 100, true, fakeRequestWithSession, mockMessage, fakeLang)
+        taxYearModel, 100, true, fakeRequestWithSession, mockMessage, fakeLang)
 
       f shouldBe render
     }
@@ -226,7 +226,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, "home-link", 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeLang)
+      taxYearModel, 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {

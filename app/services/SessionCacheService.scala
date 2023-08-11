@@ -34,8 +34,6 @@ import scala.concurrent.ExecutionContext.Implicits.global
 
 class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector) {
 
-  val homeLink = controllers.routes.GainController.disposalDate.url
-
   def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {
 
     val disposalDate = sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
@@ -99,7 +97,7 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.utils.routes.TimeoutController.timeout),
         e.getMessage
       )
   }
@@ -119,7 +117,7 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.utils.routes.TimeoutController.timeout),
         e.getMessage
       )
   }
@@ -137,7 +135,7 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.utils.routes.TimeoutController.timeout),
         e.getMessage
       )
   }

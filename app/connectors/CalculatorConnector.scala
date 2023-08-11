@@ -40,8 +40,6 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
 
   val serviceUrl: String = appConfig.baseUrl
 
-  val homeLink: String = controllers.routes.GainController.disposalDate.url
-
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
   def getMinimumDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
@@ -83,7 +81,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.utils.routes.TimeoutController.timeout),
         e.getMessage
       )
   }
@@ -99,7 +97,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.utils.routes.TimeoutController.timeout),
         e.getMessage
       )
   }
@@ -117,7 +115,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.utils.routes.TimeoutController.timeout),
         e.getMessage
       )
   }
@@ -127,7 +125,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)),
+        Redirect(controllers.utils.routes.TimeoutController.timeout),
         e.getMessage
       )
   }

@@ -26,7 +26,7 @@
     submitButton: playHelpers.submitButton
 )
 
-@(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navHomeLink: String, navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
+@(ownerBeforeLegislationStart: Form[OwnerBeforeLegislationStartModel], navBackLink: Option[String])(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if (ownerBeforeLegislationStart.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.ownerBeforeLegislationStart.title")) else Messages("calc.resident.shares.ownerBeforeLegislationStart.title")

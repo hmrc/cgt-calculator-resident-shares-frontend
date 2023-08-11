@@ -35,7 +35,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
   "Owned Before 1982 view with an empty form" should {
 
-    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm, "home-link", Some("back-link"))(fakeRequest, mockMessage)
+    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm, Some("back-link"))(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -204,10 +204,10 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
     "generate the same template when .render and .f are called" in {
 
-      val f = ownerBeforeLegislationStartView.f(ownerBeforeLegislationStartForm, "home-link", Some("back-link"))(fakeRequest,
+      val f = ownerBeforeLegislationStartView.f(ownerBeforeLegislationStartForm, Some("back-link"))(fakeRequest,
         mockMessage)
 
-      val render = ownerBeforeLegislationStartView.render(ownerBeforeLegislationStartForm, "home-link", Some("back-link"), fakeRequest,
+      val render = ownerBeforeLegislationStartView.render(ownerBeforeLegislationStartForm, Some("back-link"), fakeRequest,
         mockMessage)
 
       f shouldBe render
@@ -217,7 +217,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "Owned Before 1982 view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownerBeforeLegislationStart" -> ""))
-    lazy val view = ownerBeforeLegislationStartView(form, "home", Some("back"))(fakeRequest, mockMessage)
+    lazy val view = ownerBeforeLegislationStartView(form, Some("back"))(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

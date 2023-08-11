@@ -46,8 +46,6 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      lossesBroughtForwardValueView: lossesBroughtForwardValue)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  override val homeLink: String = routes.GainController.disposalDate.url
-  override val sessionTimeoutUrl: String = homeLink
   def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
 
 
@@ -97,9 +95,8 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
       implicit val lang: Lang = messagesApi.preferred(request).lang
       sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
         case Some(data) => Ok(lossesBroughtForwardView(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
-          backLinkUrl, taxYear, homeLink, navTitle))
-        case _ => Ok(lossesBroughtForwardView(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear,
-          homeLink, navTitle))
+          backLinkUrl, taxYear))
+        case _ => Ok(lossesBroughtForwardView(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear))
       }
     }
 
@@ -108,7 +105,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       finalResult <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
-    } yield finalResult).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield finalResult).recoverToStart()
   }
 
   val submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -116,8 +113,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
     def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
       implicit val lang: Lang = messagesApi.preferred(request).lang
       lossesBroughtForwardForm.bindFromRequest().fold(
-        errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel,
-          homeLink, navTitle))),
+        errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel))),
         success => {
           sessionCacheConnector.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
             _ =>if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue))
@@ -137,7 +133,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
       disposalDateString <- formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       route <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
-    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield route).recoverToStart()
 
   }
 
@@ -164,9 +160,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
         formData,
         taxYear,
         navBackLink = lossesBroughtForwardValueBackLink,
-        navHomeLink = homeLink,
-        postAction = lossesBroughtForwardValuePostAction,
-        navTitle
+        postAction = lossesBroughtForwardValuePostAction
       )))
     }
     (for {
@@ -175,7 +169,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
       taxYear <- calcConnector.getTaxYear(disposalDateString)
       formData <- retrieveKeystoreData(taxYear.get)
       route <- routeRequest(taxYear.get, formData)
-    } yield route).recoverToStart(homeLink, sessionTimeoutUrl)
+    } yield route).recoverToStart()
   }
 
   val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
@@ -204,9 +198,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
             errors,
             taxYear.get,
             navBackLink = lossesBroughtForwardValueBackLink,
-            navHomeLink = homeLink,
-            postAction = lossesBroughtForwardValuePostAction,
-            navTitle = navTitle))
+            postAction = lossesBroughtForwardValuePostAction))
         }
       },
       success => {

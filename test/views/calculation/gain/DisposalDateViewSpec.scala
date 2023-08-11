@@ -35,7 +35,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
   "Disposal Date view" should {
 
-    lazy val view = disposalDateView(disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))), "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalDateView(disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))))(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -77,10 +77,10 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     "generate the same template when .render and .f are called" in {
 
       val f = (disposalDateView.f(disposalDateForm(
-        LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))), "home-link")
+        LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))))
       (fakeRequest, mockMessage))
 
-      val render = disposalDateView.render(disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))), "home-link",
+      val render = disposalDateView.render(disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))),
         fakeRequest, mockMessage)
 
       f shouldBe render
@@ -90,7 +90,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
   "Disposal Date view with a pre-filled form" should {
 
     lazy val form = disposalDateForm(LocalDate.parse("2015-04-06").atStartOfDay(ZoneId.of("Europe/London"))).fill(DisposalDateModel(10, 6, 2016))
-    lazy val view = disposalDateView(form, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalDateView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a value auto-filled in the day input" in {
@@ -113,7 +113,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       ("disposalDate.month", "10"),
       ("disposalDate.year", "2016")
     ))
-    lazy val view = disposalDateView(form, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalDateView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have the error summary message 'Enter a real date'" in {
@@ -128,7 +128,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       ("disposalDate.month", "10"),
       ("disposalDate.year", "2016")
     ))
-    lazy val view = disposalDateView(form, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalDateView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {
@@ -143,7 +143,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       ("disposalDate.month", "b"),
       ("disposalDate.year", "c")
     ))
-    lazy val view = disposalDateView(form, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalDateView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     s"have the error summary message '${viewMessages.invalidDayError}'" in {

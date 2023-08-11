@@ -38,16 +38,14 @@ import scala.concurrent.{ExecutionContext, Future}
 class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar {
 
   val mockHttp = mock[DefaultHttpClient]
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
   val sessionId = UUID.randomUUID.toString
-  val homeLink = controllers.routes.GainController.disposalDate.url
   val mockConfig = mock[ApplicationConfig]
 
   object TargetCalculatorConnector extends CalculatorConnector(mockHttp, mockConfig) {
     override val serviceUrl = "dummy"
   }
 
-  implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId(sessionId.toString)))
+  implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId(sessionId)))
 
   "Calling .getMinimumDate" should {
     def mockDate(result: Future[DateTime]): OngoingStubbing[Future[DateTime]] =
@@ -178,7 +176,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockCalculateRttShareGrossGain(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
     }
   }
 
@@ -212,7 +210,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockCalculateRttShareChargeableGain(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
     }
   }
 
@@ -246,7 +244,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockCalculateRttShareTotalGainAndTax(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000, incomeAnswers)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
     }
   }
 
@@ -271,7 +269,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockGetSharesTotalCosts(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
     }
   }
 }

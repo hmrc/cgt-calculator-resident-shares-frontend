@@ -34,8 +34,6 @@ import scala.concurrent.Future
 class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar {
 
   val mockSessionCacheConnector = mock[SessionCacheConnector]
-  val homeLink = controllers.routes.GainController.disposalDate.url
-  val mockSessionCacheService = mock[SessionCacheService]
 
   object TestSessionCacheService extends SessionCacheService(mockSessionCacheConnector) {
   }
@@ -133,7 +131,7 @@ class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar {
       lazy val result = TestSessionCacheService.getShareGainAnswers(hc)
 
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
     }
   }
 
@@ -155,7 +153,7 @@ class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar {
       lazy val result = TestSessionCacheService.getShareDeductionAnswers(hc)
 
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
     }
   }
 
@@ -177,7 +175,7 @@ class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar {
       lazy val result = TestSessionCacheService.getShareIncomeAnswers(hc)
 
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout(homeLink, homeLink)), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
     }
   }
 }

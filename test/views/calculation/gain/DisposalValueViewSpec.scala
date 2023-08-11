@@ -35,13 +35,13 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   case class FakePOST(value: String) {
     lazy val request = fakeRequestToPOSTWithSession(("amount", value)).withMethod("POST")
     lazy val form = disposalValueForm.bind(Map(("amount", value)))
-    lazy val view = disposalValueView(form, "home-link")(request, mockMessage)
+    lazy val view = disposalValueView(form)(request, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
   }
 
   "Disposal Value View" should {
 
-    lazy val view = disposalValueView(disposalValueForm, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalValueView(disposalValueForm)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -86,9 +86,9 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "generate the same template when .render and .f are called" in {
 
-      val f = disposalValueView.f(disposalValueForm, "home-link")(fakeRequest, mockMessage)
+      val f = disposalValueView.f(disposalValueForm)(fakeRequest, mockMessage)
 
-      val render = disposalValueView.render(disposalValueForm, "home-link", fakeRequest, mockMessage)
+      val render = disposalValueView.render(disposalValueForm, fakeRequest, mockMessage)
 
       f shouldBe render
     }
@@ -98,7 +98,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   "Disposal Value View with form without errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> "100"))
-    lazy val view = disposalValueView(form, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalValueView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -117,7 +117,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   "Disposal Value View with form with errors" should {
 
     lazy val form = disposalValueForm.bind(Map("amount" -> ""))
-    lazy val view = disposalValueView(form, "home-link")(fakeRequest, mockMessage)
+    lazy val view = disposalValueView(form)(fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {
