@@ -17,7 +17,6 @@
 package controllers.utils
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
@@ -36,13 +35,12 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   implicit val mockApplication = fakeApplication
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   implicit lazy val actorSystem = ActorSystem()
-  lazy val materializer = mock[Materializer]
   val sessionTimeoutView = fakeApplication.injector.instanceOf[sessionTimeout]
 
   class fakeRequestTo(url: String, controllerAction: Action[AnyContent]) {
     val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
     val result = controllerAction(fakeRequest)
-    val jsoupDoc = Jsoup.parse(bodyOf(result)(materializer))
+    val jsoupDoc = Jsoup.parse(bodyOf(result))
 
   }
 

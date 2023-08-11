@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -40,7 +39,6 @@ import scala.concurrent.Future
 
 
 class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -86,7 +84,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.question}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
       }
     }
 
@@ -99,7 +97,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.question}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
       }
     }
   }
@@ -147,7 +145,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "stay on the shares Worth When Sold page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual s"Error: ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.title}"
+        Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.title}"
       }
     }
   }

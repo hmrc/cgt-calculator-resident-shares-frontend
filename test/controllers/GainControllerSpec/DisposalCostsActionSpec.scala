@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{SharesDisposalCosts => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
@@ -39,7 +38,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -92,7 +90,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Disposal Costs view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.newTitle
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.newTitle
       }
     }
 
@@ -100,7 +98,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       lazy val target = setupTarget(Some(DisposalCostsModel(100.99)))
       lazy val result = target.disposalCosts(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200

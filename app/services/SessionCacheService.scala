@@ -19,6 +19,7 @@ package services
 import common.Dates._
 import common.KeystoreKeys.ResidentShareKeys
 import connectors.SessionCacheConnector
+
 import javax.inject.Inject
 import models.resident
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
@@ -29,10 +30,9 @@ import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
-import scala.concurrent.Future
-import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.{ExecutionContext, Future}
 
-class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector) {
+class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector)(implicit ec: ExecutionContext) {
 
   def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {
 

@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -39,7 +38,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -81,7 +79,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
     "request has a valid session" should {
       lazy val target = setupTarget(None)
       lazy val result = target.worthWhenInherited(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -117,7 +115,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       s"return some html with title of ${Messages.title}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual Messages.title
+        Jsoup.parse(bodyOf(result)).title shouldEqual Messages.title
       }
     }
 
@@ -153,7 +151,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
     "an invalid form with no answer is submitted" should {
       lazy val target = setupTarget(None)
       lazy val result = target.submitWorthWhenInherited(fakeRequestToPOSTWithSession(("amount", "")))
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

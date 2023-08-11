@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
@@ -41,7 +40,6 @@ import scala.concurrent.Future
 
 class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithCommonFakeApplication
   with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
   val mockCalcConnector = mock[CalculatorConnector]
@@ -110,7 +108,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
     s"return some html with title of ${messages.question}" in {
       contentType(result) shouldBe Some("text/html")
-      Jsoup.parse(bodyOf(result)(materializer)).select("h1").text shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.question
     }
   }
 
@@ -148,7 +146,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     }
 
     "render the valueBeforeLegislationStart view" in {
-      Jsoup.parse(bodyOf(result)(materializer)).title() shouldEqual "Error: " + messages.title
+      Jsoup.parse(bodyOf(result)).title() shouldEqual "Error: " + messages.title
     }
   }
 }

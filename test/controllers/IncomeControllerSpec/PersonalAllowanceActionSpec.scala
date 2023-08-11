@@ -17,7 +17,6 @@
 package controllers.IncomeControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{PersonalAllowance => messages}
 import com.codahale.metrics.SharedMetricRegistries
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -41,7 +40,6 @@ import views.html.calculation.income.{currentIncome, personalAllowance}
 import scala.concurrent.Future
 
 class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
   val mockCalcConnector = mock[CalculatorConnector]
@@ -105,7 +103,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title("2015 to 2016")
       }
     }
 
@@ -125,7 +123,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title("2015 to 2016")
       }
     }
   }
@@ -172,7 +170,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       lazy val target = setupTarget(None, disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitPersonalAllowance(request)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 400" in {
         status(result) shouldBe 400

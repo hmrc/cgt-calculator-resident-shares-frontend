@@ -17,7 +17,6 @@
 package controllers.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
@@ -43,7 +42,6 @@ import scala.concurrent.Future
 class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar{
 
   implicit lazy val actorSystem = ActorSystem()
-  lazy val materializer = mock[Materializer]
   val mockCalcConnector = mock[CalculatorConnector]
   val mockSessionCacheConnector = mock[SessionCacheConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
@@ -90,11 +88,11 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"return a title of ${messages.title("2015 to 2016")}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2015 to 2016")
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015 to 2016")
       }
 
       s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward.url}'" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual
+        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual
           controllers.routes.DeductionsController.lossesBroughtForward.url
       }
     }
@@ -114,7 +112,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"return a title of ${messages.title("2015 to 2015")}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.title("2014 to 2015")
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2014 to 2015")
       }
     }
 
@@ -242,7 +240,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual s"Error: ${messages.title("2015 to 2016")}"
+        Jsoup.parse(bodyOf(result)).title shouldEqual s"Error: ${messages.title("2015 to 2016")}"
       }
     }
   }

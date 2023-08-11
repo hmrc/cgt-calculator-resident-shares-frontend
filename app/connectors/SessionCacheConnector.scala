@@ -17,18 +17,18 @@
 package connectors
 
 import config.ApplicationConfig
+
 import javax.inject.Inject
 import play.api.libs.json.Format
 import uk.gov.hmrc.http._
 import uk.gov.hmrc.http.cache.client.{CacheMap, SessionCache}
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
-import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 
 class SessionCacheConnector @Inject()(val http: DefaultHttpClient,
                                       calculatorConnector: CalculatorConnector,
-                                      appConfig: ApplicationConfig) extends SessionCache {
+                                      appConfig: ApplicationConfig)(implicit ec: ExecutionContext) extends SessionCache {
 
   override lazy val domain = appConfig.servicesConfig.getConfString("cachable.session-cache.domain",
     throw new Exception(s"Could not find config 'cachable.session-cache.domain'"))

@@ -17,7 +17,6 @@
 package controllers.IncomeControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
@@ -39,7 +38,6 @@ import views.html.calculation.income.{currentIncome, personalAllowance}
 import scala.concurrent.Future
 
 class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
 
   implicit lazy val actorSystem = ActorSystem()
@@ -100,7 +98,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Current Income view for 2015/16" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title("2015 to 2016")
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title("2015 to 2016")
       }
 
       "supplied with no pre-existing stored data for 2016/17" should {
@@ -118,7 +116,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
         }
 
         "display the Current Income for 2016/17 view" in {
-          Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.currentYearTitle
+          Jsoup.parse(bodyOf(result)).title shouldBe messages.currentYearTitle
         }
       }
     }
@@ -128,7 +126,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       lazy val target = setupTarget(Some(CurrentIncomeModel(40000)), disposalDate = Some(DisposalDateModel(10, 10, 2015)),
         taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.currentIncome(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -144,7 +142,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       lazy val target = setupTarget(None, otherProperties = false, lossesBroughtForward = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
                                     taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.currentIncome(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 200" in {
         status(result) shouldBe 200
@@ -160,7 +158,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       lazy val target = setupTarget(None, otherProperties = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
                                     taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.currentIncome(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 200" in {
         status(result) shouldBe 200

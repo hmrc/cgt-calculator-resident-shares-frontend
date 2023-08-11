@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{SharesAcquisitionValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -39,7 +38,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -92,7 +90,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Value view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 
@@ -110,7 +108,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Value view" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
   }
@@ -148,7 +146,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitAcquisitionValue(request)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a 400" in {
         status(result) shouldBe 400

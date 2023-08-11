@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => Messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
@@ -39,7 +38,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -89,7 +87,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
       s"return some html with title of ${Messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual Messages.title
+        Jsoup.parse(bodyOf(result)).title shouldEqual Messages.title
       }
     }
 
@@ -156,7 +154,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", "")).withMethod("POST")
       lazy val result = target.submitOwnerBeforeLegislationStart(request)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

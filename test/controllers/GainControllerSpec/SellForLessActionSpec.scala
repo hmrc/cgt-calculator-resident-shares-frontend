@@ -17,7 +17,6 @@
 package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -39,7 +38,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -96,7 +94,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldEqual messages.newTitle
+        Jsoup.parse(bodyOf(result)).title shouldEqual messages.newTitle
       }
     }
 
@@ -105,7 +103,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the disposal date page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate.url
+        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual routes.GainController.disposalDate.url
       }
     }
 
@@ -114,7 +112,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the outside tax years page" in {
-        Jsoup.parse(bodyOf(result)(materializer)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears.url
+        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual routes.GainController.outsideTaxYears.url
       }
     }
 
@@ -181,7 +179,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "")).withMethod("POST")
       lazy val result = target.submitSellForLess(request)
-      lazy val doc = Jsoup.parse(bodyOf(result)(materializer))
+      lazy val doc = Jsoup.parse(bodyOf(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

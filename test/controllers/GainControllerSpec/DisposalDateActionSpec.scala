@@ -19,7 +19,6 @@ package controllers.GainControllerSpec
 import java.time.LocalDate
 
 import akka.actor.ActorSystem
-import akka.stream.Materializer
 import assets.MessageLookup.{SharesDisposalDate => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
@@ -42,7 +41,6 @@ import views.html.calculation.outsideTaxYear
 import scala.concurrent.Future
 
 class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
-  lazy val materializer = mock[Materializer]
 
   implicit lazy val actorSystem = ActorSystem()
 
@@ -105,7 +103,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
     val target = setupTarget()
     val result = target.submitDisposalDate(fakeRequestToPOSTWithSession(inputOne, inputTwo, inputThree).withMethod("POST"))
-    val doc = Jsoup.parse(bodyOf(result)(materializer))
+    val doc = Jsoup.parse(bodyOf(result))
   }
 
   "Calling .disposalDate from the GainCalculationController" should {
@@ -124,7 +122,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       s"return a page with the title ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 
@@ -142,7 +140,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       s"return a page with the title ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)(materializer)).title shouldBe messages.title
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
   }
@@ -182,7 +180,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "return a page with the title ''When did you sign the contract that made someone else the owner?'" in {
-        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe s"Error: ${messages.title}"
+        Jsoup.parse(bodyOf(request.result)).title shouldBe s"Error: ${messages.title}"
       }
     }
 
@@ -209,7 +207,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "return a page with the title 'When did you sell or give away the shares?'" in {
-        Jsoup.parse(bodyOf(request.result)(materializer)).title shouldBe s"Error: ${messages.title}"
+        Jsoup.parse(bodyOf(request.result)).title shouldBe s"Error: ${messages.title}"
       }
     }
   }
