@@ -16,24 +16,22 @@
 
 package controllers
 
-import java.time._
-
 import common.Dates._
 import common.KeystoreKeys
 import config.AppConfig
-import connectors.SessionCacheConnector
 import controllers.predicates.ValidActiveSession
-import javax.inject.Inject
 import models.resident.DisposalDateModel
 import play.api.i18n.I18nSupport
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
-import uk.gov.hmrc.http.HeaderCarrier
+import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
+import services.SessionCacheService
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.whatNext.{whatNextSAFourTimesAEA, whatNextSAGain, whatNextSANoGain}
 
+import java.time._
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnector,
+class WhatNextSAController @Inject()(sessionCacheService: SessionCacheService,
                                      mcc: MessagesControllerComponents,
                                      appConfig: AppConfig,
                                      whatNextSAFourTimesAEAView: whatNextSAFourTimesAEA,
@@ -45,8 +43,8 @@ class WhatNextSAController @Inject()(sessionCacheConnector: SessionCacheConnecto
   val backLink: String = controllers.routes.SaUserController.saUser.url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
-  def fetchAndParseDateToLocalDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
-    sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate).map {
+  def fetchAndParseDateToLocalDate()(implicit request: Request[_]): Future[LocalDate] = {
+    sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate).map {
       data => LocalDate.of(data.get.year, data.get.month, data.get.day)
     }
   }

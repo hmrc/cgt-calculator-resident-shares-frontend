@@ -19,10 +19,10 @@ package controllers.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
 import assets.MessageLookup.{LossesBroughtForward => messages}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.DeductionsController
 import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardValueForm
@@ -35,7 +35,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
 import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
 import scala.concurrent.Future
@@ -48,8 +47,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
   val summaryModel = mock[DeductionGainAnswersModel]
   val chargeableGainModel = mock[ChargeableGainResultModel]
   val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
-  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockSessionCacheService = mock[SessionCacheService]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
   val lossesBroughForwardValueForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
@@ -63,7 +61,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
                   disposalDate: Option[DisposalDateModel],
                   taxYear: Option[TaxYearModel], maxAnnualExemptAmount: Option[BigDecimal] = Some(BigDecimal(11100))): DeductionsController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
+    when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(lossesBroughtForwardData))
 
@@ -76,7 +74,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
     when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(chargeableGain)))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
       (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDate)
 
@@ -86,13 +84,13 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxAnnualExemptAmount))
 
-    when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
+    when(mockSessionCacheService.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
       ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(CacheMap("", Map.empty))
+      .thenReturn(Future.successful("" -> "")
 
       )
 
-    new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
+    new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC, lossesBroughForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {

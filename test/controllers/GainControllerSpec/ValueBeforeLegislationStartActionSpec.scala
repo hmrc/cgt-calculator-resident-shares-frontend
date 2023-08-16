@@ -18,12 +18,12 @@ package controllers.GainControllerSpec
 
 import akka.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.{GainController, routes}
+import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
+import controllers.{GainController, routes}
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
@@ -32,8 +32,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
-import views.html.calculation.gain.{acquisitionCosts, acquisitionValue, didYouInheritThem, disposalCosts, disposalDate, disposalValue, ownerBeforeLegislationStart, sellForLess, valueBeforeLegislationStart, worthWhenInherited, worthWhenSoldForLess}
+import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
 import scala.concurrent.Future
@@ -43,7 +42,6 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
   implicit lazy val actorSystem = ActorSystem()
   val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
   val mockSessionCacheService = mock[SessionCacheService]
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
@@ -63,15 +61,15 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel]
+    when(mockSessionCacheService.fetchAndGetFormData[ValueBeforeLegislationStartModel]
       (ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[ValueBeforeLegislationStartModel]
+    when(mockSessionCacheService.saveFormData[ValueBeforeLegislationStartModel]
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+    new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
       didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
       worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)

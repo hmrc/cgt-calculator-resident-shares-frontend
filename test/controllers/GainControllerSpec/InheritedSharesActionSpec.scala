@@ -19,9 +19,9 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import assets.MessageLookup.{Resident => commonMessages}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
+import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.shares.gain.DidYouInheritThemModel
@@ -32,8 +32,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
-import views.html.calculation.gain.{acquisitionCosts, acquisitionValue, didYouInheritThem, disposalCosts, disposalDate, disposalValue, ownerBeforeLegislationStart, sellForLess, valueBeforeLegislationStart, worthWhenInherited, worthWhenSoldForLess}
+import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
 import scala.concurrent.Future
@@ -46,7 +45,6 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
   def setupTarget(getData: Option[DidYouInheritThemModel]): GainController= {
 
     val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
     val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
@@ -62,15 +60,15 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
     val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DidYouInheritThemModel]
       (ArgumentMatchers.eq(keyStoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[DidYouInheritThemModel]
+    when(mockSessionCacheService.saveFormData[DidYouInheritThemModel]
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+    new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
       didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
       worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)

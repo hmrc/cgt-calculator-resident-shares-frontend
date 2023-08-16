@@ -16,22 +16,20 @@
 
 package controllers
 
-import java.time.LocalDate
-
 import common.Dates
 import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
-import javax.inject.Inject
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import play.api.i18n.{I18nSupport, Lang}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
+import play.api.mvc._
 import services.SessionCacheService
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 
+import java.time.LocalDate
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector,
@@ -40,14 +38,14 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
                                         checkYourAnswersView: checkYourAnswers)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  def getTaxYear(disposalDate: LocalDate)(implicit hc: HeaderCarrier): Future[TaxYearModel] =
+  def getTaxYear(disposalDate: LocalDate)(implicit request: Request[_]): Future[TaxYearModel] =
     calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
       _.get
     }
 
-  def getGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = sessionCacheService.getShareGainAnswers
+  def getGainAnswers(implicit request: Request[_]): Future[GainAnswersModel] = sessionCacheService.getShareGainAnswers
 
-  def getDeductionsAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = sessionCacheService.getShareDeductionAnswers
+  def getDeductionsAnswers(implicit request: Request[_]): Future[DeductionGainAnswersModel] = sessionCacheService.getShareDeductionAnswers
 
   private def languageRequest(body : Lang => Future[Result])(implicit request: Request[_]): Future[Result] =
     body(mcc.messagesApi.preferred(request).lang)

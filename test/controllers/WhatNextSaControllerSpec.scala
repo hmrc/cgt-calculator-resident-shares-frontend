@@ -17,12 +17,10 @@
 package controllers
 
 import java.time._
-
 import assets.MessageLookup
 import com.codahale.metrics.SharedMetricRegistries
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
-import connectors.SessionCacheConnector
 import controllers.helpers.FakeRequestHelper
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
@@ -31,6 +29,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
+import services.SessionCacheService
 import views.html.calculation.whatNext.{whatNextSAFourTimesAEA, whatNextSAGain, whatNextSANoGain}
 
 import scala.concurrent.Future
@@ -38,7 +37,7 @@ import scala.concurrent.Future
 class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockSessionCacheService = mock[SessionCacheService]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
   val whatNextSAFourTimesAEAView = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
@@ -48,11 +47,11 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
     SharedMetricRegistries.clear()
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
       (ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
-    new WhatNextSAController(mockSessionCacheConnector, mockMCC, mockConfig, whatNextSAFourTimesAEAView,
+    new WhatNextSAController(mockSessionCacheService, mockMCC, mockConfig, whatNextSAFourTimesAEAView,
       whatNextSAGainView, whatNextSANoGainView)
   }
 

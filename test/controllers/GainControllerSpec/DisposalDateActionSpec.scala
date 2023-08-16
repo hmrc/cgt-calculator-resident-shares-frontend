@@ -16,14 +16,12 @@
 
 package controllers.GainControllerSpec
 
-import java.time.LocalDate
-
 import akka.actor.ActorSystem
 import assets.MessageLookup.{SharesDisposalDate => messages}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
@@ -34,10 +32,10 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
-import views.html.calculation.gain.{acquisitionCosts, acquisitionValue, didYouInheritThem, disposalCosts, disposalDate, disposalValue, ownerBeforeLegislationStart, sellForLess, valueBeforeLegislationStart, worthWhenInherited, worthWhenSoldForLess}
+import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
+import java.time.LocalDate
 import scala.concurrent.Future
 
 class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
@@ -45,7 +43,6 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
   implicit lazy val actorSystem = ActorSystem()
 
   val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
   val mockSessionCacheService = mock[SessionCacheService]
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
@@ -64,18 +61,18 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
   val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
       (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[DisposalDateModel]
+    when(mockSessionCacheService.saveFormData[DisposalDateModel]
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
     when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+    new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
       didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
       worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)
@@ -88,14 +85,14 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(dateResponse)))
 
-      when(mockSessionCacheConnector.saveFormData[DisposalDateModel]
+      when(mockSessionCacheService.saveFormData[DisposalDateModel]
         (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(mock[CacheMap]))
+        .thenReturn(Future.successful("" -> ""))
 
       when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
-      new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+      new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
         acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
         didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
         worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)
