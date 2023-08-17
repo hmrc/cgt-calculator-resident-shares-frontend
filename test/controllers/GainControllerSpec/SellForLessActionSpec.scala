@@ -20,7 +20,7 @@ import akka.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.{GainController, routes}
 import models.resident.{DisposalDateModel, SellForLessModel, TaxYearModel}
@@ -31,7 +31,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
 import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
@@ -44,7 +43,6 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   def setupTarget(getData: Option[SellForLessModel], knownTaxYear: Boolean = true): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
     val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
@@ -63,19 +61,19 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(TaxYearModel("year", knownTaxYear, "year"))))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))
+    when(mockSessionCacheService.fetchAndGetFormData[SellForLessModel](ArgumentMatchers.eq(keyStoreKeys.sellForLess))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keyStoreKeys.disposalDate))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keyStoreKeys.disposalDate))
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(DisposalDateModel(1, 1, 1))))
 
-    when(mockSessionCacheConnector.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
+    when(mockSessionCacheService.saveFormData[SellForLessModel](ArgumentMatchers.any(), ArgumentMatchers.any())
       (ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+    new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
       didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
       worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)

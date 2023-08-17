@@ -18,55 +18,68 @@ package services
 
 import common.Dates._
 import common.KeystoreKeys.ResidentShareKeys
-import connectors.SessionCacheConnector
-
-import javax.inject.Inject
 import models.resident
+import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
-import models.resident.{AcquisitionCostsModel, AcquisitionValueModel, WorthWhenInheritedModel, _}
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel, OwnerBeforeLegislationStartModel}
+import play.api.libs.json.Format
+import play.api.mvc.Request
 import play.api.mvc.Results._
-import uk.gov.hmrc.http.HeaderCarrier
+import repositories.SessionRepository
+import uk.gov.hmrc.mongo.cache.DataKey
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
-class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector)(implicit ec: ExecutionContext) {
+class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implicit ec: ExecutionContext) {
 
-  def getShareGainAnswers(implicit hc: HeaderCarrier): Future[GainAnswersModel] = {
 
-    val disposalDate = sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
+  def saveFormData[T](key: String, data: T)(implicit request: Request[_], formats: Format[T]): Future[(String, String)] = {
+    sessionRepository.putSession[T](DataKey(key), data)
+  }
+
+  def fetchAndGetFormData[T](key: String)(implicit request: Request[_], formats: Format[T]): Future[Option[T]] = {
+    sessionRepository.getFromSession[T](DataKey(key))
+  }
+
+  def clearKeystore(implicit request: Request[_]): Future[Unit] = {
+    sessionRepository.clear(request)
+  }
+
+  def getShareGainAnswers(implicit request: Request[_]): Future[GainAnswersModel] = {
+    val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
       .map(formData => constructDate(formData.get.day, formData.get.month, formData.get.year))
 
-    val soldForLessThanWorth = sessionCacheConnector.fetchAndGetFormData[SellForLessModel](ResidentShareKeys.sellForLess)
+    val soldForLessThanWorth = fetchAndGetFormData[SellForLessModel](ResidentShareKeys.sellForLess)
       .map(_.get.sellForLess)
 
-    val disposalValue = sessionCacheConnector.fetchAndGetFormData[DisposalValueModel](ResidentShareKeys.disposalValue)
+    val disposalValue = fetchAndGetFormData[DisposalValueModel](ResidentShareKeys.disposalValue)
       .map(_.map(_.amount))
 
-    val worthWhenSoldForLess = sessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess)
+    val worthWhenSoldForLess = fetchAndGetFormData[WorthWhenSoldForLessModel](ResidentShareKeys.worthWhenSoldForLess)
       .map(_.map(_.amount))
 
-    val disposalCosts = sessionCacheConnector.fetchAndGetFormData[DisposalCostsModel](ResidentShareKeys.disposalCosts)
+    val disposalCosts = fetchAndGetFormData[DisposalCostsModel](ResidentShareKeys.disposalCosts)
       .map(_.get.amount)
 
-    val ownedBeforeTaxStartDate = sessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart)
+    val ownedBeforeTaxStartDate = fetchAndGetFormData[OwnerBeforeLegislationStartModel](ResidentShareKeys.ownerBeforeLegislationStart)
       .map(_.get.ownerBeforeLegislationStart)
 
-    val valueBeforeLegislationStart = sessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart)
+    val valueBeforeLegislationStart = fetchAndGetFormData[ValueBeforeLegislationStartModel](ResidentShareKeys.valueBeforeLegislationStart)
       .map(_.map(_.amount))
 
-    val inheritedTheShares = sessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem)
+    val inheritedTheShares = fetchAndGetFormData[DidYouInheritThemModel](ResidentShareKeys.didYouInheritThem)
       .map(_.map(_.wereInherited))
 
-    val worthWhenInherited = sessionCacheConnector.fetchAndGetFormData[WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited)
+    val worthWhenInherited = fetchAndGetFormData[WorthWhenInheritedModel](ResidentShareKeys.worthWhenInherited)
       .map(_.map(_.amount))
 
-    val acquisitionValue = sessionCacheConnector.fetchAndGetFormData[AcquisitionValueModel](ResidentShareKeys.acquisitionValue)
+    val acquisitionValue = fetchAndGetFormData[AcquisitionValueModel](ResidentShareKeys.acquisitionValue)
       .map(_.map(_.amount))
 
-    val acquisitionCosts = sessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts)
+    val acquisitionCosts = fetchAndGetFormData[AcquisitionCostsModel](ResidentShareKeys.acquisitionCosts)
       .map(_.get.amount)
 
     for {
@@ -102,9 +115,9 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
       )
   }
 
-  def getShareDeductionAnswers(implicit hc: HeaderCarrier): Future[DeductionGainAnswersModel] = {
-    val broughtForwardModel = sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
-    val broughtForwardValueModel = sessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
+  def getShareDeductionAnswers(implicit request: Request[_]): Future[DeductionGainAnswersModel] = {
+    val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
+    val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
 
     for {
       broughtForward <- broughtForwardModel
@@ -122,9 +135,9 @@ class SessionCacheService @Inject()(sessionCacheConnector: SessionCacheConnector
       )
   }
 
-  def getShareIncomeAnswers(implicit hc: HeaderCarrier): Future[IncomeAnswersModel] = {
-    val currentIncomeModel = sessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel](ResidentShareKeys.currentIncome)
-    val personalAllowanceModel = sessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
+  def getShareIncomeAnswers(implicit request: Request[_]): Future[IncomeAnswersModel] = {
+    val currentIncomeModel = fetchAndGetFormData[CurrentIncomeModel](ResidentShareKeys.currentIncome)
+    val personalAllowanceModel = fetchAndGetFormData[PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
 
     for {
       currentIncome <- currentIncomeModel

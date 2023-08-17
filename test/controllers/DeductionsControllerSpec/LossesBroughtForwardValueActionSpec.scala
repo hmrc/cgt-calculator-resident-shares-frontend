@@ -18,12 +18,12 @@ package controllers.DeductionsControllerSpec
 
 import akka.actor.ActorSystem
 import assets.MessageLookup.{LossesBroughtForwardValue => messages}
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
-import controllers.helpers.FakeRequestHelper
+import connectors.CalculatorConnector
 import controllers.DeductionsController
+import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardValueForm
 import models.resident._
 import models.resident.shares._
@@ -34,7 +34,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
 import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
 import scala.concurrent.Future
@@ -43,7 +42,6 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
 
   implicit lazy val actorSystem = ActorSystem()
   val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val gainModel = mock[GainAnswersModel]
@@ -60,17 +58,17 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
                      disposalDateModel: DisposalDateModel,
                      taxYearModel: TaxYearModel): DeductionsController = {
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
+      when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(getData)
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm, lossesBroughtForwardView, lossesBroughtForwardValueView)
+      new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm, lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "request has a valid session with no keystore data" should {
@@ -150,7 +148,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(chargeableGain)))
 
-      when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+      when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
         (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Some(disposalDateModel))
 
@@ -160,13 +158,13 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(maxAnnualExemptAmount))
 
-      when(mockSessionCacheConnector.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
+      when(mockSessionCacheService.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
         ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Future.successful(CacheMap("", Map.empty))
+        .thenReturn(Future.successful("" -> "")
 
         )
 
-      new DeductionsController(mockCalcConnector,mockSessionCacheConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
+      new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "given a valid form" when {

@@ -16,12 +16,9 @@
 
 package controllers
 
-import java.time.{LocalDate, ZoneId}
-import java.util.UUID
-
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{Dates, TaxDates}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.AcquisitionCostsForm._
@@ -35,25 +32,26 @@ import forms.SellForLessForm._
 import forms.ValueBeforeLegislationStartForm._
 import forms.WorthWhenInheritedForm._
 import forms.WorthWhenSoldForLessForm._
-import javax.inject.Inject
 import models.resident._
 import models.resident.shares.OwnerBeforeLegislationStartModel
 import models.resident.shares.gain.{DidYouInheritThemModel, ValueBeforeLegislationStartModel}
 import play.api.data.Form
 import play.api.i18n.{I18nSupport, Messages}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request, Result}
+import play.api.mvc._
 import services.SessionCacheService
-import uk.gov.hmrc.http.{HeaderCarrier, SessionKeys}
+import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
-import views.html.calculation.outsideTaxYear
 import views.html.calculation.gain._
+import views.html.calculation.outsideTaxYear
 
+import java.time.{LocalDate, ZoneId}
+import java.util.UUID
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 
 class GainController @Inject()(calcConnector: CalculatorConnector,
                                sessionCacheService: SessionCacheService,
-                               sessionCacheConnector: SessionCacheConnector,
                                mcc: MessagesControllerComponents,
                                acquisitionCostsView: acquisitionCosts,
                                acquisitionValueView: acquisitionValue,
@@ -79,7 +77,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
       Future.successful(Ok(disposalDateView(disposalDateForm())).withSession(request.session + (SessionKeys.sessionId -> s"session-$sessionId")))
     }
     else {
-      sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate).map {
+      sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate).map {
         case Some(data) => Ok(disposalDateView(disposalDateForm().fill(data)))
         case None => Ok(disposalDateView(disposalDateForm()))
       }
@@ -105,7 +103,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
         )},
         success => {
           (for {
-            save <- sessionCacheConnector.saveFormData(keystoreKeys.disposalDate, success)
+            save <- sessionCacheService.saveFormData(keystoreKeys.disposalDate, success)
             taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
             route <- routeRequest(taxYearResult)
           } yield route).recoverToStart()
@@ -120,9 +118,9 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
   }
 
   //################ Sell for Less Actions ######################
-  private def sellForLessBackLink()(implicit hc: HeaderCarrier): Future[String] = {
+  private def sellForLessBackLink()(implicit request: Request[_]): Future[String] = {
     for {
-      date <- sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
+      date <- sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
       taxYear <- calcConnector.getTaxYear(s"${date.get.year}-${date.get.month}-${date.get.day}")
     } yield if (taxYear.get.isValidYear) routes.GainController.disposalDate.url else routes.GainController.outsideTaxYears.url
   }
@@ -139,7 +137,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     }
 
     (for {
-      model <- sessionCacheConnector.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
+      model <- sessionCacheService.fetchAndGetFormData[SellForLessModel](keystoreKeys.sellForLess)
       backLink <- sellForLessBackLink()
       route <- routeRequest(model, backLink)
     } yield route).recoverToStart()
@@ -155,7 +153,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
         } yield response).recoverToStart()
       },
       success => {
-        sessionCacheConnector.saveFormData[SellForLessModel](keystoreKeys.sellForLess, success).flatMap(
+        sessionCacheService.saveFormData[SellForLessModel](keystoreKeys.sellForLess, success).flatMap(
           _ =>success.sellForLess match {
             case true => Future.successful(Redirect(routes.GainController.worthWhenSoldForLess))
             case _ => Future.successful(Redirect(routes.GainController.disposalValue))
@@ -167,7 +165,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
   //################ Worth When Sold Actions ######################
   def worthWhenSoldForLess: Action[AnyContent] = ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[WorthWhenSoldForLessModel](keystoreKeys.worthWhenSoldForLess).map {
+    sessionCacheService.fetchAndGetFormData[WorthWhenSoldForLessModel](keystoreKeys.worthWhenSoldForLess).map {
       case Some(data) => Ok(worthWhenSoldForLessView(worthWhenSoldForLessForm.fill(data)))
       case _ => Ok(worthWhenSoldForLessView(worthWhenSoldForLessForm))
     }
@@ -178,7 +176,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     worthWhenSoldForLessForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(worthWhenSoldForLessView(errors))),
       success => {
-        sessionCacheConnector.saveFormData(keystoreKeys.worthWhenSoldForLess, success).flatMap(
+        sessionCacheService.saveFormData(keystoreKeys.worthWhenSoldForLess, success).flatMap(
           _=>Future.successful(Redirect(routes.GainController.disposalCosts))
         )
       }
@@ -189,7 +187,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
   //################ Outside Tax Years Actions ######################
   def outsideTaxYears: Action[AnyContent] = ValidateSession.async { implicit request =>
     (for {
-      disposalDate <- sessionCacheConnector.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
+      disposalDate <- sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
       taxYear <- calcConnector.getTaxYear(s"${disposalDate.get.year}-${disposalDate.get.month}-${disposalDate.get.day}")
     } yield {
       Ok(outsideTaxYearView(
@@ -204,7 +202,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
   //################ Disposal Value Actions ######################
   def disposalValue: Action[AnyContent] = ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[DisposalValueModel](keystoreKeys.disposalValue).map {
+    sessionCacheService.fetchAndGetFormData[DisposalValueModel](keystoreKeys.disposalValue).map {
       case Some(data) => Ok(disposalValueView(disposalValueForm.fill(data)))
       case None => Ok(disposalValueView(disposalValueForm))
     }
@@ -214,7 +212,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     disposalValueForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(disposalValueView(errors))),
       success => {
-        sessionCacheConnector.saveFormData[DisposalValueModel](keystoreKeys.disposalValue, success).flatMap(
+        sessionCacheService.saveFormData[DisposalValueModel](keystoreKeys.disposalValue, success).flatMap(
           _ => Future.successful(Redirect(routes.GainController.disposalCosts))
         )
       }
@@ -223,7 +221,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
   //################# Disposal Costs Actions ########################
   def disposalCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[DisposalCostsModel](keystoreKeys.disposalCosts).map {
+    sessionCacheService.fetchAndGetFormData[DisposalCostsModel](keystoreKeys.disposalCosts).map {
       case Some(data) => Ok(disposalCostsView(disposalCostsForm.fill(data)))
       case None => Ok(disposalCostsView(disposalCostsForm))
     }
@@ -233,7 +231,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     disposalCostsForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(disposalCostsView(errors))),
       success => {
-        sessionCacheConnector.saveFormData(keystoreKeys.disposalCosts, success).flatMap(
+        sessionCacheService.saveFormData(keystoreKeys.disposalCosts, success).flatMap(
           _ => Future.successful(Redirect(routes.GainController.ownerBeforeLegislationStart))
         )
       }
@@ -245,7 +243,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
   private val ownerBeforeLegislationStartBackLink = Some(controllers.routes.GainController.disposalCosts.url)
 
   def ownerBeforeLegislationStart: Action[AnyContent] = ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart).map {
+    sessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart).map {
       case Some(data) => Ok(ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm.fill(data), ownerBeforeLegislationStartBackLink))
       case None => Ok(ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm, ownerBeforeLegislationStartBackLink))
     }
@@ -255,7 +253,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     ownerBeforeLegislationStartForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(ownerBeforeLegislationStartView(errors, ownerBeforeLegislationStartBackLink))),
       success => {
-        sessionCacheConnector.saveFormData(keystoreKeys.ownerBeforeLegislationStart, success).flatMap(
+        sessionCacheService.saveFormData(keystoreKeys.ownerBeforeLegislationStart, success).flatMap(
           _ => success.ownerBeforeLegislationStart match {
             case true => Future.successful(Redirect(routes.GainController.valueBeforeLegislationStart))
             case _ => Future.successful(Redirect(routes.GainController.didYouInheritThem))
@@ -267,7 +265,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
   //################# What were they worth on 31 March 1982 Actions ########################
   def valueBeforeLegislationStart: Action[AnyContent] =  ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[ValueBeforeLegislationStartModel](keystoreKeys.valueBeforeLegislationStart).map {
+    sessionCacheService.fetchAndGetFormData[ValueBeforeLegislationStartModel](keystoreKeys.valueBeforeLegislationStart).map {
       case Some(data) => Ok(valueBeforeLegislationStartView(valueBeforeLegislationStartForm.fill(data)))
       case None => Ok(valueBeforeLegislationStartView(valueBeforeLegislationStartForm))
     }
@@ -277,7 +275,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     valueBeforeLegislationStartForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(valueBeforeLegislationStartView(errors))),
       success => {
-        sessionCacheConnector.saveFormData[ValueBeforeLegislationStartModel](keystoreKeys.valueBeforeLegislationStart, success).flatMap(
+        sessionCacheService.saveFormData[ValueBeforeLegislationStartModel](keystoreKeys.valueBeforeLegislationStart, success).flatMap(
           _ => Future.successful(Redirect(routes.GainController.acquisitionCosts))
         )
       }
@@ -286,7 +284,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
   //################# Did you Inherit the Shares Actions ########################
   def didYouInheritThem: Action[AnyContent] = ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem).map {
+    sessionCacheService.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem).map {
       case Some(data) => Ok(didYouInheritThemView(didYouInheritThemForm.fill(data)))
       case None => Ok(didYouInheritThemView(didYouInheritThemForm))
     }
@@ -296,7 +294,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     didYouInheritThemForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(didYouInheritThemView(errors))),
       success => {
-        sessionCacheConnector.saveFormData(keystoreKeys.didYouInheritThem, success).flatMap(
+        sessionCacheService.saveFormData(keystoreKeys.didYouInheritThem, success).flatMap(
           _ => if (success.wereInherited) Future.successful(Redirect(routes.GainController.worthWhenInherited))
           else Future.successful(Redirect(routes.GainController.acquisitionValue))
         )
@@ -306,7 +304,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
   //################# Worth when Inherited Actions ########################
   def worthWhenInherited: Action[AnyContent] = ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[WorthWhenInheritedModel](keystoreKeys.worthWhenInherited).map {
+    sessionCacheService.fetchAndGetFormData[WorthWhenInheritedModel](keystoreKeys.worthWhenInherited).map {
       case Some(data) => Ok(worthWhenInheritedView(worthWhenInheritedForm.fill(data)))
       case None => Ok(worthWhenInheritedView(worthWhenInheritedForm))
     }
@@ -316,7 +314,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     worthWhenInheritedForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(worthWhenInheritedView(errors))),
       success => {
-        sessionCacheConnector.saveFormData(keystoreKeys.worthWhenInherited, success).flatMap(
+        sessionCacheService.saveFormData(keystoreKeys.worthWhenInherited, success).flatMap(
           _ => Future.successful(Redirect(routes.GainController.acquisitionCosts))
         )
       }
@@ -325,7 +323,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
   //################# Acquisition Value Actions ########################
   def acquisitionValue: Action[AnyContent] = ValidateSession.async { implicit request =>
-    sessionCacheConnector.fetchAndGetFormData[AcquisitionValueModel](keystoreKeys.acquisitionValue).map {
+    sessionCacheService.fetchAndGetFormData[AcquisitionValueModel](keystoreKeys.acquisitionValue).map {
       case Some(data) => Ok(acquisitionValueView(acquisitionValueForm.fill(data)))
       case None => Ok(acquisitionValueView(acquisitionValueForm))
     }
@@ -335,7 +333,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     acquisitionValueForm.bindFromRequest().fold(
       errors => Future.successful(BadRequest(acquisitionValueView(errors))),
       success => {
-        sessionCacheConnector.saveFormData(keystoreKeys.acquisitionValue, success).flatMap(
+        sessionCacheService.saveFormData(keystoreKeys.acquisitionValue, success).flatMap(
           _ => Future.successful(Redirect(routes.GainController.acquisitionCosts))
         )
       }
@@ -352,15 +350,15 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
   def acquisitionCosts: Action[AnyContent] = ValidateSession.async { implicit request =>
 
     def routeRequest(backLink: String): Future[Result] = {
-      sessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel](keystoreKeys.acquisitionCosts).map {
+      sessionCacheService.fetchAndGetFormData[AcquisitionCostsModel](keystoreKeys.acquisitionCosts).map {
         case Some(data) => Ok(acquisitionCostsView(acquisitionCostsForm.fill(data), Some(backLink)))
         case None => Ok(acquisitionCostsView(acquisitionCostsForm, Some(backLink)))
       }
     }
 
     (for {
-      ownedBeforeTax <- sessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
-      didYouInheritThem <- sessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
+      ownedBeforeTax <- sessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
+      didYouInheritThem <- sessionCacheService.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
       route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem))
     } yield route).recoverToStart()
 
@@ -374,7 +372,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
     def successAction(success: AcquisitionCostsModel) = {
       for {
-        save <- sessionCacheConnector.saveFormData(keystoreKeys.acquisitionCosts, success)
+        save <- sessionCacheService.saveFormData(keystoreKeys.acquisitionCosts, success)
         answers <- sessionCacheService.getShareGainAnswers
         grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       } yield grossGain match {
@@ -391,8 +389,8 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     }
 
     (for {
-      ownedBeforeTax <- sessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
-      didYouInheritThem <- sessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
+      ownedBeforeTax <- sessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel](keystoreKeys.ownerBeforeLegislationStart)
+      didYouInheritThem <- sessionCacheService.fetchAndGetFormData[DidYouInheritThemModel](keystoreKeys.didYouInheritThem)
       route <- routeRequest(acquisitionCostsBackLink(ownedBeforeTax.get, didYouInheritThem))
     } yield route).recoverToStart()
   }

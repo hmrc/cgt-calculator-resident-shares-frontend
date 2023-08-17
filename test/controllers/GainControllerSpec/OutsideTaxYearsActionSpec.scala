@@ -19,7 +19,7 @@ package controllers.GainControllerSpec
 import akka.actor.ActorSystem
 import assets.MessageLookup.{OutsideTaxYears => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
@@ -40,7 +40,6 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
   def setupTarget(disposalDateModel: Option[DisposalDateModel], taxYearModel: Option[TaxYearModel]): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
     val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
@@ -56,13 +55,13 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
     val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDateModel)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYearModel)
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+    new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
       didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
       worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)

@@ -21,7 +21,7 @@ import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionCostsModel
@@ -34,7 +34,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
 import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
@@ -49,8 +48,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
   val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
-  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockSessionCacheService = mock[SessionCacheService]
   val mockMCC =fakeApplication.injector.instanceOf[MessagesControllerComponents]
   val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
   val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
@@ -73,15 +71,15 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
                    totalGain: BigDecimal
                  ): GainController = {
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[AcquisitionCostsModel]
+    when(mockSessionCacheService.fetchAndGetFormData[AcquisitionCostsModel]
       (ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(acquisitionCostsData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
+    when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
       (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(ownedBeforeStartOfTaxData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DidYouInheritThemModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DidYouInheritThemModel]
       (ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(inheritedThemData))
 
@@ -91,11 +89,11 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
     when(mockCalcConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockSessionCacheConnector.saveFormData[AcquisitionCostsModel]
+    when(mockSessionCacheService.saveFormData[AcquisitionCostsModel]
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+    new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
       didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
       worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)

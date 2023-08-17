@@ -20,7 +20,7 @@ import akka.actor.ActorSystem
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.IncomeController
 import controllers.helpers.FakeRequestHelper
 import forms.{CurrentIncomeForm, PersonalAllowanceForm}
@@ -32,7 +32,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
+import services.SessionCacheService
 import views.html.calculation.income.{currentIncome, personalAllowance}
 
 import scala.concurrent.Future
@@ -50,36 +50,36 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
                   taxYear: Option[TaxYearModel]): IncomeController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
+    val mockSessionCacheService = mock[SessionCacheService]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
     val personalAllowanceForm = fakeApplication.injector.instanceOf[PersonalAllowanceForm]
     val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
     val currentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
     val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[CurrentIncomeModel]
+    when(mockSessionCacheService.fetchAndGetFormData[CurrentIncomeModel]
       (ArgumentMatchers.eq(keystoreKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(storedData))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[LossesBroughtForwardModel]
+    when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel]
       (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))(ArgumentMatchers.any(),
       ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(LossesBroughtForwardModel(lossesBroughtForward))))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
       (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(disposalDate)
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(taxYear)
 
-    when(mockSessionCacheConnector.saveFormData[CurrentIncomeModel](ArgumentMatchers.any(),
+    when(mockSessionCacheService.saveFormData[CurrentIncomeModel](ArgumentMatchers.any(),
       ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(CacheMap("", Map.empty))
+      .thenReturn(Future.successful("" -> "")
 
       )
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceForm, personalAllowanceView,  currentIncomeForm, currentIncomeView)
+    new IncomeController(mockCalcConnector, mockSessionCacheService, mockMCC, personalAllowanceForm, personalAllowanceView,  currentIncomeForm, currentIncomeView)
   }
 
   "Calling .currentIncome from the IncomeController with a session" when {

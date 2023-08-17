@@ -22,7 +22,7 @@ import com.codahale.metrics.SharedMetricRegistries
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import config.ApplicationConfig
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.IncomeController
 import controllers.helpers.FakeRequestHelper
 import forms.{CurrentIncomeForm, PersonalAllowanceForm}
@@ -34,7 +34,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
-import uk.gov.hmrc.http.cache.client.CacheMap
+import services.SessionCacheService
 import views.html.calculation.income.{currentIncome, personalAllowance}
 
 import scala.concurrent.Future
@@ -43,7 +43,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
 
   implicit lazy val actorSystem = ActorSystem()
   val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheConnector = mock[SessionCacheConnector]
+  val mockSessionCacheService = mock[SessionCacheService]
   implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   implicit val mockApplication = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
@@ -60,7 +60,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
     SharedMetricRegistries.clear()
 
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[PersonalAllowanceModel]
+    when(mockSessionCacheService.fetchAndGetFormData[PersonalAllowanceModel]
       (ArgumentMatchers.eq(keystoreKeys.personalAllowance))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
@@ -70,11 +70,11 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
     when(mockCalcConnector.getPA(ArgumentMatchers.any(), ArgumentMatchers.eq(false), ArgumentMatchers.eq(false))(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxPersonalAllowance))
 
-    when(mockSessionCacheConnector.saveFormData[PersonalAllowanceModel]
+    when(mockSessionCacheService.saveFormData[PersonalAllowanceModel]
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalDateModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
       (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDateModel)))
 
@@ -82,7 +82,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       .thenReturn(Future.successful(Some(taxYearModel)))
 
 
-    new IncomeController(mockCalcConnector, mockSessionCacheConnector, mockMCC, personalAllowanceForm, personalAllowanceView, currentIncomeForm, currentIncomeView)
+    new IncomeController(mockCalcConnector, mockSessionCacheService, mockMCC, personalAllowanceForm, personalAllowanceView, currentIncomeForm, currentIncomeView)
   }
 
   "Calling .personalAllowance from the IncomeController" when {

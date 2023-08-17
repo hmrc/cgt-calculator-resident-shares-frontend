@@ -20,7 +20,7 @@ import akka.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{DisposalValue => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import connectors.{CalculatorConnector, SessionCacheConnector}
+import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.DisposalValueModel
@@ -31,7 +31,6 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-import uk.gov.hmrc.http.cache.client.CacheMap
 import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
@@ -44,7 +43,6 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
   def setupTarget(getData: Option[DisposalValueModel]): GainController = {
 
     val mockCalcConnector = mock[CalculatorConnector]
-    val mockSessionCacheConnector = mock[SessionCacheConnector]
     val mockSessionCacheService = mock[SessionCacheService]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
     val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
@@ -60,15 +58,15 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
     val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
-    when(mockSessionCacheConnector.fetchAndGetFormData[DisposalValueModel]
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalValueModel]
       (ArgumentMatchers.eq(keystoreKeys.disposalValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
-    when(mockSessionCacheConnector.saveFormData[DisposalValueModel]
+    when(mockSessionCacheService.saveFormData[DisposalValueModel]
       (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(Future.successful(mock[CacheMap]))
+      .thenReturn(Future.successful("" -> ""))
 
-    new GainController(mockCalcConnector, mockSessionCacheService, mockSessionCacheConnector, mockMCC,
+    new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
       didYouInheritThemView, ownerBeforeLegislationStartView, sellForLessView, valueBeforeLegislationStartView,
       worthWhenInheritedView, worthWhenSoldForLessView, outsideTaxYearView)
