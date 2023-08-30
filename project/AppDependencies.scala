@@ -33,7 +33,6 @@ object AppDependencies {
     "uk.gov.hmrc"       %% "bootstrap-frontend-play-28" % bootstrapVersion,
     "uk.gov.hmrc"       %% "play-frontend-hmrc"         % playFrontendVersion,
     "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"         % hmrcMongoVersion,
-    "uk.gov.hmrc"       %% "play-partials"              % playPartialsVersion,
     "uk.gov.hmrc"       %% "tax-year"                   % taxYearVersion,
     "it.innove"          % "play2-pdf"                  % play2PdfVersion exclude("com.typesafe.play","*"),
     "com.typesafe.play" %% "play-json-joda"             % jsonJodaVersion,

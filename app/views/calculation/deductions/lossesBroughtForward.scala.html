@@ -19,31 +19,19 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    form: FormWithCSRF,
-    inputRadio: playHelpers.inputRadio,
-    errorSummary: playHelpers.errorSummary,
-    submitButton: playHelpers.submitButton,
-    expandableHelpTextHelper: playHelpers.expandableHelpTextHelper,
-
+        layout: Layout,
+        form: FormWithCSRF,
+        inputRadio: playHelpers.inputRadio,
+        errorSummary: playHelpers.errorSummary,
+        submitButton: playHelpers.submitButton
 )
 
-@(lossesBroughtForwardForm : Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl : String, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages, lang: Lang)
-
-@hiddenHelpText = {
-    <div id="helpInfo">
-        <p>@Messages("calc.resident.lossesBroughtForward.helpInfo.subtitle")</p>
-        <ul class="govuk-list--bulletk">
-            <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point1")</li>
-            <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point2")</li>
-            <li>@Messages("calc.resident.lossesBroughtForward.helpInfo.point3")</li>
-        </ul>
-    </div>
-}
+@(lossesBroughtForwardForm: Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl: String, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @title = @{
-    if (lossesBroughtForwardForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else Messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
+    if(lossesBroughtForwardForm.errors.nonEmpty) messages("site.title.error", messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 }
+
 @layout(
     pageTitle = title,
     backLinkHref = Some(backLinkUrl)
@@ -51,35 +39,20 @@
 
     @errorSummary(lossesBroughtForwardForm.errors, Some("option"))
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.lossesBroughtForward.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))</h1>
-
-    <p class="govuk-hint"> @Messages("calc.resident.lossesBroughtForward.helpText")</p>
-
-    <div class="hidden">
-    @expandableHelpTextHelper(
-        helpTextTitle = Messages("calc.resident.lossesBroughtForward.helpButton"),
-        content = hiddenHelpText,
-        legendClass = Some("govuk-visually-hidden")
-    )
-    </div>
-
     @form(action = postAction) {
-
         @inputRadio(
-            legend = Messages("calc.resident.lossesBroughtForward.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
-            legendClass = Some("govuk-visually-hidden"),
+            legend = messages("calc.resident.lossesBroughtForward.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
             items = Seq(
-                RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),
-                RadioItem(content = Text(Messages("calc.base.no")), value = Option("No"))
+                RadioItem(content = Text(messages("calc.base.yes")), value = Option("Yes")),
+                RadioItem(content = Text(messages("calc.base.no")), value = Option("No"))
             ),
-            isPageHeading = false,
+            hint = Some(messages("calc.resident.lossesBroughtForward.helpText")),
             inLine = true,
+            isPageHeading = true,
             field = lossesBroughtForwardForm("option")
         )
 
-        <input type="hidden" name="option" value="" />
-
         @submitButton()
-        }
-     }
+    }
+}
 

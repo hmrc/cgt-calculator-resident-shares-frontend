@@ -18,3 +18,4 @@ dist
 /.settings
 *.iws
 .bsp/sbt.json
+/.bsp/

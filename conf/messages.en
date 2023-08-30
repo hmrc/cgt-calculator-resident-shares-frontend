@@ -73,18 +73,10 @@ calc.resident.summary.remainingBroughtForwardLossHelp = to reduce your Capital G
 calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your tax if you sell something else that is covered by Capital Gains Tax in the same tax year.
 
 ## Losses Brought Forward messages
-calc.resident.lossesBroughtForward.title = Are there any previous losses you want to bring forward?
-calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you have already reported to HMRC.
-
-##Losses Brought Forward messages
 calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.helpInfo.subtitle = They are losses you have made that:
-calc.resident.lossesBroughtForward.helpInfo.point1 = are covered by Capital Gains Tax
-calc.resident.lossesBroughtForward.helpInfo.point2 = you have declared within 4 years of making the loss
-calc.resident.lossesBroughtForward.helpInfo.point3 = you have not already used to reduce the amount of Capital Gains Tax you had to pay
+calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you have already reported to HMRC.
 calc.resident.lossesBroughtForward.errorSelect = Tell us if you are claiming any Capital Gains Tax losses from tax years before 2015 to 2016
-calc.resident.lossesBroughtForward.helpButton = Show me an example
 
 
 ##Losses Brought Forward Value messages
