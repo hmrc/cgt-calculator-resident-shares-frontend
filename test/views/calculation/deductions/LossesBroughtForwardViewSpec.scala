@@ -60,15 +60,15 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     s"have the question of the page ${messages.question("2015 to 2016")}" in {
-      doc.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
+      doc.getElementsByTag("h1").text() shouldEqual messages.question("2015 to 2016")
     }
 
     s"render a form tag with a POST action" in {
       doc.select("form").attr("method") shouldEqual "POST"
     }
 
-    s"have a visually hidden legend for an input with text ${messages.question("2015 to 2016")}" in {
-      doc.getElementsByClass("govuk-fieldset__legend govuk-visually-hidden").text() shouldEqual messages.question("2015 to 2016")
+    s"have a legend for an input with text ${messages.question("2015 to 2016")}" in {
+      doc.getElementsByClass("govuk-fieldset__legend").text() shouldEqual messages.question("2015 to 2016")
     }
 
     s"have an input field with id option-yes " in {

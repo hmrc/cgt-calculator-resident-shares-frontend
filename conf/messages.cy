@@ -48,14 +48,9 @@ calc.resident.disposalDate.invalidYearError = Nodwch flwyddyn
 calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat cywir, e.e. 9 12 2020
 
 calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015 i 2016
-calc.resident.lossesBroughtForward.helpInfo.point1 = a gwmpesir gan Dreth Enillion Cyfalaf
-calc.resident.lossesBroughtForward.helpInfo.point2 = rydych wedi''u datgan cyn pen 4 blynedd ar ôl gwneud y golled
-calc.resident.lossesBroughtForward.helpInfo.point3 = nad ydych eisoes wedi''u defnyddio i ostwng swm y Dreth Enillion Cyfalaf yr oedd yn rhaid i chi ei dalu
-calc.resident.lossesBroughtForward.helpInfo.subtitle = Maent yn golledion rydych wedi''u gwneud ac:
 calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEF amdanynt.
 calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
-calc.resident.lossesBroughtForward.helpButton = Rhowch enghraifft i mi
 
 calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
 calc.resident.lossesBroughtForwardValue.title = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
