@@ -97,7 +97,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
           Future.successful(
           BadRequest(
             disposalDateView(errors.copy(errors = errors.errors.map { error =>
-              if (error.key == "") error.copy(key = "disposalDateDay") else error
+              if (error.key == "") error.copy(key = "disposalDate.day") else error
             }))
           )
         )},
