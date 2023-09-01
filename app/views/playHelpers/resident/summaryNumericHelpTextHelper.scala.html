@@ -22,7 +22,7 @@
 @(rowId: String, question: String, amount: BigDecimal, link: Option[String] = None, additionalContent: Option[Html] = None)(implicit messages: Messages)
 
 @additionalDetails(additionalText: String, additionalAmount: String) = {
-<span class="form-hint font-small">@additionalText &pound;@additionalAmount</span>
+<span class="font-small">@additionalText &pound;@additionalAmount</span>
 }
 
 <div id="@rowId" class="grid-layout grid-layout--stacked form-group font-medium">
@@ -45,7 +45,7 @@
         @Messages("calc.base.change")
         <span class="visuallyhidden">@question</span>
     </a>}
-        <div class="form-hint font-small">
+        <div class="font-small">
         @{if(additionalContent.isDefined){
             {additionalContent.get}
         }}

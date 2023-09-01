@@ -50,13 +50,13 @@
       <td id="@{rowId}-amount" class="govuk-table__cell govuk-table__cell--numeric">
         @amount.scale match {
           case 0 => {
-            <span class="form-hint">&pound;@MoneyPounds(amount, 0).quantity</span>
+            <span>&pound;@MoneyPounds(amount, 0).quantity</span>
           }
           case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
-            <span class="form-hint">&pound;@MoneyPounds(amount, 0).quantity</span>
+            <span>&pound;@MoneyPounds(amount, 0).quantity</span>
           }
           case _ => {
-            <span class="form-hint">&pound;@MoneyPounds(amount, 2).quantity</span>
+            <span>&pound;@MoneyPounds(amount, 2).quantity</span>
           }
         }
     </td>
