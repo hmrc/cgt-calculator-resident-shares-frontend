@@ -62,7 +62,7 @@
         }
 
         @if(elements.args.getOrElse('_inputHint, "").toString() != ""){
-            <span class="form-hint"
+            <span
                 @if(elements.args.contains('_hintId)) {
                     id="@elements.args.get('_hintId)"}>
                 @elements.args.get('_inputHint)
@@ -95,7 +95,7 @@
             @elements.label
         </span>
         @if(elements.args.contains('_inputHint) ){
-            <span class="form-hint">@elements.args.get('_inputHint)</span>
+            <span>@elements.args.get('_inputHint)</span>
         }
         @if(labelHighlight){</strong>}
     }
