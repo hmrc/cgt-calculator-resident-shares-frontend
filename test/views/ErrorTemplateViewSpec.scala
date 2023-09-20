@@ -32,16 +32,15 @@ class ErrorTemplateViewSpec extends CommonPlaySpec with FakeRequestHelper with M
   val pageTitle = ""
   val heading = ""
   val message = ""
-  val homeNavLink = ""
 
   "Error Template view" should {
 
     "generate the same template when .render and .f are called" in {
 
-      val f = (errorTemplateView.f(pageTitle, heading, message, homeNavLink)
+      val f = (errorTemplateView.f(pageTitle, heading, message)
       (fakeRequest, mockMessages))
 
-      val render = errorTemplateView.render(pageTitle, heading, message, homeNavLink,
+      val render = errorTemplateView.render(pageTitle, heading, message,
         fakeRequest, mockMessages)
 
       f shouldBe render

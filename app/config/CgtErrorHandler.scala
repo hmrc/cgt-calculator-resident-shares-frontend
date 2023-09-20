@@ -16,35 +16,24 @@
 
 package config
 
-import javax.inject.Inject
-import models.CGTClientException
 import play.api.Logging
 import play.api.http.HeaderNames.CACHE_CONTROL
-import play.api.http.Status._
 import play.api.i18n.MessagesApi
-import play.api.mvc.Results.{BadRequest, NotFound}
 import play.api.mvc.{Request, RequestHeader, Result}
 import play.twirl.api.Html
 import uk.gov.hmrc.play.bootstrap.frontend.http.{ApplicationException, FrontendErrorHandler}
 import views.html.error_template
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 
 class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
-                                errorTemplateView: error_template) extends FrontendErrorHandler with Logging{
+                                errorTemplateView: error_template)
+  extends FrontendErrorHandler with Logging {
 
-  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit req:Request[_]): Html = {
-    val homeNavLink = controllers.routes.GainController.disposalDate.url
-    errorTemplateView(pageTitle, heading, message, homeNavLink)
-  }
-
-  def onClientError(request: RequestHeader, statusCode: Int, message: String)(implicit req:Request[_]): Future[Result] = {
-    statusCode match {
-      case BAD_REQUEST => Future.successful(BadRequest(badRequestTemplate(req)))
-      case NOT_FOUND => Future.successful(NotFound(notFoundTemplate(req)))
-      case _ => Future.successful(resolveError(request, CGTClientException(s"Client Error Occurred with Status $statusCode and message $message")))
-    }
+  override def standardErrorTemplate(pageTitle: String, heading: String, message: String)(implicit req: Request[_]): Html = {
+    errorTemplateView(pageTitle, heading, message)
   }
 
   override def onServerError(request: RequestHeader, exception: Throwable): Future[Result] = {
@@ -52,7 +41,7 @@ class CgtErrorHandler @Inject()(val messagesApi: MessagesApi,
       case ApplicationException(result, _) =>
         logger.warn(s"Key-store None.get handled from: ${request.uri}")
         Future.successful(result.withHeaders(CACHE_CONTROL -> "no-cache,no-store,max-age=0"))
-      case e => Future.successful(resolveError(request, e))
+      case _ => super.onServerError(request, exception)
     }
   }
 }
