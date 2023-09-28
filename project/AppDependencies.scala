@@ -20,7 +20,7 @@ import play.core.PlayVersion
 
 object AppDependencies {
 
-  lazy val bootstrapVersion         = "7.14.0"
+  lazy val bootstrapVersion         = "7.22.0"
   lazy val playFrontendVersion      = "6.7.0-play-28"
   lazy val playPartialsVersion      = "8.3.0-play-28"
   lazy val play2PdfVersion          = "1.11.0"
