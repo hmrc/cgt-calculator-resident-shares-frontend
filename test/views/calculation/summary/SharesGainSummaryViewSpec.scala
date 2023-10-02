@@ -55,7 +55,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
-      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = true)(fakeRequest, mockMessage, fakeLang)
+      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
