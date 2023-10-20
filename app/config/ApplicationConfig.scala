@@ -29,6 +29,7 @@ trait AppConfig {
   val residentIFormUrl: String
   val urBannerLink: String
   val feedbackSurvey: String
+  val isWelshEnabled: Boolean
 }
 
 class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: ServicesConfig) extends AppConfig {
@@ -51,4 +52,7 @@ class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: 
 
   lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
   lazy val baseUrl = servicesConfig.baseUrl("capital-gains-calculator")
+
+  lazy val isWelshEnabled: Boolean = servicesConfig.getBoolean("features.welsh-translation")
 }
+
