@@ -37,7 +37,7 @@
 
     @{if (!taxYear.isValidYear) {
         govukWarningText(WarningText(
-            iconFallbackText = "Warning",
+            iconFallbackText = Some("Warning"),
             content = Text(Messages("calc.summary.noticeSummary"))
         ))
         }

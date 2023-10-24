@@ -24,8 +24,6 @@ import javax.inject.Inject
 import models._
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import org.joda.time.DateTime
-import play.api.libs.json.JodaReads._
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
@@ -42,9 +40,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
 
   def getMinimumDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
-    http.GET[DateTime](s"$serviceUrl/capital-gains-calculator/minimum-date").map { date =>
-      LocalDate.of(date.getYear, date.getMonthOfYear, date.getDayOfMonth)
-    }
+    http.GET[LocalDate](s"$serviceUrl/capital-gains-calculator/minimum-date")
   }
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {

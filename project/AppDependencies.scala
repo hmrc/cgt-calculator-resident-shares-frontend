@@ -21,11 +21,11 @@ import play.core.PlayVersion
 object AppDependencies {
 
   lazy val bootstrapVersion         = "7.22.0"
-  lazy val playFrontendVersion      = "7.3.0-play-28"
+  lazy val playFrontendVersion      = "7.23.0-play-28"
   lazy val playPartialsVersion      = "8.3.0-play-28"
   lazy val play2PdfVersion          = "1.11.0"
   lazy val jsonJodaVersion          = "2.9.4"
-  lazy val taxYearVersion           = "3.0.0"
+  lazy val taxYearVersion           = "3.3.0"
   lazy val hmrcMongoVersion         = "1.3.0"
 
   val compile = Seq(
@@ -35,7 +35,6 @@ object AppDependencies {
     "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"         % hmrcMongoVersion,
     "uk.gov.hmrc"       %% "tax-year"                   % taxYearVersion,
     "it.innove"          % "play2-pdf"                  % play2PdfVersion exclude("com.typesafe.play","*"),
-    "com.typesafe.play" %% "play-json-joda"             % jsonJodaVersion,
     nettyServer
 
   )
