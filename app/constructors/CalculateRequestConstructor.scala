@@ -23,10 +23,10 @@ import models.resident.IncomeAnswersModel
 object CalculateRequestConstructor {
 
   def totalGainRequestString (answers: GainAnswersModel): String = {
-    s"?disposalValue=${determineDisposalValueToUse(answers)}" +
-      s"&disposalCosts=${answers.disposalCosts}" +
-      s"&acquisitionValue=${determineAcquisitionValueToUse(answers)}" +
-      s"&acquisitionCosts=${answers.acquisitionCosts}" +
+    s"?disposalValue=${determineDisposalValueToUse(answers).toDouble}" +
+      s"&disposalCosts=${answers.disposalCosts.toDouble}" +
+      s"&acquisitionValue=${determineAcquisitionValueToUse(answers).toDouble}" +
+      s"&acquisitionCosts=${answers.acquisitionCosts.toDouble}" +
       s"&disposalDate=${answers.disposalDate.format(requestFormatter)}"
   }
 
@@ -43,13 +43,13 @@ object CalculateRequestConstructor {
 
   def chargeableGainRequestString (answers: DeductionGainAnswersModel, maxAEA: BigDecimal): String = {
       s"${if (answers.broughtForwardModel.get.option)
-        s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount}"
+        s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount.toDouble}"
       else ""}" +
-      s"&annualExemptAmount=$maxAEA"
+      s"&annualExemptAmount=${maxAEA.toDouble}"
   }
 
   def incomeAnswersRequestString (deductionsAnswers: DeductionGainAnswersModel, answers: IncomeAnswersModel): String = {
-      s"&previousIncome=${answers.currentIncomeModel.get.amount}" +
-      s"&personalAllowance=${answers.personalAllowanceModel.get.amount}"
+      s"&previousIncome=${answers.currentIncomeModel.get.amount.toDouble}" +
+      s"&personalAllowance=${answers.personalAllowanceModel.get.amount.toDouble}"
   }
 }
