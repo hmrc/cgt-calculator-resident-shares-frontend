@@ -39,7 +39,7 @@ class CurrentIncomeForm @Inject()(implicit val messagesApi: MessagesApi) extends
         "amount" -> text
           .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.mandatoryAmount", taxYear)(lang), mandatoryCheck)
           .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear)(lang), bigDecimalCheck)
-          .transform[BigDecimal](stringToBigDecimal, _.toString())
+          .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
           .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
           .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.minimumAmount", taxYear)(lang), isPositive)
           .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear)(lang), decimalPlacesCheck)

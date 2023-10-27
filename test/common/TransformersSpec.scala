@@ -42,14 +42,16 @@ class TransformersSpec extends CommonPlaySpec {
 
     "Converting a BigDecimal to a String" should {
 
-      "pad BigDecimals to 2 decimal places if they only have 1" in {
+      "pad BigDecimals to 2 decimal places if they have a non 0 scale less than 2" in {
 
         val bigDecimal = BigDecimal(1234.5)
+        val bigDecimalNegativeScale = BigDecimal("1.2345E+3")
 
         Transformers.bigDecimalToString(bigDecimal) shouldBe bigDecimal.setScale(2).toString
+        Transformers.bigDecimalToString(bigDecimalNegativeScale) shouldBe bigDecimal.setScale(2).toString()
       }
 
-      "call .toString on BigDecimals that don't have 1 decimal place" in {
+      "call .toString on BigDecimals with no decimal places or more than 1 decimal" in {
 
         val bigDecimalNoDecimalPlaces = BigDecimal(1234)
         val bigDecimalSomeDecimalPlaces = BigDecimal(1234.56789)

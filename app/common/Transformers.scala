@@ -26,7 +26,7 @@ object Transformers {
   }
 
   val bigDecimalToString: BigDecimal => String = (input) => input.scale match {
-    case 1 => input.setScale(2).toString()
+    case scale if scale < 2 && scale != 0 => input.setScale(2).toString()
     case _ => input.toString
   }
 

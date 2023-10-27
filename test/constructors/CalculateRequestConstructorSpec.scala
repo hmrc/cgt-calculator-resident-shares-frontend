@@ -42,10 +42,10 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         acquisitionCosts = 100
       )
       val result = CalculateRequestConstructor.totalGainRequestString(answers)
-      result shouldBe s"?disposalValue=1000" +
-        s"&disposalCosts=0" +
-        s"&acquisitionValue=500" +
-        s"&acquisitionCosts=100" +
+      result shouldBe s"?disposalValue=1000.0" +
+        s"&disposalCosts=0.0" +
+        s"&acquisitionValue=500.0" +
+        s"&acquisitionCosts=100.0" +
         s"&disposalDate=2016-02-10"
     }
   }
@@ -58,7 +58,7 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
           None)
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&annualExemptAmount=11100"
+        result shouldBe "&annualExemptAmount=11100.0"
       }
     }
 
@@ -68,7 +68,7 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(true)),
           Some(LossesBroughtForwardValueModel(BigDecimal(2000))))
         val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&broughtForwardLosses=2000&annualExemptAmount=11100"
+        result shouldBe "&broughtForwardLosses=2000.0&annualExemptAmount=11100.0"
       }
     }
   }
@@ -81,7 +81,7 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
 
       "return a valid request string" in {
         val result = CalculateRequestConstructor.incomeAnswersRequestString(deductionGainAnswersModel, incomeGainAnswersModel)
-        result shouldBe "&previousIncome=1000&personalAllowance=10600"
+        result shouldBe "&previousIncome=1000.0&personalAllowance=10600.0"
       }
     }
   }
