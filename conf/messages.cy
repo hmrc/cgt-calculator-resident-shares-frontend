@@ -42,11 +42,6 @@ calc.resident.currentIncome.questionCurrentYear.error.mandatoryAmount = Nodwch f
 calc.resident.currentIncome.questionCurrentYear.error.invalidAmount = Mae''n rhaid i faint ydych yn disgwyl i''ch incwm fod yn y flwyddyn dreth hon fod yn y fformat cywir, megis 10000.00
 calc.resident.currentIncome.questionCurrentYear.error.minimumAmount = Mae''n rhaid i faint ydych yn disgwyl i''ch incwm fod yn y flwyddyn dreth hon fod yn 0 neu fwy
 
-calc.resident.disposalDate.invalidDayError = Nodwch ddiwrnod
-calc.resident.disposalDate.invalidMonthError = Nodwch fis
-calc.resident.disposalDate.invalidYearError = Nodwch flwyddyn
-calc.resident.disposalDate.invalidYearRangeError = Nodwch ddyddiad yn y fformat cywir, e.e. 9 12 2020
-
 calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015 i 2016
 calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEF amdanynt.
 calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
@@ -108,6 +103,25 @@ calc.resident.shares.disposalCosts.error.invalidAmount = Mae''n rhaid i faint y 
 calc.resident.shares.disposalCosts.error.minimumAmount = Mae''n rhaid i faint y gwnaethoch ei dalu o ran costau pan wnaethoch werthu''r cyfranddaliadau fod yn 0 neu fwy
 
 calc.resident.shares.disposalDate.question = Pryd y gwnaethoch werthu''r cyfranddaliadau, neu eu rhoi i ffwrdd?
+disposalDate.error.required                = Nodwch y diwrnod, y mis, a’r flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.required.day            = Nodwch y diwrnod y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.required.dayMonth       = Nodwch y diwrnod a’r mis y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.required.dayYear        = Nodwch y diwrnod a’r flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.required.month          = Nodwch y mis y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.required.monthYear      = Nodwch y mis a’r flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.required.year           = Nodwch y flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.invalid                 = Nodwch rif, mewn digidau, ar gyfer y diwrnod, y mis, a’r flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.invalid.day             = Nodwch rif, mewn digidau, ar gyfer y diwrnod y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.invalid.dayMonth        = Nodwch rif, mewn digidau, ar gyfer y diwrnod a’r mis y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.invalid.dayYear         = Nodwch rif, mewn digidau, ar gyfer y diwrnod a’r flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.invalid.month           = Nodwch rif, mewn digidau, ar gyfer y mis y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.invalid.monthYear       = Nodwch rif, mewn digidau, ar gyfer y mis a’r flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.invalid.year            = Nodwch rif, mewn digidau, ar gyfer y flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.notReal                 = Nodwch ddyddiad go iawn ar gyfer y dyddiad y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.notReal.day             = Nodwch ddiwrnod go iawn ar gyfer y dyddiad y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.notReal.month           = Nodwch fis go iawn ar gyfer y dyddiad y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.notReal.year            = Nodwch flwyddyn go iawn ar gyfer y dyddiad y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
+disposalDate.error.range.min               = Mae’n rhaid i’r dyddiad y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd, fod ar ôl {0}
 
 calc.resident.shares.disposalValue.jointOwnership = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi''ch cyfran chi o''r pris gwerthu.
 calc.resident.shares.disposalValue.question = Am faint y gwnaethoch werthu''r cyfranddaliadau?

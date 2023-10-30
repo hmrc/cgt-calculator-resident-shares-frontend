@@ -482,12 +482,12 @@ object MessageLookup {
     val day = "Day"
     val month = "Month"
     val year = "Year"
-    val invalidDayError = "Enter a day"
-    val invalidMonthError = "Enter a month"
-    val invalidYearError = "Enter a year"
-    val realDateError = "Enter a real date"
-    val invalidYearRange = "Enter a date in the correct format e.g. 9 12 2015"
-    def invalidMinimumDate(minimumDate: String) = s"Enter a date which is after $minimumDate"
+    val requiredDateError = "Enter the day, month and year you sold or gave away the shares"
+    val requiredDayError = "Enter the day you sold or gave away the shares"
+    val invalidDateError = "Enter a number, in digits, for the day, month and year you sold or gave away the shares"
+    val realDateError = "Enter a real date for when you sold or gave away the shares"
+    val invalidYearRange = "Enter a real year for when you sold or gave away the shares"
+    val invalidMinimumDate = s"The date you sold or gave away the shares must be after 5 April 2015"
   }
 
   //Outside Tax Years messages.en

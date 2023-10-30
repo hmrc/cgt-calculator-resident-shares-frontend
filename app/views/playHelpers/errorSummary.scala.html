@@ -15,21 +15,23 @@
  *@
 
 @this(
-    govukErrorSummary : GovukErrorSummary
+        govukErrorSummary: GovukErrorSummary
 )
 
 @(
-    errors: Seq[FormError],
-    errorKey: Option[String] = None
+        errors: Seq[FormError],
+        errorKey: Option[String] = None,
+        errorSuffixes: Option[Map[String, String]] = None
 )(implicit messages: Messages)
 
 @if(errors.nonEmpty) {
     @govukErrorSummary(ErrorSummary(
-        title       = Text(messages("error.summary.title")),
-        errorList   = for(error <- errors) yield {
+        title = Text(messages("error.summary.title")),
+        errorList = for(error <- errors) yield {
+            val suffix = errorSuffixes.flatMap(_.get(error.key).map(str => s".$str")).getOrElse("")
             ErrorLink(
-                href    = if(error.key.equals("")) Some(s"#${errorKey.get}") else Some(s"#${error.key}"),
-                content = Text(messages(error.message, error.args:_*))
+                href = if(error.key.equals("")) Some(s"#${errorKey.get}") else Some(s"#${error.key + suffix}"),
+                content = Text(messages(error.message, error.args: _*))
             )
         }
     ))
