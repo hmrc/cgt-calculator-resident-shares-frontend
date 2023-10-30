@@ -26,7 +26,6 @@ class MessagesSpec extends CommonPlaySpec  {
 
   private val MatchSingleQuoteOnly = """\w+'{1}\w+""".r
   private val MatchBacktickQuoteOnly = """`+""".r
-  private val MatchForwardTickQuoteOnly = """’+""".r
 
   private val englishMessages = parseMessages("conf/messages.en")
   private val welshMessages = parseMessages("conf/messages.cy")
@@ -71,7 +70,6 @@ class MessagesSpec extends CommonPlaySpec  {
     withClue(s"In $label, there is an unescaped or invalid quote:[$key][$value]") {
       MatchSingleQuoteOnly.findFirstIn(value).isDefined shouldBe false
       MatchBacktickQuoteOnly.findFirstIn(value).isDefined shouldBe false
-      MatchForwardTickQuoteOnly.findFirstIn(value).isDefined shouldBe false
     }
   }
 

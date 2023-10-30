@@ -44,7 +44,7 @@ import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
 
-import java.time.{LocalDate, ZoneId}
+import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -92,7 +92,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
     }
 
     def bindForm(minimumDate: LocalDate) = {
-      disposalDateForm(minimumDate.atStartOfDay(ZoneId.of("Europe/London"))).bindFromRequest().fold(
+      disposalDateForm(minimumDate).bindFromRequest().fold(
         errors => {
           Future.successful(
           BadRequest(

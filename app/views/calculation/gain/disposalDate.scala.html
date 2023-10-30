@@ -15,29 +15,28 @@
  *@
 
 @import models.resident.DisposalDateModel
-@import views.html.calculation._
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    dateInput: playHelpers.dateInput,
-    form: FormWithCSRF,
-    layout: Layout,
-    errorSummary: playHelpers.errorSummary,
-    submitButton: playHelpers.submitButton
+        dateInput: playHelpers.dateInput,
+        form: FormWithCSRF,
+        layout: Layout,
+        errorSummary: playHelpers.errorSummary,
+        submitButton: playHelpers.submitButton
 )
 
 @(disposalDateForm: Form[DisposalDateModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (disposalDateForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.disposalDate.question")) else Messages("calc.resident.shares.disposalDate.question")
+    if(disposalDateForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.disposalDate.question")) else Messages("calc.resident.shares.disposalDate.question")
 }
 @layout(
     pageTitle = title
 ) {
 
-    @errorSummary(disposalDateForm.errors, Some("disposal-date"))
+    @errorSummary(disposalDateForm.errors.headOption.toList, errorSuffixes = Some(Map("disposalDate" -> "day")))
 
-    @form(action = controllers.routes.GainController.submitDisposalDate){
+    @form(action = controllers.routes.GainController.submitDisposalDate) {
 
         @dateInput(
             content = Messages("calc.resident.shares.disposalDate.question"),

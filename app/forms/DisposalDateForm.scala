@@ -16,32 +16,24 @@
 
 package forms
 
-import common.Transformers._
-import common.Validation._
+import forms.formatters.DateFormatter
 import models.resident.DisposalDateModel
-import java.time.{ZoneId, ZonedDateTime}
 import play.api.data.Forms._
 import play.api.data._
+import play.api.i18n.Messages
+
+import java.time.LocalDate
 
 object DisposalDateForm {
 
-  def disposalDateForm(minimumDate: ZonedDateTime = ZonedDateTime.now(ZoneId.of("Europe/London"))): Form[DisposalDateModel] = Form(
+  val key = "disposalDate"
+
+  def disposalDateForm(minimumDate: LocalDate = LocalDate.now)(implicit messages: Messages): Form[DisposalDateModel] = Form(
     mapping(
-      "disposalDate.day" -> text
-        .verifying("calc.resident.disposalDate.invalidDayError", mandatoryCheck)
-        .verifying("calc.resident.disposalDate.invalidDayError", integerCheck)
-        .transform[Int](stringToInteger, _.toString),
-      "disposalDate.month" -> text
-        .verifying("calc.resident.disposalDate.invalidMonthError", mandatoryCheck)
-        .verifying("calc.resident.disposalDate.invalidMonthError", integerCheck)
-        .transform[Int](stringToInteger, _.toString),
-      "disposalDate.year" -> text
-        .verifying("calc.resident.disposalDate.invalidYearError", mandatoryCheck)
-        .verifying("calc.resident.disposalDate.invalidYearError", integerCheck)
-        .transform[Int](stringToInteger, _.toString)
-        .verifying("calc.resident.disposalDate.invalidYearRangeError", validYearRangeCheck)
-    )(DisposalDateModel.apply)(DisposalDateModel.unapply)
-      .verifying("calc.common.date.error.invalidDate", fields => isValidDate(fields.day, fields.month, fields.year))
-      .verifying(dateAfterMinimumConstraint(minimumDate))
+      key -> of(DateFormatter(
+        key,
+        optMinDate = Some(minimumDate)
+      ))
+    )(date => DisposalDateModel(date.getDayOfMonth, date.getMonthValue, date.getYear))(model => Some(LocalDate.of(model.year, model.month, model.day)))
   )
 }

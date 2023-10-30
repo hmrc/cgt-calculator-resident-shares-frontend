@@ -47,12 +47,6 @@ calc.checkYourAnswers.tableHeading = You have told us
 ## Resident messages ##
 ###############################################################################################
 
-## Disposal Date messages
-calc.resident.disposalDate.invalidDayError = Enter a day
-calc.resident.disposalDate.invalidMonthError = Enter a month
-calc.resident.disposalDate.invalidYearError = Enter a year
-calc.resident.disposalDate.invalidYearRangeError = Enter a date in the correct format e.g. 9 12 2020
-
 ## Outside Tax Years messages
 calc.resident.outsideTaxYears.title = The date you have entered is not supported by this calculator
 calc.resident.outsideTaxYears.message = You can continue to use it, but we will use the tax rates from the {0} tax year.
@@ -119,6 +113,25 @@ calc.resident.personalAllowance.error.minimumAmount = Your Personal Allowance fo
 
 ## Disposal Date messages
 calc.resident.shares.disposalDate.question = When did you sell or give away the shares?
+disposalDate.error.required                = Enter the day, month and year you sold or gave away the shares
+disposalDate.error.required.day            = Enter the day you sold or gave away the shares
+disposalDate.error.required.dayMonth       = Enter the day and month you sold or gave away the shares
+disposalDate.error.required.dayYear        = Enter the day and year you sold or gave away the shares
+disposalDate.error.required.month          = Enter the month you sold or gave away the shares
+disposalDate.error.required.monthYear      = Enter the month and year you sold or gave away the shares
+disposalDate.error.required.year           = Enter the year you sold or gave away the shares
+disposalDate.error.invalid                 = Enter a number, in digits, for the day, month and year you sold or gave away the shares
+disposalDate.error.invalid.day             = Enter a number, in digits, for the day you sold or gave away the shares
+disposalDate.error.invalid.dayMonth        = Enter a number, in digits, for the day and month you sold or gave away the shares
+disposalDate.error.invalid.dayYear         = Enter a number, in digits, for the day and year you sold or gave away the shares
+disposalDate.error.invalid.month           = Enter a number, in digits, for the month you sold or gave away the shares
+disposalDate.error.invalid.monthYear       = Enter a number, in digits, for the month and year you sold or gave away the shares
+disposalDate.error.invalid.year            = Enter a number, in digits, for the year you sold or gave away the shares
+disposalDate.error.notReal                 = Enter a real date for when you sold or gave away the shares
+disposalDate.error.notReal.day             = Enter a real day for when you sold or gave away the shares
+disposalDate.error.notReal.month           = Enter a real month for when you sold or gave away the shares
+disposalDate.error.notReal.year            = Enter a real year for when you sold or gave away the shares
+disposalDate.error.range.min               = The date you sold or gave away the shares must be after {0}
 
 ## Disposal Value messages
 calc.resident.shares.disposalValue.question = How much did you sell the shares for?
