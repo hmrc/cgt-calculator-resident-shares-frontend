@@ -62,8 +62,8 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"have a title ${messages.title("2016 to 2017")}" in {
+        doc.title() shouldBe messages.title("2016 to 2017")
       }
 
       s"have a back button" which {

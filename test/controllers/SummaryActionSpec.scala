@@ -131,8 +131,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"return a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
     }
 
@@ -172,8 +172,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"return a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       s"has a back link to '${routes.ReviewAnswersController.reviewDeductionsAnswers.toString}'" in {
@@ -218,8 +218,8 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         contentType(result) shouldBe Some("text/html")
       }
 
-      s"return a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"return a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       s"has a link to '${routes.ReviewAnswersController.reviewDeductionsAnswers.toString}'" in {

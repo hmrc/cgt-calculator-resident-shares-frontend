@@ -55,8 +55,8 @@ class SharesGainReportViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       lazy val view = gainSummaryReportView(testModel, -2000, taxYearModel, 1000)(fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
-      s"have a title ${messages.title}" in {
-        doc.title() shouldBe messages.title
+      s"have a title ${messages.title("2015 to 2016")}" in {
+        doc.title() shouldBe messages.title("2015 to 2016")
       }
 
       "have the hmrc logo with the hmrc name" in {
