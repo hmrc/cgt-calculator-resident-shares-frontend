@@ -575,8 +575,8 @@ object MessageLookup {
 
   //Summary messages.en
   object SummaryPage {
-    val title = "Summary - Calculate your Capital Gains Tax - GOV.UK"
-    val oldTitle = "Summary"
+    val title = "Summary"
+    def title(taxYear: String) = s"Capital Gains Tax to pay for the $taxYear tax year - Calculate your Capital Gains Tax - GOV.UK"
     val pageHeading = "Tax owed"
     val secondaryHeading = "You owe"
     val calcDetailsHeading = "Calculation details"
@@ -751,7 +751,7 @@ object MessageLookup {
   }
 
   object SummaryDetails extends Common {
-    val title = "Summary - Calculate your Capital Gains Tax - GOV.UK"
+    def title(taxYear: String) = s"Capital Gains Tax to pay for the $taxYear tax year - Calculate your Capital Gains Tax - GOV.UK"
 
     def cgtToPay(taxYear: String): String = s"Capital Gains Tax to pay for the $taxYear tax year"
 

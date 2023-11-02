@@ -48,7 +48,7 @@
 }
 
 @layout(
-    pageTitle = Messages("calc.resident.summary.title"),
+    pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
     backLinkHref = Some(backUrl),
     isUserResearchBannerVisible = showUserResearchPanel
 ) {
