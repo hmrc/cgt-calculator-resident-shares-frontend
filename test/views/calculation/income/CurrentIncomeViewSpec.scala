@@ -35,7 +35,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
   val fakeLang: Lang = Lang("en")
   val injectedForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
-  val currentIncomeForm = injectedForm("2022", fakeLang)
+  val currentIncomeForm = injectedForm("2022")
 
   "Current Income view" should {
 
@@ -140,7 +140,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "generate the same template when .render and .f are called" in {
 
-      val f = currentIncomeView.f(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
+      val f = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
 
       val render = currentIncomeView.render(currentIncomeForm, backLink, taxYearModel, false, fakeRequest, mockMessage, fakeLang)
 

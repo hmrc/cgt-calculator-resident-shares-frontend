@@ -14,60 +14,68 @@
  * limitations under the License.
  *@
 
-@import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.shares._
-@import common.Dates._
-@import common.TaxDates
-@import constructors.CalculateRequestConstructor._
-@import controllers.routes.{GainController => gainRoutes}
-@import controllers.routes.{DeductionsController => deductionRoutes}
-@import controllers.routes.{IncomeController => incomeRoutes}
-@import common.resident.MoneyPounds
-@import views.html.calculation._
+@import views.html.helper.CSPNonce
 
 @this(
-    layout: Layout,
-    finalSummaryPartial: playHelpers.resident.finalSummaryPartial
+        layout: Layout,
+        finalSummaryPartial: playHelpers.resident.finalSummaryPartial,
+        checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
+        link: playHelpers.link
 )
 
 @(
-    gainAnswers:GainAnswersModel,
-    deductionAnswers: DeductionGainAnswersModel,
-    result: TotalGainAndTaxOwedModel,
-    backUrl: String,
-    taxYear: TaxYearModel,
-    totalCosts: BigDecimal,
-    totalDeductions: BigDecimal,
-    showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, lang: Lang)
+        gainAnswers: GainAnswersModel,
+        deductionAnswers: DeductionGainAnswersModel,
+        incomeAnswers: IncomeAnswersModel,
+        result: TotalGainAndTaxOwedModel,
+        backUrl: String,
+        taxYear: TaxYearModel,
+        totalCosts: BigDecimal,
+        totalDeductions: BigDecimal,
+        isCurrentTaxYear: Boolean,
+        showUserResearchPanel: Boolean
+)(implicit request: Request[_], messages: Messages)
+
+@scripts = {
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
+}
 
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
     backLinkHref = Some(backUrl),
-    isUserResearchBannerVisible = showUserResearchPanel
+    isUserResearchBannerVisible = showUserResearchPanel,
+    scripts = Some(scripts)
 ){
+
+    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
+
     @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 
+    <hr class="govuk-section-break govuk-section-break--l cgt-for-print">
+
+    <!--Print only CYA-->
+    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), isCurrentTaxYear = isCurrentTaxYear, displayLinks = false, forPrint = true)
 
     @if(taxYear.isValidYear) {
-        <section id="whatToDoNext">
+        <section id="whatToDoNext" class="govuk-!-display-none-print">
             <h2 id="whatToDoNextTitle" class="govuk-heading-m">@Messages("calc.summary.whatToDoNext.heading")</h2>
             <p class="govuk-body">@Messages("calc.summary.whatToDoNext.details")</p>
         </section>
     }
 
-    <div id="save-as-a-pdf" class="notice download-pdf">
-        <div class="icon-file-download">
-            <span class="govuk-visually-hidden">@Messages("calc.summary.download")</span>
-        </div>
-
-        <a class="govuk-link govuk-body" href="@controllers.routes.ReportController.finalSummaryReport">
-        @Messages("calc.resident.summary.saveAsPdf")</a>
+    <div id="print" class="govuk-body govuk-!-display-none-print cgt-print-button">
+        <a class="govuk-link govuk-body" href="#" id="printLink">@Messages("calc.resident.summary.print")</a>
     </div>
-    </br>
 
     @if(taxYear.isValidYear) {
-        <a class="govuk-button" href="@controllers.routes.SaUserController.saUser.url" id="continue-button">@Messages("calc.base.button.continue")</a>
-        </br>
+        @link(
+            href = controllers.routes.SaUserController.saUser.url,
+            messageKey = "calc.base.button.continue",
+            isButton = true,
+            id = Some("continue-button"),
+            classes = Some("govuk-!-display-none-print")
+        )
     }
 }

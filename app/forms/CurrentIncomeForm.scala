@@ -26,23 +26,23 @@ import models.resident.income.CurrentIncomeModel
 import play.api.Logging
 import play.api.data.Forms._
 import play.api.data._
-import play.api.i18n.{Lang, MessagesApi}
+import play.api.i18n.Messages
 import uk.gov.hmrc.time.TaxYear
 
-class CurrentIncomeForm @Inject()(implicit val messagesApi: MessagesApi) extends Logging {
+class CurrentIncomeForm @Inject()() extends Logging {
 
-  def apply(taxYear: String, lang: Lang): Form[CurrentIncomeModel] = {
-    val question =  if(taxYear == TaxYearModel.convertWithWelsh(TaxYear.current.startYear.toString)(lang)) "questionCurrentYear" else "question"
+  def apply(taxYear: String)(implicit messages: Messages): Form[CurrentIncomeModel] = {
+    val question =  if(taxYear == TaxYearModel.convertWithWelsh(TaxYear.current.startYear.toString)) "questionCurrentYear" else "question"
 
     Form(
       mapping(
         "amount" -> text
-          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.mandatoryAmount", taxYear)(lang), mandatoryCheck)
-          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear)(lang), bigDecimalCheck)
+          .verifying(messages(s"calc.resident.currentIncome.$question.error.mandatoryAmount", taxYear), mandatoryCheck)
+          .verifying(messages(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear), bigDecimalCheck)
           .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
           .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
-          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.minimumAmount", taxYear)(lang), isPositive)
-          .verifying(messagesApi(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear)(lang), decimalPlacesCheck)
+          .verifying(messages(s"calc.resident.currentIncome.$question.error.minimumAmount", taxYear), isPositive)
+          .verifying(messages(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear), decimalPlacesCheck)
       )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)
     )
   }

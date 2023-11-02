@@ -167,7 +167,7 @@ calc.resident.summary.remainingBroughtForwardLossHelp = i ostwng eich Treth Enil
 calc.resident.summary.remainingLossHelp = Gallwch
 calc.resident.summary.remainingLossLink = ddefnyddio''r golled hon
 
-calc.resident.summary.saveAsPdf = Lawrlwytho''ch cyfrifiad Treth Enillion Cyfalaf (PDF, llai na 25kB)
+calc.resident.summary.print = Argraffwch eich cyfrifiad Treth Enillion Cyfalaf
 calc.resident.summary.title = Crynodeb
 calc.resident.summary.totalGain = Cyfanswm enillion
 calc.resident.summary.totalLoss = Colledion

@@ -84,15 +84,6 @@ GET     /review-your-answers-final        @controllers.ReviewAnswersController.r
 #Summary Routes
 GET     /summary                          @controllers.SummaryController.summary
 
-#Gain Summary PDF Routes
-GET     /gain-report                      @controllers.ReportController.gainSummaryReport
-
-#Deductions Summary PDF Routes
-GET     /deductions-report                @controllers.ReportController.deductionsReport
-
-#Final Summary PDF Routes
-GET     /final-report                     @controllers.ReportController.finalSummaryReport
-
 #What Next SA Routes
 GET     /what-next-sa-no-gain-over-limit  @controllers.WhatNextSAController.whatNextSAOverFourTimesAEA
 GET     /what-next-sa-no-gain             @controllers.WhatNextSAController.whatNextSANoGain

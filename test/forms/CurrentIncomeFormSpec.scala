@@ -17,15 +17,18 @@
 package forms
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
+import controllers.helpers.FakeRequestHelper
 import models.resident.income.CurrentIncomeModel
 import play.api.data.Form
-import play.api.i18n.{Lang, MessagesApi}
+import play.api.i18n.{Lang, Messages, MessagesApi}
 
-class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
+class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 
   lazy val injectedForm: CurrentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
-  lazy val currentIncomeForm: Form[CurrentIncomeModel] = injectedForm("2022", Lang("en"))
   lazy val messagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
+  implicit val messages: Messages = messagesApi.preferred(fakeRequest)
+  lazy val currentIncomeForm: Form[CurrentIncomeModel] = injectedForm("2022")
+
 
   "Creating a form using an empty model" should {
 

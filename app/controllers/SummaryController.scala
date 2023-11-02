@@ -96,8 +96,10 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       implicit val lang: Lang = messagesApi.preferred(request).lang
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
-        Ok(finalSummaryView(totalGainAnswers, deductionGainAnswers,
-          totalGainAndTax.get, routes.ReviewAnswersController.reviewFinalAnswers.url, taxYear.get, totalCosts, chargeableGain.get.deductions, showUserResearchPanel = false)))
+        Ok(finalSummaryView(totalGainAnswers, deductionGainAnswers, incomeAnswers, totalGainAndTax.get,
+          routes.ReviewAnswersController.reviewFinalAnswers.url, taxYear.get, totalCosts, chargeableGain.get.deductions,
+          taxYear.get.taxYearSupplied == currentTaxYear, showUserResearchPanel = false))
+      )
 
       else if (grossGain > 0) Future.successful(Ok(deductionsSummaryView(totalGainAnswers, deductionGainAnswers,
         chargeableGain.get, backUrl, taxYear.get, totalCosts, showUserResearchPanel)))

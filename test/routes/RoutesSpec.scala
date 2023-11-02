@@ -255,30 +255,6 @@ class RoutesSpec extends CommonPlaySpec with WithCommonFakeApplication with Matc
     }
   }
 
-  /* Gain Summary PDF routes */
-  "The URL for the gainSummaryReport action" should {
-    "be equal to /calculate-your-capital-gains/resident/shares/gain-report" in {
-      val path = ReportController.gainSummaryReport.url
-      path shouldEqual "/calculate-your-capital-gains/resident/shares/gain-report"
-    }
-  }
-
-  /* Final Summary Report routes */
-  "The URL for the finalSummaryReport action" should {
-    "be equal to /calculate-your-capital-gains/resident/shares/final-report" in {
-      val path = ReportController.finalSummaryReport.url
-      path shouldEqual "/calculate-your-capital-gains/resident/shares/final-report"
-    }
-  }
-
-  /* Deductions Summary PDF routes */
-  "The URL for the deductionsReport action" should {
-    "be equal to /calculate-your-capital-gains/resident/shares/deductions-report" in {
-      val path = ReportController.deductionsReport.url
-      path shouldEqual "/calculate-your-capital-gains/resident/shares/deductions-report"
-    }
-  }
-
   /* What Next Non-SA routes */
   "The URL for the whatNextNonSaGain action" should {
     "be equal to /calculate-your-capital-gains/resident/shares/what-next-non-sa-gain" in {

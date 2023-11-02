@@ -23,12 +23,14 @@
     govukWarningText : GovukWarningText
 )
 
-@(gainAnswers: GainAnswersModel,
+@(
+        gainAnswers: GainAnswersModel,
         deductionAnswers: DeductionGainAnswersModel,
         result: TotalGainAndTaxOwedModel,
         taxYear: TaxYearModel,
         totalCosts: BigDecimal,
-        totalDeductions: BigDecimal)(implicit request: Request[_], messages: Messages, lang: Lang)
+        totalDeductions: BigDecimal
+)(implicit request: Request[_], messages: Messages)
 
     <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))</span></h1>

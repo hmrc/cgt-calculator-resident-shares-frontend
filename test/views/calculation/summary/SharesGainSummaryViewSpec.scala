@@ -55,7 +55,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
-      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage, fakeLang)
+      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -331,47 +331,21 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
       }
 
-      "has a save as PDF Button" which {
+      "has a print Button" which {
 
-        lazy val savePDFSection = doc.select("#save-as-a-pdf")
+        lazy val printSection = doc.select("#print")
+        lazy val link = printSection.select("a")
 
-        "contains an internal div which" should {
+        "has the class bold-small" in {
+          link.hasClass("govuk-link") shouldBe true
+        }
 
-          lazy val icon = savePDFSection.select("div")
+        s"links to #" in {
+          link.attr("href") shouldBe "#"
+        }
 
-          "has class icon-file-download" in {
-            icon.hasClass("icon-file-download") shouldBe true
-          }
-
-          "contains a span" which {
-
-            lazy val informationTag = icon.select("span")
-
-            "has the class govuk-visually-hidden" in {
-              informationTag.hasClass("govuk-visually-hidden") shouldBe true
-            }
-
-            "has the text Download" in {
-              informationTag.text shouldBe "Download"
-            }
-          }
-
-          "contains a link" which {
-
-            lazy val link = savePDFSection.select("a")
-
-            "has the class govuk-link govuk-body" in {
-              link.hasClass("govuk-link govuk-body") shouldBe true
-            }
-
-            s"links to ${controllers.routes.ReportController.gainSummaryReport}" in {
-              link.attr("href") shouldBe controllers.routes.ReportController.gainSummaryReport.toString
-            }
-
-            s"has the text ${messages.saveAsPdf}" in {
-              link.text shouldBe messages.saveAsPdf
-            }
-          }
+        s"has the text ${messages.print}" in {
+          link.text shouldBe messages.print
         }
       }
 
@@ -383,11 +357,11 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
       "generate the same template when .render and .f are called" in {
 
-        val f = gainSummaryView.f(testModel, -100, taxYearModel, 150 , 11000,
-          true)(fakeRequest, mockMessage, fakeLang)
+        val f = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000,
+          true)(fakeRequest, mockMessage)
 
         val render = gainSummaryView.render(testModel, -100, taxYearModel, 150 , 11000,
-          true, fakeRequest, mockMessage, fakeLang)
+          true, fakeRequest, mockMessage)
 
         f shouldBe render
       }
@@ -409,7 +383,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", false, "2016/17")
-      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage, fakeLang)
+      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

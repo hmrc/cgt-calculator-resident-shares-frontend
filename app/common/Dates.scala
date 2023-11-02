@@ -68,13 +68,13 @@ trait Dates {
 
   object TemplateImplicits {
     implicit class RichDate(date: LocalDate) {
-      def localFormat(pattern: String)(implicit lang: play.api.i18n.Lang, messages: Messages): String = {
-        if(lang.language == "cy") {
+      def localFormat(pattern: String)(implicit messages: Messages): String = {
+        if(messages.lang.language == "cy") {
           val monthNum = date.getMonthValue
           val welshFormatter = DateTimeFormatter.ofPattern(s"""d '${messages(s"calc.month.$monthNum")}' yyyy""")
           date.format(welshFormatter)
         } else {
-          val localFormatter = DateTimeFormatter.ofPattern(pattern, lang.toLocale)
+          val localFormatter = DateTimeFormatter.ofPattern(pattern, messages.lang.toLocale)
           date.format(localFormatter)
         }
       }

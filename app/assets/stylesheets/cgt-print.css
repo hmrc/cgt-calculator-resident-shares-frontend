@@ -1,0 +1,27 @@
+*{
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+#secondary-nav,
+.hmrc-language-select,
+.hmrc-report-technical-issue,
+.govuk-footer,
+.govuk-back-link {
+    display: none;
+}
+
+.govuk-header__container {
+ border-bottom: 0;
+}
+
+.govuk-header {
+    margin-bottom: 50px;
+}
+
+.cgt-for-print {
+    display: block !important;
+}
+
+.govuk-grid-column-two-thirds {
+    width: 100%;
+}

@@ -14,44 +14,39 @@
  * limitations under the License.
  *@
 
-@import models.SummaryDataItemModel
 @import models.resident._
 @import models.resident.shares._
-@import common.Dates._
-@import common.TaxDates
-@import constructors.CalculateRequestConstructor._
-@import controllers.routes.{GainController => gainRoutes}
-@import controllers.routes.{DeductionsController => deductionRoutes}
-@import common.resident.MoneyPounds
+@import views.html.helper.CSPNonce
 
 @this(
-    layout: Layout,
-    deductionsSummaryPartial: playHelpers.deductionsSummaryPartial
+        layout: Layout,
+        deductionsSummaryPartial: playHelpers.deductionsSummaryPartial,
+        checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
+        link: playHelpers.link
 )
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: DeductionGainAnswersModel, result: ChargeableGainResultModel, backUrl: String, taxYear: TaxYearModel, totalCosts: BigDecimal, showUserResearchPanel: Boolean)(implicit request: Request[_], messages: Messages, lang: Lang)
+@(
+        gainAnswers: GainAnswersModel,
+        deductionAnswers: DeductionGainAnswersModel,
+        result: ChargeableGainResultModel,
+        backUrl: String,
+        taxYear: TaxYearModel,
+        totalCosts: BigDecimal,
+        showUserResearchPanel: Boolean
+)(implicit request: Request[_], messages: Messages)
 
-@broughtForwardLossesHelpText() = {
-    <span>
-        @Messages("calc.resident.summary.remainingLossHelp")
-        <a href="https://www.gov.uk/capital-gains-tax/losses" rel="external"
-           data-journey-click="rtt-shares-help:govUK:summary-cgt-losses">
-            @Messages("calc.resident.summary.remainingLossLink")
-            <span>@Messages("calc.base.externalLink")</span>
-        </a>
-        @Messages("calc.resident.summary.remainingBroughtForwardLossHelp")
-    </span>
-}
-
-@annualExemptAmountHelpText() = {
-    <span>@Messages("calc.resident.summary.annualExemptAmountHelp")</span>
+@scripts = {
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
 }
 
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
     backLinkHref = Some(backUrl),
-    isUserResearchBannerVisible = showUserResearchPanel
+    isUserResearchBannerVisible = showUserResearchPanel,
+    scripts = Some(scripts)
 ) {
+
+    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
 
     <!-- Google Analytics -->
     <div id="ga-reporting" class="govuk-visually-hidden">
@@ -78,26 +73,29 @@
         totalCosts
     )
 
+    <hr class="govuk-section-break govuk-section-break--l cgt-for-print">
+
+    <!--Print only CYA-->
+    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), None, displayLinks = false, forPrint = true)
 
     @if(taxYear.isValidYear) {
-        <section id="whatToDoNext">
+        <section id="whatToDoNext" class="govuk-!-display-none-print">
             <h2 id="whatToDoNextTitle" class="govuk-heading-m">@Messages("calc.summary.whatToDoNext.heading")</h2>
             <p class="govuk-body">@Messages("calc.summary.whatToDoNext.details")</p>
         </section>
     }
 
-    <div id="save-as-a-pdf" class="notice download-pdf">
-        <div class="icon-file-download">
-            <span class="govuk-visually-hidden">@Messages("calc.summary.download")</span>
-        </div>
-
-        <a class="govuk-link govuk-body" href="@controllers.routes.ReportController.deductionsReport"
-        data-journey-click="rtt-properties-summary:pdf:save">@Messages("calc.resident.summary.saveAsPdf")</a>
+    <div id="print" class="govuk-body govuk-!-display-none-print cgt-print-button">
+        <a class="govuk-link govuk-body" href="#" id="printLink">@Messages("calc.resident.summary.print")</a>
     </div>
-    </br>
 
     @if(taxYear.isValidYear) {
-        <a class="govuk-button" id="continue-button" href="@controllers.routes.SaUserController.saUser.url">@Messages("calc.base.button.continue")</a>
-        </br>
+        @link(
+            href = controllers.routes.SaUserController.saUser.url,
+            messageKey = "calc.base.button.continue",
+            isButton = true,
+            id = Some("continue-button"),
+            classes = Some("govuk-!-display-none-print")
+        )
     }
 }
