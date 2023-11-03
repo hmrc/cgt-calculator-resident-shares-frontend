@@ -10,3 +10,11 @@
 .govuk-summary-list__actions {
     width: 10%
 }
+
+.cgt-for-print {
+    display: none;
+}
+
+body:not(.js-enabled) .cgt-print-button {
+    display: none;
+}

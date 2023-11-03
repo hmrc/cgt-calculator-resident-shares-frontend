@@ -21,7 +21,7 @@
 
 @this()
 
-@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages, lang: Lang)
+@(rowId: String, question: String, date: LocalDate, link: Option[String] = None, displayLink: Boolean = true, extraClass: String = "")(implicit messages: Messages)
 
 
 @if(displayLink && link.isDefined) {

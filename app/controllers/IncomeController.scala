@@ -75,7 +75,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
       val inCurrentTaxYear = taxYear.taxYearSupplied == currentTaxYear
       implicit val lang: Lang = messagesApi.preferred(request).lang
 
-      val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
+      val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 
       sessionCacheService.fetchAndGetFormData[CurrentIncomeModel](keystoreKeys.currentIncome).map {
         case Some(data) => Ok(currentIncomeView(form.fill(data), backUrl, taxYear, inCurrentTaxYear))
@@ -99,7 +99,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
 
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
       implicit val lang: Lang = messagesApi.preferred(request).lang
-      val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied), lang)
+      val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied))
       form.bindFromRequest().fold(
         errors => buildCurrentIncomeBackUrl.flatMap(url => Future.successful(BadRequest(currentIncomeView(errors, url,
           taxYearModel, inCurrentTaxYear)))),

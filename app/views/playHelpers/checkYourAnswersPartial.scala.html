@@ -27,9 +27,17 @@
     summaryNumericRowHelper: playHelpers.resident.summaryNumericRowHelper
 )
 
-@(gainAnswers: GainAnswersModel, deductionAnswers: Option[DeductionGainAnswersModel], taxYear: Option[TaxYearModel], incomeAnswers: Option[IncomeAnswersModel], isCurrentTaxYear: Boolean = false, displayLinks: Boolean = true)(implicit messages: Messages, lang: Lang)
+@(
+        gainAnswers: GainAnswersModel,
+        deductionAnswers: Option[DeductionGainAnswersModel],
+        taxYear: Option[TaxYearModel],
+        incomeAnswers: Option[IncomeAnswersModel],
+        isCurrentTaxYear: Boolean = false,
+        displayLinks: Boolean = true,
+        forPrint: Boolean = false
+)(implicit messages: Messages)
 
-<section id="yourAnswers">
+<section id="yourAnswers" class="@{if(forPrint) "cgt-for-print" else ""}">
 
     <h2 class="govuk-heading-m">@Messages("calc.checkYourAnswers.tableHeading")</h2>
 

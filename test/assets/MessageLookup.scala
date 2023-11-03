@@ -611,7 +611,7 @@ object MessageLookup {
 
     def aeaRemaining(taxYear: String): String = s"Capital Gains Tax allowance left for $taxYear"
 
-    val saveAsPdf = "Download your Capital Gains Tax calculation (PDF, under 25kB)"
+    val print = "Print your Capital Gains Tax calculation"
 
     def remainingAllowableLoss(taxYear: String): String = s"Remaining loss from $taxYear tax year"
 
@@ -777,7 +777,7 @@ object MessageLookup {
     def taxRate(amount: String, rate: String): String = s"$amount taxable gain multiplied by $rate% tax rate"
 
     val taxToPay = "Tax to pay"
-    val saveAsPdf = "Download your Capital Gains Tax calculation (PDF, under 25kB)"
+    val print = "Print your Capital Gains Tax calculation"
     val remainingDeductions = "Your remaining deductions"
 
     def remainingAnnualExemptAmount(taxYear: String): String = s"Annual Exempt Amount left for the $taxYear tax year"

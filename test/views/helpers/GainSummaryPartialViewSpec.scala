@@ -49,7 +49,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a banner" which {
@@ -288,7 +288,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, 0, 150, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, 0, 150, 11000)(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a caption tag" which {
@@ -330,7 +330,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a banner" which {
@@ -574,7 +574,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 200000, 11000)(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
@@ -600,7 +600,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage, fakeLang)
+    lazy val view = gainSummaryPartialView(gainAnswers, taxYearModel, -100, 150, 11000)(fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "has a row for acquisition value" which {

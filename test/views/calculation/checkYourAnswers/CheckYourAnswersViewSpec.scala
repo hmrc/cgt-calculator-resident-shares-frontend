@@ -40,7 +40,7 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
   val checkYourAnswersView = fakeApplication.injector.instanceOf[checkYourAnswers]
 
   lazy val view: HtmlFormat.Appendable = checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, mockMessage, fakeLang)
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, mockMessage)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
@@ -116,29 +116,16 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
   }
 
-  "have a form" which {
-
-    lazy val form = doc.getElementsByTag("form")
-
-    s"has the action '/dummy-url'" in {
-      form.attr("action") shouldBe "/dummy-url"
-    }
-
-    "has the method of POST" in {
-      form.attr("method") shouldBe "POST"
-    }
-  }
-
   "have a continue button that" should {
 
-    lazy val continueButton = doc.select("button.govuk-button")
+    lazy val continueButton = doc.select("a.govuk-button")
 
     s"have the button text '${commonMessages.continue}'" in {
       continueButton.text shouldBe commonMessages.continue
     }
 
-    "be of type submit" in {
-      continueButton.attr("id") shouldBe "submit"
+    "have an href of '/dummy-url'" in {
+      continueButton.attr("href") shouldBe "/dummy-url"
     }
 
     "have the class 'button'" in {
@@ -150,13 +137,13 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "generate the same template when .render and .f are called" in {
 
-      val f = (checkYourAnswersView.f(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
+      val f = (checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
         Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false)
-        (fakeRequestWithSession,mockMessage, fakeLang))
+        (fakeRequestWithSession,mockMessage))
 
       val render = checkYourAnswersView.render(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
         Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false,
-      fakeRequestWithSession,mockMessage, fakeLang)
+      fakeRequestWithSession,mockMessage)
 
       f shouldBe render
     }

@@ -16,20 +16,14 @@
 
 @import models.resident._
 @import models.resident.shares._
-@import controllers.routes.{GainController => gainRoutes}
-@import controllers.routes.{DeductionsController => deductionRoutes}
-@import controllers.routes.{IncomeController => incomeRoutes}
-@import play.api.i18n.Lang
-@import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    form: FormWithCSRF,
-    checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        checkYourAnswersPartial: playHelpers.checkYourAnswersPartial,
+        link: playHelpers.link
 )
 
-@(postAction: Call, backUrl: String, gainAnswers: GainAnswersModel, deductionsAnswers: Option[DeductionGainAnswersModel] = None, taxYear: Option[TaxYearModel] = None, incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages, lang: Lang)
+@(postAction: Call, backUrl: String, gainAnswers: GainAnswersModel, deductionsAnswers: Option[DeductionGainAnswersModel] = None, taxYear: Option[TaxYearModel] = None, incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages)
 
 @layout(
     pageTitle = Messages("calc.checkYourAnswers.title"),
@@ -41,7 +35,10 @@
 
     @checkYourAnswersPartial(gainAnswers, deductionsAnswers, taxYear, incomeAnswers, isCurrentTaxYear)
 
-    @form(action = postAction) {
-        @submitButton()
-    }
+    @link(
+        href = postAction.url,
+        messageKey = "calc.base.button.continue",
+        isButton = true,
+        id = Some("submit")
+    )
 }

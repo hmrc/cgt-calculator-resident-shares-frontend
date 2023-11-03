@@ -39,7 +39,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
   "The check your answers partial with as much filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(mockMessage, fakeLang)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(mockMessage)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "has a date output row for the Disposal Date" which {
@@ -233,7 +233,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
   "The check your answers partial with display links set to false" should {
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(mockMessage, fakeLang)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(mockMessage)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "have no links" in {
@@ -244,7 +244,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
   "The check your answers partial with as little filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersLeastPossibles,
-      Some(deductionAnswersLeastPossibles), Some(taxYearModel), None)(mockMessage, fakeLang)
+      Some(deductionAnswersLeastPossibles), Some(taxYearModel), None)(mockMessage)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "has an option output row for sold for less than worth value in" which {
