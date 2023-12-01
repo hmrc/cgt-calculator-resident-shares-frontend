@@ -28,6 +28,7 @@ object AcquisitionCostsForm {
   lazy val acquisitionCostsForm = Form(
     mapping(
       "amount" -> text
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.shares.acquisitionCosts.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.acquisitionCosts.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

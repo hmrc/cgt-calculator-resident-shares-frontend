@@ -20,6 +20,12 @@ import scala.util.{Failure, Success, Try}
 
 object Transformers {
 
+  val stripCurrencyCharacters: String => String = (input) =>
+    input
+      .trim()
+      .replaceAll(",", "")
+      .replaceAll("£", "")
+
   val stringToBigDecimal: String => BigDecimal = (input) => Try(BigDecimal(input.trim)) match {
     case Success(value) => value
     case Failure(_) => BigDecimal(0)

@@ -28,6 +28,7 @@ object WorthWhenSoldForLessForm {
   lazy val worthWhenSoldForLessForm = Form(
     mapping(
       "amount" -> text
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

@@ -37,6 +37,7 @@ class CurrentIncomeForm @Inject()() extends Logging {
     Form(
       mapping(
         "amount" -> text
+          .transform(stripCurrencyCharacters, stripCurrencyCharacters)
           .verifying(messages(s"calc.resident.currentIncome.$question.error.mandatoryAmount", taxYear), mandatoryCheck)
           .verifying(messages(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear), bigDecimalCheck)
           .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

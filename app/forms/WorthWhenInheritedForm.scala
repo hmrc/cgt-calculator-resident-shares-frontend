@@ -28,6 +28,7 @@ object WorthWhenInheritedForm {
   lazy val worthWhenInheritedForm = Form(
     mapping(
       "amount" -> text
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.shares.worthWhenInherited.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.worthWhenInherited.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

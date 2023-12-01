@@ -31,6 +31,7 @@ class LossesBroughtForwardValueForm @Inject()(implicit val messagesApi: Messages
   def apply(year: String, lang: Lang): Form[LossesBroughtForwardValueModel] = Form(
     mapping(
       "amount" -> text
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", year)(lang), mandatoryCheck)
         .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(lang), bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
