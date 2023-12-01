@@ -28,6 +28,7 @@ object ValueBeforeLegislationStartForm {
   lazy val valueBeforeLegislationStartForm = Form(
     mapping(
       "amount" -> text
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

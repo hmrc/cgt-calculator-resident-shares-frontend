@@ -28,6 +28,7 @@ object DisposalCostsForm {
   lazy val disposalCostsForm = Form(
     mapping(
       "amount" -> text
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying("calc.resident.shares.disposalCosts.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.disposalCosts.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)

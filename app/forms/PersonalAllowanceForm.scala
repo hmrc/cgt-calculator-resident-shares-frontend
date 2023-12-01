@@ -34,6 +34,7 @@ class PersonalAllowanceForm @Inject()(implicit val messagesApi: MessagesApi) {
   def apply(maxPA: BigDecimal = BigDecimal(0), taxYear: String, lang: Lang): Form[PersonalAllowanceModel] = Form(
     mapping(
       "amount" -> text
+        .transform(stripCurrencyCharacters, stripCurrencyCharacters)
         .verifying(messagesApi("calc.resident.personalAllowance.error.mandatoryAmount", taxYear)(lang), mandatoryCheck)
         .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(lang), bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
