@@ -17,7 +17,8 @@
 @import models.resident._
 
 @this(
-    layout: Layout
+    layout: Layout,
+    govukButton : GovukButton
 )
 
 @(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, continueUrl: String)(implicit request: Request[_], messages: Messages)
@@ -31,8 +32,12 @@
 
     @if(isAfterApril15) {
         <p class="govuk-body">@Messages("calc.resident.outsideTaxYears.message", taxYear.calculationTaxYear)</p>
-        <a href="@continueUrl" id="continue-button" data-module="govuk-button" role="button" class="govuk-button">@Messages("calc.base.button.continue")</a>
-    } else {
+            @govukButton(Button(
+                href = Some(continueUrl),
+                content = Text(messages("calc.base.button.continue")),
+                attributes = Map("id" -> "continue-button")
+            ))
+            } else {
         <p class="govuk-body">@{if (isProperty) Messages("calc.resident.outsideTaxYears.message.tooEarly")
             else Messages("calc.resident.shares.outsideTaxYears.message.tooEarly")}</p>
         <a id="change-date-link" class="govuk-body govuk-link" href="@navBackLink">@Messages("calc.resident.outsideTaxYears.changeDate")</a>

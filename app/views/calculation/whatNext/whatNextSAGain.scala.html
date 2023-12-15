@@ -17,7 +17,8 @@
 @import views.html.calculation.gain._
 
 @this(
-    layout: Layout
+    layout: Layout,
+    govukButton : GovukButton
 )
 
 @(backUrl: String, iFormUrl: String, disposalTaxYear: String)(implicit request : Request[_], messages: Messages)
@@ -40,8 +41,11 @@
         <p id="important-information" class="govuk-inset-text">@Messages("calc.whatToDoNext.gain.reportImportant")</p>
 
         <p id="report-now-information" class="govuk-body">@Messages("calc.whatToDoNext.gain.reportNowInfo")</p>
-
-        <a id="report-now-button" class="govuk-button" data-module="govuk-button" role="button" href="@iFormUrl">@Messages("calc.whatToDoNext.reportNow")</a>
+        @govukButton(Button(
+            href = Some(iFormUrl),
+            content = Text(messages("calc.whatToDoNext.reportNow")),
+            attributes = Map("id" -> "report-now-button")
+        ))
     </div>
 
 <p class="govuk-body" id="exit-survey-message">@Messages("calc.whatToDoNext.exitSurveyMessage") <a class="govuk-link" id="exit-survey-link" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
