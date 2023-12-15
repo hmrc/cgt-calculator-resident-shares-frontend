@@ -31,7 +31,7 @@
 
     @if(isAfterApril15) {
         <p class="govuk-body">@Messages("calc.resident.outsideTaxYears.message", taxYear.calculationTaxYear)</p>
-        <a href="@continueUrl" id="continue-button" class="govuk-button">@Messages("calc.base.button.continue")</a>
+        <a href="@continueUrl" id="continue-button" data-module="govuk-button" role="button" class="govuk-button">@Messages("calc.base.button.continue")</a>
     } else {
         <p class="govuk-body">@{if (isProperty) Messages("calc.resident.outsideTaxYears.message.tooEarly")
             else Messages("calc.resident.shares.outsideTaxYears.message.tooEarly")}</p>
