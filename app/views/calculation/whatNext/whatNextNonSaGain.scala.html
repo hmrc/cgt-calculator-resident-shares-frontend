@@ -15,7 +15,8 @@
  *@
 
 @this(
-    layout: Layout
+    layout: Layout,
+    govukButton : GovukButton
 )
 
 @(iFormUrl: String)(implicit request: Request[_], messages: Messages)
@@ -31,7 +32,10 @@
     <p id="details-two" class="govuk-body">@Messages("calc.resident.whatNextNonSa.gain.detailsTwo")</p>
 
     <p id="report-now">
-        <a class="govuk-button" href=@iFormUrl>@Messages("calc.resident.whatNextNonSa.gain.reportNow")</a>
+        @govukButton(Button(
+            href = Some(iFormUrl),
+            content = Text(messages("calc.resident.whatNextNonSa.gain.reportNow"))
+        ))
     </p>
 
 <p class="govuk-body" id="exit-survey-message">@Messages("calc.whatToDoNext.exitSurveyMessage") <a class="govuk-link" id="exit-survey-link" href="@controllers.routes.FeedbackSurveyController.redirectExitSurvey">@Messages("calc.whatToDoNext.exitSurveyLink")</a>@Messages("calc.base.period")</p>
