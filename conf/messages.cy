@@ -201,7 +201,7 @@ calc.summary.calculationDetails.totalGain = Cyfanswm enillion
 calc.summary.calculationDetails.totalLoss = Cyfanswm colledion
 calc.summary.calculationDetails.yourDeductions = Eich didyniadau
 calc.summary.calculationDetails.yourTaxableGain = Eich enillion trethadwy
-calc.summary.calculationDetails.yourTaxRate = Eich cyfradd dreth
+calc.summary.calculationDetails.yourTaxRate = Eich cyfradd dreth ar sail eich haenau Treth Incwm
 calc.summary.calculationDetails.yourTotalGain = Cyfanswm eich enillion
 calc.summary.calculationDetails.yourTotalLoss = Cyfanswm eich colledion
 

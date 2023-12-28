@@ -772,7 +772,7 @@ object MessageLookup {
     val yourTaxableGain = "Your taxable gain"
     val minusDeductions = "Minus deductions"
     val taxableGain = "Taxable gain"
-    val yourTaxRate = "Your tax rate"
+    val yourTaxRate = "Your tax rate based on your Income Tax bands"
 
     def taxRate(amount: String, rate: String): String = s"$amount taxable gain multiplied by $rate% tax rate"
 
@@ -791,7 +791,6 @@ object MessageLookup {
     val whatToDoNextContinue = "Before you continue, save a copy of your calculation. You will need this when you report your Capital Gains Tax."
     val noticeSummary: String = "Warning Your result may be slightly inaccurate because the calculator does not support the dates you entered." +
       " Do not use these figures to report your Capital Gains Tax."
-    val ratesHelp = "These rates are based on your Income Tax bands:"
 
     val bannerPanelTitle = "Help improve HMRC services"
     val bannerPanelLinkURL = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"

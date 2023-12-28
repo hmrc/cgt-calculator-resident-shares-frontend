@@ -97,7 +97,6 @@
 
     <table id="yourTaxRate" class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m">@Messages("calc.summary.calculationDetails.yourTaxRate")</caption>
-        <caption class="govuk-table__caption govuk-table__caption--s">@Messages("calc.summary.ratesHelp")</caption>
         <tbody class="govuk-table__body">
             @if(result.firstBand != 0 && result.firstRate != 0){
                 @summaryNumericRowPartial("firstBand", Messages("calc.summary.calculationDetails.taxRate", result.firstBand, result.firstRate),

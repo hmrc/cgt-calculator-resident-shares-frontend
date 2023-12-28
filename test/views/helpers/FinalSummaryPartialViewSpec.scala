@@ -251,10 +251,6 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
             s"has the text ${summaryMessages.yourTaxRate}" in {
               div.select("#yourTaxRate > caption.govuk-table__caption.govuk-table__caption--m").text shouldBe summaryMessages.yourTaxRate
             }
-
-            s"has the text ${summaryMessages.ratesHelp}" in {
-              div.select("#yourTaxRate > caption.govuk-table__caption.govuk-table__caption--s").text shouldBe summaryMessages.ratesHelp
-            }
           }
 
           "has row for first band" which {
