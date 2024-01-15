@@ -59,15 +59,15 @@
             }
 
             @if(gainAnswers.ownerBeforeLegislationStart){
-                @summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+                @summaryNumericRowPartial("acquisitionValueBeforeLegislation", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
             }
 
             @{if(gainAnswers.displayWorthWhenBought)
-                summaryNumericRowPartial("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+                summaryNumericRowPartial("acquisitionValueWhenBought",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
             }
 
             @{if(gainAnswers.displayWorthWhenInherited)
-                summaryNumericRowPartial("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+                summaryNumericRowPartial("acquisitionValueWhenInherited", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
             }
 
             @summaryNumericRowPartial("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)
