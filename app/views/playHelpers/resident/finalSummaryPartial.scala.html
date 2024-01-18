@@ -34,7 +34,7 @@
 
     <div id="tax-owed-banner" class="govuk-panel govuk-panel--confirmation">
         <h1 class="govuk-panel__title"><span>@Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))</span></h1>
-        <h2 class="govuk-panel__body">&pound;@MoneyPounds(result.taxOwed, 2).quantity</h2>
+        <p class="govuk-panel__body">&pound;@MoneyPounds(result.taxOwed, 2).quantity</p>
     </div>
 
     @{if (!taxYear.isValidYear) {
