@@ -87,11 +87,11 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
           }
         }
 
-        "contains a h2" which {
-          lazy val h2 = banner.select("h2")
+        "contains a paragraph" which {
+          lazy val p = banner.select("p")
 
           s"has the text '£3,600.00'" in {
-            h2.text() shouldEqual "£3,600.00"
+            p.text() shouldEqual "£3,600.00"
           }
         }
       }
