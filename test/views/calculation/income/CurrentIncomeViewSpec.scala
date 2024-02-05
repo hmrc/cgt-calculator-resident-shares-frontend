@@ -104,7 +104,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       s"have the help text ${messages.helpText}" in {
-        doc.body.getElementsByClass("govuk-hint").text shouldBe messages.helpTextShares
+        doc.body.getElementsByClass("govuk-hint").text shouldBe messages.exampleHint
       }
 
       "has a numeric input field" which {

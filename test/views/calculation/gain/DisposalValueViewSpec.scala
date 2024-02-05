@@ -61,7 +61,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"have the question of the page ${messages.question}" in {
-      doc.select("h1 > label").text shouldEqual messages.question
+      doc.select("h1").text shouldEqual messages.question
     }
 
     "render a form tag with a submit action" in {

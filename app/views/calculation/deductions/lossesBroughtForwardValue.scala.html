@@ -36,13 +36,13 @@
 ) {
 
     @errorSummary(lossesBroughtForwardValueForm.errors, Some("losses-brought-forward-value"))
-    <h1 class="govuk-heading-xl">@messages("calc.resident.lossesBroughtForwardValue.pageHeading", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))</h1>
     @form(action = postAction) {
 
         @formInputMoney(
             field = lossesBroughtForwardValueForm("amount"),
             question = Messages("calc.resident.lossesBroughtForwardValue.pageHeading", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
-            labelClass = "govuk-label--m",
+            labelClass = "govuk-label--xl",
+            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
         )
 
         @submitButton()
