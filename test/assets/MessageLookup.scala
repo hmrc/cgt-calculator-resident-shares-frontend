@@ -667,9 +667,8 @@ object MessageLookup {
     val currentYearTitle = "How much do you expect your income to be in this tax year? - Calculate your Capital Gains Tax - GOV.UK"
     val currentYearQuestion = "How much do you expect your income to be in this tax year?"
     val helpText = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the property."
-    val helpTextShares = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares."
+    val helpTextShares = "Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares. For example, £10,000.50"
     val linkText = "Income tax"
-    val exampleHint = "For example, £10,000.50"
   }
 
   //Personal Allowance messages.en
