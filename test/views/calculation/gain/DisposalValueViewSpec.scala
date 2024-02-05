@@ -68,10 +68,6 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.select("form").attr("action") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-value"
     }
 
-    s"have a label for an input with text ${messages.question}" in {
-      doc.body.getElementsByClass("govuk-label govuk-visually-hidden").text() shouldEqual messages.question
-    }
-
     s"have an input field with id amount " in {
       doc.body.getElementById("amount").tagName() shouldEqual "input"
     }

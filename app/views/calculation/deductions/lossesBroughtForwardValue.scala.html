@@ -28,22 +28,21 @@
 @(lossesBroughtForwardValueForm: Form[LossesBroughtForwardValueModel], taxYear: TaxYearModel, navBackLink: String, postAction: Call)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @title = @{
-    if (lossesBroughtForwardValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
+    if(lossesBroughtForwardValueForm.errors.nonEmpty) messages("site.title.error", Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 }
-
 @layout(
     pageTitle = title,
     backLinkHref = Some(navBackLink)
 ) {
 
     @errorSummary(lossesBroughtForwardValueForm.errors, Some("losses-brought-forward-value"))
-
     @form(action = postAction) {
 
         @formInputMoney(
             field = lossesBroughtForwardValueForm("amount"),
             question = Messages("calc.resident.lossesBroughtForwardValue.pageHeading", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
-            hideLabel = false
+            labelClass = "govuk-label--xl",
+            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
         )
 
         @submitButton()

@@ -51,7 +51,8 @@
         @formInputMoney(
             field = acquisitionValueForm("amount"),
             question = messages("calc.resident.shares.acquisitionValue.question"),
-            hideLabel = true
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
         )
 
     @submitButton()

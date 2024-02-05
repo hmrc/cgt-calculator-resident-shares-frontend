@@ -92,11 +92,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
           lazy val label = doc.select("label")
 
           s"has the text ${messages.question}" in {
-            label.select(".govuk-visually-hidden").text() shouldEqual messages.question
-          }
-
-          "has the class visually hidden" in {
-            label.select(".govuk-visually-hidden").hasClass("govuk-visually-hidden") shouldEqual true
+            label.select(".govuk-label--m").text() shouldEqual messages.question
           }
 
           "is tied to the input field" in {

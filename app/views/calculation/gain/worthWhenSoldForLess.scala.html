@@ -48,8 +48,9 @@
 
         @formInputMoney(
             field = worthWhenSoldForLessForm("amount"),
-            question = Messages("calc.resident.shares.worthWhenSoldForLess.question"),
-            hideLabel = true
+            question = messages("calc.resident.shares.worthWhenSoldForLess.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
         )
 
         @submitButton()

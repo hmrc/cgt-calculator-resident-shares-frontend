@@ -97,10 +97,6 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         s"have the question ${messages.question}" in {
           label.text should include(messages.question)
         }
-
-        "have the class 'govuk-visually-hidden'" in {
-          label.hasClass("govuk-label govuk-visually-hidden") shouldBe true
-        }
       }
 
       "has help text that" should {

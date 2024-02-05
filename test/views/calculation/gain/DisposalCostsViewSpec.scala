@@ -94,10 +94,6 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.title)
         }
 
-        "have the class 'visuallyhidden'" in {
-          label.hasClass("govuk-label govuk-visually-hidden")shouldBe true
-        }
-
         s"has a p with the text ${messages.jointOwnership}" in {
           doc.getElementsByClass("govuk-inset-text").text shouldBe messages.jointOwnership
         }

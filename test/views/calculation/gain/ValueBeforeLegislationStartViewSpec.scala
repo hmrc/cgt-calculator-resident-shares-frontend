@@ -87,10 +87,6 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
             label.text shouldEqual messages.question
           }
 
-          "has the class govuk-visually-hidden" in {
-            label.select(".govuk-visually-hidden").hasClass("govuk-visually-hidden") shouldEqual true
-          }
-
           "is tied to the input field" in {
             label.attr("for") shouldEqual "amount"
           }

@@ -19,11 +19,11 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    errorSummary: playHelpers.errorSummary,
-    form: FormWithCSRF,
-    formInputMoney: playHelpers.formInputMoney,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        errorSummary: playHelpers.errorSummary,
+        form: FormWithCSRF,
+        formInputMoney: playHelpers.formInputMoney,
+        submitButton: playHelpers.submitButton
 
 )
 
@@ -34,7 +34,7 @@
     else Messages("calc.resident.currentIncome.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 }
 @titleWithError = @{
-    if (currentIncomeForm.errors.nonEmpty) Messages("site.title.error",  title) else title
+    if(currentIncomeForm.errors.nonEmpty) Messages("site.title.error", title) else title
 }
 
 @layout(
@@ -44,13 +44,12 @@
 
     @errorSummary(currentIncomeForm.errors, Some("current-income"))
 
-    @form(action = controllers.routes.IncomeController.submitCurrentIncome){
+    @form(action = controllers.routes.IncomeController.submitCurrentIncome) {
 
         @formInputMoney(
             field = currentIncomeForm("amount"),
             question = title,
-            hintText = Some(Messages("calc.resident.shares.currentIncome.helpText")),
-            hideLabel = false
+            hintText = Some(s"${Messages("calc.resident.shares.currentIncome.helpText")} ${messages("calc.currencyHint", "£10,000.50")}")
         )
 
         @submitButton()

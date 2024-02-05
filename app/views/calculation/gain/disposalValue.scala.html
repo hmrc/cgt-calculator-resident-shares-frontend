@@ -18,14 +18,14 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    form: FormWithCSRF,
-    errorSummary: playHelpers.errorSummary,
-    formInputMoney: playHelpers.formInputMoney,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        form: FormWithCSRF,
+        errorSummary: playHelpers.errorSummary,
+        formInputMoney: playHelpers.formInputMoney,
+        submitButton: playHelpers.submitButton
 )
 
-@(disposalValueForm : Form[DisposalValueModel])(implicit request: Request[_], messages: Messages)
+@(disposalValueForm: Form[DisposalValueModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if (disposalValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.disposalValue.question")) else Messages("calc.resident.shares.disposalValue.question")
@@ -45,10 +45,11 @@
 
             @formInputMoney(
                 field = disposalValueForm("amount"),
-                question = Messages("calc.resident.shares.disposalValue.question"),
-                hideLabel = true
+                question = messages("calc.resident.shares.disposalValue.question"),
+                labelClass = "govuk-label--m",
+                hintText = Some(messages("calc.currencyHint", "£10,000.50"))
             )
 
             @submitButton()
         }
-}
+    }

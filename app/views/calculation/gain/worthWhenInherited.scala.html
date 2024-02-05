@@ -38,18 +38,19 @@
 
     @errorSummary(worthWhenInheritedForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.worthWhenInherited.question")</h1>
+    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.worthWhenInherited.question")</h1>
 
     @form(action = controllers.routes.GainController.submitWorthWhenInherited) {
 
-        <p class="govuk-body"> @Messages("calc.resident.shares.worthWhenInherited.help")</p>
+        <p class="govuk-body"> @messages("calc.resident.shares.worthWhenInherited.help")</p>
 
-        <p class="govuk-inset-text">@Messages("calc.resident.shares.worthWhenInherited.hintText")</p>
+        <p class="govuk-inset-text">@messages("calc.resident.shares.worthWhenInherited.hintText")</p>
 
         @formInputMoney(
             field = worthWhenInheritedForm("amount"),
-            question = Messages("calc.resident.shares.worthWhenInherited.question"),
-            hideLabel = true
+            question = messages("calc.resident.shares.worthWhenInherited.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
         )
         @submitButton()
     }
