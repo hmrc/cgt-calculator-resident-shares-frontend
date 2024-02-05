@@ -54,7 +54,8 @@
         @formInputMoney(
             field = valueBeforeLegislationStartForm("amount"),
             question = messages("calc.resident.shares.valueBeforeLegislationStart.question"),
-            hideLabel = true
+            labelClass = "govuk-label--m",
+            hintText = Some(Messages("calc.resident.shares.valueBeforeLegislationStart.hintText"))
         )
 
     @submitButton()

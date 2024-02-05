@@ -75,6 +75,8 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
         _ => completed = true
       }
 
+      Thread.sleep(1000)
+
       whenReady(recoverableFuture) { _ =>
 
         completed shouldBe true

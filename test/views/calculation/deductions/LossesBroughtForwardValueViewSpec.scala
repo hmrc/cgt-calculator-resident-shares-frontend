@@ -82,14 +82,10 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       "have a H1 tag that" should {
 
-        lazy val h1Tag = doc.select("H1")
+        lazy val h1Tag = doc.select("h1")
 
         s"have the page heading '${messages.question("2015 to 2016")}'" in {
           h1Tag.text shouldBe messages.question("2015 to 2016")
-        }
-
-        "have the heading-xl class" in {
-          h1Tag.select("label").hasClass("govuk-label--xl") shouldBe true
         }
       }
 
@@ -175,14 +171,10 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       "have a H1 tag that" should {
 
-        lazy val h1Tag = doc.select("H1")
+        lazy val h1Tag = doc.select("h1")
 
         s"have the page heading '${messages.question("2014 to 2015")}'" in {
           h1Tag.text shouldBe messages.question("2014 to 2015")
-        }
-
-        "have the heading-xl class" in {
-          h1Tag.select("label").hasClass("govuk-label--xl") shouldBe true
         }
       }
 

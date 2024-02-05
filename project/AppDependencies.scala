@@ -21,7 +21,7 @@ import play.core.PlayVersion
 object AppDependencies {
 
   lazy val bootstrapVersion         = "7.22.0"
-  lazy val playFrontendVersion      = "7.23.0-play-28"
+  lazy val playFrontendVersion      = "7.29.0-play-28"
   lazy val playPartialsVersion      = "8.3.0-play-28"
   lazy val jsonJodaVersion          = "2.9.4"
   lazy val taxYearVersion           = "3.3.0"

@@ -68,10 +68,11 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "have a H1 tag that" should {
       lazy val heading = doc.select("h1")
+      lazy val headingLabel = doc.select("h1 > label")
       lazy val form = doc.select("form")
 
       s"have the page heading '${messages.question}'" in {
-        heading.text shouldBe messages.question
+        headingLabel.text should include(messages.question)
       }
 
       "have the govuk-heading-xl class" in {
@@ -104,10 +105,6 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
         s"have the question ${messages.question}" in {
           label.text should include(messages.question)
-        }
-
-        "has the class visually hidden" in {
-          label.select(".govuk-visually-hidden").hasClass("govuk-visually-hidden") shouldEqual true
         }
       }
 

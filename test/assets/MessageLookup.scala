@@ -41,9 +41,9 @@ object MessageLookup {
 
     def maximumLimit(limit: String): String = s"Enter an amount that's £$limit or less"
 
-    val invalidAmount = "Enter an amount in the correct format e.g. 10000.00"
-    val invalidAmountNoDecimal = "Enter an amount in the correct format e.g. 10000"
-    val numericPlayErrorOverride = "Enter a number without commas, for example 10000.00"
+    val invalidAmount = "Enter an amount in the correct format"
+    val invalidAmountNoDecimal = "Enter an amount in the correct format"
+    val numericPlayErrorOverride = "Enter a number without commas"
     val optionReqError = "Choose one of the options"
 
     val whatToDoNextTextTwo = "You need to tell HMRC about the property"
@@ -54,7 +54,7 @@ object MessageLookup {
 
     val pageHeading = "Calculate your non-resident Capital Gains Tax"
     val errorInvalidDate = "Enter a real date"
-    val errorRealNumber = "Enter a number without commas, for example 10000.00"
+    val errorRealNumber = "Enter a number without commas"
 
     object AcquisitionCosts {
       val question = "How much did you pay in costs when you became the property owner?"

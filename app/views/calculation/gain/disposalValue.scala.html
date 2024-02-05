@@ -18,37 +18,41 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    form: FormWithCSRF,
-    errorSummary: playHelpers.errorSummary,
-    formInputMoney: playHelpers.formInputMoney,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        form: FormWithCSRF,
+        errorSummary: playHelpers.errorSummary,
+        formInputMoney: playHelpers.formInputMoney,
+        submitButton: playHelpers.submitButton
 )
 
-@(disposalValueForm : Form[DisposalValueModel])(implicit request: Request[_], messages: Messages)
+@(disposalValueForm: Form[DisposalValueModel])(implicit request: Request[_], messages: Messages)
 
-@title = @{
-    if (disposalValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.disposalValue.question")) else Messages("calc.resident.shares.disposalValue.question")
-}
-@layout(
-    pageTitle = title,
-    backLinkHref = Some(controllers.routes.GainController.sellForLess.toString)
-) {
 
-    @errorSummary(disposalValueForm.errors, Some("amount"))
+    @title = @{
+        if(disposalValueForm.errors.nonEmpty) {
+            messages("site.title.error", messages("calc.resident.shares.disposalValue.question"))
+        } else {
+            messages("calc.resident.shares.disposalValue.question")
+        }
+    }
 
-        <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.disposalValue.question")</h1>
+    @layout(
+        pageTitle = title,
+        backLinkHref = Some(controllers.routes.GainController.sellForLess.toString)
+    ) {
+
+        @errorSummary(disposalValueForm.errors, Some("amount"))
 
         @form(action = controllers.routes.GainController.submitDisposalValue) {
 
-            <p class="govuk-inset-text">@Messages("calc.resident.shares.disposalValue.jointOwnership")</p>
+            <p class="govuk-inset-text">@messages("calc.resident.shares.disposalValue.jointOwnership")</p>
 
             @formInputMoney(
                 field = disposalValueForm("amount"),
-                question = Messages("calc.resident.shares.disposalValue.question"),
-                hideLabel = true
+                question = title,
+                labelClass = "govuk-label--xl"
             )
 
             @submitButton()
         }
-}
+    }
