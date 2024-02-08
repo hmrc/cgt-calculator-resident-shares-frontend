@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,12 @@
 
 package common
 
-import java.time.{LocalDate, ZonedDateTime}
-
 import common.Dates.constructDate
-import models.resident.DisposalDateModel
-import play.api.data.validation.{Invalid, ValidationError, _}
 import common.resident.MoneyPounds
+import models.resident.DisposalDateModel
+import play.api.data.validation._
 
+import java.time.{LocalDate, ZonedDateTime}
 import scala.util.{Failure, Success, Try}
 
 object Validation {

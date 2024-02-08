@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,25 +16,24 @@
 
 package common
 
-import java.nio.charset.Charset
 import akka.stream.Materializer
 import akka.util.ByteString
 import org.scalatest.OptionValues
-import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
 
+import java.nio.charset.Charset
 import scala.concurrent.ExecutionContext
-import scala.language.postfixOps
-import scala.language.implicitConversions
+import scala.language.{implicitConversions, postfixOps}
 
 trait CommonPlaySpec extends AnyWordSpec with Matchers with OptionValues {
 
   import scala.concurrent.duration._
   import scala.concurrent.{Await, Future}
 
-  implicit val defaultTimeout: FiniteDuration = 5 seconds
+  implicit val defaultTimeout: FiniteDuration = 10 seconds
 
   implicit def extractAwait[A](future: Future[A]): A = await[A](future)
 

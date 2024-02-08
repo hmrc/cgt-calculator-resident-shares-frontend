@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,15 @@
 
 package views.calculation.gain
 
-import controllers.helpers.FakeRequestHelper
-import forms.DidYouInheritThemForm._
-import models.resident.shares.gain.DidYouInheritThemModel
-import org.jsoup.Jsoup
-import views.html.calculation.gain.didYouInheritThem
-import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
+import controllers.helpers.FakeRequestHelper
+import forms.DidYouInheritThemForm._
+import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.didYouInheritThem
 
 class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

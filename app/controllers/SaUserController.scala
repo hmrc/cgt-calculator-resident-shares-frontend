@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,18 +21,18 @@ import connectors.CalculatorConnector
 import constructors.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
 import forms.SaUserForm
-import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.data.Form
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Result}
 import services.SessionCacheService
-
-import scala.concurrent.{ExecutionContext, Future}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.whatNext.saUser
+
+import javax.inject.Inject
+import scala.concurrent.{ExecutionContext, Future}
 
 class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
                                  sessionCacheService: SessionCacheService,

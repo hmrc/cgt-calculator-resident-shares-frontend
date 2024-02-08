@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 
 package controllers
-
-import java.time.LocalDate
 
 import akka.util.Timeout
 import assets.MessageLookup
@@ -37,6 +35,7 @@ import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 
+import java.time.LocalDate
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 

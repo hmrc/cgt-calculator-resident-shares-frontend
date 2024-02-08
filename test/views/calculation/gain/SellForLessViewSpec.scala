@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import controllers.helpers.FakeRequestHelper
 import forms.SellForLessForm._
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
-import views.html.calculation.gain.sellForLess
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.sellForLess
 
 class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

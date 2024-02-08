@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.{SharesAcquisitionValue => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{Resident => commonMessages, SharesAcquisitionValue => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.AcquisitionValueForm._
 import org.jsoup.Jsoup
-import views.html.calculation.gain.acquisitionValue
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.acquisitionValue
 
 class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

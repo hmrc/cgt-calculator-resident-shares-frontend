@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,10 @@
 
 package forms
 
-import models.resident.SaUserModel
-import forms.SaUserForm._
 import assets.MessageLookup.{SaUser => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
+import forms.SaUserForm._
+import models.resident.SaUserModel
 
 class SaUserFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

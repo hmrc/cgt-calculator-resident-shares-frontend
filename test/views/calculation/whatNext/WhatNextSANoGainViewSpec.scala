@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 
 package views.calculation.whatNext
 
-import assets.MessageLookup.{WhatNextPages => commonMessages}
-import assets.MessageLookup.{NonResident => messages}
 import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
+import assets.MessageLookup.{WhatNextPages => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.OwnerBeforeLegislationStartForm._
-import models.resident.shares.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.ownerBeforeLegislationStart

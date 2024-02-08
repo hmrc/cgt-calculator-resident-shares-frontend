@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,8 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalValueForm._
 import org.jsoup.Jsoup
-import views.html.calculation.gain.disposalValue
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.disposalValue
 
 class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

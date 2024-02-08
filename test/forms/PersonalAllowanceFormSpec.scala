@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,10 +17,10 @@
 package forms
 
 import assets.MessageLookup.{Resident => messages}
+import common.resident.MoneyPounds
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import models.resident.income.PersonalAllowanceModel
-import common.resident.MoneyPounds
 import play.api.data.Form
 import play.api.i18n.{Lang, MessagesApi}
 

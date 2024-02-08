@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,8 +19,8 @@ package services
 import common.KeystoreKeys.{ResidentShareKeys => Keys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import models.resident
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident._
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.AnyContentAsEmpty
 import play.api.mvc.Results._

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@ package controllers
 
 import config.AppConfig
 import controllers.predicates.ValidActiveSession
-import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.whatNext.{whatNextNonSaGain, whatNextNonSaLoss}
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 class WhatNextNonSaController @Inject()(mcc: MessagesControllerComponents,

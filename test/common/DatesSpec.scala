@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,13 @@
 
 package common
 
-import java.time.LocalDate
-
 import common.Dates.TemplateImplicits.RichDate
 import common.Dates.formatter
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.i18n.{Lang, Messages}
+
+import java.time.LocalDate
 
 class DatesSpec extends CommonPlaySpec with MockitoSugar {
 

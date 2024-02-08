@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 HM Revenue & Customs
+ * Copyright 2024 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,20 @@
 
 package views.helpers
 
-import assets.{MessageLookup => baseMessages}
-import assets.MessageLookup.{Resident => commonMessages}
-import assets.MessageLookup.Resident.{Shares => sharesMessages}
 import assets.MessageLookup.Resident.Shares.{SharesSummaryMessages => sharesSummaryMessages}
+import assets.MessageLookup.Resident.{Shares => sharesMessages}
+import assets.MessageLookup.{Resident => commonMessages}
 import assets.ModelsAsset._
+import assets.{MessageLookup => baseMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import views.html.playHelpers.checkYourAnswersPartial
-import play.twirl.api.HtmlFormat
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents
+import play.twirl.api.HtmlFormat
+import views.html.playHelpers.checkYourAnswersPartial
 
 class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
