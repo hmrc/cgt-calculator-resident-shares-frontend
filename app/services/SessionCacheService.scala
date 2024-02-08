@@ -29,6 +29,7 @@ import play.api.mvc.Results._
 import repositories.SessionRepository
 import uk.gov.hmrc.mongo.cache.DataKey
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
+import uk.gov.hmrc.play.http.logging.Mdc.preservingMdc
 
 import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
@@ -37,11 +38,15 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implic
 
 
   def saveFormData[T](key: String, data: T)(implicit request: Request[_], formats: Format[T]): Future[(String, String)] = {
-    sessionRepository.putSession[T](DataKey(key), data)
+    preservingMdc {
+      sessionRepository.putSession[T](DataKey(key), data)
+    }
   }
 
   def fetchAndGetFormData[T](key: String)(implicit request: Request[_], formats: Format[T]): Future[Option[T]] = {
-    sessionRepository.getFromSession[T](DataKey(key))
+    preservingMdc {
+      sessionRepository.getFromSession[T](DataKey(key))
+    }
   }
 
   def clearKeystore(implicit request: Request[_]): Future[Unit] = {
