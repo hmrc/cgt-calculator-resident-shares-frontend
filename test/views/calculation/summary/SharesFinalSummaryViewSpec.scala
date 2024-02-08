@@ -22,7 +22,7 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import models.resident.{IncomeAnswersModel, _}
+import models.resident._
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
 import play.api.mvc.MessagesControllerComponents

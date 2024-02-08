@@ -16,9 +16,10 @@
 
 package config
 
-import javax.inject.Inject
 import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
+
+import javax.inject.Inject
 
 trait AppConfig {
   val assetsPrefix: String

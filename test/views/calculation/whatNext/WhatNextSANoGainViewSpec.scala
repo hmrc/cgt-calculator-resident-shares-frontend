@@ -16,9 +16,8 @@
 
 package views.calculation.whatNext
 
-import assets.MessageLookup.{WhatNextPages => commonMessages}
-import assets.MessageLookup.{NonResident => messages}
 import assets.MessageLookup.WhatNextPages.{WhatNextNoGain => pageMessages}
+import assets.MessageLookup.{WhatNextPages => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper

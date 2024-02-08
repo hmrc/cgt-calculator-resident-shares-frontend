@@ -24,8 +24,8 @@ import controllers.helpers.FakeRequestHelper
 import forms.SellForLessForm._
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
-import views.html.calculation.gain.sellForLess
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.sellForLess
 
 class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

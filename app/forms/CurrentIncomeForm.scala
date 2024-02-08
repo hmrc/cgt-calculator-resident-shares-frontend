@@ -20,14 +20,14 @@ import common.Constants
 import common.Transformers._
 import common.Validation._
 import models.resident.TaxYearModel
-
-import javax.inject.Inject
 import models.resident.income.CurrentIncomeModel
 import play.api.Logging
 import play.api.data.Forms._
 import play.api.data._
 import play.api.i18n.Messages
 import uk.gov.hmrc.time.TaxYear
+
+import javax.inject.Inject
 
 class CurrentIncomeForm @Inject()() extends Logging {
 

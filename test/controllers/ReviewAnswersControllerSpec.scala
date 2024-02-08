@@ -16,8 +16,6 @@
 
 package controllers
 
-import java.time.LocalDate
-
 import akka.util.Timeout
 import assets.MessageLookup
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -37,6 +35,7 @@ import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import views.html.calculation.checkYourAnswers.checkYourAnswers
 
+import java.time.LocalDate
 import scala.concurrent.Future
 import scala.concurrent.duration.Duration
 

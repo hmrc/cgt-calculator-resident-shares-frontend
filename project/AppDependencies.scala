@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-import sbt._
-import play.sbt.PlayImport._
 import play.core.PlayVersion
+import sbt.*
 
 object AppDependencies {
 

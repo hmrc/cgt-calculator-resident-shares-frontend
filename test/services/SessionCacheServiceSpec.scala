@@ -19,8 +19,8 @@ package services
 import common.KeystoreKeys.{ResidentShareKeys => Keys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import models.resident
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import models.resident._
+import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.AnyContentAsEmpty
 import play.api.mvc.Results._

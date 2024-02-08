@@ -16,11 +16,11 @@
 
 package controllers.utils
 
-import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.warnings.sessionTimeout
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 class TimeoutController @Inject()(mcc: MessagesControllerComponents,

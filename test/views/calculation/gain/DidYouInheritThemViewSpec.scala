@@ -16,17 +16,15 @@
 
 package views.calculation.gain
 
-import controllers.helpers.FakeRequestHelper
-import forms.DidYouInheritThemForm._
-import models.resident.shares.gain.DidYouInheritThemModel
-import org.jsoup.Jsoup
-import views.html.calculation.gain.didYouInheritThem
-import assets.MessageLookup.{Resident => commonMessages}
 import assets.MessageLookup.Resident.Shares.{DidYouInheritThem => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
+import controllers.helpers.FakeRequestHelper
+import forms.DidYouInheritThemForm._
+import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.didYouInheritThem
 
 class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

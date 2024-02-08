@@ -16,7 +16,6 @@
 
 package controllers
 
-import java.time._
 import assets.MessageLookup
 import com.codahale.metrics.SharedMetricRegistries
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -32,6 +31,7 @@ import play.api.test.Helpers._
 import services.SessionCacheService
 import views.html.calculation.whatNext.{whatNextSAFourTimesAEA, whatNextSAGain, whatNextSANoGain}
 
+import java.time._
 import scala.concurrent.Future
 
 class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {

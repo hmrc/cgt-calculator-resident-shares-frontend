@@ -16,9 +16,6 @@
 
 package connectors
 
-import java.time.LocalDate
-import java.util.UUID
-
 import assets.ModelsAsset._
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
@@ -32,6 +29,8 @@ import uk.gov.hmrc.http.{HeaderCarrier, HttpReads, SessionId}
 import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
+import java.time.LocalDate
+import java.util.UUID
 import scala.concurrent.{ExecutionContext, Future}
 
 class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar {

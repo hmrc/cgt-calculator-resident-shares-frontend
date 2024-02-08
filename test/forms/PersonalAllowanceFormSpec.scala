@@ -17,10 +17,10 @@
 package forms
 
 import assets.MessageLookup.{Resident => messages}
+import common.resident.MoneyPounds
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import models.resident.income.PersonalAllowanceModel
-import common.resident.MoneyPounds
 import play.api.data.Form
 import play.api.i18n.{Lang, MessagesApi}
 

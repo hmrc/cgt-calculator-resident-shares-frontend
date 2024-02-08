@@ -16,15 +16,14 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.{SharesAcquisitionValue => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{Resident => commonMessages, SharesAcquisitionValue => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.AcquisitionValueForm._
 import org.jsoup.Jsoup
-import views.html.calculation.gain.acquisitionValue
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.acquisitionValue
 
 class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

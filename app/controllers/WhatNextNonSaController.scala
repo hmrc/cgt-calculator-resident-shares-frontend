@@ -18,12 +18,12 @@ package controllers
 
 import config.AppConfig
 import controllers.predicates.ValidActiveSession
-import javax.inject.Inject
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.whatNext.{whatNextNonSaGain, whatNextNonSaLoss}
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 class WhatNextNonSaController @Inject()(mcc: MessagesControllerComponents,

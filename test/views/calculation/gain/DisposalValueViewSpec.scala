@@ -23,8 +23,8 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalValueForm._
 import org.jsoup.Jsoup
-import views.html.calculation.gain.disposalValue
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.gain.disposalValue
 
 class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

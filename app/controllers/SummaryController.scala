@@ -16,14 +16,11 @@
 
 package controllers
 
-import java.time.LocalDate
-
 import common.Dates
 import common.Dates._
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
-import javax.inject.Inject
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.i18n.{I18nSupport, Lang}
@@ -33,6 +30,8 @@ import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.summary.{deductionsSummary, finalSummary, gainSummary}
 
+import java.time.LocalDate
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 import scala.util.Random
 

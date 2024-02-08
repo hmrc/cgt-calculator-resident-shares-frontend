@@ -16,19 +16,19 @@
 
 package views.calculation.checkYourAnswers
 
-import controllers.helpers.FakeRequestHelper
-import org.jsoup.Jsoup
-import views.html.calculation.checkYourAnswers.checkYourAnswers
 import assets.MessageLookup.Resident.Shares.{ReviewAnswers => messages}
 import assets.MessageLookup.{Resident => commonMessages}
-import assets.{MessageLookup => allMessages}
 import assets.ModelsAsset._
+import assets.{MessageLookup => allMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
+import controllers.helpers.FakeRequestHelper
+import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import play.api.i18n.Lang
 import play.api.mvc.{Call, MessagesControllerComponents}
 import play.twirl.api.HtmlFormat
+import views.html.calculation.checkYourAnswers.checkYourAnswers
 
 class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

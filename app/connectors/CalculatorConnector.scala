@@ -16,20 +16,19 @@
 
 package connectors
 
-import java.time.LocalDate
 import config.ApplicationConfig
 import constructors.CalculateRequestConstructor
-
-import javax.inject.Inject
 import models._
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import play.api.mvc.Results._
 import uk.gov.hmrc.http.HeaderCarrier
-import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
-import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import uk.gov.hmrc.http.HttpReads.Implicits._
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
+import uk.gov.hmrc.play.bootstrap.http.DefaultHttpClient
 
+import java.time.LocalDate
+import javax.inject.Inject
 import scala.concurrent.{ExecutionContext, Future}
 
 class CalculatorConnector @Inject()(http: DefaultHttpClient,

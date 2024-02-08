@@ -30,10 +30,10 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
-
-import scala.concurrent.Future
 import uk.gov.hmrc.http.HeaderCarrier
 import views.html.calculation.summary.{deductionsSummary, finalSummary, gainSummary}
+
+import scala.concurrent.Future
 
 
 class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {

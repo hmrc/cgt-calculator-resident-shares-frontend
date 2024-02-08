@@ -18,10 +18,10 @@ package controllers
 
 import config.ApplicationConfig
 import controllers.predicates.ValidActiveSession
-import javax.inject.Inject
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 
+import javax.inject.Inject
 import scala.concurrent.Future
 
 class FeedbackSurveyController @Inject()(appConfig: ApplicationConfig,

@@ -16,8 +16,7 @@
 
 package views.calculation.income
 
-import assets.MessageLookup.{CurrentIncome => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.{CurrentIncome => messages, Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
@@ -25,8 +24,8 @@ import forms.CurrentIncomeForm
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import play.api.i18n.Lang
-import views.html.calculation.income.currentIncome
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.income.currentIncome
 
 class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

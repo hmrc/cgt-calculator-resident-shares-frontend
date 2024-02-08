@@ -19,8 +19,8 @@ package controllers.IncomeControllerSpec
 import akka.actor.ActorSystem
 import assets.MessageLookup.{PersonalAllowance => messages}
 import com.codahale.metrics.SharedMetricRegistries
-import common.{CommonPlaySpec, WithCommonFakeApplication}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.IncomeController

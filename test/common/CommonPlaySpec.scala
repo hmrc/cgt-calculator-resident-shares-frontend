@@ -16,18 +16,17 @@
 
 package common
 
-import java.nio.charset.Charset
 import akka.stream.Materializer
 import akka.util.ByteString
 import org.scalatest.OptionValues
-import org.scalatest.wordspec.AnyWordSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 import play.api.libs.json.{JsValue, Json}
 import play.api.mvc.Result
 
+import java.nio.charset.Charset
 import scala.concurrent.ExecutionContext
-import scala.language.postfixOps
-import scala.language.implicitConversions
+import scala.language.{implicitConversions, postfixOps}
 
 trait CommonPlaySpec extends AnyWordSpec with Matchers with OptionValues {
 

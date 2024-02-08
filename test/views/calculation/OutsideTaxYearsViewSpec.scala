@@ -22,8 +22,8 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import views.html.calculation.outsideTaxYear
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.outsideTaxYear
 
 class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

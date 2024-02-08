@@ -22,7 +22,6 @@ import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.OwnerBeforeLegislationStartForm._
-import models.resident.shares.OwnerBeforeLegislationStartModel
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.ownerBeforeLegislationStart

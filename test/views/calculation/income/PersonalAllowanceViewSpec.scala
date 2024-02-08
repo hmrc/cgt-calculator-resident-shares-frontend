@@ -18,8 +18,8 @@ package views.calculation.income
 
 import assets.DateAsset
 import assets.MessageLookup.{PersonalAllowance => messages, Resident => commonMessages}
-import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import common.resident.JourneyKeys
+import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.PersonalAllowanceForm
@@ -28,8 +28,8 @@ import models.resident.income.PersonalAllowanceModel
 import org.jsoup.Jsoup
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
-import views.html.calculation.income.personalAllowance
 import play.api.mvc.{Call, MessagesControllerComponents}
+import views.html.calculation.income.personalAllowance
 
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
 

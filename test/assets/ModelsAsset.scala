@@ -17,9 +17,9 @@
 package assets
 
 import common.Dates
+import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares._
-import models.resident._
 
 object ModelsAsset {
 

@@ -14,12 +14,9 @@
  * limitations under the License.
  *@
 
+@import controllers.routes.{DeductionsController => deductionRoutes, GainController => gainRoutes, IncomeController => incomeRoutes}
 @import models.resident._
 @import models.resident.shares._
-@import controllers.routes.{GainController => gainRoutes}
-@import controllers.routes.{DeductionsController => deductionRoutes}
-@import controllers.routes.{IncomeController => incomeRoutes}
-@import play.api.i18n.Lang
 
 @this(
     summaryDateRowHelper: playHelpers.resident.summaryDateRowHelper,

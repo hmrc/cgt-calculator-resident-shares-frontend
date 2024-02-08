@@ -16,12 +16,12 @@
 
 package constructors
 
-import javax.inject.Inject
+import common.resident.MoneyPounds
 import models.resident._
 import models.resident.shares.DeductionGainAnswersModel
 import play.api.i18n.{Messages, MessagesProvider}
-import common.resident.MoneyPounds
 
+import javax.inject.Inject
 import scala.math.BigDecimal.RoundingMode
 
 class SummaryConstructor @Inject()(implicit messagesProvider: MessagesProvider){

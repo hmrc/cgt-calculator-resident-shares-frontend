@@ -16,9 +16,9 @@
 
 package common
 
-import java.time.LocalDate
-
 import common.Dates.formatter
+
+import java.time.LocalDate
 
 object TaxDates {
   val legislationDate: LocalDate = LocalDate.parse("1/4/1982", formatter)

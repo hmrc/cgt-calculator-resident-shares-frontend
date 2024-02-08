@@ -16,10 +16,10 @@
 
 package forms
 
-import models.resident.SaUserModel
-import forms.SaUserForm._
 import assets.MessageLookup.{SaUser => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
+import forms.SaUserForm._
+import models.resident.SaUserModel
 
 class SaUserFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
 

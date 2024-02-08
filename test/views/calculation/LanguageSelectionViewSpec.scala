@@ -20,7 +20,7 @@ import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Lang
 import play.api.mvc.{Call, MessagesControllerComponents}
 import views.html.calculation.language_selection
 

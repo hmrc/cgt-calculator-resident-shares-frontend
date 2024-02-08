@@ -16,10 +16,10 @@
 
 package common
 
+import play.api.i18n.Messages
+
 import java.time._
 import java.time.format.{DateTimeFormatter, ResolverStyle}
-
-import play.api.i18n.Messages
 
 object Dates extends Dates
 

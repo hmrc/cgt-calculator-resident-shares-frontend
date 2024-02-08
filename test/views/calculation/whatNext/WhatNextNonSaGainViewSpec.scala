@@ -22,7 +22,6 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.mvc.MessagesControllerComponents
-
 import views.html.calculation.whatNext.whatNextNonSaGain
 
 class WhatNextNonSaGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {

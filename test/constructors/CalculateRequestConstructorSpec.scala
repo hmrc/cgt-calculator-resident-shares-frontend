@@ -16,12 +16,12 @@
 
 package constructors
 
-import java.time.LocalDate
-
 import common.{CommonPlaySpec, Dates}
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+
+import java.time.LocalDate
 
 class CalculateRequestConstructorSpec extends CommonPlaySpec {
 
