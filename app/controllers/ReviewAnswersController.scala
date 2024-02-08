@@ -52,7 +52,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
 
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
-      languageRequest { implicit lang =>
+      languageRequest { _ =>
         getGainAnswers.map { answers =>
           Ok(checkYourAnswersView(routes.SummaryController.summary, controllers.routes.GainController.acquisitionCosts.url, answers, None, None))
         }
@@ -69,7 +69,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
     }
 
     implicit request =>
-      languageRequest { implicit lang =>
+      languageRequest { _ =>
         for {
           gainAnswers <- getGainAnswers
           deductionsAnswers <- getDeductionsAnswers
@@ -81,7 +81,7 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
 
   val reviewFinalAnswers: Action[AnyContent] = ValidateSession.async {
     implicit request =>
-      languageRequest { implicit lang =>
+      languageRequest { _ =>
         val getCurrentTaxYear = Dates.getCurrentTaxYear
         val getIncomeAnswers = sessionCacheService.getShareIncomeAnswers
 

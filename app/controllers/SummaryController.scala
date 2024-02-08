@@ -23,7 +23,7 @@ import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import play.api.i18n.{I18nSupport, Lang}
+import play.api.i18n.I18nSupport
 import play.api.mvc.{MessagesControllerComponents, Result}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
@@ -92,7 +92,6 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
                      totalCosts: BigDecimal,
                      maxAea: BigDecimal,
                      showUserResearchPanel: Boolean): Future[Result] = {
-      implicit val lang: Lang = messagesApi.preferred(request).lang
       if (chargeableGain.isDefined && chargeableGain.get.chargeableGain > 0 &&
         incomeAnswers.personalAllowanceModel.isDefined && incomeAnswers.currentIncomeModel.isDefined) Future.successful(
         Ok(finalSummaryView(totalGainAnswers, deductionGainAnswers, incomeAnswers, totalGainAndTax.get,

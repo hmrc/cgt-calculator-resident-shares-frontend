@@ -49,10 +49,6 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implic
     }
   }
 
-  def clearKeystore(implicit request: Request[_]): Future[Unit] = {
-    sessionRepository.clear(request)
-  }
-
   def getShareGainAnswers(implicit request: Request[_]): Future[GainAnswersModel] = {
     val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
       .map(formData => constructDate(formData.get.day, formData.get.month, formData.get.year))
