@@ -65,7 +65,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       "have a back button that" should {
 
-        lazy val backLink = doc.select("a#back-link")
+        lazy val backLink = doc.select(".govuk-back-link")
 
         "have the correct back link text" in {
           backLink.text shouldBe commonMessages.back
@@ -76,7 +76,7 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
         }
 
         "have a link to 'back-link'" in {
-          backLink.attr("href") shouldBe "back-link"
+          backLink.attr("href") shouldBe "#"
         }
       }
 

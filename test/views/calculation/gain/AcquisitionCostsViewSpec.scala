@@ -46,7 +46,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "have a back button that" should {
 
-      lazy val backLink = doc.select("#back-link")
+      lazy val backLink = doc.select(".govuk-back-link")
 
       "have the correct back link text" in {
         backLink.text shouldBe commonMessages.back
@@ -57,7 +57,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a link with href 'back-link'" in {
-        backLink.attr("href") shouldBe "back-link"
+        backLink.attr("href") shouldBe "#"
       }
     }
 

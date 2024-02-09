@@ -31,8 +31,7 @@
     if(lossesBroughtForwardValueForm.errors.nonEmpty) messages("site.title.error", Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else Messages("calc.resident.lossesBroughtForwardValue.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 }
 @layout(
-    pageTitle = title,
-    backLinkHref = Some(navBackLink)
+    pageTitle = title
 ) {
 
     @errorSummary(lossesBroughtForwardValueForm.errors, Some("losses-brought-forward-value"))

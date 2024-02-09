@@ -47,14 +47,14 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
     "have a back link" which {
 
-      lazy val backLink = doc.select("#back-link")
+      lazy val backLink = doc.select(".govuk-back-link")
 
       s"should have the text ${commonMessages.back}" in {
         backLink.text shouldEqual commonMessages.back
       }
 
       "should link to the Did you sell it for less than it was worth page." in {
-        backLink.attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/sell-for-less"
+        backLink.attr("href") shouldBe "#"
       }
     }
 

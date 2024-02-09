@@ -32,8 +32,7 @@
 }
 
 @layout(
-    pageTitle = title,
-    backLinkHref = Some(controllers.routes.GainController.sellForLess.toString)
+    pageTitle = title
 ) {
 
     @errorSummary(worthWhenSoldForLessForm.errors, Some("amount"))

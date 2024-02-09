@@ -35,8 +35,7 @@
         else messages("calc.resident.personalAllowance.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) { question =>
 
         @layout(
-            pageTitle = if (personalAllowanceForm.errors.nonEmpty) messages("site.title.error", question) else question,
-            backLinkHref = backLink
+            pageTitle = if (personalAllowanceForm.errors.nonEmpty) messages("site.title.error", question) else question
         ) {
 
             @errorSummary(personalAllowanceForm.errors, Some("amount"))

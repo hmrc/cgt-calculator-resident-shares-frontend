@@ -65,7 +65,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
     "have a back button" which {
 
-      lazy val backLink = doc.body.getElementById("back-link")
+      lazy val backLink = doc.select(".govuk-back-link")
 
       "has the correct back link text" in {
         backLink.text shouldBe commonMessages.back
@@ -76,7 +76,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       }
 
       "has a back link to 'back'" in {
-        backLink.attr("href") shouldBe "back-link"
+        backLink.attr("href") shouldBe "#"
       }
     }
 

@@ -40,7 +40,6 @@
 
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
-    backLinkHref = Some(controllers.routes.ReviewAnswersController.reviewGainAnswers.toString),
     isUserResearchBannerVisible = showUserResearchPanel,
     scripts = Some(scripts)
 ) {

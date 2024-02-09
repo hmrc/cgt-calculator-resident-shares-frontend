@@ -63,18 +63,18 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "have a 'Change your date' link that" should {
-        lazy val backLink = doc.select("a#change-date-link")
+        lazy val backLink = doc.select(".govuk-back-link")
 
         "have the correct text" in {
-          backLink.text shouldBe messages.changeDate
+          backLink.text shouldBe commonMessages.back
         }
 
         "have the govuk-body govuk-link class" in {
-          backLink.hasClass("govuk-body govuk-link") shouldBe true
+          backLink.hasClass("govuk-back-link") shouldBe true
         }
 
         "have a link to 'back-link'" in {
-          backLink.attr("href") shouldBe "back-link"
+          backLink.attr("href") shouldBe "#"
         }
       }
 
@@ -111,7 +111,7 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "have a back link that" should {
-        lazy val backLink = doc.select("a#back-link")
+        lazy val backLink = doc.select(".govuk-back-link")
 
         "have the correct back link text" in {
           backLink.text shouldBe commonMessages.back
@@ -122,7 +122,7 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
         }
 
         "have a link to 'back-link'" in {
-          backLink.attr("href") shouldBe "back-link"
+          backLink.attr("href") shouldBe "#"
         }
       }
 

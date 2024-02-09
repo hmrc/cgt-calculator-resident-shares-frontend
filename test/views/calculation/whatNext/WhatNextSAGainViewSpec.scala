@@ -41,7 +41,7 @@ class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
     }
 
     "have a back link to 'back-link'" in {
-      doc.select("a#back-link").attr("href") shouldBe "back-link"
+      doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
     "have the correct heading" in {

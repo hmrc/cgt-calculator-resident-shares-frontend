@@ -50,7 +50,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "have a back button that" should {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.select(".govuk-back-link")
 
       "have the correct back link text" in {
         backLink.text shouldBe commonMessages.back
@@ -61,7 +61,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       "have a link to Disposal Costs" in {
-        backLink.attr("href") shouldBe controllers.routes.GainController.didYouInheritThem.url
+        backLink.attr("href") shouldBe "#"
       }
     }
 

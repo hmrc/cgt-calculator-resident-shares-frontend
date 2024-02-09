@@ -46,7 +46,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have a back link to the owner before April 1982 page" in {
-      doc.select("#back-link").attr("href") shouldEqual controllers.routes.GainController.ownerBeforeLegislationStart.toString
+      doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
     "have a heading that" should {

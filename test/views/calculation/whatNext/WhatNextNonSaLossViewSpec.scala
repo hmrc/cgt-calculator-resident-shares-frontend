@@ -45,7 +45,7 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
     "have a back button that" should {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.select(".govuk-back-link")
 
       "have the correct back link text" in {
         backLink.text shouldBe messages.back
@@ -56,7 +56,7 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a link to Confirm self assessment" in {
-        backLink.attr("href") shouldBe controllers.routes.SaUserController.saUser.url
+        backLink.attr("href") shouldBe "#"
       }
     }
 

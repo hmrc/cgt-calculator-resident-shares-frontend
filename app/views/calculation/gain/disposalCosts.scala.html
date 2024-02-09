@@ -33,8 +33,7 @@
 }
 
 @layout(
-    pageTitle = title,
-    backLinkHref = Some(controllers.routes.GainController.disposalValue.toString)
+    pageTitle = title
 ) {
 
     @errorSummary(disposalCostsForm.errors,Some("disposal-costs"))
