@@ -31,8 +31,7 @@
     if (worthWhenInheritedForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.worthWhenInherited.question")) else Messages("calc.resident.shares.worthWhenInherited.question")
 }
 @layout(
-    pageTitle = title,
-    backLinkHref = Some(controllers.routes.GainController.didYouInheritThem.url)
+    pageTitle = title
 ){
 
     @errorSummary(worthWhenInheritedForm.errors, Some("amount"))

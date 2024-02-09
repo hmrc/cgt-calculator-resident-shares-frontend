@@ -30,7 +30,7 @@
 
 @(
     pageTitle: String,
-    backLinkHref: Option[String] = None,
+    backLinkEnabled: Boolean = true,
     isUserResearchBannerVisible: Boolean = false,
     timeoutEnabled: Boolean = true,
     fullGrid: Boolean = false,
@@ -45,7 +45,6 @@
 @accountMenu = {
 
     @hmrcLanguageSelectHelper()
-    @if(backLinkHref.nonEmpty) { @backLink(backLinkHref.get) }
 }
 
 @head = {
@@ -73,10 +72,10 @@
             ),
             templateOverrides = TemplateOverrides(
                 additionalHeadBlock = Some(head),
-                beforeContentBlock = Some(accountMenu),
                 additionalScriptsBlock = Some(scriptsBlock),
                 mainContentLayout = if (fullGrid) Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-full'>$mainContent</div></div>")) else Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-two-thirds'>$mainContent</div></div>"))
             ),
+            backLink = Option.when(backLinkEnabled) { BackLink.mimicsBrowserBackButtonViaJavaScript },
             serviceName = Some(messages("service.name")),
             pageTitle = Some(s"""$pageTitle - ${messages("service.name")} - GOV.UK"""),
             isWelshTranslationAvailable = appConfig.isWelshEnabled

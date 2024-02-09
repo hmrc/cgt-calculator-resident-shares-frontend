@@ -57,7 +57,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     s"have a back link to the Sell For Less Page with text ${commonMessages.back}" in {
-      doc.select("#back-link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/sell-for-less"
+      doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
     s"have the question of the page ${messages.question}" in {

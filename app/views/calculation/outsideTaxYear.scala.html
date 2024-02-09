@@ -24,8 +24,7 @@
 @(taxYear: TaxYearModel, isAfterApril15: Boolean, isProperty: Boolean, navBackLink: String, continueUrl: String)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Messages("calc.resident.outsideTaxYears.title"),
-    backLinkHref = if(isAfterApril15){Some(navBackLink)} else { None }
+    pageTitle = Messages("calc.resident.outsideTaxYears.title")
 ) {
 
     <h1 class="govuk-heading-xl">@Messages("calc.resident.outsideTaxYears.title")</h1>

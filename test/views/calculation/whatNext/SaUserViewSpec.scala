@@ -44,7 +44,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
 
       "have a back button that" should {
 
-        lazy val backLink = doc.select("a#back-link")
+        lazy val backLink = doc.select(".govuk-back-link")
 
         "have the correct back link text" in {
           backLink.text shouldBe messages.back
@@ -55,7 +55,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
 
         "have a link to Summary" in {
-          backLink.attr("href") shouldBe controllers.routes.SummaryController.summary.url
+          backLink.attr("href") shouldBe "#"
         }
       }
 

@@ -31,8 +31,7 @@
     if (disposalValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.disposalValue.question")) else Messages("calc.resident.shares.disposalValue.question")
 }
 @layout(
-    pageTitle = title,
-    backLinkHref = Some(controllers.routes.GainController.sellForLess.toString)
+    pageTitle = title
 ) {
 
     @errorSummary(disposalValueForm.errors, Some("amount"))

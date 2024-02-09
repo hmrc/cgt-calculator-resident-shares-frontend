@@ -62,18 +62,15 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
 
     "have a back button" which {
 
-      lazy val backLink = doc.getElementsByClass("govuk-back-link")
+
+      lazy val backLink = doc.select(".govuk-back-link")
 
       "has the correct back link text" in {
         backLink.text shouldBe commonMessages.back
       }
 
-      "has the back-link id" in {
-        backLink.attr("id") shouldBe "back-link"
-      }
-
       "has a back link to 'back'" in {
-        backLink.attr("href") shouldBe "back-link"
+        backLink.attr("href") shouldBe "#"
       }
     }
 

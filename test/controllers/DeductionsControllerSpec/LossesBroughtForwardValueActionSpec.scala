@@ -90,8 +90,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward.url}'" in {
-        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldEqual
-          controllers.routes.DeductionsController.lossesBroughtForward.url
+        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 

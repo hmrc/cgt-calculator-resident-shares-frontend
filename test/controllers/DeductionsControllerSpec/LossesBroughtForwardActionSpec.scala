@@ -137,7 +137,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "have a back link to acquisition costs" in {
-        doc.select("#back-link").attr("href") shouldEqual controllers.routes.GainController.acquisitionCosts.url
+        doc.select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 

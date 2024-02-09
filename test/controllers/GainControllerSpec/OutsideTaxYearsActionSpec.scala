@@ -86,7 +86,7 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalDate.url}'" in {
-        Jsoup.parse(bodyOf(result)).getElementById("back-link").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
+        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
 
       s"have a continue link to '${controllers.routes.GainController.sellForLess.url}'" in {

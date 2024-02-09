@@ -53,7 +53,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "have a back button" which {
 
-      lazy val backLink = doc.select("a#back-link")
+      lazy val backLink = doc.select(".govuk-back-link")
 
       "has the correct back link text" in {
         backLink.text shouldBe commonMessages.back
@@ -64,7 +64,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "has a link to Previous Taxable Gains" in {
-        backLink.attr("href") shouldBe controllers.routes.IncomeController.personalAllowance.toString
+        backLink.attr("href") shouldBe "#"
       }
     }
 
@@ -167,18 +167,15 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       "have a back button" which {
 
-        lazy val backLink = doc.getElementsByClass("govuk-back-link")
+        lazy val backLink = doc.select(".govuk-back-link")
 
         "has the correct back link text" in {
           backLink.text shouldBe commonMessages.back
         }
 
-        "has the back-link id" in {
-          backLink.attr("id") shouldBe "back-link"
-        }
 
         "has a link to Annual Exempt Amount" in {
-          backLink.attr("href") shouldBe controllers.routes.DeductionsController.lossesBroughtForward.toString
+          backLink.attr("href") shouldBe "#"
         }
       }
     }

@@ -177,7 +177,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       }
 
       s"has a back link to '${routes.ReviewAnswersController.reviewDeductionsAnswers.toString}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers.toString
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
 
@@ -223,7 +223,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       }
 
       s"has a link to '${routes.ReviewAnswersController.reviewDeductionsAnswers.toString}'" in {
-        doc.getElementById("back-link").attr("href") shouldBe routes.ReviewAnswersController.reviewDeductionsAnswers.toString
+        doc.select(".govuk-back-link").attr("href") shouldBe "#"
       }
     }
   }

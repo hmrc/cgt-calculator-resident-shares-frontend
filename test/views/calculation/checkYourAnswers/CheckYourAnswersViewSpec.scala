@@ -53,18 +53,14 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   s"have a back button" which {
 
-    lazy val backLink = doc.getElementById("back-link")
-
-    "has the id 'back-link'" in {
-      backLink.attr("id") shouldBe "back-link"
-    }
+    lazy val backLink = doc.select(".govuk-back-link")
 
     s"has the text '${commonMessages.back}'" in {
       backLink.text shouldBe commonMessages.back
     }
 
     s"has a link to '$dummyBackLink'" in {
-      backLink.attr("href") shouldBe dummyBackLink
+      backLink.attr("href") shouldBe "#"
     }
   }
 

@@ -42,7 +42,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     s"have a back link to '${controllers.routes.GainController.didYouInheritThem.url}'" in {
-      doc.select("#back-link").attr("href") shouldBe controllers.routes.GainController.didYouInheritThem.url
+      doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
     s"have a nav title of 'navTitle'" in {
