@@ -20,15 +20,14 @@ import sbt.*
 object AppDependencies {
 
   lazy val bootstrapVersion         = "7.22.0"
-  lazy val playFrontendVersion      = "7.29.0-play-28"
-  lazy val playPartialsVersion      = "8.3.0-play-28"
+  lazy val playVersion              = "play-28"
   lazy val jsonJodaVersion          = "2.9.4"
   lazy val taxYearVersion           = "3.3.0"
   lazy val hmrcMongoVersion         = "1.3.0"
 
   val compile = Seq(
-    "uk.gov.hmrc"       %% "bootstrap-frontend-play-28" % bootstrapVersion,
-    "uk.gov.hmrc"       %% "play-frontend-hmrc"         % playFrontendVersion,
+    "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion" % bootstrapVersion,
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"         % "8.5.0",
     "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"         % hmrcMongoVersion,
     "uk.gov.hmrc"       %% "tax-year"                   % taxYearVersion
   )
@@ -41,13 +40,13 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq[ModuleID](
-        "uk.gov.hmrc" %% "bootstrap-test-play-28" % bootstrapVersion,
+        "uk.gov.hmrc" %% s"bootstrap-test-$playVersion" % bootstrapVersion,
         "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0",
         "org.scalatestplus" %%  "scalatestplus-mockito" % "1.0.0-M2",
         "org.mockito" % "mockito-core" % "3.12.4",
         "org.jsoup" % "jsoup" % "1.15.4",
         "com.typesafe.play" %% "play-test" % PlayVersion.current,
-        "uk.gov.hmrc.mongo" %%  "hmrc-mongo-test-play-28" % hmrcMongoVersion
+        "uk.gov.hmrc.mongo" %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion
       ).map(_ % scope)
     }.test
   }
