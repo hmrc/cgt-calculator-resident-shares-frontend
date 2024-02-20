@@ -21,8 +21,8 @@ import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import connectors.CalculatorConnector
+import controllers.GainController
 import controllers.helpers.FakeRequestHelper
-import controllers.{GainController, routes}
 import models.resident.{DisposalDateModel, SellForLessModel, TaxYearModel}
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
