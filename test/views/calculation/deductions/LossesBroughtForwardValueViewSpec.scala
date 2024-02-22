@@ -25,8 +25,8 @@ import models.resident.{LossesBroughtForwardValueModel, TaxYearModel}
 import org.jsoup.Jsoup
 import play.api.data.Form
 import play.api.i18n.Lang
-import views.html.calculation.deductions.lossesBroughtForwardValue
 import play.api.mvc.MessagesControllerComponents
+import views.html.calculation.deductions.lossesBroughtForwardValue
 
 class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)

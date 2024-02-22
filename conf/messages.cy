@@ -176,13 +176,13 @@ calc.resident.summary.totalLoss = Colledion
 calc.resident.summary.warning = Rhybudd
 
 calc.resident.whatNextNonSa.gain.detailsOne = Defnyddiwch ein ffurflen ar-lein i roi gwybod am eich Treth Enillion Cyfalaf a''i thalu.
-calc.resident.whatNextNonSa.gain.detailsTwo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
+calc.resident.whatNextNonSa.gain.detailsTwo = Er mwyn rhoi gwybod nawr, bydd angen manylion mewngofnodi CThEF arnoch. Os nad oes gennych y rhain eisoes, gallwch eu cael cyn i chi fewngofnodi.
 calc.resident.whatNextNonSa.gain.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.gain.reportNow = Rhowch wybod nawr
 calc.resident.whatNextNonSa.gain.title = Yr hyn sy''n digwydd nesaf
 
 calc.resident.whatNextNonSa.loss.detailsOne = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn unrhyw Dreth Enillion Cyfalaf yn y dyfodol, gallwch roi gwybod amdani gan ddefnyddio ein ffurflen ar-lein.
-calc.resident.whatNextNonSa.loss.detailsTwo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
+calc.resident.whatNextNonSa.loss.detailsTwo = Er mwyn rhoi gwybod nawr, bydd angen manylion mewngofnodi CThEF arnoch. Os nad oes gennych y rhain eisoes, gallwch eu cael cyn i chi fewngofnodi.
 calc.resident.whatNextNonSa.loss.govUk = Yn ôl i GOV.UK
 calc.resident.whatNextNonSa.loss.reportNow = Rhowch wybod nawr
 calc.resident.whatNextNonSa.loss.title = Yr hyn sy''n digwydd nesaf
@@ -230,7 +230,7 @@ calc.whatToDoNext.gain.bulletPointOne = rhoi gwybod, a thalu, ar eich Ffurflen D
 calc.whatToDoNext.gain.bulletPointTwo = rhoi gwybod, a thalu, nawr gan ddefnyddio ein ffurflen ar-lein
 calc.whatToDoNext.gain.bulletTitle = Gallwch wneud un o''r canlynol:
 calc.whatToDoNext.gain.reportImportant = Os byddwch yn rhoi gwybod ac yn talu nawr, bydd dal angen i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
-calc.whatToDoNext.gain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
+calc.whatToDoNext.gain.reportNowInfo = Er mwyn rhoi gwybod nawr, bydd angen manylion mewngofnodi CThEF arnoch. Os nad oes gennych y rhain eisoes, gallwch eu cael cyn i chi fewngofnodi.
 calc.whatToDoNext.exitSurveyMessage = Os nad ydych am roi gwybod am enillion cyfalaf ar hyn o bryd, gallwch adael y dudalen nawr neu
 calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifiannell Treth Enillion Cyfalaf (mae''n cymryd 2 funud).
 
@@ -239,7 +239,7 @@ calc.whatToDoNext.noGain.bulletPointOne = rhoi gwybod am hyn ar eich Ffurflen Dr
 calc.whatToDoNext.noGain.bulletPointTwo = rhoi gwybod am hyn nawr gan ddefnyddio ein ffurflen ar-lein
 calc.whatToDoNext.noGain.bulletTitle = Os ydych wedi gwneud colled yr hoffech ei defnyddio yn erbyn unrhyw Dreth Enillion Cyfalaf yn y dyfodol, gallwch wneud un o''r canlynol:
 calc.whatToDoNext.noGain.reportImportant = Os byddwch yn rhoi gwybod am hyn nawr, bydd dal angen i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
-calc.whatToDoNext.noGain.reportNowInfo = Bydd angen cyfrif Porth y Llywodraeth arnoch er mwyn rhoi gwybod nawr. Os nad oes gennych gyfrif eisoes, gallwch gael un cyn i chi fewngofnodi.
+calc.whatToDoNext.noGain.reportNowInfo = Er mwyn rhoi gwybod nawr, bydd angen manylion mewngofnodi CThEF arnoch. Os nad oes gennych y rhain eisoes, gallwch eu cael cyn i chi fewngofnodi.
 
 calc.whatToDoNext.reportNow = Rhowch wybod nawr
 calc.whatToDoNext.title = Yr hyn sy''n digwydd nesaf

@@ -818,7 +818,7 @@ object MessageLookup {
       val bulletPointTwo = "report and pay now using our online form"
       val importantInformation = s"If you report and pay now, you will still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
-        "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
+        "To report now, you'll need HMRC sign in details. If you do not already have these, you can create them before you sign in."
       val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
       val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
       val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
@@ -830,7 +830,7 @@ object MessageLookup {
       val bulletPointTwo = "report it now using our online form"
       val importantInformation = s"If you report it now, you will still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
-        "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
+        "To report now, you'll need HMRC sign in details. If you do not already have these, you can create them before you sign in."
       val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
       val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
       val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
@@ -843,7 +843,7 @@ object MessageLookup {
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
-    val detailsTwo = "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
+    val detailsTwo = "To report now, you'll need HMRC sign in details. If you do not already have these, you can create them before you sign in."
     val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
     val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
     val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
@@ -855,7 +855,7 @@ object MessageLookup {
     val reportNow = "Report now"
     val govUk = "Return to GOV.UK"
     val detailsOne = "If you have made a loss that you would like to use against any future Capital Gains Tax, you can report it using our online form."
-    val detailsTwo = "To report now you will need a Government Gateway account. If you do not already have an account, you can get one before you sign in."
+    val detailsTwo = "To report now, you'll need HMRC sign in details. If you do not already have these, you can create them before you sign in."
   }
 
   object SaUser extends Common {
