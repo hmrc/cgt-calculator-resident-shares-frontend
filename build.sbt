@@ -2,26 +2,14 @@ import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, integrationTestSetting
 
 lazy val appName = "cgt-calculator-resident-shares-frontend"
 
-lazy val appDependencies : Seq[ModuleID] = ???
 lazy val plugins : Seq[Plugins] = Seq(play.sbt.PlayScala)
 lazy val playSettings : Seq[Setting[_]] = Seq.empty
 val silencerVersion = "1.7.12"
 
-lazy val scoverageSettings = {
-  import scoverage.ScoverageKeys
-  Seq(
-    // Semicolon-separated list of regexs matching classes to exclude
-    ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;.*AuthService.*;models\\.data\\..*;views.html.helpers.*;uk.gov.hmrc.BuildInfo;app.*;nr.*;res.*;prod.*;config.*;controllers.SessionCacheController;testOnlyDoNotUseInAppConf.*",
-    ScoverageKeys.coverageMinimumStmtTotal := 90,
-    ScoverageKeys.coverageFailOnMinimum := false,
-    ScoverageKeys.coverageHighlighting := true
-  )
-}
-
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(Seq(play.sbt.PlayScala, SbtDistributablesPlugin) ++ plugins : _*)
   .disablePlugins(JUnitXmlReportPlugin)
-  .settings(scoverageSettings : _*)
+  .settings(CodeCoverageSettings.settings: _*)
   .settings(majorVersion := 1)
   .settings(playSettings : _*)
   .settings(PlayKeys.playDefaultPort := 9704)
