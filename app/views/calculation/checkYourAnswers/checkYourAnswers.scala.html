@@ -26,8 +26,7 @@
 @(postAction: Call, backUrl: String, gainAnswers: GainAnswersModel, deductionsAnswers: Option[DeductionGainAnswersModel] = None, taxYear: Option[TaxYearModel] = None, incomeAnswers: Option[IncomeAnswersModel] = None, isCurrentTaxYear: Boolean = false)(implicit request: Request[_], messages: Messages)
 
 @layout(
-    pageTitle = Messages("calc.checkYourAnswers.title"),
-    fullGrid = true
+    pageTitle = Messages("calc.checkYourAnswers.title")
 ) {
 
     <h1 class="govuk-heading-xl">@Messages("calc.checkYourAnswers.title")</h1>
