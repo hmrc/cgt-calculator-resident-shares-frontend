@@ -16,7 +16,7 @@
 
 package controllers.IncomeControllerSpec
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}

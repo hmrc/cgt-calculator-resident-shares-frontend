@@ -16,7 +16,7 @@
 
 package controllers.GainControllerSpec
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}

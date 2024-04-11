@@ -16,7 +16,7 @@
 
 package controllers.IncomeControllerSpec
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{PersonalAllowance => messages}
 import com.codahale.metrics.SharedMetricRegistries
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}

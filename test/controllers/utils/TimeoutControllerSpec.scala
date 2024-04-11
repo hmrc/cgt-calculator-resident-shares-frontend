@@ -16,7 +16,7 @@
 
 package controllers.utils
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper

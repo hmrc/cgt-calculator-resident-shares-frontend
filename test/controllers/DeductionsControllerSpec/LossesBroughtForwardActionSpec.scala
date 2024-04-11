@@ -17,7 +17,7 @@
 package controllers.DeductionsControllerSpec
 
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
