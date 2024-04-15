@@ -68,26 +68,29 @@ calc.resident.personalAllowance.list.one = ennill mwy na £100,000
 calc.resident.personalAllowance.list.title = Yn y flwyddyn dreth {0}, £{1} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
 calc.resident.personalAllowance.list.two = hawlio Lwfans Person Dall
 calc.resident.personalAllowance.list.three = hawlio Lwfans Priodasol
-calc.resident.personalAllowance.question = Yn y flwyddyn dreth {0}, faint oedd eich Lwfans Personol?
+calc.resident.personalAllowance.title = Lwfans Personol
 calc.resident.personalAllowance.error.mandatoryAmount = Nodwch beth oedd eich Lwfans Personol ar gyfer blwyddyn dreth {0}
 calc.resident.personalAllowance.error.invalidAmount = Mae''n rhaid i beth oedd eich Lwfans Personol ar gyfer blwyddyn dreth {0} fod yn y fformat cywir
 calc.resident.personalAllowance.error.minimumAmount = Mae''n rhaid i beth oedd eich Lwfans Personol ar gyfer blwyddyn dreth {0} fod yn 0 neu fwy
+calc.resident.personalAllowance.question = Yn y flwyddyn dreth {0}, faint oedd eich Lwfans Personol?
 
 calc.resident.saUser.errorSelect = Dewiswch a ydych chi''n rhan o''r drefn Hunanasesiad ar hyn o bryd
 calc.resident.saUser.title = Ydych chi''n rhan o''r drefn Hunanasesiad ar hyn o bryd?
 
 calc.resident.shares.acquisitionCosts.help = Mae hyn yn cynnwys costau ar gyfer ffioedd broceriaid stoc a Thollau Stamp.
 calc.resident.shares.acquisitionCosts.hintText = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi''ch cyfran chi o''r costau, fel y cytunwyd gyda''ch cydberchennog.
-calc.resident.shares.acquisitionCosts.question = Faint y gwnaethoch ei dalu o ran costau pan gawsoch y cyfranddaliadau?
+calc.resident.shares.acquisitionCosts.title = Y costau pan wnaethoch gael y cyfranddaliadau
 calc.resident.shares.acquisitionCosts.error.mandatoryAmount = Nodwch faint y gwnaethoch ei dalu o ran costau pan gawsoch y cyfranddaliadau
 calc.resident.shares.acquisitionCosts.error.invalidAmount = Mae''n rhaid i faint y gwnaethoch ei dalu o ran costau pan gawsoch y cyfranddaliadau fod yn y fformat cywir
 calc.resident.shares.acquisitionCosts.error.minimumAmount = Mae''n rhaid i faint y gwnaethoch ei dalu o ran costau pan gawsoch y cyfranddaliadau fod yn 0 neu fwy
+calc.resident.shares.acquisitionCosts.question = Faint y gwnaethoch ei dalu o ran costau pan gawsoch y cyfranddaliadau?
 
 calc.resident.shares.acquisitionValue.hintText = Os oeddech yn berchen arnynt gyda rhywun arall, dylech ond nodi''ch cyfran chi o''r pryniant.
-calc.resident.shares.acquisitionValue.question = Faint y gwnaethoch ei dalu am y cyfranddaliadau?
+calc.resident.shares.acquisitionValue.title = Yr hyn y a dalwyd gennych am y cyfranddaliadau
 calc.resident.shares.acquisitionValue.error.mandatoryAmount = Nodwch faint y gwnaethoch ei dalu am y cyfranddaliadau
 calc.resident.shares.acquisitionValue.error.invalidAmount = Mae''n rhaid i faint y gwnaethoch ei dalu am y cyfranddaliadau fod yn y fformat cywir
 calc.resident.shares.acquisitionValue.error.minimumAmount = Mae''n rhaid i faint y gwnaethoch ei dalu am y cyfranddaliadau fod yn 0 neu fwy
+calc.resident.shares.acquisitionValue.question = Faint y gwnaethoch ei dalu am y cyfranddaliadau?
 
 calc.resident.shares.currentIncome.helpText = Dylech gynnwys eich cyflog cyn treth, ac unrhyw beth arall rydych yn talu treth incwm arno, ond nid yr arian a wnaethoch wrth werthu''r cyfranddaliadau.
 calc.resident.currentIncome.question.error.mandatoryAmount = Nodwch eich incwm ar gyfer blwyddyn dreth {0}
@@ -99,10 +102,11 @@ calc.resident.shares.didYouInheritThem.question = A wnaethoch etifeddu''r cyfran
 
 calc.resident.shares.disposalCosts.helpText = Mae hyn yn cynnwys costau ar gyfer ffioedd broceriaid stoc.
 calc.resident.shares.disposalCosts.jointOwnership = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi''ch cyfran chi o''r costau, fel y cytunwyd gyda''ch cydberchennog.
-calc.resident.shares.disposalCosts.question = Faint y gwnaethoch ei dalu o ran costau wrth werthu''r cyfranddaliadau?
+calc.resident.shares.disposalCosts.title = Y costau pan wnaethoch werthu’r cyfranddaliadau
 calc.resident.shares.disposalCosts.error.mandatoryAmount = Nodwch faint y gwnaethoch ei dalu o ran costau pan wnaethoch werthu''r cyfranddaliadau
 calc.resident.shares.disposalCosts.error.invalidAmount = Mae''n rhaid i faint y gwnaethoch ei dalu o ran costau pan wnaethoch werthu''r cyfranddaliadau fod yn y fformat cywir
 calc.resident.shares.disposalCosts.error.minimumAmount = Mae''n rhaid i faint y gwnaethoch ei dalu o ran costau pan wnaethoch werthu''r cyfranddaliadau fod yn 0 neu fwy
+calc.resident.shares.disposalCosts.question = Faint y gwnaethoch ei dalu o ran costau wrth werthu''r cyfranddaliadau?
 
 calc.resident.shares.disposalDate.question = Pryd y gwnaethoch werthu''r cyfranddaliadau, neu eu rhoi i ffwrdd?
 disposalDate.error.required                = Nodwch y diwrnod, y mis, a’r flwyddyn y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd
@@ -126,10 +130,11 @@ disposalDate.error.notReal.year            = Nodwch flwyddyn go iawn ar gyfer y 
 disposalDate.error.range.min               = Mae’n rhaid i’r dyddiad y gwnaethoch werthu’r cyfranddaliadau, neu eu rhoi i ffwrdd, fod ar ôl {0}
 
 calc.resident.shares.disposalValue.jointOwnership = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi''ch cyfran chi o''r pris gwerthu.
-calc.resident.shares.disposalValue.question = Am faint y gwnaethoch werthu''r cyfranddaliadau?
+calc.resident.shares.disposalValue.title = Gwerth y cyfranddaliadau pan gawsant eu gwerthu
 calc.resident.shares.disposalValue.error.mandatoryAmount = Nodwch faint y gwnaethoch werthu''r cyfranddaliadau amdano
 calc.resident.shares.disposalValue.error.invalidAmount = Mae''n rhaid i faint y gwnaethoch werthu''r cyfranddaliadau amdano fod yn y fformat cywir
 calc.resident.shares.disposalValue.error.minimumAmount = Mae''n rhaid i faint y gwnaethoch werthu''r cyfranddaliadau amdano fod yn 0 neu fwy
+calc.resident.shares.disposalValue.question = Am faint y gwnaethoch werthu''r cyfranddaliadau?
 
 calc.resident.shares.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu cyfranddaliadau ers 5 Ebrill 2015.
 
@@ -142,25 +147,28 @@ calc.resident.shares.sellForLess.question = A wnaethoch werthu''r cyfranddaliada
 
 calc.resident.shares.valueBeforeLegislationStart.help = Cewch wybodaeth am y prisiad o''r gyfnewidfa stoc neu siaradwch â''ch brocer stoc neu reolwr eich cronfa.
 calc.resident.shares.valueBeforeLegislationStart.hintText = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi gwerth eich cyfran chi o''r cyfranddaliadau.
-calc.resident.shares.valueBeforeLegislationStart.information = Os cawsoch eich cyfranddaliadau cyn 31 Mawrth 1982, defnyddiwch y gwerth marchnadol ar 31 Mawrth 1982 i gyfrifo''ch Treth Enillion Cyfalaf. Ar ôl y dyddiad hwn, defnyddiwch y gost wreiddiol.
-calc.resident.shares.valueBeforeLegislationStart.question = Beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982?
+calc.resident.shares.valueBeforeLegislationStart.information = Os cawsoch eich cyfranddaliadau cyn 31 Mawrth 1982, defnyddiwch y gwerth marchnadol ar 31 Mawrth 1982 i gyfrifo''ch Treth Enillion Cyfalaf.
+calc.resident.shares.valueBeforeLegislationStart.title = Roeddech yn berchen ar y cyfranddaliadau cyn 1 Ebrill 1982
 calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount = Nodwch beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982
 calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount = Mae''n rhaid i beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982 fod yn y fformat cywir
 calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount = Mae''n rhaid i beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982 fod yn 0 neu fwy
+calc.resident.shares.valueBeforeLegislationStart.question = Beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982?
 
 calc.resident.shares.worthWhenInherited.help = Defnyddiwch wybodaeth o''r gyfnewidfa stoc neu siaradwch â''ch brocer stoc neu reolwr eich cronfa.
 calc.resident.shares.worthWhenInherited.hintText = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi''r gwerth marchnadol ar gyfer eich cyfran chi o''r cyfranddaliadau.
-calc.resident.shares.worthWhenInherited.question = Beth oedd gwerth y cyfranddaliadau pan wnaethoch eu hetifeddu?
+calc.resident.shares.worthWhenInherited.title = Gwerth y cyfranddaliadau pan gawsant eu hetifeddu
 calc.resident.shares.worthWhenInherited.error.mandatoryAmount = Nodwch beth oedd gwerth y cyfranddaliadau pan wnaethoch eu hetifeddu
 calc.resident.shares.worthWhenInherited.error.invalidAmount = Mae''n rhaid i beth oedd gwerth y cyfranddaliadau pan wnaethoch eu hetifeddu fod yn y fformat cywir
 calc.resident.shares.worthWhenInherited.error.minimumAmount = Mae''n rhaid i beth oedd gwerth y cyfranddaliadau pan wnaethoch eu hetifeddu fod yn 0 neu fwy
+calc.resident.shares.worthWhenInherited.question = Beth oedd gwerth y cyfranddaliadau pan wnaethoch eu hetifeddu?
 
 calc.resident.shares.worthWhenSoldForLess.informationText = Cewch wybodaeth o''r gyfnewidfa stoc neu siaradwch â''ch brocer stoc neu reolwr eich cronfa.
 calc.resident.shares.worthWhenSoldForLess.jointOwnershipText = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi gwerth eich cyfran chi o''r cyfranddaliadau.
-calc.resident.shares.worthWhenSoldForLess.question = Beth oedd gwerth y cyfranddaliadau pan wnaethoch eu gwerthu?
+calc.resident.shares.worthWhenSoldForLess.title = Y gwerth marchnadol pan gawsant eu gwerthu
 calc.resident.shares.worthWhenSoldForLess.error.mandatoryAmount = Nodwch beth oedd gwerth y cyfranddaliadau pan wnaethoch eu gwerthu
 calc.resident.shares.worthWhenSoldForLess.error.invalidAmount = Mae''n rhaid i beth oedd gwerth y cyfranddaliadau pan wnaethoch eu gwerthu fod yn y fformat cywir
 calc.resident.shares.worthWhenSoldForLess.error.minimumAmount = Mae''n rhaid i beth oedd gwerth y cyfranddaliadau pan wnaethoch eu gwerthu fod yn 0 neu fwy
+calc.resident.shares.worthWhenSoldForLess.question = Beth oedd gwerth y cyfranddaliadau pan wnaethoch eu gwerthu?
 
 calc.resident.summary.annualExemptAmountHelp = Gallwch ddefnyddio hyn i ostwng eich treth os ydych yn gwerthu rhywbeth arall a gwmpesir gan Dreth Enillion Cyfalaf yn yr un flwyddyn dreth.
 

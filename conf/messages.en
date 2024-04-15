@@ -96,7 +96,7 @@ calc.resident.currentIncome.questionCurrentYear.error.invalidAmount = How much y
 calc.resident.currentIncome.questionCurrentYear.error.minimumAmount = How much you expect your income to be in this year must be £0 or more
 
 ## Personal Allowance messages
-calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
+calc.resident.personalAllowance.title = Personal Allowance
 calc.resident.personalAllowance.list.title = In the tax year {0} the UK Personal Allowance was £{1} unless you:
 calc.resident.personalAllowance.help = This is the amount of your income that you do not pay tax on.
 calc.resident.personalAllowance.list.one = earned more than £100,000
@@ -108,6 +108,7 @@ calc.resident.personalAllowance.currentYearQuestion = How much is your Personal 
 calc.resident.personalAllowance.error.mandatoryAmount = Enter what your Personal Allowance was for the {0} tax year
 calc.resident.personalAllowance.error.invalidAmount = Your Personal Allowance for the {0} tax year must be in the correct format
 calc.resident.personalAllowance.error.minimumAmount = Your Personal Allowance for the {0} tax year must be 0 or more
+calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
 
 #####################################################################################x##########
 ## Resident Shares messages ##
@@ -136,40 +137,44 @@ disposalDate.error.notReal.year            = Enter a real year for when you sold
 disposalDate.error.range.min               = The date you sold or gave away the shares must be after {0}
 
 ## Disposal Value messages
-calc.resident.shares.disposalValue.question = How much did you sell the shares for?
+calc.resident.shares.disposalValue.title = Shares value when sold
 calc.resident.shares.disposalValue.jointOwnership = If you owned the shares with someone else, only enter your portion of the sale value.
 calc.resident.shares.disposalValue.error.mandatoryAmount = Enter how much you sold the shares for
 calc.resident.shares.disposalValue.error.invalidAmount = How much you sold the shares for must be in the correct format
 calc.resident.shares.disposalValue.error.minimumAmount = How much you sold the shares for must be 0 or more
+calc.resident.shares.disposalValue.question = How much did you sell the shares for?
 
 ## Sell for Less messages
 calc.resident.shares.sellForLess.question = Did you sell the shares for less than they were worth to help the buyer?
 calc.resident.shares.sellForLess.noSelectError = Tell us if you sold the shares for less than they were worth to help the buyer.
 
 ## Worth When Sold For Less messages
-calc.resident.shares.worthWhenSoldForLess.question = What were the shares worth when you sold them?
+calc.resident.shares.worthWhenSoldForLess.title = Market value when sold
 calc.resident.shares.worthWhenSoldForLess.informationText = Get information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.worthWhenSoldForLess.jointOwnershipText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 calc.resident.shares.worthWhenSoldForLess.error.mandatoryAmount = Enter how much the shares were worth when you sold them
 calc.resident.shares.worthWhenSoldForLess.error.invalidAmount = How much the shares were worth when you sold them must be in the correct format
 calc.resident.shares.worthWhenSoldForLess.error.minimumAmount = How much the shares were worth when you sold them must be 0 or more
+calc.resident.shares.worthWhenSoldForLess.question = What were the shares worth when you sold them?
 
 ## Disposal Costs messages
-calc.resident.shares.disposalCosts.question = How much did you pay in costs when you sold the shares?
+calc.resident.shares.disposalCosts.title = Costs when you sold the shares
 calc.resident.shares.disposalCosts.helpText = This includes costs for stockbroker fees.
 calc.resident.shares.disposalCosts.jointOwnership = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
 calc.resident.shares.disposalCosts.error.mandatoryAmount = Enter how much you paid in costs when you sold the shares
 calc.resident.shares.disposalCosts.error.invalidAmount = How much you paid in costs when you sold the shares must be in the correct format
 calc.resident.shares.disposalCosts.error.minimumAmount = How much you paid in costs when you sold the shares must be 0 or more
+calc.resident.shares.disposalCosts.question = How much did you pay in costs when you sold the shares?
 
 ## Worth On messages
-calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?
-calc.resident.shares.valueBeforeLegislationStart.information = If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost.
+calc.resident.shares.valueBeforeLegislationStart.title = You owned the shares before 1 April 1982
+calc.resident.shares.valueBeforeLegislationStart.information = If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax.
 calc.resident.shares.valueBeforeLegislationStart.help = Get valuation information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.valueBeforeLegislationStart.hintText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount = Enter what the shares were worth on 31 March 1982
 calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount = What the shares were worth on 31 March 1982 must be in the correct format
 calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount = What the shares were worth on 31 March 1982 must be 0 or more
+calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?
 
 ## Owner Before Legislation Start Messages
 calc.resident.shares.ownerBeforeLegislationStart.title = Did you own the shares before 1 April 1982?
@@ -177,31 +182,34 @@ calc.resident.shares.ownerBeforeLegislationStart.help = If you had your shares b
 calc.resident.shares.ownerBeforeLegislationStart.noSelectError = Tell us if you owned the shares before 1 April 1982
 
 ## Worth When Inherited
-calc.resident.shares.worthWhenInherited.question = What were the shares worth when you inherited them?
+calc.resident.shares.worthWhenInherited.title = Shares value when inherited
 calc.resident.shares.worthWhenInherited.help = Use information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.worthWhenInherited.hintText = If you owned the shares with someone else, only enter the market value for your portion of the shares.
 calc.resident.shares.worthWhenInherited.error.mandatoryAmount = Enter what the shares were worth when you inherited them
 calc.resident.shares.worthWhenInherited.error.invalidAmount = How much the shares were worth when you inherited them must be in the correct format
 calc.resident.shares.worthWhenInherited.error.minimumAmount = What the shares were worth when you inherited them must be 0 or more
+calc.resident.shares.worthWhenInherited.question = What were the shares worth when you inherited them?
 
 ## Inherited Shares Messages
 calc.resident.shares.didYouInheritThem.errorSelect = Tell us if you inherited the shares
 calc.resident.shares.didYouInheritThem.question = Did you inherit the shares?
 
 ## Acquisition Value messages
-calc.resident.shares.acquisitionValue.question = How much did you pay for the shares?
+calc.resident.shares.acquisitionValue.title = What you paid for the shares
 calc.resident.shares.acquisitionValue.hintText = If you owned them with someone else, only enter your share of the purchase.
 calc.resident.shares.acquisitionValue.error.mandatoryAmount = Enter how much you paid for the shares
 calc.resident.shares.acquisitionValue.error.invalidAmount = How much you paid for the shares must be in the correct format
 calc.resident.shares.acquisitionValue.error.minimumAmount = How much you paid for the shares must be 0 or more
+calc.resident.shares.acquisitionValue.question = How much did you pay for the shares?
 
 ## Acquisition Costs messages
-calc.resident.shares.acquisitionCosts.question = How much did you pay in costs when you got the shares?
+calc.resident.shares.acquisitionCosts.title = Costs when you got the shares
 calc.resident.shares.acquisitionCosts.help = This includes costs for stockbroker fees and Stamp Duty.
 calc.resident.shares.acquisitionCosts.hintText = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
 calc.resident.shares.acquisitionCosts.error.mandatoryAmount = Enter how much you paid in costs when you got the shares
 calc.resident.shares.acquisitionCosts.error.invalidAmount = How much you paid in costs when you got the shares must be in the correct format
 calc.resident.shares.acquisitionCosts.error.minimumAmount = How much you paid in costs when you got the shares must be 0 or more
+calc.resident.shares.acquisitionCosts.question = How much did you pay in costs when you got the shares?
 
 ## Final Summary messages
 calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year
