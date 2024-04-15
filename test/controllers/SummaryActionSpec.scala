@@ -16,7 +16,7 @@
 
 package controllers
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{SummaryPage => messages}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import connectors.CalculatorConnector

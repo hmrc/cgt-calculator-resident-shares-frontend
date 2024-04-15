@@ -16,7 +16,7 @@
 
 package controllers.GainControllerSpec
 
-import akka.actor.ActorSystem
+import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{OutsideTaxYears => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import connectors.CalculatorConnector

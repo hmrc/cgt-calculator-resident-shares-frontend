@@ -16,7 +16,7 @@
 
 package common
 
-import akka.stream.Materializer
+import org.apache.pekko.stream.Materializer
 import org.scalatest.{BeforeAndAfterAll, Suite}
 import org.scalatestplus.mockito.MockitoSugar.mock
 import play.api.inject.guice.{GuiceApplicationBuilder, GuiceableModule}

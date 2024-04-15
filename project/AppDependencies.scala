@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-import play.core.PlayVersion
 import sbt.*
 
 object AppDependencies {
 
-  lazy val bootstrapVersion         = "7.22.0"
-  lazy val playVersion              = "play-28"
-  lazy val jsonJodaVersion          = "2.9.4"
-  lazy val taxYearVersion           = "3.3.0"
-  lazy val hmrcMongoVersion         = "1.3.0"
+  lazy val bootstrapVersion         = "8.5.0"
+  lazy val playVersion              = "play-30"
+  lazy val taxYearVersion           = "4.0.0"
+  lazy val hmrcMongoVersion         = "1.7.0"
 
   val compile = Seq(
     "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion" % bootstrapVersion,
-    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion"         % "8.5.0",
-    "uk.gov.hmrc.mongo" %% "hmrc-mongo-play-28"         % hmrcMongoVersion,
-    "uk.gov.hmrc"       %% "tax-year"                   % taxYearVersion
+    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion" % "8.5.0",
+    "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"         % hmrcMongoVersion,
+    "uk.gov.hmrc"       %% "tax-year"                         % taxYearVersion
   )
 
   trait TestDependencies {
@@ -40,13 +38,13 @@ object AppDependencies {
   object Test {
     def apply(): Seq[ModuleID] = new TestDependencies {
       override lazy val test = Seq[ModuleID](
-        "uk.gov.hmrc" %% s"bootstrap-test-$playVersion" % bootstrapVersion,
-        "org.scalatestplus.play" %% "scalatestplus-play" % "5.1.0",
-        "org.scalatestplus" %%  "scalatestplus-mockito" % "1.0.0-M2",
-        "org.mockito" % "mockito-core" % "3.12.4",
-        "org.jsoup" % "jsoup" % "1.15.4",
-        "com.typesafe.play" %% "play-test" % PlayVersion.current,
-        "uk.gov.hmrc.mongo" %%  s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion
+        "uk.gov.hmrc"            %% s"bootstrap-test-$playVersion"  % bootstrapVersion,
+        "org.scalatestplus.play" %% "scalatestplus-play"            % "7.0.1",
+        "org.scalatestplus"      %% "scalatestplus-mockito"         % "1.0.0-M2",
+        "org.mockito"            %  "mockito-core"                  % "5.11.0",
+        "org.jsoup"              %  "jsoup"                         % "1.17.2",
+        "org.playframework"      %% "play-test"                     % playVersion,
+        "uk.gov.hmrc.mongo"      %% s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion
       ).map(_ % scope)
     }.test
   }

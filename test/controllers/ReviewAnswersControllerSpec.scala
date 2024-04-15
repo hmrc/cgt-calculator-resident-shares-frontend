@@ -16,7 +16,7 @@
 
 package controllers
 
-import akka.util.Timeout
+import org.apache.pekko.util.Timeout
 import assets.MessageLookup
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
