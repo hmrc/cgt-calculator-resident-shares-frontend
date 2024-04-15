@@ -23,11 +23,12 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.WorthWhenSoldForLessForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.worthWhenSoldForLess
 
 class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
