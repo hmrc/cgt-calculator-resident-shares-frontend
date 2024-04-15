@@ -111,7 +111,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implic
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout),
+        Redirect(controllers.utils.routes.TimeoutController.timeout()),
         e.getMessage
       )
   }
@@ -131,7 +131,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implic
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout),
+        Redirect(controllers.utils.routes.TimeoutController.timeout()),
         e.getMessage
       )
   }
@@ -149,7 +149,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implic
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout),
+        Redirect(controllers.utils.routes.TimeoutController.timeout()),
         e.getMessage
       )
   }

@@ -26,13 +26,13 @@ import controllers.helpers.FakeRequestHelper
 import controllers.routes
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import play.api.i18n.Lang
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import play.twirl.api.HtmlFormat
 import views.html.playHelpers.checkYourAnswersPartial
 
 class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val fakeLang: Lang = Lang("en")
   val checkYourAnswersPartialView = fakeApplication.injector.instanceOf[checkYourAnswersPartial]
 
