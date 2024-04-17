@@ -54,8 +54,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title("2015 to 2016")}" in {
-        doc.title() shouldBe messages.title("2015 to 2016")
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
       "have a navTitle of Calculate your Capital Gains Tax" in {
@@ -220,8 +220,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       val splitYear = nextTaxYear.split("/")
       val nextTaxYearFormatted = splitYear(0) + " to " + splitYear(0).substring(0, 2) + splitYear(1)
 
-      s"have a title ${messages.title(s"$nextTaxYearFormatted")}" in {
-        doc.title() shouldBe messages.title(s"$nextTaxYearFormatted")
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
       s"have the page heading '${messages.title}'" in {
