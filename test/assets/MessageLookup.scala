@@ -408,20 +408,22 @@ object MessageLookup {
       }
 
       object ValueBeforeLegislationStart {
-        val title = "What were the shares worth on 31 March 1982? - Calculate your Capital Gains Tax - GOV.UK"
+        val title = s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What were the shares worth on 31 March 1982?"
         val information = "If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work " +
           "out your Capital Gains Tax. After this date, use the original cost."
         val helpText = "Get valuation information from the stock exchange or talk to your stockbroker or fund manager."
         val hintText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
+        val pageTitle = "You owned the shares before 1 April 1982"
 
       }
 
       object DisposalValue {
-        val title = "How much did you sell the shares for? - Calculate your Capital Gains Tax - GOV.UK"
+        val title = s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
         val question = "How much did you sell the shares for?"
         val jointOwnership = "If you owned the shares with someone else, only enter your portion of the sale value."
         val nonValidDate = "Enter a real date Enter a date that is after 6 4 2015"
+        val pageTitle = "Shares value when sold"
       }
 
       //############ Owner Before Legislation Start messages.en #################//
@@ -445,18 +447,20 @@ object MessageLookup {
 
       //############ Worth When Inherited messages.en #################//
       object WorthWhenInherited {
-        val title = "What were the shares worth when you inherited them? - Calculate your Capital Gains Tax - GOV.UK"
+        val title = s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What were the shares worth when you inherited them?"
         val helpText = "Use information from the stock exchange or talk to your stockbroker or fund manager."
         val hintText = "If you owned the shares with someone else, only enter the market value for your portion of the shares."
+        val pageTitle = "Shares value when inherited"
       }
 
       //############ Worth When Sold For Less messages.en #################//
       object WorthWhenSoldForLess {
-        val title = "What were the shares worth when you sold them? - Calculate your Capital Gains Tax - GOV.UK"
+        val title = s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What were the shares worth when you sold them?"
         val informationText = "Get information from the stock exchange or talk to your stockbroker or fund manager."
         val jointOwnershipText = "If you owned the shares with someone else, only enter the value of your portion of the shares."
+        val pageTitle = "Market value when sold"
       }
 
     }
@@ -674,7 +678,8 @@ object MessageLookup {
   //Personal Allowance messages.en
   object PersonalAllowance {
     def question(input: String): String = s"In the $input tax year, what was your Personal Allowance?"
-    def title(input: String): String = s"In the $input tax year, what was your Personal Allowance? - Calculate your Capital Gains Tax - GOV.UK"
+    val title = s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
+    val pageTitle = "Personal Allowance"
     val link = "Income tax rates and Personal Allowances"
     val linkText = "Find out more about"
     val help = "This is the amount of your income that you do not pay tax on."
@@ -708,26 +713,29 @@ object MessageLookup {
   }
 
   object SharesAcquisitionCosts {
-    val title = "How much did you pay in costs when you got the shares? - Calculate your Capital Gains Tax - GOV.UK"
+    val title = s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
     val question = "How much did you pay in costs when you got the shares?"
     val helpText = "This includes costs for stockbroker fees and Stamp Duty."
     val hintText = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
+    val pageTitle = "Costs when you got the shares"
   }
 
   object SharesDisposalCosts {
     val title = "How much did you pay in costs when you sold the shares?"
-    val newTitle ="How much did you pay in costs when you sold the shares? - Calculate your Capital Gains Tax - GOV.UK"
+    val newTitle =s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
     val helpText = "This includes costs for stockbroker fees."
     val jointOwnership = "If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner."
+    val pageTitle = "Costs when you sold the shares"
   }
 
   object SharesAcquisitionValue {
-    val title = "How much did you pay for the shares? - Calculate your Capital Gains Tax - GOV.UK"
+    val title = s"$pageTitle - Calculate your Capital Gains Tax - GOV.UK"
     val question = "How much did you pay for the shares?"
     val hintText = "If you owned them with someone else, only enter your share of the purchase."
     val bulletListTitle = "Put the market value of the shares instead if you:"
     val bulletListOne = "inherited them"
     val bulletListTwo = "owned them before 1 April 1982"
+    val pageTitle = "What you paid for the shares"
   }
 
   object SharesOtherDisposals {
