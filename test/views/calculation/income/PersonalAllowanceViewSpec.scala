@@ -81,8 +81,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
-      s"have the page heading '${messages.question("2015 to 2016")}'" in {
-        doc.select("h1").text shouldBe messages.question("2015 to 2016")
+      s"have the page heading '${messages.title}'" in {
+        doc.select("h1").text shouldBe messages.title
       }
 
       s"have the help text ${messages.help}" in {
@@ -224,12 +224,12 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.title() shouldBe messages.title(s"$nextTaxYearFormatted")
       }
 
-      s"have the page heading '${messages.question(s"$nextTaxYearFormatted")}'" in {
-        h1Tag.text shouldBe messages.question(s"$nextTaxYearFormatted")
+      s"have the page heading '${messages.title}'" in {
+        h1Tag.text shouldBe messages.title
       }
 
-      s"have a legend for an input with text ${messages.question(s"$nextTaxYearFormatted")}" in {
-        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(s"$nextTaxYearFormatted")
+      s"have a legend for an input with text ${messages.title}" in {
+        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.title
       }
     }
 
