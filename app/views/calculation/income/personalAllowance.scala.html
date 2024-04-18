@@ -29,18 +29,20 @@
 
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, postAction: Call, backLink: Option[String], journey: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, lang: Lang)
 
+@title = @{messages("calc.resident.personalAllowance.title")}
+
 @defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
     @defining(
         if(taxYearValid) messages("calc.resident.personalAllowance.currentYearQuestion")
         else messages("calc.resident.personalAllowance.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) { question =>
 
         @layout(
-            pageTitle = if (personalAllowanceForm.errors.nonEmpty) messages("site.title.error", question) else question
+            pageTitle = if (personalAllowanceForm.errors.nonEmpty) messages("site.title.error", title) else title
         ) {
 
             @errorSummary(personalAllowanceForm.errors, Some("amount"))
 
-            <h1 class="govuk-heading-xl">@question</h1>
+            <h1 class="govuk-heading-xl">@title</h1>
 
             <p class="govuk-body">@messages("calc.resident.personalAllowance.help")</p>
 

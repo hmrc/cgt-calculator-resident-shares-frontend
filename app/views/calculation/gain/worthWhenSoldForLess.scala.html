@@ -28,7 +28,7 @@
 @(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.worthWhenSoldForLess.question")) else Messages("calc.resident.shares.worthWhenSoldForLess.question")
+    if (worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.worthWhenSoldForLess.title")) else Messages("calc.resident.shares.worthWhenSoldForLess.title")
 }
 
 @layout(
@@ -37,7 +37,7 @@
 
     @errorSummary(worthWhenSoldForLessForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-l">@Messages("calc.resident.shares.worthWhenSoldForLess.question")</h1>
+    <h1 class="govuk-heading-l">@Messages("calc.resident.shares.worthWhenSoldForLess.title")</h1>
 
     <p class="govuk-body" id="information">@Messages("calc.resident.shares.worthWhenSoldForLess.informationText")</p>
 

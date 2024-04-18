@@ -55,7 +55,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       lazy val heading = doc.select("H1")
 
       s"have the correct text" in {
-        heading.text shouldBe messages.question
+        heading.text shouldBe messages.h1
       }
 
       "have the govuk-heading-xl class" in {

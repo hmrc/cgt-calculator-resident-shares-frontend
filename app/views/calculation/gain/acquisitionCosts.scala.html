@@ -28,7 +28,7 @@
 @(acquisitionCostsForm: Form[AcquisitionCostsModel], backHref: Some[String])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (acquisitionCostsForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.acquisitionCosts.question")) else Messages("calc.resident.shares.acquisitionCosts.question")
+    if (acquisitionCostsForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.acquisitionCosts.title")) else Messages("calc.resident.shares.acquisitionCosts.title")
 }
 
 @layout(
@@ -37,7 +37,7 @@
 
     @errorSummary(acquisitionCostsForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.acquisitionCosts.question")</h1>
+    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.acquisitionCosts.title")</h1>
 
     @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
 

@@ -104,9 +104,9 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
       status(result) shouldBe 200
     }
 
-    s"return some html with title of ${messages.question}" in {
+    s"return some html with title of ${messages.h1}" in {
       contentType(result) shouldBe Some("text/html")
-      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.question
+      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.h1
     }
   }
 

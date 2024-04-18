@@ -57,8 +57,8 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       doc.title() shouldBe Messages.title
     }
 
-    s"have a question of ${Messages.question}" in {
-      doc.select("h1.govuk-heading-xl").text() shouldBe Messages.question
+    s"have a question of ${Messages.h1}" in {
+      doc.select("h1.govuk-heading-xl").text() shouldBe Messages.h1
     }
 
     "have a form tag" in {

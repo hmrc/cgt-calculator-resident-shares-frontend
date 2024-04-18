@@ -54,8 +54,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.charset().toString shouldBe "UTF-8"
       }
 
-      s"have a title ${messages.title("2015 to 2016")}" in {
-        doc.title() shouldBe messages.title("2015 to 2016")
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
       "have a navTitle of Calculate your Capital Gains Tax" in {
@@ -81,8 +81,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
-      s"have the page heading '${messages.question("2015 to 2016")}'" in {
-        doc.select("h1").text shouldBe messages.question("2015 to 2016")
+      s"have the page heading '${messages.h1}'" in {
+        doc.select("h1").text shouldBe messages.h1
       }
 
       s"have the help text ${messages.help}" in {
@@ -126,8 +126,8 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           form.attr("method") shouldBe "POST"
         }
 
-        s"have a legend for an input with text ${messages.question("2015 to 2016")}" in {
-          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question("2015 to 2016")
+        s"have a legend for an input with text ${messages.title}" in {
+          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.h1
         }
       }
 
@@ -195,16 +195,16 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
-        s"have a title ${messages.inYearTitle}" in {
-          doc.title() shouldBe messages.inYearTitle
+        s"have a title ${messages.title}" in {
+          doc.title() shouldBe messages.title
         }
 
-        s"have the page heading '${messages.inYearQuestion}'" in {
-          h1Tag.text shouldBe messages.inYearQuestion
+        s"have the page heading '${messages.h1}'" in {
+          h1Tag.text shouldBe messages.h1
         }
 
         s"have a legend for an input with text ${messages.inYearQuestion}" in {
-          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.inYearQuestion
+          doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.inYearQuestion
         }
     }
 
@@ -220,16 +220,16 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       val splitYear = nextTaxYear.split("/")
       val nextTaxYearFormatted = splitYear(0) + " to " + splitYear(0).substring(0, 2) + splitYear(1)
 
-      s"have a title ${messages.title(s"$nextTaxYearFormatted")}" in {
-        doc.title() shouldBe messages.title(s"$nextTaxYearFormatted")
+      s"have a title ${messages.title}" in {
+        doc.title() shouldBe messages.title
       }
 
-      s"have the page heading '${messages.question(s"$nextTaxYearFormatted")}'" in {
-        h1Tag.text shouldBe messages.question(s"$nextTaxYearFormatted")
+      s"have the page heading '${messages.title}'" in {
+        h1Tag.text shouldBe messages.h1
       }
 
       s"have a legend for an input with text ${messages.question(s"$nextTaxYearFormatted")}" in {
-        doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.question(s"$nextTaxYearFormatted")
+        doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question(s"$nextTaxYearFormatted")
       }
     }
 

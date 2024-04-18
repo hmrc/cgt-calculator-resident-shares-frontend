@@ -63,8 +63,8 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
       lazy val heading = doc.select("H1")
 
-      s"have the page heading '${messages.question}'" in {
-        heading.text shouldBe messages.question
+      s"have the page heading '${messages.h1}'" in {
+        heading.text shouldBe messages.h1
       }
 
       "have the govuk-heading-l class" in {

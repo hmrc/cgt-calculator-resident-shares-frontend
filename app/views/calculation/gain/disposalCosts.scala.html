@@ -28,8 +28,8 @@
 @(disposalCostsForm: Form[DisposalCostsModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if(disposalCostsForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.disposalCosts.question"))
-    else Messages("calc.resident.shares.disposalCosts.question")
+    if(disposalCostsForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.disposalCosts.title"))
+    else Messages("calc.resident.shares.disposalCosts.title")
 }
 
 @layout(
@@ -38,7 +38,7 @@
 
     @errorSummary(disposalCostsForm.errors,Some("disposal-costs"))
 
-    <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.disposalCosts.question")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.disposalCosts.title")</h1>
 
     @form(action = controllers.routes.GainController.submitDisposalCosts){
 

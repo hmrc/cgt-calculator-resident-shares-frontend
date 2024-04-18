@@ -60,8 +60,8 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
-    s"have the question of the page ${messages.question}" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the question of the page ${messages.h1}" in {
+      doc.select("h1").text shouldEqual messages.h1
     }
 
     "render a form tag with a submit action" in {

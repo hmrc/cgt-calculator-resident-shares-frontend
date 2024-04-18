@@ -70,8 +70,8 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       lazy val h1Tag = doc.select("H1")
 
-      s"have the page heading '${messages.question}'" in {
-        h1Tag.text shouldBe messages.question
+      s"have the page heading '${messages.h1}'" in {
+        h1Tag.text shouldBe messages.h1
       }
 
       "have the govuk-heading-xl class" in {
