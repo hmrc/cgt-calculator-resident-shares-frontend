@@ -173,7 +173,7 @@ calc.resident.shares.disposalCosts.error.invalidAmount = How much you paid in co
 calc.resident.shares.disposalCosts.error.minimumAmount = How much you paid in costs when you sold the shares must be 0 or more
 
 ## Worth On messages
-calc.resident.shares.valueBeforeLegislationStart.title = You owned the shares before 1 April 1982
+calc.resident.shares.valueBeforeLegislationStart.title = You owned the shares before 1&nbsp;April&nbsp;1982
 calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?
 calc.resident.shares.valueBeforeLegislationStart.information = If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax.
 calc.resident.shares.valueBeforeLegislationStart.help = Get valuation information from the stock exchange or talk to your stockbroker or fund manager.

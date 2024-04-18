@@ -151,7 +151,7 @@ calc.resident.shares.ownerBeforeLegislationStart.title = Oeddech chi''n berchen 
 calc.resident.shares.sellForLess.noSelectError = Rhowch wybod i ni a wnaethoch werthu''r cyfranddaliadau am lai na''u gwerth er mwyn helpu''r prynwr.
 calc.resident.shares.sellForLess.question = A wnaethoch werthu''r cyfranddaliadau am lai na''u gwerth er mwyn helpu''r prynwr?
 
-calc.resident.shares.valueBeforeLegislationStart.title = Roeddech yn berchen ar y cyfranddaliadau cyn 1 Ebrill 1982
+calc.resident.shares.valueBeforeLegislationStart.title = Roeddech yn berchen ar y cyfranddaliadau cyn 1&nbsp;Ebrill&nbsp;1982
 calc.resident.shares.valueBeforeLegislationStart.help = Cewch wybodaeth am y prisiad o''r gyfnewidfa stoc neu siaradwch â''ch brocer stoc neu reolwr eich cronfa.
 calc.resident.shares.valueBeforeLegislationStart.hintText = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi gwerth eich cyfran chi o''r cyfranddaliadau.
 calc.resident.shares.valueBeforeLegislationStart.information = Os cawsoch eich cyfranddaliadau cyn 31 Mawrth 1982, defnyddiwch y gwerth marchnadol ar 31 Mawrth 1982 i gyfrifo''ch Treth Enillion Cyfalaf.

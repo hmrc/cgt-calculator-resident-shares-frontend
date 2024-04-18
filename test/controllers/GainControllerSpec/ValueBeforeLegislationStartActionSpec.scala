@@ -144,7 +144,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     }
 
     "render the valueBeforeLegislationStart view" in {
-      Jsoup.parse(bodyOf(result)).title() shouldEqual "Error: " + messages.title
+      Jsoup.parse(bodyOf(result)).title().replaceAll("&nbsp;", " ") shouldEqual "Error: " + messages.title
     }
   }
 }

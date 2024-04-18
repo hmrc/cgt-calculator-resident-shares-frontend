@@ -43,7 +43,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have the title of the page ${messages.title}" in {
-      doc.title shouldEqual messages.title
+      doc.title.replaceAll("&nbsp;", " ") shouldEqual messages.title
     }
 
     s"have a back link to the owner before April 1982 page" in {
