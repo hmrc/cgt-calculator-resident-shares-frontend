@@ -17,6 +17,12 @@ calc.base.period = .
 
 calc.currencyHint = Er enghraifft, {0}
 
+## Sign out banner
+signOut.title = Rydych ar fin cael eich allgofnodi
+signOut.message = Er eich diogelwch, byddwn yn eich allgofnodi cyn pen
+signOut.keepAliveButtonText = Ewch ati i gyfrifo eich Treth Enillion Cyfalaf
+signOut.signOutButtonText = Dileu''ch atebion
+
 calc.checkYourAnswers.tableHeading = Rydych wedi rhoi gwybod i ni
 calc.checkYourAnswers.title = Gwirio''ch atebion
 
@@ -244,7 +250,7 @@ calc.whatToDoNext.noGain.reportNowInfo = Er mwyn rhoi gwybod nawr, bydd angen ma
 calc.whatToDoNext.reportNow = Rhowch wybod nawr
 calc.whatToDoNext.title = Yr hyn sy''n digwydd nesaf
 calc.yourOptions.title = Eich opsiynau ar gyfer rhoi gwybod am eich Treth Enillion Cyfalaf
-session.timeout.message = Mae''ch sesiwn wedi dod i ben
+session.timeout.message = Er eich diogelwch, gwnaethom ddileu’ch atebion Dechrau eto
 
 calc.summary.dismissBanner = No thanks
 calc.summary.dismissBanner.screenreader = Dydw i ddim eisiau ateb cwestiynau ynglŷn ag ymuno â''r panel ymchwil

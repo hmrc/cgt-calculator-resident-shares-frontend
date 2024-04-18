@@ -50,7 +50,11 @@
 @head = {
     @if(timeoutEnabled) {
         @hmrcTimeoutDialogHelper(
-            signOutUrl = controllers.utils.routes.TimeoutController.timeout.url
+            signOutUrl = controllers.utils.routes.TimeoutController.timeout.url,
+            title = Some(messages("signOut.title")),
+            message = Some(messages("signOut.message")),
+            keepAliveButtonText = Some(messages("signOut.keepAliveButtonText")),
+            signOutButtonText = Some(messages("signOut.signOutButtonText"))
         )
     }
     <link rel="stylesheet" type="text/css" href ='@routes.Assets.versioned("stylesheets/cgt-calculator-resident-shares.css")'>
