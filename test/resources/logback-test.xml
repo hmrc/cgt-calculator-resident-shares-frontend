@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/cgt-calculator-resident-shares-frontend.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%date{ISO8601} level=[%level] logger=[%logger] thread=[%thread] message=[%message]
+                %replace(exception=[%xException]){'^exception=\[\]$',''}%n
+            </pattern>
+        </encoder>
+    </appender>
+    <root level="OFF" />
+</configuration>
