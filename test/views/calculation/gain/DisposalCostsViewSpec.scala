@@ -95,6 +95,10 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
           label.text should include(messages.question)
         }
 
+        s"have a legend for an input with text ${messages.question}" in {
+          doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
+        }
+
         s"has a p with the text ${messages.jointOwnership}" in {
           doc.getElementsByClass("govuk-inset-text").text shouldBe messages.jointOwnership
         }

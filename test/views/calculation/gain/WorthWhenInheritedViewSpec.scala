@@ -61,6 +61,10 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       doc.select("h1.govuk-heading-xl").text() shouldBe Messages.h1
     }
 
+    s"have a legend for an input with text ${Messages.question}" in {
+      doc.body.getElementsByClass("govuk-label--m").text() shouldEqual Messages.question
+    }
+
     "have a form tag" in {
       doc.select("form").size() shouldBe 1
     }

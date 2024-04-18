@@ -105,6 +105,10 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         s"have the question ${messages.question}" in {
           label.text should include(messages.question)
         }
+
+        s"have a legend for an input with text ${messages.question}" in {
+          doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
+        }
       }
 
       "has a numeric input field that" should {

@@ -76,6 +76,10 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
         form.attr("method") shouldEqual "POST"
       }
 
+      s"have a legend for an input with text ${messages.question}" in {
+        doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
+      }
+
       "have an input for the amount" which {
 
         lazy val input = doc.select("#amount")

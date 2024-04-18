@@ -80,6 +80,11 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.select("p.govuk-inset-text").text shouldBe messages.jointOwnership
     }
 
+    s"have a legend for an input with text ${messages.question}" in {
+      doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
+    }
+
+
     "generate the same template when .render and .f are called" in {
 
       val f = disposalValueView.f(disposalValueForm)(fakeRequest, mockMessage)

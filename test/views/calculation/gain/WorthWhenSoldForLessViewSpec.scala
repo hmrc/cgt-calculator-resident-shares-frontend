@@ -99,6 +99,10 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
           "is tied to the input field" in {
             label.attr("for") shouldEqual "amount"
           }
+
+          s"have a legend for an input with text ${messages.question}" in {
+            doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
+          }
         }
 
         s"has a p tag with the text ${messages.informationText}" in {
