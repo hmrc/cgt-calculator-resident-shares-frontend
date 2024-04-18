@@ -18,11 +18,11 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    errorSummary: playHelpers.errorSummary,
-    formInputMoney: playHelpers.formInputMoney,
-    form: FormWithCSRF,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        errorSummary: playHelpers.errorSummary,
+        formInputMoney: playHelpers.formInputMoney,
+        form: FormWithCSRF,
+        submitButton: playHelpers.submitButton
 )
 
 @(acquisitionValueForm: Form[AcquisitionValueModel])(implicit request: Request[_], messages: Messages)
@@ -54,7 +54,7 @@
             hintText = Some(messages("calc.currencyHint", "£10,000.50"))
         )
 
-    @submitButton()
+        @submitButton()
 
     }
 

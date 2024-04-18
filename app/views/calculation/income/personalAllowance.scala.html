@@ -20,11 +20,11 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    form: FormWithCSRF,
-    layout: Layout,
-    errorSummary: playHelpers.errorSummary,
-    formInputMoney: playHelpers.formInputMoney,
-    submitButton: playHelpers.submitButton
+        form: FormWithCSRF,
+        layout: Layout,
+        errorSummary: playHelpers.errorSummary,
+        formInputMoney: playHelpers.formInputMoney,
+        submitButton: playHelpers.submitButton
 )
 
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, postAction: Call, backLink: Option[String], journey: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, lang: Lang)

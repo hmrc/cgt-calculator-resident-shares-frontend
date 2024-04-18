@@ -18,17 +18,17 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    errorSummary: playHelpers.errorSummary,
-    formInputMoney: playHelpers.formInputMoney,
-    form: FormWithCSRF,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        errorSummary: playHelpers.errorSummary,
+        formInputMoney: playHelpers.formInputMoney,
+        form: FormWithCSRF,
+        submitButton: playHelpers.submitButton
 )
 
-@(worthWhenSoldForLessForm : Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages)
+@(worthWhenSoldForLessForm: Form[WorthWhenSoldForLessModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.worthWhenSoldForLess.title")) else Messages("calc.resident.shares.worthWhenSoldForLess.title")
+    if(worthWhenSoldForLessForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.worthWhenSoldForLess.title")) else Messages("calc.resident.shares.worthWhenSoldForLess.title")
 }
 
 @layout(
