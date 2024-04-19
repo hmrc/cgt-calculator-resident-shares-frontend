@@ -18,12 +18,18 @@ calc.base.period = .
 
 calc.currencyHint = For example, {0}
 
+## Sign out banner
+signOut.title = For your security
+signOut.message = We will delete your answers in
+signOut.keepAliveButtonText = Continue calculating your Capital Gains Tax
+signOut.signOutButtonText = Delete your answers
+
 ## Error Summary ##
 calc.error.summary.heading = This page has errors
 site.title.error = Error: {0}
 
 ## Session Timeout message ##
-session.timeout.message = Your session has ended
+session.timeout.message = For your security, we deleted your answers
 calc.summary.startAgain = Start again
 
 ## Common date Messages ##
