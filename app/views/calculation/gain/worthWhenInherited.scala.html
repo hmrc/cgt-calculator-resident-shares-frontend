@@ -18,25 +18,25 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    form: FormWithCSRF,
-    formInputMoney: playHelpers.formInputMoney,
-    errorSummary: playHelpers.errorSummary,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        form: FormWithCSRF,
+        formInputMoney: playHelpers.formInputMoney,
+        errorSummary: playHelpers.errorSummary,
+        submitButton: playHelpers.submitButton
 )
 
 @(worthWhenInheritedForm: Form[WorthWhenInheritedModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (worthWhenInheritedForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.worthWhenInherited.question")) else Messages("calc.resident.shares.worthWhenInherited.question")
+    if(worthWhenInheritedForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.worthWhenInherited.title")) else Messages("calc.resident.shares.worthWhenInherited.title")
 }
 @layout(
     pageTitle = title
-){
+) {
 
     @errorSummary(worthWhenInheritedForm.errors, Some("amount"))
 
-    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.worthWhenInherited.question")</h1>
+    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.worthWhenInherited.title")</h1>
 
     @form(action = controllers.routes.GainController.submitWorthWhenInherited) {
 

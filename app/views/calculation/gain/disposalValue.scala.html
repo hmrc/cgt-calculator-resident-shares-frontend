@@ -28,7 +28,7 @@
 @(disposalValueForm: Form[DisposalValueModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
-    if (disposalValueForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.disposalValue.question")) else Messages("calc.resident.shares.disposalValue.question")
+    if(disposalValueForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.disposalValue.title")) else Messages("calc.resident.shares.disposalValue.title")
 }
 @layout(
     pageTitle = title
@@ -36,19 +36,19 @@
 
     @errorSummary(disposalValueForm.errors, Some("amount"))
 
-        <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.disposalValue.question")</h1>
+    <h1 class="govuk-heading-xl">@Messages("calc.resident.shares.disposalValue.title")</h1>
 
-        @form(action = controllers.routes.GainController.submitDisposalValue) {
+    @form(action = controllers.routes.GainController.submitDisposalValue) {
 
-            <p class="govuk-inset-text">@Messages("calc.resident.shares.disposalValue.jointOwnership")</p>
+        <p class="govuk-inset-text">@Messages("calc.resident.shares.disposalValue.jointOwnership")</p>
 
-            @formInputMoney(
-                field = disposalValueForm("amount"),
-                question = messages("calc.resident.shares.disposalValue.question"),
-                labelClass = "govuk-label--m",
-                hintText = Some(messages("calc.currencyHint", "£10,000.50"))
-            )
+        @formInputMoney(
+            field = disposalValueForm("amount"),
+            question = messages("calc.resident.shares.disposalValue.question"),
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
+        )
 
-            @submitButton()
-        }
+        @submitButton()
     }
+}

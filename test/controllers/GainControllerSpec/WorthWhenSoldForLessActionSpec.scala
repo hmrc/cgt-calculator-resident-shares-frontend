@@ -81,8 +81,8 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
         status(result) shouldEqual 200
       }
 
-      s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.question}" in {
-        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+      s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1}" in {
+        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1
       }
     }
 
@@ -94,8 +94,8 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
         status(result) shouldEqual 200
       }
 
-      s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.question}" in {
-        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.question
+      s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1}" in {
+        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1
       }
     }
   }

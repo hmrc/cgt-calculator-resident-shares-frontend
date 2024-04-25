@@ -6,7 +6,7 @@
 GET         /assets/*file           @controllers.Assets.versioned(path="/public", file: Asset)
 
 #Session Timeout route
-GET         /session-timeout        @controllers.utils.TimeoutController.timeout
+GET         /session-timeout        @controllers.utils.TimeoutController.timeout()
 
 #Language Controller
 GET         /language/:lang         @controllers.CgtLanguageController.switchToLanguage(lang: String)

@@ -31,7 +31,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
-  
+
   case class FakePOST(value: String) {
     lazy val request = fakeRequestToPOSTWithSession(("amount", value)).withMethod("POST")
     lazy val form = disposalValueForm.bind(Map(("amount", value)))
@@ -60,8 +60,8 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
-    s"have the question of the page ${messages.question}" in {
-      doc.select("h1").text shouldEqual messages.question
+    s"have the question of the page ${messages.h1}" in {
+      doc.select("h1").text shouldEqual messages.h1
     }
 
     "render a form tag with a submit action" in {
@@ -79,6 +79,11 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     "have the joint ownership text" in {
       doc.select("p.govuk-inset-text").text shouldBe messages.jointOwnership
     }
+
+    s"have a legend for an input with text ${messages.question}" in {
+      doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
+    }
+
 
     "generate the same template when .render and .f are called" in {
 

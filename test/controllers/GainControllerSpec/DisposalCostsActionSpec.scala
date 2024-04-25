@@ -88,7 +88,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Disposal Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.newTitle
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 

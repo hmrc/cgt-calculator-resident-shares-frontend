@@ -22,11 +22,12 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.AcquisitionCostsForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.acquisitionCosts
 
 class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
@@ -69,8 +70,8 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       lazy val h1Tag = doc.select("H1")
 
-      s"have the page heading '${messages.question}'" in {
-        h1Tag.text shouldBe messages.question
+      s"have the page heading '${messages.h1}'" in {
+        h1Tag.text shouldBe messages.h1
       }
 
       "have the govuk-heading-xl class" in {
@@ -96,6 +97,10 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
         s"have the question ${messages.question}" in {
           label.text should include(messages.question)
+        }
+
+        s"have a legend for an input with text ${messages.question}" in {
+          doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
         }
       }
 
@@ -165,7 +170,7 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     "is due to mandatory field error" should {
 
       lazy val form = acquisitionCostsForm.bind(Map("amount" -> ""))
-      lazy val view = acquisitionCostsView(form,  Some("back-link"))(fakeRequest, mockMessage)
+      lazy val view = acquisitionCostsView(form, Some("back-link"))(fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

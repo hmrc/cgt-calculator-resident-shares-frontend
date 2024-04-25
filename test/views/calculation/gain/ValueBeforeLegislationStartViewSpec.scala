@@ -23,11 +23,12 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.ValueBeforeLegislationStartForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.valueBeforeLegislationStart
 
 class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val valueBeforeLegislationStartView = fakeApplication.injector.instanceOf[valueBeforeLegislationStart]
@@ -42,7 +43,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     s"have the title of the page ${messages.title}" in {
-      doc.title shouldEqual messages.title
+      doc.title.replaceAll("&nbsp;", " ") shouldEqual messages.title
     }
 
     s"have a back link to the owner before April 1982 page" in {
@@ -54,7 +55,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       lazy val heading = doc.select("H1")
 
       s"have the correct text" in {
-        heading.text shouldBe messages.question
+        heading.text shouldBe messages.h1
       }
 
       "have the govuk-heading-xl class" in {
@@ -73,6 +74,10 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
       "have the method POST" in {
         form.attr("method") shouldEqual "POST"
+      }
+
+      s"have a legend for an input with text ${messages.question}" in {
+        doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
       }
 
       "have an input for the amount" which {

@@ -23,11 +23,12 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.WorthWhenSoldForLessForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.worthWhenSoldForLess
 
 class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
@@ -62,8 +63,8 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
       lazy val heading = doc.select("H1")
 
-      s"have the page heading '${messages.question}'" in {
-        heading.text shouldBe messages.question
+      s"have the page heading '${messages.h1}'" in {
+        heading.text shouldBe messages.h1
       }
 
       "have the govuk-heading-l class" in {
@@ -97,6 +98,10 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
           "is tied to the input field" in {
             label.attr("for") shouldEqual "amount"
+          }
+
+          s"have a legend for an input with text ${messages.question}" in {
+            doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
           }
         }
 

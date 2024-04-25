@@ -32,6 +32,7 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.Application
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
@@ -42,15 +43,15 @@ import scala.concurrent.Future
 class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
   implicit lazy val actorSystem = ActorSystem()
-  val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheService = mock[SessionCacheService]
-  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  implicit val mockApplication = fakeApplication
-  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val personalAllowanceForm = fakeApplication.injector.instanceOf[PersonalAllowanceForm]
-  val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
-  val currentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
-  val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
+  val mockCalcConnector: CalculatorConnector = mock[CalculatorConnector]
+  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  implicit val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockApplication: Application = fakeApplication
+  val mockMCC: MessagesControllerComponents = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val personalAllowanceForm: PersonalAllowanceForm = fakeApplication.injector.instanceOf[PersonalAllowanceForm]
+  val personalAllowanceView: personalAllowance = fakeApplication.injector.instanceOf[personalAllowance]
+  val currentIncomeForm: CurrentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
+  val currentIncomeView: currentIncome = fakeApplication.injector.instanceOf[currentIncome]
 
   def setupTarget(getData: Option[PersonalAllowanceModel],
                   maxPersonalAllowance: Option[BigDecimal] = Some(BigDecimal(11100)),
@@ -103,7 +104,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title("2015 to 2016")
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
 
@@ -123,7 +124,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title("2015 to 2016")
+        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
       }
     }
   }
@@ -177,7 +178,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "render the personal allowance page" in {
-        doc.title() shouldEqual "Error: " + messages.title("2015 to 2016")
+        doc.title() shouldEqual "Error: " + messages.title
       }
     }
   }

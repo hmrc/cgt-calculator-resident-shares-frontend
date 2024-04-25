@@ -75,7 +75,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout),
+        Redirect(controllers.utils.routes.TimeoutController.timeout()),
         e.getMessage
       )
   }
@@ -91,7 +91,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout),
+        Redirect(controllers.utils.routes.TimeoutController.timeout()),
         e.getMessage
       )
   }
@@ -109,7 +109,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout),
+        Redirect(controllers.utils.routes.TimeoutController.timeout()),
         e.getMessage
       )
   }
@@ -119,7 +119,7 @@ class CalculatorConnector @Inject()(http: DefaultHttpClient,
   }.recover {
     case e: NoSuchElementException =>
       throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout),
+        Redirect(controllers.utils.routes.TimeoutController.timeout()),
         e.getMessage
       )
   }

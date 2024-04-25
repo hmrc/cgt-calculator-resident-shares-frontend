@@ -18,20 +18,20 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    errorSummary: playHelpers.errorSummary,
-    formInputMoney: playHelpers.formInputMoney,
-    form: FormWithCSRF,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        errorSummary: playHelpers.errorSummary,
+        formInputMoney: playHelpers.formInputMoney,
+        form: FormWithCSRF,
+        submitButton: playHelpers.submitButton
 )
 
 @(acquisitionValueForm: Form[AcquisitionValueModel])(implicit request: Request[_], messages: Messages)
 
 @title = @{
     if(acquisitionValueForm.errors.nonEmpty) {
-        messages("site.title.error", messages("calc.resident.shares.acquisitionValue.question"))
+        messages("site.title.error", messages("calc.resident.shares.acquisitionValue.title"))
     } else {
-        messages("calc.resident.shares.acquisitionValue.question")
+        messages("calc.resident.shares.acquisitionValue.title")
     }
 }
 
@@ -41,7 +41,7 @@
 
     @errorSummary(acquisitionValueForm.errors)
 
-    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.acquisitionValue.question")</h1>
+    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.acquisitionValue.title")</h1>
 
     <p class="govuk-inset-text">@messages("calc.resident.shares.acquisitionValue.hintText")</p>
 
@@ -54,7 +54,7 @@
             hintText = Some(messages("calc.currencyHint", "£10,000.50"))
         )
 
-    @submitButton()
+        @submitButton()
 
     }
 

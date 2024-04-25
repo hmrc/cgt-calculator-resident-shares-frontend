@@ -20,54 +20,53 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    form: FormWithCSRF,
-    layout: Layout,
-    errorSummary: playHelpers.errorSummary,
-    formInputMoney: playHelpers.formInputMoney,
-    submitButton: playHelpers.submitButton
+        form: FormWithCSRF,
+        layout: Layout,
+        errorSummary: playHelpers.errorSummary,
+        formInputMoney: playHelpers.formInputMoney,
+        submitButton: playHelpers.submitButton
 )
 
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, postAction: Call, backLink: Option[String], journey: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, lang: Lang)
 
-@defining(taxYear.taxYearSupplied == currentTaxYear) { taxYearValid =>
-    @defining(
-        if(taxYearValid) messages("calc.resident.personalAllowance.currentYearQuestion")
-        else messages("calc.resident.personalAllowance.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) { question =>
+@title = @{messages("calc.resident.personalAllowance.title")}
 
-        @layout(
-            pageTitle = if (personalAllowanceForm.errors.nonEmpty) messages("site.title.error", question) else question
-        ) {
+@taxYearValid = @{taxYear.taxYearSupplied == currentTaxYear}
+@question = @{
+  if(taxYearValid) messages("calc.resident.personalAllowance.currentYearQuestion")
+  else messages("calc.resident.personalAllowance.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
+}
 
-            @errorSummary(personalAllowanceForm.errors, Some("amount"))
+@layout(pageTitle = if (personalAllowanceForm.errors.nonEmpty) messages("site.title.error", title) else title) {
 
-            <h1 class="govuk-heading-xl">@question</h1>
+    @errorSummary(personalAllowanceForm.errors, Some("amount"))
 
-            <p class="govuk-body">@messages("calc.resident.personalAllowance.help")</p>
+    <h1 class="govuk-heading-xl">@title</h1>
 
-            <p class="govuk-body">
-                @messages("calc.resident.personalAllowance.list.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), MoneyPounds(standardPA, 0).quantity)
-            </p>
+    <p class="govuk-body">@messages("calc.resident.personalAllowance.help")</p>
 
-            <ul class="govuk-list govuk-list--bullet">
-                <li>@messages("calc.resident.personalAllowance.list.one")</li>
-                <li>@messages("calc.resident.personalAllowance.list.two")</li>
-                <li>@messages("calc.resident.personalAllowance.list.three")</li>
-            </ul>
+    <p class="govuk-body">
+        @messages("calc.resident.personalAllowance.list.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), MoneyPounds(standardPA, 0).quantity)
+    </p>
 
-            <p class="govuk-body">@messages("calc.resident.personalAllowance.link.text") <a href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" class="govuk-link">@messages("calc.resident.personalAllowance.link")</a>.</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>@messages("calc.resident.personalAllowance.list.one")</li>
+        <li>@messages("calc.resident.personalAllowance.list.two")</li>
+        <li>@messages("calc.resident.personalAllowance.list.three")</li>
+    </ul>
 
-            @form(action = postAction) {
+    <p class="govuk-body">@messages("calc.resident.personalAllowance.link.text") <a href="https://www.gov.uk/income-tax-rates/current-rates-and-allowances" class="govuk-link">@messages("calc.resident.personalAllowance.link")</a>.</p>
 
-                @formInputMoney(
-                    field = personalAllowanceForm("amount"),
-                    question = question,
-                    labelClass = "govuk-label--m",
-                    hintText = Some(messages("calc.currencyHint", "£10,000.50"))
-                )
+    @form(action = postAction) {
 
-                @submitButton()
-            }
+        @formInputMoney(
+            field = personalAllowanceForm("amount"),
+            question = question,
+            labelClass = "govuk-label--m",
+            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
+        )
 
-        }
+        @submitButton()
     }
+
 }

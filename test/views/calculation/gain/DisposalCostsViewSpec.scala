@@ -22,11 +22,12 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DisposalCostsForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.disposalCosts
 
 class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts
@@ -41,7 +42,7 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have the correct page title" in {
-      doc.title shouldBe messages.newTitle
+      doc.title shouldBe messages.title
     }
 
     "have a back button that" should {
@@ -65,8 +66,8 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       lazy val h1Tag = doc.select("H1")
 
-      s"have the page heading '${messages.title}'" in {
-        h1Tag.text shouldBe messages.title
+      s"have the page heading '${messages.h1}'" in {
+        h1Tag.text shouldBe messages.h1
       }
 
       "have the heading-large class" in {
@@ -90,8 +91,12 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
         lazy val label = doc.body.getElementsByTag("label")
 
-        s"have the question ${messages.title}" in {
-          label.text should include(messages.title)
+        s"have the question ${messages.question}" in {
+          label.text should include(messages.question)
+        }
+
+        s"have a legend for an input with text ${messages.question}" in {
+          doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
         }
 
         s"has a p with the text ${messages.jointOwnership}" in {

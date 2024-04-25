@@ -18,40 +18,40 @@
 @import uk.gov.hmrc.govukfrontend.views.html.components.FormWithCSRF
 
 @this(
-    layout: Layout,
-    form: FormWithCSRF,
-    formInputMoney: playHelpers.formInputMoney,
-    errorSummary: playHelpers.errorSummary,
-    submitButton: playHelpers.submitButton
+        layout: Layout,
+        form: FormWithCSRF,
+        formInputMoney: playHelpers.formInputMoney,
+        errorSummary: playHelpers.errorSummary,
+        submitButton: playHelpers.submitButton
 )
 
 @(acquisitionCostsForm: Form[AcquisitionCostsModel], backHref: Some[String])(implicit request: Request[_], messages: Messages)
 
-@title = @{
-    if (acquisitionCostsForm.errors.nonEmpty) Messages("site.title.error",  Messages("calc.resident.shares.acquisitionCosts.question")) else Messages("calc.resident.shares.acquisitionCosts.question")
-}
-
-@layout(
-    pageTitle = title
-) {
-
-    @errorSummary(acquisitionCostsForm.errors, Some("amount"))
-
-    <h1 class="govuk-heading-xl">@messages("calc.resident.shares.acquisitionCosts.question")</h1>
-
-    @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
-
-        <p class="govuk-body"> @messages("calc.resident.shares.acquisitionCosts.help")</p>
-
-        <p class="govuk-inset-text">@messages("calc.resident.shares.acquisitionCosts.hintText")</p>
-
-        @formInputMoney(
-            field = acquisitionCostsForm("amount"),
-            question = messages("calc.resident.shares.acquisitionCosts.question"),
-            labelClass = "govuk-label--m",
-            hintText = Some(messages("calc.currencyHint", "£10,000.50"))
-        )
-
-        @submitButton()
+    @title = @{
+        if(acquisitionCostsForm.errors.nonEmpty) Messages("site.title.error", Messages("calc.resident.shares.acquisitionCosts.title")) else Messages("calc.resident.shares.acquisitionCosts.title")
     }
-}
+
+    @layout(
+        pageTitle = title
+    ) {
+
+        @errorSummary(acquisitionCostsForm.errors, Some("amount"))
+
+        <h1 class="govuk-heading-xl">@messages("calc.resident.shares.acquisitionCosts.title")</h1>
+
+        @form(action = controllers.routes.GainController.submitAcquisitionCosts) {
+
+            <p class="govuk-body"> @messages("calc.resident.shares.acquisitionCosts.help")</p>
+
+            <p class="govuk-inset-text">@messages("calc.resident.shares.acquisitionCosts.hintText")</p>
+
+            @formInputMoney(
+                field = acquisitionCostsForm("amount"),
+                question = messages("calc.resident.shares.acquisitionCosts.question"),
+                labelClass = "govuk-label--m",
+                hintText = Some(messages("calc.currencyHint", "£10,000.50"))
+            )
+
+            @submitButton()
+        }
+    }
