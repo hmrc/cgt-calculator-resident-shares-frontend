@@ -80,6 +80,11 @@
                 mainContentLayout = if (fullGrid) Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-full'>$mainContent</div></div>")) else Some(_ => Html(s"<div class='govuk-grid-row'><div class='govuk-grid-column-two-thirds'>$mainContent</div></div>"))
             ),
             backLink = Option.when(backLinkEnabled) { BackLink.mimicsBrowserBackButtonViaJavaScript },
+            banners = Banners(
+                userResearchBanner = if(appConfig.userRecruitmentBannerEnabled) Some(UserResearchBanner(
+                    url = appConfig.urBannerLink
+                )) else None
+            ),
             serviceName = Some(messages("service.name")),
             pageTitle = Some(s"""$pageTitle - ${messages("service.name")} - GOV.UK"""),
             isWelshTranslationAvailable = appConfig.isWelshEnabled
