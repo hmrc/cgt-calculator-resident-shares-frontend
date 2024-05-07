@@ -80,7 +80,7 @@
             ),
             backLink = Option.when(backLinkEnabled) { BackLink.mimicsBrowserBackButtonViaJavaScript },
             banners = Banners(
-                userResearchBanner = if(appConfig.userRecruitmentBannerEnabled) Some(UserResearchBanner(
+                userResearchBanner = if(appConfig.userResearchBannerEnabled) Some(UserResearchBanner(
                     url = appConfig.urBannerLink
                 )) else None
             ),

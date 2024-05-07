@@ -54,7 +54,7 @@ class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: 
   lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
   lazy val baseUrl = servicesConfig.baseUrl("capital-gains-calculator")
 
-  def userRecruitmentBannerEnabled: Boolean = servicesConfig.getBoolean(("user-recruitment-banner.enabled"))
+  def userResearchBannerEnabled: Boolean = servicesConfig.getBoolean(("user-research-banner.enabled"))
 
   lazy val isWelshEnabled: Boolean = servicesConfig.getBoolean("features.welsh-translation")
 }
