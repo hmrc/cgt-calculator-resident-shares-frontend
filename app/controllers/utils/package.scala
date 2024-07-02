@@ -39,7 +39,7 @@ package object utils {
         case e: NoSuchElementException =>
           logger.warn(s"${request.uri} resulted in None.get, user redirected to start")
           throw ApplicationException(
-            Redirect(controllers.utils.routes.TimeoutController.timeout),
+            Redirect(controllers.utils.routes.TimeoutController.timeout()),
             e.getMessage
           )
       }

@@ -16,10 +16,10 @@
 
 package models.resident
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 case class SellForLessModel (sellForLess: Boolean)
 
 object SellForLessModel {
-  implicit val format = Json.format[SellForLessModel]
+  implicit val format: OFormat[SellForLessModel] = Json.format[SellForLessModel]
 }

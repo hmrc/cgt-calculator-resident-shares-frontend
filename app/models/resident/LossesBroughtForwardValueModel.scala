@@ -16,10 +16,10 @@
 
 package models.resident
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 case class LossesBroughtForwardValueModel (amount: BigDecimal)
 
 object LossesBroughtForwardValueModel {
-  implicit val format = Json.format[LossesBroughtForwardValueModel]
+  implicit val format: OFormat[LossesBroughtForwardValueModel] = Json.format[LossesBroughtForwardValueModel]
 }

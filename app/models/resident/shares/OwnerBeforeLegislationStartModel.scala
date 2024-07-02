@@ -16,10 +16,10 @@
 
 package models.resident.shares
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 case class OwnerBeforeLegislationStartModel(ownerBeforeLegislationStart: Boolean)
 
 object OwnerBeforeLegislationStartModel {
-  implicit val format = Json.format[OwnerBeforeLegislationStartModel]
+  implicit val format: OFormat[OwnerBeforeLegislationStartModel] = Json.format[OwnerBeforeLegislationStartModel]
 }
