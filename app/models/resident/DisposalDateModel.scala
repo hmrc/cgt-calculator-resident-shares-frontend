@@ -16,10 +16,10 @@
 
 package models.resident
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 case class DisposalDateModel (day: Int, month: Int, year: Int)
 
 object DisposalDateModel {
-  implicit val formats = Json.format[DisposalDateModel]
+  implicit val formats: OFormat[DisposalDateModel] = Json.format[DisposalDateModel]
 }

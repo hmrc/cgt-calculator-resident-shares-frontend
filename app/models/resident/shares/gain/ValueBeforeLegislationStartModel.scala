@@ -16,10 +16,10 @@
 
 package models.resident.shares.gain
 
-import play.api.libs.json.Json
+import play.api.libs.json.{Json, OFormat}
 
 case class ValueBeforeLegislationStartModel(amount: BigDecimal)
 
 object ValueBeforeLegislationStartModel {
-  implicit val format = Json.format[ValueBeforeLegislationStartModel]
+  implicit val format: OFormat[ValueBeforeLegislationStartModel] = Json.format[ValueBeforeLegislationStartModel]
 }
