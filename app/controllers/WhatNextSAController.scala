@@ -45,7 +45,10 @@ class WhatNextSAController @Inject()(sessionCacheService: SessionCacheService,
 
   def fetchAndParseDateToLocalDate()(implicit request: Request[_]): Future[LocalDate] = {
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate).map {
-      data => LocalDate.of(data.get.year, data.get.month, data.get.day)
+      data =>
+        LocalDate.of(data.getOrElse(throw new Exception("Date [year] data not found")).year,
+        data.getOrElse(throw new Exception("Date [month] data not found")).month,
+        data.getOrElse(throw new Exception("Date [day] data not found")).day)
     }
   }
 
