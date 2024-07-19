@@ -44,25 +44,20 @@ class WhatNextSAController @Inject()(sessionCacheService: SessionCacheService,
   val backLink: String = controllers.routes.SaUserController.saUser.url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
-  private def fetchAndParseDateToLocalDate()(implicit request: Request[_]): Future[LocalDate] = {
-    sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate).map {
-      data => LocalDate.of(data.get.year, data.get.month, data.get.day)
-    }
-  }
+  private def getDisposalDate(implicit request: Request[_]) =
+    sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate) map(
+      _.get match { case DisposalDateModel(day, month, year) => taxYearOfDateLongHand(LocalDate.of(year, month, day)) }
+    )
 
   def whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
     Future.successful(Ok(whatNextSAFourTimesAEAView(backLink)))
   }
 
   def whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
-    fetchAndParseDateToLocalDate().map {
-      date => Ok(whatNextSANoGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
-    }.recoverToStart()
+    getDisposalDate.map(date => Ok(whatNextSANoGainView(backLink, iFormUrl, date))).recoverToStart()
   }
 
   def whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
-    fetchAndParseDateToLocalDate().map {
-      date => Ok(whatNextSAGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
-    }.recoverToStart()
+    getDisposalDate.map(date => Ok(whatNextSAGainView(backLink, iFormUrl, date))).recoverToStart()
   }
 }
