@@ -44,23 +44,23 @@ class WhatNextSAController @Inject()(sessionCacheService: SessionCacheService,
   val backLink: String = controllers.routes.SaUserController.saUser.url
   lazy val iFormUrl: String = appConfig.residentIFormUrl
 
-  def fetchAndParseDateToLocalDate()(implicit request: Request[_]): Future[LocalDate] = {
+  private def fetchAndParseDateToLocalDate()(implicit request: Request[_]): Future[LocalDate] = {
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate).map {
       data => LocalDate.of(data.get.year, data.get.month, data.get.day)
     }
   }
 
-  val whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextSAOverFourTimesAEA: Action[AnyContent] = ValidateSession.async { implicit request =>
     Future.successful(Ok(whatNextSAFourTimesAEAView(backLink)))
   }
 
-  val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSANoGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }.recoverToStart()
   }
 
-  val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
     fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSAGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
     }.recoverToStart()
