@@ -20,6 +20,7 @@ import common.Dates._
 import common.KeystoreKeys
 import config.AppConfig
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import models.resident.DisposalDateModel
 import play.api.i18n.I18nSupport
 import play.api.mvc.{Action, AnyContent, MessagesControllerComponents, Request}
@@ -54,14 +55,14 @@ class WhatNextSAController @Inject()(sessionCacheService: SessionCacheService,
   }
 
   val whatNextSANoGain: Action[AnyContent] = ValidateSession.async { implicit request =>
-    fetchAndParseDateToLocalDate() map {
+    fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSANoGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
-    }
+    }.recoverToStart()
   }
 
   val whatNextSAGain: Action[AnyContent] = ValidateSession.async { implicit request =>
-    fetchAndParseDateToLocalDate() map {
+    fetchAndParseDateToLocalDate().map {
       date => Ok(whatNextSAGainView(backLink, iFormUrl, taxYearOfDateLongHand(date)))
-    }
+    }.recoverToStart()
   }
 }
