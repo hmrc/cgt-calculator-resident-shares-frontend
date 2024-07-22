@@ -55,6 +55,17 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
       whatNextSAGainView, whatNextSANoGainView)
   }
 
+  def setupControllerNoSession(disposalDate: DisposalDateModel): WhatNextSAController = {
+    SharedMetricRegistries.clear()
+
+    when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
+      (ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      .thenReturn(Future(None))
+
+    new WhatNextSAController(mockSessionCacheService, mockMCC, mockConfig, whatNextSAFourTimesAEAView,
+      whatNextSAGainView, whatNextSANoGainView)
+  }
+
   "Calling .whatNextSAOverFourTimesAEA" when {
 
     "provided with an invalid session" should {
@@ -150,6 +161,24 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
 
       "have a back link to the confirm-sa page" in {
         Jsoup.parse(bodyOf(result)).select("a.govuk-back-link").attr("href") shouldEqual "#"
+      }
+    }
+  }
+
+  "Empty controller" when {
+    "called with .whatNextSaGain" should {
+      "redirect to start" in {
+        lazy val controller = setupControllerNoSession(DisposalDateModel(8, 5, 2016))
+        val result = controller.whatNextSAGain(fakeRequestWithSession)
+        status(result) shouldBe 303
+      }
+    }
+
+    "called with .whatNextSaNoGain" should {
+      "redirect to start" in {
+        lazy val controller = setupControllerNoSession(DisposalDateModel(8, 5, 2016))
+        val result = controller.whatNextSANoGain(fakeRequestWithSession)
+        status(result) shouldBe 303
       }
     }
   }

@@ -38,10 +38,7 @@ package object utils {
       future.recover {
         case e: NoSuchElementException =>
           logger.warn(s"${request.uri} resulted in None.get, user redirected to start")
-          throw ApplicationException(
-            Redirect(controllers.utils.routes.TimeoutController.timeout()),
-            e.getMessage
-          )
+          Redirect(controllers.utils.routes.TimeoutController.timeout())
       }
 
     def transform[S](f: Try[Result] => Try[S])(implicit executor: ExecutionContext): Future[S] = future.transform(f)
