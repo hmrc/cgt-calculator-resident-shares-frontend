@@ -17,24 +17,21 @@
 package controllers
 
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import common.TaxDates.taxYearStringToInteger
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
 import forms.LossesBroughtForwardForm._
 import forms.LossesBroughtForwardValueForm
 import models.resident._
-import models.resident.shares.GainAnswersModel
-import play.api.data.Form
-import play.api.i18n.{I18nSupport, Lang, Messages}
+import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
 import services.SessionCacheService
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.play.bootstrap.frontend.controller.FrontendController
 import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
 import javax.inject.Inject
-import scala.concurrent.duration.Duration
-import scala.concurrent.{Await, ExecutionContext, Future}
+import scala.concurrent.{ExecutionContext, Future}
 
 class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      sessionCacheService: SessionCacheService,
@@ -44,93 +41,67 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      lossesBroughtForwardValueView: lossesBroughtForwardValue)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
-
-
-  def getDisposalDate(implicit request: Request[_]): Future[Option[DisposalDateModel]] = {
+  private def getDisposalDate(implicit request: Request[_]): Future[Option[DisposalDateModel]] =
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
-  }
 
-  def formatDisposalDate(disposalDateModel: DisposalDateModel): Future[String] = {
-    Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
-  }
+  private def formatDisposalDate(disposalDateModel: DisposalDateModel): String =
+    s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}"
 
-  def totalGain(answerSummary: GainAnswersModel, hc: HeaderCarrier): Future[BigDecimal] = calcConnector.calculateRttShareGrossGain(answerSummary)(hc)
+  private def getTaxYear(implicit request: Request[_]) =
+    for {
+      disposalDate <- getDisposalDate
+      disposalDateString = formatDisposalDate(disposalDate.get)
+      taxYear <- calcConnector.getTaxYear(disposalDateString)
+    } yield taxYear.get
 
-  def answerSummary(request: Request[_]): Future[GainAnswersModel] = sessionCacheService.getShareGainAnswers(request)
-
-  def taxYearStringToInteger(taxYear: String): Future[Int] = {
-    Future.successful((taxYear.take(2) + taxYear.takeRight(2)).toInt)
-  }
-
-  def positiveChargeableGainCheck(implicit request: Request[_]): Future[Boolean] = {
+  private def positiveChargeableGainCheck(implicit request: Request[_]): Future[Boolean] =
     for {
       gainAnswers <- sessionCacheService.getShareGainAnswers
       chargeableGainAnswers <- sessionCacheService.getShareDeductionAnswers
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      year <- taxYearStringToInteger(taxYear.get.calculationTaxYear)
+      taxYear <- getTaxYear
+      year = taxYearStringToInteger(taxYear.calculationTaxYear)
       maxAEA <- calcConnector.getFullAEA(year)
-      chargeableGain <- calcConnector.calculateRttShareChargeableGain(gainAnswers, chargeableGainAnswers, maxAEA.get).map(_.get.chargeableGain)
-    } yield chargeableGain
-
-    match {
-      case result if result.>(0) => true
-      case _ => false
-    }
-  }
+      result <- calcConnector.calculateRttShareChargeableGain(gainAnswers, chargeableGainAnswers, maxAEA.get).map(_.get.chargeableGain)
+    } yield result > 0
 
   //################# Brought Forward Losses Actions ##############################
 
   private val lossesBroughtForwardPostAction = controllers.routes.DeductionsController.submitLossesBroughtForward
 
-  val lossesBroughtForwardBackUrl: String = controllers.routes.GainController.acquisitionCosts.url
+  private val lossesBroughtForwardBackUrl: String = controllers.routes.GainController.acquisitionCosts.url
 
-  val lossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def routeRequest(backLinkUrl: String, taxYear: TaxYearModel): Future[Result] = {
-      implicit val lang: Lang = messagesApi.preferred(request).lang
-      sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
-        case Some(data) => Ok(lossesBroughtForwardView(lossesBroughtForwardForm.fill(data), lossesBroughtForwardPostAction,
-          backLinkUrl, taxYear))
-        case _ => Ok(lossesBroughtForwardView(lossesBroughtForwardForm, lossesBroughtForwardPostAction, backLinkUrl, taxYear))
-      }
-    }
-
+  def lossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
+    implicit val lang: Lang = messagesApi.preferred(request).lang
     (for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      finalResult <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
-    } yield finalResult).recoverToStart()
+      taxYear <- getTaxYear
+      formData <- sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward)
+    } yield {
+      val form = formData.map(lossesBroughtForwardForm.fill).getOrElse(lossesBroughtForwardForm)
+      Ok(lossesBroughtForwardView(form, lossesBroughtForwardPostAction, lossesBroughtForwardBackUrl, taxYear))
+    }).recoverToStart()
   }
 
-  val submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def routeRequest(backUrl: String, taxYearModel: TaxYearModel): Future[Result] = {
-      implicit val lang: Lang = messagesApi.preferred(request).lang
-      lossesBroughtForwardForm.bindFromRequest().fold(
-        errors => Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, backUrl, taxYearModel))),
-        success => {
-          sessionCacheService.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success).flatMap(
-            _ =>if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue))
-            else {
-              positiveChargeableGainCheck.map { positiveChargeableGain =>
-                if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome)
-                else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)
-              }
-            }
-          )
-        }
-      )
+  private def redirect(implicit request: Request[_]) =
+    positiveChargeableGainCheck map {
+      case true => Redirect(routes.IncomeController.currentIncome)
+      case false => Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)
     }
 
+  def submitLossesBroughtForward: Action[AnyContent] = ValidateSession.async { implicit request =>
+    implicit val lang: Lang = messagesApi.preferred(request).lang
     (for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      route <- routeRequest(lossesBroughtForwardBackUrl, taxYear.get)
+      taxYear <- getTaxYear
+      route <- lossesBroughtForwardForm.bindFromRequest().fold(
+        errors =>
+          Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, lossesBroughtForwardBackUrl, taxYear))),
+        success =>
+          for {
+            _ <- sessionCacheService.saveFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward, success)
+            result <-
+              if (success.option) Future.successful(Redirect(routes.DeductionsController.lossesBroughtForwardValue))
+              else redirect
+          } yield result
+      )
     } yield route).recoverToStart()
 
   }
@@ -140,73 +111,36 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
   private val lossesBroughtForwardValueBackLink: String = routes.DeductionsController.lossesBroughtForward.url
   private val lossesBroughtForwardValuePostAction: Call = routes.DeductionsController.submitLossesBroughtForwardValue
 
-  val lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
-
-    def retrieveKeystoreData(taxYear: TaxYearModel): Future[Form[LossesBroughtForwardValueModel]] = {
-      implicit val lang: Lang = messagesApi.preferred(request).lang
-      val form: Form[LossesBroughtForwardValueModel] = lossesBroughtForwardValueForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
-
-      sessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue).map {
-        case Some(data) => form.fill(data)
-        case _ => form
-      }
-    }
-
-    def routeRequest(taxYear: TaxYearModel, formData: Form[LossesBroughtForwardValueModel]): Future[Result] = {
-      implicit val lang: Lang = messagesApi.preferred(request).lang
-      Future.successful(Ok(lossesBroughtForwardValueView(
+  def lossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+    implicit val lang: Lang = messagesApi.preferred(request).lang
+    (for {
+      taxYear <- getTaxYear
+      form = lossesBroughtForwardValueForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
+      formData <- sessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue)
+        .map(_.map(form.fill).getOrElse(form))
+    } yield Ok(lossesBroughtForwardValueView(
         formData,
         taxYear,
         navBackLink = lossesBroughtForwardValueBackLink,
         postAction = lossesBroughtForwardValuePostAction
-      )))
-    }
-    (for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-      formData <- retrieveKeystoreData(taxYear.get)
-      route <- routeRequest(taxYear.get, formData)
-    } yield route).recoverToStart()
+      ))
+    ).recoverToStart()
   }
 
-  val submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
+  def submitLossesBroughtForwardValue: Action[AnyContent] = ValidateSession.async { implicit request =>
     implicit val lang: Lang = messagesApi.preferred(request).lang
-    val taxYearFuture: Future[Option[TaxYearModel]] = for {
-      disposalDate <- getDisposalDate
-      disposalDateString <- formatDisposalDate(disposalDate.get)
-      taxYear <- calcConnector.getTaxYear(disposalDateString)
-    } yield taxYear
-
-    val taxYear = Await.result(
-      taxYearFuture,
-      Duration.Inf
-    ).get
-
-    val form = lossesBroughtForwardValueForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
-
-    form.bindFromRequest().fold(
-      errors => {
-        for {
-          disposalDate <- getDisposalDate
-          disposalDateString <- formatDisposalDate(disposalDate.get)
-          taxYear <- calcConnector.getTaxYear(disposalDateString)
-        } yield {
-          BadRequest(lossesBroughtForwardValueView(
-            errors,
-            taxYear.get,
-            navBackLink = lossesBroughtForwardValueBackLink,
-            postAction = lossesBroughtForwardValuePostAction))
-        }
-      },
-      success => {
-        sessionCacheService.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success).flatMap(
-          _ => positiveChargeableGainCheck.map { positiveChargeableGain =>
-            if (positiveChargeableGain) Redirect(routes.IncomeController.currentIncome)
-            else Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)
-          }
-        )
-      }
-    )
+    for {
+      taxYear <- getTaxYear
+      form = lossesBroughtForwardValueForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
+      result <- form.bindFromRequest().fold(
+        errors =>
+          Future.successful(BadRequest(lossesBroughtForwardValueView(errors, taxYear, navBackLink = lossesBroughtForwardValueBackLink, postAction = lossesBroughtForwardValuePostAction))),
+        success =>
+          for {
+            _ <- sessionCacheService.saveFormData[LossesBroughtForwardValueModel](keystoreKeys.lossesBroughtForwardValue, success)
+            result <- redirect
+          } yield result
+      )
+    } yield result
   }
 }
