@@ -174,7 +174,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockCalculateRttShareGrossGain(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout()), "error message")
     }
   }
 
@@ -208,7 +208,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockCalculateRttShareChargeableGain(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout()), "error message")
     }
   }
 
@@ -242,7 +242,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockCalculateRttShareTotalGainAndTax(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles, deductionAnswersMostPossibles, 10000, incomeAnswers)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout()), "error message")
     }
   }
 
@@ -267,7 +267,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with WithCommonFakeApplicat
       mockGetSharesTotalCosts(Future.failed(new NoSuchElementException("error message")))
       val result = TargetCalculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout), "error message")
+        Redirect(controllers.utils.routes.TimeoutController.timeout()), "error message")
     }
   }
 }

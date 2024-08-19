@@ -24,7 +24,7 @@ import play.api.mvc.MessagesControllerComponents
 
 class FeedbackSurveyControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
-  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
   val feedbackSurveyController = new FeedbackSurveyController(mockConfig, mockMCC)

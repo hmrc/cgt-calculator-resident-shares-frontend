@@ -31,6 +31,7 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.Application
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
@@ -41,27 +42,27 @@ import scala.concurrent.Future
 
 class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
-  implicit lazy val actorSystem = ActorSystem()
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
 
-  val gainAnswersModel = mock[GainAnswersModel]
+  val gainAnswersModel: GainAnswersModel = mock[GainAnswersModel]
 
-  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  implicit val mockApplication = fakeApplication
-  val mockCalcConnector = mock[CalculatorConnector]
-  val mockSessionCacheService = mock[SessionCacheService]
-  val mockMCC =fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
-  val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
-  val disposalCostsView = fakeApplication.injector.instanceOf[disposalCosts]
-  val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
-  val disposalValueView = fakeApplication.injector.instanceOf[disposalValue]
-  val didYouInheritThemView = fakeApplication.injector.instanceOf[didYouInheritThem]
-  val ownerBeforeLegislationStartView = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
-  val sellForLessView = fakeApplication.injector.instanceOf[sellForLess]
-  val valueBeforeLegislationStartView = fakeApplication.injector.instanceOf[valueBeforeLegislationStart]
-  val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
-  val worthWhenSoldForLessView = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
-  val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
+  implicit val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockApplication: Application = fakeApplication
+  val mockCalcConnector: CalculatorConnector = mock[CalculatorConnector]
+  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockMCC: MessagesControllerComponents =fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val acquisitionCostsView: acquisitionCosts = fakeApplication.injector.instanceOf[acquisitionCosts]
+  val acquisitionValueView: acquisitionValue = fakeApplication.injector.instanceOf[acquisitionValue]
+  val disposalCostsView: disposalCosts = fakeApplication.injector.instanceOf[disposalCosts]
+  val disposalDateView: disposalDate = fakeApplication.injector.instanceOf[disposalDate]
+  val disposalValueView: disposalValue = fakeApplication.injector.instanceOf[disposalValue]
+  val didYouInheritThemView: didYouInheritThem = fakeApplication.injector.instanceOf[didYouInheritThem]
+  val ownerBeforeLegislationStartView: ownerBeforeLegislationStart = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
+  val sellForLessView: sellForLess = fakeApplication.injector.instanceOf[sellForLess]
+  val valueBeforeLegislationStartView: valueBeforeLegislationStart = fakeApplication.injector.instanceOf[valueBeforeLegislationStart]
+  val worthWhenInheritedView: worthWhenInherited = fakeApplication.injector.instanceOf[worthWhenInherited]
+  val worthWhenSoldForLessView: worthWhenSoldForLess = fakeApplication.injector.instanceOf[worthWhenSoldForLess]
+  val outsideTaxYearView: outsideTaxYear = fakeApplication.injector.instanceOf[outsideTaxYear]
 
   def setupTarget(
                    acquisitionCostsData: Option[AcquisitionCostsModel],

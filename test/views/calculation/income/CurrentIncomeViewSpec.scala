@@ -22,19 +22,21 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.CurrentIncomeForm
 import models.resident.TaxYearModel
+import models.resident.income.CurrentIncomeModel
 import org.jsoup.Jsoup
-import play.api.i18n.Lang
+import play.api.data.Form
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.income.currentIncome
 
 class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val currentIncomeView: currentIncome = fakeApplication.injector.instanceOf[currentIncome]
   val fakeLang: Lang = Lang("en")
-  val injectedForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
-  val currentIncomeForm = injectedForm("2022")
+  val injectedForm: CurrentIncomeForm = fakeApplication.injector.instanceOf[CurrentIncomeForm]
+  val currentIncomeForm: Form[CurrentIncomeModel] = injectedForm("2022")
 
   "Current Income view" should {
 

@@ -21,12 +21,12 @@ import common.Dates._
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
-import play.api.i18n.Lang
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import views.html.playHelpers.resident.summaryDateRowHelper
 
 class SummaryDateRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper{
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val summaryDateRowHelperView = fakeApplication.injector.instanceOf[summaryDateRowHelper]
   val fakeLang: Lang = Lang("en")

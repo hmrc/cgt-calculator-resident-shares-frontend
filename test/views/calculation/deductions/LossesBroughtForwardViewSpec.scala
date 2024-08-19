@@ -23,15 +23,15 @@ import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardForm._
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
-import play.api.i18n.Lang
-import play.api.mvc.MessagesControllerComponents
+import play.api.i18n.{Lang, Messages}
+import play.api.mvc.{Call, MessagesControllerComponents}
 import views.html.calculation.deductions.lossesBroughtForward
 
 class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  lazy val postAction = controllers.routes.DeductionsController.submitLossesBroughtForward
-  val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  lazy val postAction: Call = controllers.routes.DeductionsController.submitLossesBroughtForward
+  val lossesBroughtForwardView: lossesBroughtForward = fakeApplication.injector.instanceOf[lossesBroughtForward]
   val fakeLang: Lang = Lang("en")
 
   "Reliefs view" should {

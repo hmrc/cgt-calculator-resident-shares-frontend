@@ -26,7 +26,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
 
   val injectedForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
   val lossesBroughtForwardValueForm = injectedForm("2022", Lang("en"))
-  implicit val messagesApi = fakeApplication.injector.instanceOf[MessagesApi]
+  implicit val messagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
 
   "Creating a form using a valid model" should {
 

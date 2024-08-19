@@ -19,11 +19,12 @@ package views.helpers
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.playHelpers.resident.summaryGainAndRateHelper
 
 class SummaryGainAndRateHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val summaryGainAndRateHelperView = fakeApplication.injector.instanceOf[summaryGainAndRateHelper]
   lazy val rowSingle = summaryGainAndRateHelperView("testID","testQ", 1000, 18, None, None)(mockMessage)

@@ -23,14 +23,15 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.SaUserForm
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.whatNext.saUser
 
 class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val saUserView = fakeApplication.injector.instanceOf[saUser]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val saUserView: saUser = fakeApplication.injector.instanceOf[saUser]
 
   "SaUserView" when {
 

@@ -31,7 +31,7 @@ trait WithCommonFakeApplication extends BeforeAndAfterAll {
   lazy val fakeApplication: Application = new GuiceApplicationBuilder().bindings(bindModules:_*).build()
 
   implicit val ec: ExecutionContext = fakeApplication.injector.instanceOf[ExecutionContext]
-  implicit lazy val materializer = mock[Materializer]
+  implicit lazy val materializer: Materializer = mock[Materializer]
 
   def bindModules: Seq[GuiceableModule] = Seq()
 

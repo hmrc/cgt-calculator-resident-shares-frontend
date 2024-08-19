@@ -22,12 +22,12 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares.DeductionGainAnswersModel
 import org.scalatestplus.mockito.MockitoSugar
-import play.api.i18n.MessagesProvider
+import play.api.i18n.{Messages, MessagesProvider}
 import play.api.mvc.MessagesControllerComponents
 
 class SummaryConstructorSpec extends CommonPlaySpec with WithCommonFakeApplication with MockitoSugar with FakeRequestHelper {
-  implicit val mockMessagesProvider = mock[MessagesProvider]
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit val mockMessagesProvider: MessagesProvider = mock[MessagesProvider]
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val summaryConstructor = new SummaryConstructor()
 
   "Calling the .gainMessage function" when {

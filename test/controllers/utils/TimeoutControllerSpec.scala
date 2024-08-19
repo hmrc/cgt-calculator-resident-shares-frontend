@@ -21,31 +21,35 @@ import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.Application
 import play.api.i18n.{Messages, MessagesProvider}
-import play.api.mvc.{Action, AnyContent, MessagesControllerComponents}
+import play.api.mvc.{Action, AnyContent, AnyContentAsEmpty, MessagesControllerComponents, Result}
 import play.api.test.FakeRequest
 import views.html.warnings.sessionTimeout
 
+import scala.concurrent.Future
+
 class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
-  implicit val config = fakeApplication.injector.instanceOf[ApplicationConfig]
-  implicit val mockMessagesProvider = mock[MessagesProvider]
-  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  implicit val mockApplication = fakeApplication
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-  implicit lazy val actorSystem = ActorSystem()
-  val sessionTimeoutView = fakeApplication.injector.instanceOf[sessionTimeout]
+  implicit val config: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockMessagesProvider: MessagesProvider = mock[MessagesProvider]
+  val mockMCC: MessagesControllerComponents = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  implicit val mockApplication: Application = fakeApplication
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
+  val sessionTimeoutView: sessionTimeout = fakeApplication.injector.instanceOf[sessionTimeout]
 
   class fakeRequestTo(url: String, controllerAction: Action[AnyContent]) {
-    val fakeRequest = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
-    val result = controllerAction(fakeRequest)
-    val jsoupDoc = Jsoup.parse(bodyOf(result))
+    val fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
+    val result: Future[Result] = controllerAction(fakeRequest)
+    val jsoupDoc: Document = Jsoup.parse(bodyOf(result))
 
   }
 
   val controller = new TimeoutController(mockMCC, sessionTimeoutView)
-  val homeLink = controllers.routes.GainController.disposalDate.url
+  val homeLink: String = controllers.routes.GainController.disposalDate.url
 
   "TimeoutController.timeout" should {
 

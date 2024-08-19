@@ -29,6 +29,7 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.Application
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers.redirectLocation
 import services.SessionCacheService
@@ -43,8 +44,8 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
 
   val mockSessionCacheService = mock[SessionCacheService]
   val mockConnector = mock[CalculatorConnector]
-  implicit val appConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  implicit val appApplication = fakeApplication
+  implicit val appConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val appApplication: Application = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)

@@ -98,7 +98,7 @@ class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with With
       lazy val result: Future[GainAnswersModel] = sessionCacheService.getShareGainAnswers
 
       the[ApplicationException] thrownBy await(result) shouldBe ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout), "None.get")
+        Redirect(controllers.utils.routes.TimeoutController.timeout()), "None.get")
     }
   }
 

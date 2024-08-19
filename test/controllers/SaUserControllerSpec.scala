@@ -28,6 +28,7 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.Application
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
@@ -38,13 +39,13 @@ import scala.concurrent.Future
 
 class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
-  implicit val hc = HeaderCarrier(sessionId = Some(SessionId("sessionId")))
-  val mockConnector = mock[CalculatorConnector]
+  implicit val hc: HeaderCarrier = HeaderCarrier(sessionId = Some(SessionId("sessionId")))
+  val mockConnector: CalculatorConnector = mock[CalculatorConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  implicit val mockApplication = fakeApplication
-  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val saUserView = fakeApplication.injector.instanceOf[saUser]
+  implicit val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockApplication: Application = fakeApplication
+  val mockMCC: MessagesControllerComponents = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val saUserView: saUser = fakeApplication.injector.instanceOf[saUser]
 
   def setupController(gainAnswersModel: GainAnswersModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
                       taxOwed: BigDecimal): SaUserController = {
