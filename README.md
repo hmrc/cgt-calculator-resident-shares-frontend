@@ -18,8 +18,8 @@ This code is open source software licensed under the [Apache 2.0 License]("http:
 ## Running the service
 
 To run the microservices locally start the dependent microservices using service manager
-<code>sm --start CGT_ALL -r</code> </br>
-<code>sm --stop CGT_CALC_RES_SHARES_FRONTEND</code> </br>
+<code>sm2 --start CGT_ALL -r</code> </br>
+<code>sm2 --stop CGT_CALC_RES_SHARES_FRONTEND</code> </br>
 
 Then from the root directory execute 
 <code>sbt "run 9704"</code></br>
