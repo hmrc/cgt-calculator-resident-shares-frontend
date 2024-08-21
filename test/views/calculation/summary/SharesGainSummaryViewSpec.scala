@@ -25,15 +25,15 @@ import controllers.routes
 import models.resident.TaxYearModel
 import models.resident.shares.GainAnswersModel
 import org.jsoup.Jsoup
-import play.api.i18n.Lang
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.summary.gainSummary
 
 class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val gainSummaryView = fakeApplication.injector.instanceOf[gainSummary]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val gainSummaryView: gainSummary = fakeApplication.injector.instanceOf[gainSummary]
   val fakeLang: Lang = Lang("en")
 
   "Summary view" when {

@@ -23,15 +23,15 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
-import play.api.i18n.Lang
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.summary.deductionsSummary
 
 class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val deductionsSummaryView = fakeApplication.injector.instanceOf[deductionsSummary]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val deductionsSummaryView: deductionsSummary = fakeApplication.injector.instanceOf[deductionsSummary]
   val fakeLang: Lang = Lang("en")
 
   "Properties Deductions Summary view when a valid tax year is supplied" should {

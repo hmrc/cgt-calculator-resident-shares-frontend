@@ -41,7 +41,7 @@ import scala.concurrent.Future
 
 class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
-  implicit lazy val actorSystem = ActorSystem()
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
 
   val gainModel = mock[GainAnswersModel]
   val summaryModel = mock[DeductionGainAnswersModel]

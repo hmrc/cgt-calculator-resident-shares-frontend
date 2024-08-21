@@ -40,7 +40,7 @@ import scala.concurrent.Future
 class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
 
-  implicit lazy val actorSystem = ActorSystem()
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
 
   def setupTarget(storedData: Option[CurrentIncomeModel],
                   otherProperties: Boolean = true,

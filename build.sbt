@@ -1,9 +1,11 @@
-import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, integrationTestSettings, scalaSettings}
+import uk.gov.hmrc.DefaultBuildSettings
+import uk.gov.hmrc.DefaultBuildSettings.{defaultSettings, scalaSettings}
 
 lazy val appName = "cgt-calculator-resident-shares-frontend"
 
 lazy val plugins : Seq[Plugins] = Seq(play.sbt.PlayScala)
 lazy val playSettings : Seq[Setting[_]] = Seq.empty
+lazy val ItTest = config("it") extend Test
 
 lazy val microservice = Project(appName, file("."))
   .enablePlugins(Seq(play.sbt.PlayScala, SbtDistributablesPlugin) ++ plugins : _*)
@@ -20,9 +22,9 @@ lazy val microservice = Project(appName, file("."))
     retrieveManaged := true,
     Assets / pipelineStages := Seq(digest)
   )
-  .configs(IntegrationTest)
-  .settings(inConfig(IntegrationTest)(Defaults.itSettings): _*)
-  .settings(integrationTestSettings())
+  .configs(ItTest)
+  .settings(inConfig(ItTest)(Defaults.testSettings): _*)
+  .settings(DefaultBuildSettings.itSettings())
   .settings(isPublicArtefact := true)
   .settings(
     scalacOptions.+=("-Wconf:src=html/.*:s"), //suppresses warnings in twirl files and routes.

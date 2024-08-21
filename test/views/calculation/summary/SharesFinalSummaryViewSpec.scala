@@ -24,15 +24,15 @@ import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
-import play.api.i18n.Lang
+import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.summary.finalSummary
 
 class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val finalSummaryView = fakeApplication.injector.instanceOf[finalSummary]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val finalSummaryView: finalSummary = fakeApplication.injector.instanceOf[finalSummary]
   val fakeLang: Lang = Lang("en")
 
   "ShareFinalSummaryViewSpec" when {

@@ -20,11 +20,12 @@ import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.playHelpers.resident.summaryOptionRowHelper
 
 class SummaryOptionRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val summaryOptionRowHelperView = fakeApplication.injector.instanceOf[summaryOptionRowHelper]
   lazy val row = summaryOptionRowHelperView("testID","testQ",true)(mockMessage)

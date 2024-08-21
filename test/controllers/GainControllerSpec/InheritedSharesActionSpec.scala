@@ -39,7 +39,7 @@ import scala.concurrent.Future
 
 class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
-  implicit lazy val actorSystem = ActorSystem()
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
   lazy val title = s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
 
   def setupTarget(getData: Option[DidYouInheritThemModel]): GainController= {

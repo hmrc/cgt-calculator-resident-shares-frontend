@@ -29,8 +29,8 @@ import views.html.calculation.gain.ownerBeforeLegislationStart
 class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val ownerBeforeLegislationStartView = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val ownerBeforeLegislationStartView: ownerBeforeLegislationStart = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
 
   "Owned Before 1982 view with an empty form" should {
 

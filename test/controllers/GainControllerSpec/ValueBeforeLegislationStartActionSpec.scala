@@ -29,6 +29,7 @@ import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
+import play.api.Application
 import play.api.mvc.MessagesControllerComponents
 import play.api.test.Helpers._
 import services.SessionCacheService
@@ -40,11 +41,11 @@ import scala.concurrent.Future
 class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithCommonFakeApplication
   with FakeRequestHelper with MockitoSugar {
 
-  implicit lazy val actorSystem = ActorSystem()
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
   val mockCalcConnector = mock[CalculatorConnector]
   val mockSessionCacheService = mock[SessionCacheService]
-  implicit val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  implicit val mockApplication = fakeApplication
+  implicit val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  implicit val mockApplication: Application = fakeApplication
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
   val acquisitionCostsView = fakeApplication.injector.instanceOf[acquisitionCosts]
   val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]

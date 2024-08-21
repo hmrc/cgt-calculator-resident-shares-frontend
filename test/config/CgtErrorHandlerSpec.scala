@@ -52,7 +52,7 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
         Results.Ok("OK")
       }
       case GET(p"/application-exception") => actionBuilder.async { request =>
-        throw new ApplicationException(Redirect(controllers.utils.routes.TimeoutController.timeout), "Test exception thrown")
+        throw new ApplicationException(Redirect(controllers.utils.routes.TimeoutController.timeout()), "Test exception thrown")
       }
       case GET(p"/other-error") => actionBuilder.async { request =>
         throw new IllegalArgumentException("Other Exception Thrown")
@@ -60,7 +60,7 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
     }
   }
 
-  implicit lazy val app = new GuiceApplicationBuilder().router(routerForTest).build()
+  implicit lazy val app: Application = new GuiceApplicationBuilder().router(routerForTest).build()
 
   "Application returns OK for no exception" in {
     val request = FakeRequest("GET", "/ok")
@@ -72,7 +72,7 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
     val request = FakeRequest("GET", "/application-exception")
     val response = routeWithError(app, request).get
     status(response) should equal(SEE_OTHER)
-    redirectLocation(response) shouldBe Some(controllers.utils.routes.TimeoutController.timeout.url)
+    redirectLocation(response) shouldBe Some(controllers.utils.routes.TimeoutController.timeout().url)
   }
 
   "Application throws other exception and logs error" in {

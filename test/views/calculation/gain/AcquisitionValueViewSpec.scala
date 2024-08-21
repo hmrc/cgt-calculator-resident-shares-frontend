@@ -68,7 +68,6 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
     "have a H1 tag that" should {
       lazy val heading = doc.select("h1")
-      lazy val form = doc.select("form")
 
       s"have the page heading '${messages.h1}'" in {
         heading.text should include(messages.h1)

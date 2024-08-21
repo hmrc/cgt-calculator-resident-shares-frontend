@@ -38,8 +38,8 @@ import scala.concurrent.Future
 
 class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
-  implicit lazy val actorSystem = ActorSystem()
-  implicit val hc = new HeaderCarrier()
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
+  implicit val hc: HeaderCarrier = new HeaderCarrier()
 
 
   def setupTarget

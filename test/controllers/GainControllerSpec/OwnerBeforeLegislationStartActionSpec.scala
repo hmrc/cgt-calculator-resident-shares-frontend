@@ -38,7 +38,7 @@ import scala.concurrent.Future
 
 class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
-  implicit lazy val actorSystem = ActorSystem()
+  implicit lazy val actorSystem: ActorSystem = ActorSystem()
 
   def setupTarget(getData: Option[OwnerBeforeLegislationStartModel]): GainController= {
 

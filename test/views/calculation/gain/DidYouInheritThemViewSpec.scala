@@ -29,8 +29,8 @@ import views.html.calculation.gain.didYouInheritThem
 class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val didYouInheritThemView = fakeApplication.injector.instanceOf[didYouInheritThem]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val didYouInheritThemView: didYouInheritThem = fakeApplication.injector.instanceOf[didYouInheritThem]
   val title = s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
   "Sell for less view with an empty form" should {
 
