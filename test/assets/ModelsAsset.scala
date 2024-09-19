@@ -74,6 +74,24 @@ object ModelsAsset {
     acquisitionCosts = 30000
   )
 
+  val totalGainAndTaxOwedModel = TotalGainAndTaxOwedModel(
+    gain = 50000,
+    chargeableGain = 20000,
+    aeaUsed = 10,
+    deductions = 30000,
+    taxOwed = 3600,
+    firstBand = 20000,
+    firstRate = 18,
+    secondBand = Some(10000.00),
+    secondRate = Some(28),
+    lettingReliefsUsed = Some(BigDecimal(500)),
+    prrUsed = Some(BigDecimal(125)),
+    broughtForwardLossesUsed = 35,
+    allowableLossesUsed = 0,
+    baseRateTotal = 30000,
+    upperRateTotal = 15000
+  )
+
   val deductionAnswersMostPossibles = DeductionGainAnswersModel(
     Some(LossesBroughtForwardModel(true)),
     Some(LossesBroughtForwardValueModel(10000))
