@@ -44,7 +44,8 @@ object AppDependencies {
         "org.mockito"            %  "mockito-core"                  % "5.11.0",
         "org.jsoup"              %  "jsoup"                         % "1.17.2",
         "org.playframework"      %% "play-test"                     % playVersion,
-        "uk.gov.hmrc.mongo"      %% s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion
+        "uk.gov.hmrc.mongo"      %% s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion,
+        "com.github.tomakehurst" % "wiremock"                       % "3.0.0-beta-7"
       ).map(_ % scope)
     }.test
   }
