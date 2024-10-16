@@ -46,10 +46,10 @@ object CalculateRequestConstructor {
   def chargeableGainRequest(answers: DeductionGainAnswersModel, maxAEA: BigDecimal): String = {
     s"${
       if (answers.broughtForwardModel.get.option)
-        Map("broughtForwardLosses" -> answers.broughtForwardValueModel.get.amount.toDouble.toString)
+        s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount.toDouble}"
       else ""
     }" +
-      Map("annualExemptAmount" -> maxAEA.toDouble.toString)
+      s"&annualExemptAmount=${maxAEA.toDouble}"
   }
 
   def incomeAnswersRequest(deductionsAnswers: DeductionGainAnswersModel, answers: IncomeAnswersModel): Map[String, Any] = {
