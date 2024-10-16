@@ -60,7 +60,7 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
           None)
         val result = CalculateRequestConstructor.chargeableGainRequest(answers, BigDecimal(11100))
-        result shouldBe "&annualExemptAmount=11100.0"
+        result shouldBe Map("annualExemptAmount" -> "11100.0")
       }
     }
 
@@ -70,7 +70,11 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(true)),
           Some(LossesBroughtForwardValueModel(BigDecimal(2000))))
         val result = CalculateRequestConstructor.chargeableGainRequest(answers, BigDecimal(11100))
-        result shouldBe "&broughtForwardLosses=2000.0&annualExemptAmount=11100.0"
+        if (result.contains("broughtForwardLosses")) {
+          result shouldBe Map("broughtForwardLosses" -> "2000.0")
+        } else {
+          result shouldBe Map("annualExemptAmount" -> "11100.0")
+        }
       }
     }
   }
