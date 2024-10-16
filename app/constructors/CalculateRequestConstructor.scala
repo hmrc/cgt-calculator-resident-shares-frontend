@@ -22,34 +22,39 @@ import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 
 object CalculateRequestConstructor {
 
-  def totalGainRequestString (answers: GainAnswersModel): String = {
-    s"?disposalValue=${determineDisposalValueToUse(answers).toDouble}" +
-      s"&disposalCosts=${answers.disposalCosts.toDouble}" +
-      s"&acquisitionValue=${determineAcquisitionValueToUse(answers).toDouble}" +
-      s"&acquisitionCosts=${answers.acquisitionCosts.toDouble}" +
-      s"&disposalDate=${answers.disposalDate.format(requestFormatter)}"
+  def totalGainRequest(answers: GainAnswersModel): Map[String, String] = {
+    Map(
+      "disposalValue" -> determineDisposalValueToUse(answers).toDouble.toString,
+      "disposalCosts" -> answers.disposalCosts.toDouble.toString,
+      "acquisitionValue" -> determineAcquisitionValueToUse(answers).toDouble.toString,
+      "acquisitionCosts" -> answers.acquisitionCosts.toDouble.toString,
+      "disposalDate" -> answers.disposalDate.format(requestFormatter)
+    )
   }
 
-  def determineDisposalValueToUse (answers: GainAnswersModel): BigDecimal = {
+  def determineDisposalValueToUse(answers: GainAnswersModel): BigDecimal = {
     if (answers.soldForLessThanWorth) answers.worthWhenSoldForLess.get
     else answers.disposalValue.get
   }
 
-  def determineAcquisitionValueToUse (answers: GainAnswersModel): BigDecimal = {
+  def determineAcquisitionValueToUse(answers: GainAnswersModel): BigDecimal = {
     if (answers.ownerBeforeLegislationStart) answers.valueBeforeLegislationStart.get
     else if (answers.inheritedTheShares.get) answers.worthWhenInherited.get
     else answers.acquisitionValue.get
   }
 
-  def chargeableGainRequestString (answers: DeductionGainAnswersModel, maxAEA: BigDecimal): String = {
-      s"${if (answers.broughtForwardModel.get.option)
-        s"&broughtForwardLosses=${answers.broughtForwardValueModel.get.amount.toDouble}"
-      else ""}" +
-      s"&annualExemptAmount=${maxAEA.toDouble}"
+  def chargeableGainRequest(answers: DeductionGainAnswersModel, maxAEA: BigDecimal): Map[String, String] = {
+    Map("annualExemptAmount" -> maxAEA.toDouble.toString) ++ (
+      if (answers.broughtForwardModel.get.option) {
+        Seq("broughtForwardLosses" -> answers.broughtForwardValueModel.get.amount.toDouble.toString)
+      } else Nil
+      )
   }
 
-  def incomeAnswersRequestString (deductionsAnswers: DeductionGainAnswersModel, answers: IncomeAnswersModel): String = {
-      s"&previousIncome=${answers.currentIncomeModel.get.amount.toDouble}" +
-      s"&personalAllowance=${answers.personalAllowanceModel.get.amount.toDouble}"
+  def incomeAnswersRequest(deductionsAnswers: DeductionGainAnswersModel, answers: IncomeAnswersModel): Map[String, Any] = {
+    Map(
+      "previousIncome" -> answers.currentIncomeModel.get.amount.toDouble,
+      "personalAllowance" -> answers.personalAllowanceModel.get.amount.toDouble
+    )
   }
 }
