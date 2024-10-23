@@ -41,12 +41,14 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
         acquisitionValue = Some(500),
         acquisitionCosts = 100
       )
-      val result = CalculateRequestConstructor.totalGainRequestString(answers)
-      result shouldBe s"?disposalValue=1000.0" +
-        s"&disposalCosts=0.0" +
-        s"&acquisitionValue=500.0" +
-        s"&acquisitionCosts=100.0" +
-        s"&disposalDate=2016-02-10"
+      val result = CalculateRequestConstructor.totalGainRequest(answers)
+      result shouldBe Map(
+        "disposalValue" -> "1000.0",
+        "disposalCosts" -> "0.0",
+        "acquisitionValue" -> "500.0",
+        "acquisitionCosts" -> "100.0",
+        "disposalDate" -> "2016-02-10"
+      )
     }
   }
 
@@ -57,8 +59,8 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
       "return a valid url variable string" in {
         val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(false)),
           None)
-        val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&annualExemptAmount=11100.0"
+        val result = CalculateRequestConstructor.chargeableGainRequest(answers, BigDecimal(11100))
+        result shouldBe Map("annualExemptAmount" -> "11100.0")
       }
     }
 
@@ -67,8 +69,14 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
       "return a valid url variable string" in {
         val answers = DeductionGainAnswersModel(Some(LossesBroughtForwardModel(true)),
           Some(LossesBroughtForwardValueModel(BigDecimal(2000))))
-        val result = CalculateRequestConstructor.chargeableGainRequestString(answers, BigDecimal(11100))
-        result shouldBe "&broughtForwardLosses=2000.0&annualExemptAmount=11100.0"
+        val result = CalculateRequestConstructor.chargeableGainRequest(answers, BigDecimal(11100))
+
+        val expectedMap = Map(
+          "annualExemptAmount" -> "11100.0",
+          "broughtForwardLosses" -> "2000.0"
+        )
+        result shouldBe expectedMap
+
       }
     }
   }
@@ -80,8 +88,8 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
       val incomeGainAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(1000)), Some(PersonalAllowanceModel(10600)))
 
       "return a valid request string" in {
-        val result = CalculateRequestConstructor.incomeAnswersRequestString(deductionGainAnswersModel, incomeGainAnswersModel)
-        result shouldBe "&previousIncome=1000.0&personalAllowance=10600.0"
+        val result = CalculateRequestConstructor.incomeAnswersRequest(deductionGainAnswersModel, incomeGainAnswersModel)
+        result shouldBe Map("previousIncome" -> 1000.0, "personalAllowance" -> 10600.0)
       }
     }
   }
