@@ -34,7 +34,7 @@
             @govukButton(Button(
                 href = Some(continueUrl),
                 content = Text(messages("calc.base.button.continue")),
-                attributes = Map("id" -> "continue-button")
+                attributes = Map("id" -> "continue-button","data-prevent-double-click" -> "true")
             ))
             } else {
         <p class="govuk-body">@{if (isProperty) Messages("calc.resident.outsideTaxYears.message.tooEarly")

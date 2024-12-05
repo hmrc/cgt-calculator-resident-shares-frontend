@@ -21,6 +21,7 @@
 @govukButton(Button(
     content = Text(messages(submitText)),
     attributes = Map(
-        "id" -> "submit"
+        "id" -> "submit",
+        "data-prevent-double-click" -> "true"
     )
 ))
