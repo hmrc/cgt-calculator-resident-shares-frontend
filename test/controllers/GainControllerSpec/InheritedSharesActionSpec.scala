@@ -86,7 +86,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"return some html with title of $title" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual title
+        Jsoup.parse(contentAsString(result)).title shouldEqual title
       }
     }
 
@@ -152,7 +152,7 @@ class InheritedSharesActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("wereInherited", "")).withMethod("POST")
       lazy val result = target.submitDidYouInheritThem(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

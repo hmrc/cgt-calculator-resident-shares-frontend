@@ -27,6 +27,7 @@ import play.api.Application
 import play.api.i18n.{Messages, MessagesProvider}
 import play.api.mvc.{Action, AnyContent, AnyContentAsEmpty, MessagesControllerComponents, Result}
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, status}
 import views.html.warnings.sessionTimeout
 
 import scala.concurrent.Future
@@ -44,7 +45,7 @@ class TimeoutControllerSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   class fakeRequestTo(url: String, controllerAction: Action[AnyContent]) {
     val fakeRequest: FakeRequest[AnyContentAsEmpty.type] = FakeRequest("GET", "/calculate-your-capital-gains/" + url)
     val result: Future[Result] = controllerAction(fakeRequest)
-    val jsoupDoc: Document = Jsoup.parse(bodyOf(result))
+    val jsoupDoc: Document = Jsoup.parse(contentAsString(result))
 
   }
 

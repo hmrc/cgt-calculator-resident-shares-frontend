@@ -88,7 +88,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Disposal Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -96,7 +96,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       lazy val target = setupTarget(Some(DisposalCostsModel(100.99)))
       lazy val result = target.disposalCosts(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200

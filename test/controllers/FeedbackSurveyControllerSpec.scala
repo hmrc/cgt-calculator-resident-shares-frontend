@@ -21,6 +21,7 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
+import play.api.test.Helpers.{defaultAwaitTimeout, status}
 
 class FeedbackSurveyControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 

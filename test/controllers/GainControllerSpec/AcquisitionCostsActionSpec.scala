@@ -122,7 +122,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -146,7 +146,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -306,7 +306,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       )
       lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitAcquisitionCosts(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a 400" in {
         status(result) shouldBe 400

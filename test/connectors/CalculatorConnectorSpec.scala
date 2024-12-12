@@ -19,11 +19,12 @@ package connectors
 import assets.ModelsAsset._
 import com.typesafe.config.ConfigFactory
 import common.CommonPlaySpec
-import models.resident.{ChargeableGainResultModel, TaxYearModel, TotalGainAndTaxOwedModel}
+import models.resident.{ChargeableGainResultModel, TaxYearModel}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status
 import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import play.api.{Application, Configuration}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.test.WireMockSupport

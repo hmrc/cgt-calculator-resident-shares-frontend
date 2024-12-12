@@ -31,7 +31,7 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.Application
 import play.api.mvc.MessagesControllerComponents
-import play.api.test.Helpers.redirectLocation
+import play.api.test.Helpers.{contentAsString, redirectLocation, status}
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier
 import views.html.calculation.checkYourAnswers.checkYourAnswers
@@ -106,11 +106,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(contentAsString(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the acquisition costs page" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
   }
@@ -145,11 +145,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(contentAsString(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the brought forward losses value page" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -165,11 +165,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(contentAsString(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the brought forward losses page" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
   }
@@ -204,11 +204,11 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "load the Review Answers page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
+        Jsoup.parse(contentAsString(result)).title() shouldBe MessageLookup.Resident.Shares.ReviewAnswers.title
       }
 
       "have a back link to the personal allowance page" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
   }

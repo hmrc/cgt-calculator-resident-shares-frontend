@@ -49,7 +49,7 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
 
     Router.from {
       case GET(p"/ok") => actionBuilder.async { request =>
-        Results.Ok("OK")
+        Future.successful(Results.Ok("OK"))
       }
       case GET(p"/application-exception") => actionBuilder.async { request =>
         throw new ApplicationException(Redirect(controllers.utils.routes.TimeoutController.timeout()), "Test exception thrown")

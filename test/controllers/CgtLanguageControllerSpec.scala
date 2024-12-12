@@ -23,6 +23,7 @@ import play.api.Configuration
 import play.api.http.FileMimeTypes
 import play.api.i18n.{Lang, Langs, MessagesApi}
 import play.api.mvc._
+import play.api.test.Helpers.{defaultAwaitTimeout, status}
 
 import scala.concurrent.ExecutionContext
 

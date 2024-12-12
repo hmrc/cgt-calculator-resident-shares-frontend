@@ -85,7 +85,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
       s"return some html with title of ${Messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual Messages.title
+        Jsoup.parse(contentAsString(result)).title shouldEqual Messages.title
       }
     }
 
@@ -152,7 +152,7 @@ class OwnerBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("ownerBeforeLegislationStart", "")).withMethod("POST")
       lazy val result = target.submitOwnerBeforeLegislationStart(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

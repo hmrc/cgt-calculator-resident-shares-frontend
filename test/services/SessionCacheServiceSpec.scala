@@ -25,6 +25,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.AnyContentAsEmpty
 import play.api.mvc.Results._
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import repositories.SessionRepository
 import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.mongo.CurrentTimestampSupport

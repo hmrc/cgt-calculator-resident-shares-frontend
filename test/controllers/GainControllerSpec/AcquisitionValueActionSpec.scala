@@ -88,7 +88,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Value view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -106,7 +106,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Value view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
   }
@@ -144,7 +144,7 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitAcquisitionValue(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a 400" in {
         status(result) shouldBe 400

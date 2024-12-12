@@ -103,7 +103,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     s"return some html with title of ${messages.h1}" in {
       contentType(result) shouldBe Some("text/html")
-      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.h1
+      Jsoup.parse(contentAsString(result)).select("h1").text shouldEqual messages.h1
     }
   }
 
@@ -135,7 +135,7 @@ class DisposalValueActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "render the disposal value page when supplied with an invalid form" in {
       status(result) shouldEqual 400
-      Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${messages.title}"
+      Jsoup.parse(contentAsString(result)).title() shouldEqual s"Error: ${messages.title}"
     }
   }
 }

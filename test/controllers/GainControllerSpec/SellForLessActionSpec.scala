@@ -92,7 +92,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
       s"return some html with title of ${messages.title}" in {
         contentType(result) shouldBe Some("text/html")
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.newTitle
+        Jsoup.parse(contentAsString(result)).title shouldEqual messages.newTitle
       }
     }
 
@@ -101,7 +101,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the disposal date page" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -110,7 +110,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val result = target.sellForLess(fakeRequestWithSession)
 
       "have a back link to the outside tax years page" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -177,7 +177,7 @@ class SellForLessActionSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val target = setupTarget(None)
       lazy val request = fakeRequestToPOSTWithSession(("sellForLess", "")).withMethod("POST")
       lazy val result = target.submitSellForLess(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

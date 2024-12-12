@@ -60,10 +60,10 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
 
       when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
         (ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(getData)
+        .thenReturn(Future.successful(getData))
 
       when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Some(disposalDateModel))
+        .thenReturn(Future.successful(Some(disposalDateModel)))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
@@ -86,11 +86,11 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"return a title of ${messages.title("2015 to 2016")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2015 to 2016")
+        Jsoup.parse(contentAsString(result)).title shouldEqual messages.title("2015 to 2016")
       }
 
       s"have a back link to '${controllers.routes.DeductionsController.lossesBroughtForward.url}'" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
     }
 
@@ -109,7 +109,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"return a title of ${messages.title("2015 to 2015")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual messages.title("2014 to 2015")
+        Jsoup.parse(contentAsString(result)).title shouldEqual messages.title("2014 to 2015")
       }
     }
 
@@ -149,7 +149,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
 
       when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
         (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-        .thenReturn(Some(disposalDateModel))
+        .thenReturn(Future.successful(Some(disposalDateModel)))
 
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
@@ -237,7 +237,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       }
 
       s"return a title of ${messages.title("2015/16")}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual s"Error: ${messages.title("2015 to 2016")}"
+        Jsoup.parse(contentAsString(result)).title shouldEqual s"Error: ${messages.title("2015 to 2016")}"
       }
     }
   }

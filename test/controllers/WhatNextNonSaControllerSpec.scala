@@ -25,7 +25,7 @@ import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
-import play.api.test.Helpers.redirectLocation
+import play.api.test.Helpers.{contentAsString, redirectLocation, status}
 import views.html.calculation.whatNext.{whatNextNonSaGain, whatNextNonSaLoss}
 
 import scala.concurrent.duration.Duration
@@ -62,7 +62,7 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
     "provided with a valid session" should {
       lazy val controller = setupController()
       lazy val result = controller.whatNextNonSaGain(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -96,7 +96,7 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
     "provided with a valid session" should {
       lazy val controller = setupController()
       lazy val result = controller.whatNextNonSaLoss(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200

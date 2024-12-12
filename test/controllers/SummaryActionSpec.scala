@@ -75,7 +75,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
 
     when(mockCalculatorConnector.calculateRttShareChargeableGain
     (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(chargeableGainResultModel)
+      .thenReturn(Future.successful(chargeableGainResultModel))
 
     when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))
@@ -121,7 +121,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -162,7 +162,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -208,7 +208,7 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
         incomeAnswersModel
       )
       lazy val result = target.summary()(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
