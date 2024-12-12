@@ -8,9 +8,6 @@ GET         /assets/*file           @controllers.Assets.versioned(path="/public"
 #Session Timeout route
 GET         /session-timeout        @controllers.utils.TimeoutController.timeout()
 
-#Language Controller
-GET         /language/:lang         @controllers.CgtLanguageController.switchToLanguage(lang: String)
-
 #Routes file for the resident shares routes.
 
 #Disposal Date Routes

@@ -22,11 +22,6 @@ import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 import javax.inject.Inject
 
 trait AppConfig {
-  val assetsPrefix: String
-  val contactFormServiceIdentifier: String
-  val contactFrontendPartialBaseUrl: String
-  val reportAProblemPartialUrl: String
-  val reportAProblemNonJSUrl: String
   val residentIFormUrl: String
   val urBannerLink: String
   val feedbackSurvey: String
@@ -34,25 +29,14 @@ trait AppConfig {
 }
 
 class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: ServicesConfig) extends AppConfig {
-
   private def loadConfig(key: String) = servicesConfig.getString(key)
 
-  private lazy val contactFrontendService = servicesConfig.baseUrl("contact-frontend")
-  lazy val contactHost = servicesConfig.getConfString("contact-frontend.www", "")
-
-  lazy val assetsPrefix = loadConfig(s"assets.url") + loadConfig(s"assets.version")
-
-  val contactFormServiceIdentifier = "CGT"
-  lazy val contactFrontendPartialBaseUrl = s"$contactFrontendService"
-  lazy val reportAProblemPartialUrl = s"$contactHost/contact/problem_reports_ajax?service=$contactFormServiceIdentifier"
-  lazy val reportAProblemNonJSUrl = s"$contactHost/contact/problem_reports_nonjs?service=$contactFormServiceIdentifier"
   lazy val feedbackSurvey: String = loadConfig(s"feedback-frontend.url")
-
 
   lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
 
   lazy val residentIFormUrl: String = loadConfig(s"resident-iForm.url")
-  lazy val baseUrl = servicesConfig.baseUrl("capital-gains-calculator")
+  lazy val baseUrl: String = servicesConfig.baseUrl("capital-gains-calculator")
 
   def userResearchBannerEnabled: Boolean = servicesConfig.getBoolean(("user-research-banner.enabled"))
 

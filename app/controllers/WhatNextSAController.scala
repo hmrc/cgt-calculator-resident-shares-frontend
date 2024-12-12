@@ -41,8 +41,8 @@ class WhatNextSAController @Inject()(sessionCacheService: SessionCacheService,
                                     (implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  val backLink: String = controllers.routes.SaUserController.saUser.url
-  lazy val iFormUrl: String = appConfig.residentIFormUrl
+  private val backLink = controllers.routes.SaUserController.saUser.url
+  private lazy val iFormUrl = appConfig.residentIFormUrl
 
   private def getDisposalDate(implicit request: Request[_]) =
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate) map(

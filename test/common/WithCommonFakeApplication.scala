@@ -44,11 +44,4 @@ trait WithCommonFakeApplication extends BeforeAndAfterAll {
     super.afterAll()
     Play.stop(fakeApplication)
   }
-
-  def evaluateUsingPlay[T](block: => T): T = {
-    running(fakeApplication) {
-      block
-    }
-  }
-
-} 
+}

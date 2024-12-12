@@ -26,7 +26,6 @@ import scala.util.Try
 
 package object utils {
   implicit class RecoverableFuture(future: Future[Result]) extends Future[Result] with Logging {
-
     override def onComplete[U](f: Try[Result] => U)(implicit executor: ExecutionContext): Unit = future.onComplete(f)
     override def isCompleted: Boolean = future.isCompleted
     override def value: Option[Try[Result]] = future.value

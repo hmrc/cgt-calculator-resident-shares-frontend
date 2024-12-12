@@ -19,7 +19,6 @@ package common
 import scala.util.{Failure, Success, Try}
 
 object Transformers {
-
   val stripCurrencyCharacters: String => String = (input) =>
     input
       .trim()
@@ -34,11 +33,6 @@ object Transformers {
   val bigDecimalToString: BigDecimal => String = (input) => input.scale match {
     case scale if scale < 2 && scale != 0 => input.setScale(2).toString()
     case _ => input.toString
-  }
-
-  val stringToInteger: String => Int = (input) => Try(input.trim.toInt) match {
-    case Success(value) => value
-    case Failure(_) => 0
   }
 
   val stringToBoolean: String => Boolean = {

@@ -84,20 +84,6 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
     }
   }
 
-  "Calling .getPartialAEA" should {
-    "return a value corresponding to the year if it exists" in {
-      val expectedResult = Some(BigDecimal(10000))
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea").thenReturn(Status.OK, expectedResult)
-
-      await(calculatorConnector.getPartialAEA(2017)) shouldBe expectedResult
-    }
-
-    "return a none value if it is returned" ignore {
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea").thenReturn(Status.OK, None)
-      await(calculatorConnector.getPartialAEA(2017)) shouldBe None
-    }
-  }
-
   "Calling .getPA" should {
     "return a value corresponding to the year if it exists without blind persons allowance" in {
       val expectedResult = Some(BigDecimal(10000))
@@ -229,15 +215,6 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
       when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-pa")
 
       (the[Exception] thrownBy await(calculatorConnector.getPA(2017)))
-        .getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for getPartialAEA" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea")
-
-      (the[Exception] thrownBy await(calculatorConnector.getPartialAEA(2017)))
         .getMessage should include("Connection refused")
       wireMockServer.start()
     }

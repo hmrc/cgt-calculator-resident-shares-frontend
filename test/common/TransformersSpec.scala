@@ -81,13 +81,5 @@ class TransformersSpec extends CommonPlaySpec {
         Transformers.bigDecimalToString(bigDecimalSomeDecimalPlaces) shouldBe bigDecimalSomeDecimalPlaces.toString
       }
     }
-
-    "Converting a String to an Integer" should {
-
-      "produce 0 if an invalid string is passed to it" in {
-
-        Transformers.stringToInteger(nonNumericString) shouldBe 0
-      }
-    }
   }
 }

@@ -31,7 +31,7 @@ case class DateFormatter(key: String,
                          rangeInclusive: Boolean = false
                         )(implicit val messages: Messages) extends Formatter[LocalDate] {
 
-  lazy val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy", messages.lang.toLocale)
+  private lazy val formatter = DateTimeFormatter.ofPattern("d MMMM yyyy", messages.lang.toLocale)
 
   private val dateRequiredError     = s"$key.error.required"
   private val dayRequiredError      = s"$key.error.required.day"

@@ -44,26 +44,23 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
                                  currentIncomeForm: CurrentIncomeForm,
                                  currentIncomeView: currentIncome)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
-
-  def navTitle(implicit request : Request[_]): String = Messages("calc.base.resident.shares.home")(mcc.messagesApi.preferred(request))
-
-  def lossesBroughtForwardResponse(implicit request: Request[_]): Future[Boolean] = {
+  private def lossesBroughtForwardResponse(implicit request: Request[_]) = {
     sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
       case Some(LossesBroughtForwardModel(response)) => response
       case None => false
     }
   }
 
-  def getDisposalDate(implicit request: Request[_]): Future[Option[DisposalDateModel]] = {
+  private def getDisposalDate(implicit request: Request[_]) = {
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
   }
 
-  def formatDisposalDate(disposalDateModel: DisposalDateModel): Future[String] = {
+  private def formatDisposalDate(disposalDateModel: DisposalDateModel) = {
     Future.successful(s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}")
   }
 
   //################################# Current Income Actions ##########################################
-  def buildCurrentIncomeBackUrl(implicit request: Request[_]): Future[String] = {
+  private def buildCurrentIncomeBackUrl(implicit request: Request[_]) = {
     lossesBroughtForwardResponse.map { response =>
       if (response) routes.DeductionsController.lossesBroughtForwardValue.url
       else routes.DeductionsController.lossesBroughtForward.url
@@ -94,9 +91,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   }
 
   def submitCurrentIncome: Action[AnyContent] = ValidateSession.async { implicit request =>
-
     def routeRequest(taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
-
       val inCurrentTaxYear = taxYearModel.taxYearSupplied == currentTaxYear
       implicit val lang: Lang = messagesApi.preferred(request).lang
       val form: Form[CurrentIncomeModel] = currentIncomeForm(TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied))
@@ -119,13 +114,12 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
     } yield route).recoverToStart()
   }
 
-
   //################################# Personal Allowance Actions ##########################################
-  def getStandardPA(year: Int, hc: HeaderCarrier): Future[Option[BigDecimal]] = {
+  private def getStandardPA(year: Int, hc: HeaderCarrier) = {
     calcConnector.getPA(year)(hc)
   }
 
-  def taxYearValue(taxYear: String): Future[Int] = {
+  private def taxYearValue(taxYear: String) = {
     Future.successful(TaxDates.taxYearStringToInteger(taxYear))
   }
 
@@ -133,7 +127,6 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   private val postActionPersonalAllowance = controllers.routes.IncomeController.submitPersonalAllowance
 
   def personalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
-
     def fetchStoredPersonalAllowance(maxPA: BigDecimal, taxYear: TaxYearModel): Future[Form[PersonalAllowanceModel]] = {
       implicit val lang: Lang = messagesApi.preferred(request).lang
       val form: Form[PersonalAllowanceModel] = personalAllowanceForm(maxPA, TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
@@ -163,11 +156,9 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   }
 
   def submitPersonalAllowance: Action[AnyContent] = ValidateSession.async { implicit request =>
-
     def getMaxPA(year: Int): Future[Option[BigDecimal]] = {
       calcConnector.getPA(year, isEligibleBlindPersonsAllowance = true, isEligibleMarriageAllowance = true )
     }
-
 
     def routeRequest(maxPA: BigDecimal, standardPA: BigDecimal, taxYearModel: TaxYearModel, currentTaxYear: String): Future[Result] = {
       implicit val lang: Lang = messagesApi.preferred(request).lang
