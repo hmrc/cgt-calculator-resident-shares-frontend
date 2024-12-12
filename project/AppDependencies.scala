@@ -17,38 +17,26 @@
 import sbt.*
 
 object AppDependencies {
+  lazy val bootstrapVersion = "9.0.0"
+  lazy val playVersion = "play-30"
+  lazy val taxYearVersion = "4.0.0"
+  lazy val hmrcMongoVersion = "1.7.0"
 
-  lazy val bootstrapVersion         = "9.0.0"
-  lazy val playVersion              = "play-30"
-  lazy val taxYearVersion           = "4.0.0"
-  lazy val hmrcMongoVersion         = "1.7.0"
-
-  val compile = Seq(
-    "uk.gov.hmrc"       %% s"bootstrap-frontend-$playVersion" % bootstrapVersion,
-    "uk.gov.hmrc"       %% s"play-frontend-hmrc-$playVersion" % "8.5.0",
-    "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion"         % hmrcMongoVersion,
-    "uk.gov.hmrc"       %% "tax-year"                         % taxYearVersion
+  val compile: Seq[ModuleID] = Seq(
+    "uk.gov.hmrc" %% s"bootstrap-frontend-$playVersion" % bootstrapVersion,
+    "uk.gov.hmrc" %% s"play-frontend-hmrc-$playVersion" % "8.5.0",
+    "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion" % hmrcMongoVersion,
+    "uk.gov.hmrc" %% "tax-year" % taxYearVersion
   )
 
-  trait TestDependencies {
-    lazy val scope: String = "test"
-    lazy val test: Seq[ModuleID] = ???
-  }
-
-  object Test {
-    def apply(): Seq[ModuleID] = new TestDependencies {
-      override lazy val test = Seq[ModuleID](
-        "uk.gov.hmrc"            %% s"bootstrap-test-$playVersion"  % bootstrapVersion,
-        "org.scalatestplus.play" %% "scalatestplus-play"            % "7.0.1",
-        "org.scalatestplus"      %% "scalatestplus-mockito"         % "1.0.0-M2",
-        "org.mockito"            %  "mockito-core"                  % "5.11.0",
-        "org.jsoup"              %  "jsoup"                         % "1.17.2",
-        "org.playframework"      %% "play-test"                     % playVersion,
-        "uk.gov.hmrc.mongo"      %% s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion,
-        "com.github.tomakehurst" % "wiremock"                       % "3.0.0-beta-7"
-      ).map(_ % scope)
-    }.test
-  }
-
-  def apply(): Seq[ModuleID] = compile ++ Test()
+  def test(scope: String = "test"): Seq[ModuleID] = Seq[ModuleID](
+    "uk.gov.hmrc" %% s"bootstrap-test-$playVersion" % bootstrapVersion % scope,
+    "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % scope,
+    "org.scalatestplus" %% "scalatestplus-mockito" % "1.0.0-M2" % scope,
+    "org.mockito" % "mockito-core" % "5.11.0" % scope,
+    "org.jsoup" % "jsoup" % "1.17.2" % scope,
+    "org.playframework" %% "play-test" % playVersion % scope,
+    "uk.gov.hmrc.mongo" %% s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion % scope,
+    "com.github.tomakehurst" % "wiremock" % "3.0.0-beta-7" % scope
+  )
 }

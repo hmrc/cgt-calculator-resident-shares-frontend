@@ -8,7 +8,7 @@ lazy val microservice = Project(appName, file("."))
   .settings(PlayKeys.playDefaultPort := 9704)
   .settings(
     scalaVersion := "2.13.12",
-    libraryDependencies ++= AppDependencies()
+    libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test()
   )
   .settings(
     scalacOptions.+=("-Wconf:src=html/.*:s"), //suppresses warnings in twirl files and routes.
