@@ -16,7 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -27,6 +26,7 @@ import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionCostsModel
 import models.resident.shares.gain.DidYouInheritThemModel
 import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

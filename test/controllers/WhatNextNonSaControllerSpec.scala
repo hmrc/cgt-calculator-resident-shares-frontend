@@ -16,12 +16,12 @@
 
 package controllers
 
-import org.apache.pekko.util.Timeout
 import assets.MessageLookup
 import com.codahale.metrics.SharedMetricRegistries
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
+import org.apache.pekko.util.Timeout
 import org.jsoup.Jsoup
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents

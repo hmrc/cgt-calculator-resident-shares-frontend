@@ -17,7 +17,6 @@
 package controllers.DeductionsControllerSpec
 
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -28,6 +27,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardValueForm
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

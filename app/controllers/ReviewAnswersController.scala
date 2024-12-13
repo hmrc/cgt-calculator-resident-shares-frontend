@@ -20,8 +20,8 @@ import common.Dates
 import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
-import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import models.resident.{LossesBroughtForwardModel, TaxYearModel}
+import models.resident.LossesBroughtForwardModel
+import models.resident.shares.DeductionGainAnswersModel
 import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
 import services.SessionCacheService

@@ -16,7 +16,6 @@
 
 package controllers
 
-import org.apache.pekko.util.Timeout
 import assets.MessageLookup
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
@@ -25,6 +24,7 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import org.apache.pekko.util.Timeout
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

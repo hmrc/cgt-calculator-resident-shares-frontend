@@ -16,16 +16,16 @@
 
 package controllers.utils
 
-import org.apache.pekko.actor.ActorSystem
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.Application
 import play.api.i18n.{Messages, MessagesProvider}
-import play.api.mvc.{Action, AnyContent, AnyContentAsEmpty, MessagesControllerComponents, Result}
+import play.api.mvc._
 import play.api.test.FakeRequest
 import play.api.test.Helpers.{contentAsString, defaultAwaitTimeout, status}
 import views.html.warnings.sessionTimeout

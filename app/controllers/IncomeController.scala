@@ -26,7 +26,7 @@ import forms.{CurrentIncomeForm, PersonalAllowanceForm}
 import models.resident._
 import models.resident.income._
 import play.api.data.Form
-import play.api.i18n.{I18nSupport, Lang, Messages}
+import play.api.i18n.{I18nSupport, Lang}
 import play.api.mvc._
 import services.SessionCacheService
 import uk.gov.hmrc.http.HeaderCarrier

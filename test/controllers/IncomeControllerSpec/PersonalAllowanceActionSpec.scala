@@ -16,7 +16,6 @@
 
 package controllers.IncomeControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{PersonalAllowance => messages}
 import com.codahale.metrics.SharedMetricRegistries
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
@@ -28,6 +27,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.{CurrentIncomeForm, PersonalAllowanceForm}
 import models.resident.income.PersonalAllowanceModel
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

@@ -16,7 +16,6 @@
 
 package controllers.IncomeControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{CurrentIncome => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
@@ -26,6 +25,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.{CurrentIncomeForm, PersonalAllowanceForm}
 import models.resident._
 import models.resident.income._
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._

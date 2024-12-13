@@ -29,7 +29,6 @@ import org.jsoup.Jsoup
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents}
-import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import views.html.calculation.income.personalAllowance
 
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
