@@ -17,6 +17,5 @@
 package common.resident
 
 object JourneyKeys {
-  val properties = "properties"
   val shares = "shares"
 }

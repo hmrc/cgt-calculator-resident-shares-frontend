@@ -34,11 +34,9 @@ import scala.concurrent.{ExecutionContext, Future}
 class CalculatorConnector @Inject()(http: HttpClientV2,
                                     appConfig: ApplicationConfig)(implicit ec: ExecutionContext) {
 
-  val headers: (String, String) = "Accept" -> "application/vnd.hmrc.1.0+json"
+  private val headers = "Accept" -> "application/vnd.hmrc.1.0+json"
 
-  val serviceUrl: String = appConfig.baseUrl
-
-  implicit val hc: HeaderCarrier = HeaderCarrier().withExtraHeaders("Accept" -> "application/vnd.hmrc.1.0+json")
+  private val serviceUrl = appConfig.baseUrl
 
   def getMinimumDate()(implicit hc: HeaderCarrier): Future[LocalDate] = {
     http.get(url"$serviceUrl/capital-gains-calculator/minimum-date").transform(_.addHttpHeaders(headers)).execute[LocalDate]
@@ -46,10 +44,6 @@ class CalculatorConnector @Inject()(http: HttpClientV2,
 
   def getFullAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
     http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=$taxYear").transform(_.addHttpHeaders(headers)).execute[Option[BigDecimal]]
-  }
-
-  def getPartialAEA(taxYear: Int)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
-    http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-partial-aea?taxYear=$taxYear").transform(_.addHttpHeaders(headers)).execute[Option[BigDecimal]]
   }
 
   def getPA(taxYear: Int, isEligibleBlindPersonsAllowance: Boolean = false,

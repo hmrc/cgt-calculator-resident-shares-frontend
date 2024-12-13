@@ -16,20 +16,12 @@
 
 package common
 
-import common.Dates.constructDate
 import common.resident.MoneyPounds
-import models.resident.DisposalDateModel
 import play.api.data.validation._
 
-import java.time.{LocalDate, ZonedDateTime}
 import scala.util.{Failure, Success, Try}
 
 object Validation {
-
-  def dateAfterMinimumConstraint(minDate: ZonedDateTime): Constraint[DisposalDateModel] = Constraint({
-    value => dateAfterMinimum(value.day, value.month, value.year, minDate.toLocalDate)
-  })
-
   def maxMonetaryValueConstraint(
                                   maxValue: BigDecimal,
                                   errMsgKey: String = "calc.common.error.maxAmountExceeded"
@@ -53,26 +45,7 @@ object Validation {
     }
   }
 
-  def dateAfterMinimum(day: Int, month: Int, year: Int, minimumDate: LocalDate): ValidationResult = {
-    if(isValidDate(day, month, year) && constructDate(day, month, year).isAfter(minimumDate)){
-      Valid
-    } else {
-      Invalid(ValidationError("calc.common.date.error.beforeMinimum", s"${minimumDate.getDayOfMonth} ${minimumDate.getMonthValue} ${minimumDate.getYear}"))
-    }
-  }
-
-  def isValidDate(day: Int, month: Int, year: Int): Boolean = Try(constructDate(day, month, year)) match {
-    case Success(_) => true
-    case _ => false
-  }
-
   val bigDecimalCheck: String => Boolean = input => Try(BigDecimal(input)) match {
-    case Success(_) => true
-    case Failure(_) if input.trim == "" => true
-    case Failure(_) => false
-  }
-
-  val integerCheck: String => Boolean = input => Try(input.trim.toInt) match {
     case Success(_) => true
     case Failure(_) if input.trim == "" => true
     case Failure(_) => false
@@ -83,10 +56,6 @@ object Validation {
   val decimalPlacesCheck: BigDecimal => Boolean = input => input.scale < 3
 
   val decimalPlacesCheckNoDecimal: BigDecimal => Boolean = input => input.scale < 1
-
-  val validYearRangeCheck: Int => Boolean = input => input >= 1900 && input <= 9999
-
-  val maxCheck: BigDecimal => Boolean = input => input <= Constants.maxNumeric
 
   val isPositive: BigDecimal => Boolean = input => input >= 0
 

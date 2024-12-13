@@ -107,23 +107,5 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
                 form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
            }
           }
-
-    "The max personal allowance validation" should {
-
-      val maxPersonalAllowance: BigDecimal = BigDecimal(8000)
-      val greaterThanMaxPersonalAllowance = maxPersonalAllowance + 1
-      val lessThanMaxPersonalAllowance = maxPersonalAllowance - 1
-      val validateMaxPaTest = injectedForm.validateMaxPA(maxPersonalAllowance)
-
-      "evaluate as false when passed a value that's greater than the max personal allowance" in {
-
-        validateMaxPaTest(greaterThanMaxPersonalAllowance) shouldBe false
-      }
-
-      "evaluate as true when passed a value that's less than the max personal allowance" in {
-
-        validateMaxPaTest(lessThanMaxPersonalAllowance) shouldBe true
-      }
-    }
   }
 }

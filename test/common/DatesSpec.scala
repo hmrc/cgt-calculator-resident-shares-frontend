@@ -37,23 +37,6 @@ class DatesSpec extends CommonPlaySpec with MockitoSugar {
     }
   }
 
-  "Calling getDay" should {
-    "return an integer value of the day" in {
-      Dates.getDay(LocalDate.parse("12/12/2014", formatter)) shouldEqual 12
-    }
-  }
-
-  "Calling getMonth" should {
-    "return an integer value of the month" in {
-      Dates.getMonth(LocalDate.parse("11/12/2014", formatter)) shouldEqual 12
-    }
-  }
-  "Calling getYear" should {
-    "return an integer value of the year" in {
-      Dates.getYear(LocalDate.parse("12/12/2014", formatter)) shouldEqual 2014
-    }
-  }
-
   "Calling getCurrent Tax Year" should {
 
     class TestDates(date: String) extends Dates {

@@ -110,7 +110,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "load the saUser page with an error" in {
-        Jsoup.parse(bodyOf(result)).title() shouldBe MessageLookup.SaUser.errorTitle
+        Jsoup.parse(contentAsString(result)).title() shouldBe MessageLookup.SaUser.errorTitle
       }
     }
   }

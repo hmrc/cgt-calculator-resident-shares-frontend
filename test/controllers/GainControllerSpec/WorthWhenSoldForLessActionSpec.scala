@@ -16,7 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -24,6 +23,7 @@ import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.WorthWhenSoldForLessModel
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -82,7 +82,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1}" in {
-        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1
+        Jsoup.parse(contentAsString(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1
       }
     }
 
@@ -95,7 +95,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       s"return some html with title of ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1}" in {
-        Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1
+        Jsoup.parse(contentAsString(result)).select("h1").text shouldEqual MessageLookup.Resident.Shares.WorthWhenSoldForLess.h1
       }
     }
   }
@@ -143,7 +143,7 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
       }
 
       "stay on the shares Worth When Sold page" in {
-        Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.title}"
+        Jsoup.parse(contentAsString(result)).title() shouldEqual s"Error: ${MessageLookup.Resident.Shares.WorthWhenSoldForLess.title}"
       }
     }
   }

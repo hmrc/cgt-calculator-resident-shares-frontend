@@ -16,7 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{SharesAcquisitionCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -27,6 +26,7 @@ import controllers.helpers.FakeRequestHelper
 import models.resident.AcquisitionCostsModel
 import models.resident.shares.gain.DidYouInheritThemModel
 import models.resident.shares.{GainAnswersModel, OwnerBeforeLegislationStartModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -122,7 +122,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -146,7 +146,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "display the Acquisition Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -306,7 +306,7 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
       )
       lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitAcquisitionCosts(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a 400" in {
         status(result) shouldBe 400

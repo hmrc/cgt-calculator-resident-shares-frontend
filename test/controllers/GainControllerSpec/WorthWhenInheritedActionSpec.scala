@@ -16,7 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
 import common.KeystoreKeys.{ResidentShareKeys => keyStoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -24,6 +23,7 @@ import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.WorthWhenInheritedModel
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -77,7 +77,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
     "request has a valid session" should {
       lazy val target = setupTarget(None)
       lazy val result = target.worthWhenInherited(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -113,7 +113,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       s"return some html with title of ${Messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldEqual Messages.title
+        Jsoup.parse(contentAsString(result)).title shouldEqual Messages.title
       }
     }
 
@@ -149,7 +149,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
     "an invalid form with no answer is submitted" should {
       lazy val target = setupTarget(None)
       lazy val result = target.submitWorthWhenInherited(fakeRequestToPOSTWithSession(("amount", "")))
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 400" in {
         status(result) shouldBe 400

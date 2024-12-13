@@ -16,7 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{SharesDisposalCosts => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -24,6 +23,7 @@ import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.DisposalCostsModel
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -88,7 +88,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "display the Disposal Costs view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -96,7 +96,7 @@ class DisposalCostsActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
       lazy val target = setupTarget(Some(DisposalCostsModel(100.99)))
       lazy val result = target.disposalCosts(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200

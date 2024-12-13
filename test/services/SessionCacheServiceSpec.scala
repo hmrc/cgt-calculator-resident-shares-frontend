@@ -25,6 +25,7 @@ import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.AnyContentAsEmpty
 import play.api.mvc.Results._
 import play.api.test.FakeRequest
+import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import repositories.SessionRepository
 import uk.gov.hmrc.http.SessionKeys
 import uk.gov.hmrc.mongo.CurrentTimestampSupport
@@ -55,7 +56,6 @@ class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with With
   val lossesBroughtForwardValue: resident.LossesBroughtForwardValueModel = resident.LossesBroughtForwardValueModel(600)
   val currentIncome: resident.income.CurrentIncomeModel = resident.income.CurrentIncomeModel(700)
   val personalAllowance: resident.income.PersonalAllowanceModel = resident.income.PersonalAllowanceModel(800)
-  val previousTaxableGains: resident.income.PreviousTaxableGainsModel = resident.income.PreviousTaxableGainsModel(900)
   val ownerBeforeLegislationStart: resident.shares.OwnerBeforeLegislationStartModel = resident.shares.OwnerBeforeLegislationStartModel(true)
   val didYouInheritThem: resident.shares.gain.DidYouInheritThemModel = resident.shares.gain.DidYouInheritThemModel(false)
   val worthWhenInherited: resident.WorthWhenInheritedModel = resident.WorthWhenInheritedModel(1000)
@@ -75,7 +75,6 @@ class SessionCacheServiceSpec extends CommonPlaySpec with MockitoSugar with With
         sessionCacheService.saveFormData(Keys.lossesBroughtForwardValue, lossesBroughtForwardValue)
         sessionCacheService.saveFormData(Keys.currentIncome, currentIncome)
         sessionCacheService.saveFormData(Keys.personalAllowance, personalAllowance)
-        sessionCacheService.saveFormData(Keys.previousTaxableGains, previousTaxableGains)
         sessionCacheService.saveFormData(Keys.ownerBeforeLegislationStart, ownerBeforeLegislationStart)
         sessionCacheService.saveFormData(Keys.didYouInheritThem, didYouInheritThem)
         sessionCacheService.saveFormData(Keys.worthWhenInherited, worthWhenInherited)

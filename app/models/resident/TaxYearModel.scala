@@ -25,12 +25,6 @@ object TaxYearModel {
 
   implicit val formats: OFormat[TaxYearModel] = Json.format[TaxYearModel]
 
-  def convertToSummaryFormat(taxYear: String): String = {
-    val startYear = taxYear.take(4)
-    val endYear = startYear.toInt + 1
-    startYear + " to " + endYear
-  }
-
   def convertWithWelsh(taxYear: String)(implicit messages: Messages): String = {
     val startYear = taxYear.take(4)
     val endYear = startYear.toInt + 1

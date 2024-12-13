@@ -21,14 +21,9 @@ import common.Dates.formatter
 import java.time.LocalDate
 
 object TaxDates {
-  val legislationDate: LocalDate = LocalDate.parse("1/4/1982", formatter)
-  val taxStartDate: LocalDate = LocalDate.parse("5/4/2015", formatter)
-  val taxStartDatePlus18Months: LocalDate = LocalDate.parse("5/10/2016", formatter)
-  val taxYearStartDate: LocalDate = LocalDate.parse("5/4/2016", formatter)
-  val taxYearEndDate: LocalDate = LocalDate.parse("5/4/2017", formatter)
+  private val taxStartDate = LocalDate.parse("5/4/2015", formatter)
 
   def dateAfterStart(date: LocalDate): Boolean = date.isAfter(taxStartDate)
 
   def taxYearStringToInteger(taxYear: String): Int = (taxYear.take(2) + taxYear.takeRight(2)).toInt
-
 }

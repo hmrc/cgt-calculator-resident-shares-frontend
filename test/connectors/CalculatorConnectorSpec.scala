@@ -19,11 +19,12 @@ package connectors
 import assets.ModelsAsset._
 import com.typesafe.config.ConfigFactory
 import common.CommonPlaySpec
-import models.resident.{ChargeableGainResultModel, TaxYearModel, TotalGainAndTaxOwedModel}
+import models.resident.{ChargeableGainResultModel, TaxYearModel}
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
 import play.api.http.Status
 import play.api.inject.guice.GuiceApplicationBuilder
+import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import play.api.{Application, Configuration}
 import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.test.WireMockSupport
@@ -80,20 +81,6 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
     "return a none value if it is returned" ignore {
       when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-full-aea").thenReturn(Status.OK, None)
       await(calculatorConnector.getFullAEA(2017)) shouldBe None
-    }
-  }
-
-  "Calling .getPartialAEA" should {
-    "return a value corresponding to the year if it exists" in {
-      val expectedResult = Some(BigDecimal(10000))
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea").thenReturn(Status.OK, expectedResult)
-
-      await(calculatorConnector.getPartialAEA(2017)) shouldBe expectedResult
-    }
-
-    "return a none value if it is returned" ignore {
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea").thenReturn(Status.OK, None)
-      await(calculatorConnector.getPartialAEA(2017)) shouldBe None
     }
   }
 
@@ -228,15 +215,6 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
       when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-pa")
 
       (the[Exception] thrownBy await(calculatorConnector.getPA(2017)))
-        .getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for getPartialAEA" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-partial-aea")
-
-      (the[Exception] thrownBy await(calculatorConnector.getPartialAEA(2017)))
         .getMessage should include("Connection refused")
       wireMockServer.start()
     }

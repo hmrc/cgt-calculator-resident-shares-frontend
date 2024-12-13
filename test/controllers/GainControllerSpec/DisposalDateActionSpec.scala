@@ -16,7 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{SharesDisposalDate => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -25,6 +24,7 @@ import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -101,7 +101,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
     val target = setupTarget()
     val result = target.submitDisposalDate(fakeRequestToPOSTWithSession(inputOne, inputTwo, inputThree).withMethod("POST"))
-    val doc = Jsoup.parse(bodyOf(result))
+    val doc = Jsoup.parse(contentAsString(result))
   }
 
   "Calling .disposalDate from the GainCalculationController" should {
@@ -120,7 +120,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       s"return a page with the title ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -138,7 +138,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       s"return a page with the title ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
   }
@@ -178,7 +178,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "return a page with the title ''When did you sign the contract that made someone else the owner?'" in {
-        Jsoup.parse(bodyOf(request.result)).title shouldBe s"Error: ${messages.title}"
+        Jsoup.parse(contentAsString(request.result)).title shouldBe s"Error: ${messages.title}"
       }
     }
 
@@ -205,7 +205,7 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
       }
 
       "return a page with the title 'When did you sell or give away the shares?'" in {
-        Jsoup.parse(bodyOf(request.result)).title shouldBe s"Error: ${messages.title}"
+        Jsoup.parse(contentAsString(request.result)).title shouldBe s"Error: ${messages.title}"
       }
     }
   }

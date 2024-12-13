@@ -26,11 +26,6 @@ import play.api.i18n.{Lang, MessagesApi}
 import javax.inject.Inject
 
 class PersonalAllowanceForm @Inject()(implicit val messagesApi: MessagesApi) {
-
-  def validateMaxPA (maxPersonalAllowance: BigDecimal): BigDecimal => Boolean = {
-    input => if(input > maxPersonalAllowance) false else true
-  }
-
   def apply(maxPA: BigDecimal = BigDecimal(0), taxYear: String, lang: Lang): Form[PersonalAllowanceModel] = Form(
     mapping(
       "amount" -> text
@@ -43,5 +38,4 @@ class PersonalAllowanceForm @Inject()(implicit val messagesApi: MessagesApi) {
         .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(lang), decimalPlacesCheckNoDecimal)
     )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)
   )
-
 }

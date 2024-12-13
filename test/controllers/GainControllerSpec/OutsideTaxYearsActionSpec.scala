@@ -16,13 +16,13 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{OutsideTaxYears => messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import connectors.CalculatorConnector
 import controllers.GainController
 import controllers.helpers.FakeRequestHelper
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -32,6 +32,8 @@ import play.api.test.Helpers._
 import services.SessionCacheService
 import views.html.calculation.gain._
 import views.html.calculation.outsideTaxYear
+
+import scala.concurrent.Future
 
 class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar {
 
@@ -56,10 +58,10 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
     val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(disposalDateModel)
+      .thenReturn(Future.successful(disposalDateModel))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(taxYearModel)
+      .thenReturn(Future.successful(taxYearModel))
 
     new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
       acquisitionCostsView, acquisitionValueView, disposalCostsView, disposalDateView, disposalValueView,
@@ -82,15 +84,15 @@ class OutsideTaxYearsActionSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"return a title of ${messages.title}" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
 
       s"have a back link to '${controllers.routes.GainController.disposalDate.url}'" in {
-        Jsoup.parse(bodyOf(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
+        Jsoup.parse(contentAsString(result)).select(".govuk-back-link").attr("href") shouldEqual "#"
       }
 
       s"have a continue link to '${controllers.routes.GainController.sellForLess.url}'" in {
-        Jsoup.parse(bodyOf(result)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess.url
+        Jsoup.parse(contentAsString(result)).getElementById("continue-button").attr("href") shouldBe controllers.routes.GainController.sellForLess.url
       }
     }
 

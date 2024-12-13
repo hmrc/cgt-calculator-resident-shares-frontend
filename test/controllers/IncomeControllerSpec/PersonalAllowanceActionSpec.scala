@@ -16,7 +16,6 @@
 
 package controllers.IncomeControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{PersonalAllowance => messages}
 import com.codahale.metrics.SharedMetricRegistries
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
@@ -28,6 +27,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.{CurrentIncomeForm, PersonalAllowanceForm}
 import models.resident.income.PersonalAllowanceModel
 import models.resident.{DisposalDateModel, TaxYearModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -104,7 +104,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
 
@@ -124,7 +124,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "display the Personal Allowance view" in {
-        Jsoup.parse(bodyOf(result)).title shouldBe messages.title
+        Jsoup.parse(contentAsString(result)).title shouldBe messages.title
       }
     }
   }
@@ -171,7 +171,7 @@ class PersonalAllowanceActionSpec extends CommonPlaySpec with WithCommonFakeAppl
       lazy val target = setupTarget(None, disposalDateModel = disposalDateModel, taxYearModel = taxYearModel)
       lazy val request = fakeRequestToPOSTWithSession(("amount", "")).withMethod("POST")
       lazy val result = target.submitPersonalAllowance(request)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a 400" in {
         status(result) shouldBe 400

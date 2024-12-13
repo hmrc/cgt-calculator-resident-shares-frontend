@@ -216,7 +216,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
-      val nextTaxYear = await(DateAsset.getYearAfterCurrentTaxYear)
+      val nextTaxYear = DateAsset.getYearAfterCurrentTaxYear
       val splitYear = nextTaxYear.split("/")
       val nextTaxYearFormatted = splitYear(0) + " to " + splitYear(0).substring(0, 2) + splitYear(1)
 

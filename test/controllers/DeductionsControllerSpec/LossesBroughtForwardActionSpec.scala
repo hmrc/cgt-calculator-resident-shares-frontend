@@ -17,7 +17,6 @@
 package controllers.DeductionsControllerSpec
 
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.{LossesBroughtForward => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -28,6 +27,7 @@ import controllers.helpers.FakeRequestHelper
 import forms.LossesBroughtForwardValueForm
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -76,10 +76,10 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
 
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
       (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
-      .thenReturn(disposalDate)
+      .thenReturn(Future.successful(disposalDate))
 
     when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
-      .thenReturn(taxYear)
+      .thenReturn(Future.successful(taxYear))
 
     when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
       .thenReturn(Future.successful(maxAnnualExemptAmount))
@@ -100,7 +100,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       lazy val target = setupTarget(None, gainModel, summaryModel,
         chargeableGainModel, Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a status of 200" in {
         status(result) shouldBe 200
@@ -130,7 +130,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
       lazy val target = setupTarget(None, gainModel, summaryModel, chargeableGainModel,
         Some(DisposalDateModel(10, 10, 2015)), Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.lossesBroughtForward(fakeRequestWithSession)
-      lazy val doc = Jsoup.parse(bodyOf(result))
+      lazy val doc = Jsoup.parse(contentAsString(result))
 
       "return a 200" in {
         status(result) shouldBe 200
@@ -208,7 +208,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
         }
 
         "render the brought forward losses page" in {
-          Jsoup.parse(bodyOf(result)).title() shouldEqual s"Error: ${messages.title("2015 to 2016")}"
+          Jsoup.parse(contentAsString(result)).title() shouldEqual s"Error: ${messages.title("2015 to 2016")}"
         }
       }
     }

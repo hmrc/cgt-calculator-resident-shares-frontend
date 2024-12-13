@@ -16,7 +16,6 @@
 
 package controllers.GainControllerSpec
 
-import org.apache.pekko.actor.ActorSystem
 import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
 import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
@@ -25,6 +24,7 @@ import connectors.CalculatorConnector
 import controllers.helpers.FakeRequestHelper
 import controllers.{GainController, routes}
 import models.resident.shares.gain.ValueBeforeLegislationStartModel
+import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
 import org.mockito.Mockito._
@@ -107,7 +107,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
 
     s"return some html with title of ${messages.h1}" in {
       contentType(result) shouldBe Some("text/html")
-      Jsoup.parse(bodyOf(result)).select("h1").text shouldEqual messages.h1
+      Jsoup.parse(contentAsString(result)).select("h1").text shouldEqual messages.h1
     }
   }
 
@@ -145,7 +145,7 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
     }
 
     "render the valueBeforeLegislationStart view" in {
-      Jsoup.parse(bodyOf(result)).title().replaceAll("&nbsp;", " ") shouldEqual "Error: " + messages.title
+      Jsoup.parse(contentAsString(result)).title().replaceAll("&nbsp;", " ") shouldEqual "Error: " + messages.title
     }
   }
 }
