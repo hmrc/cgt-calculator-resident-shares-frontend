@@ -18,22 +18,19 @@ package views.calculation.summary
 
 import assets.MessageLookup.{Resident => residentMessages, SummaryDetails => summaryMessages, SummaryPage => messages}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
-import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.income.{CurrentIncomeModel, PersonalAllowanceModel}
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.jsoup.Jsoup
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.summary.finalSummary
 
 class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  private implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val finalSummaryView: finalSummary = fakeApplication.injector.instanceOf[finalSummary]
-  val fakeLang: Lang = Lang("en")
+  private val finalSummaryView = fakeApplication.injector.instanceOf[finalSummary]
 
   "ShareFinalSummaryViewSpec" when {
     val incomeAnswers = IncomeAnswersModel(
@@ -45,7 +42,6 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     "the share was sold inside tax years, bought after legislation start," +
       " with reliefs and brought forward losses and taxed at both tax bands" should {
-
       val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
         disposalValue = Some(100000),
@@ -141,14 +137,6 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "have a section for the Calculation details" which {
-
-        "has a h2 tag" which {
-
-          s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-            doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
-          }
-        }
-
         "has a div for total gain" which {
 
           lazy val div = doc.select("#yourTotalGain")

@@ -67,7 +67,7 @@ object MessageLookup {
       }
 
       object ValueBeforeLegislationStart {
-        val h1 = "You owned the shares before 1 April 1982"
+        val h1 = "Market value of the shares on 31 March 1982"
         val title = s"$h1 - Calculate your Capital Gains Tax - GOV.UK"
         val question = "What were the shares worth on 31 March 1982?"
         val helpText = "Get valuation information from the stock exchange or talk to your stockbroker or fund manager."
@@ -178,7 +178,7 @@ object MessageLookup {
     val h1 = "Personal Allowance"
     val title = s"$h1 - Calculate your Capital Gains Tax - GOV.UK"
     def question(input: String): String = s"In the $input tax year, what was your Personal Allowance?"
-    val link = "Income tax rates and Personal Allowances"
+    val link = "Income tax rates and Personal Allowances (opens in new tab)"
     val linkText = "Find out more about"
     val help = "This is the amount of your income that you do not pay tax on."
     def listTitle(yearOne: String, yearTwo: String, value: String): String =

@@ -20,26 +20,21 @@ import assets.DateAsset
 import assets.MessageLookup.{PersonalAllowance => messages, Resident => commonMessages}
 import common.resident.JourneyKeys
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
-import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.PersonalAllowanceForm
 import models.resident.TaxYearModel
-import models.resident.income.PersonalAllowanceModel
 import org.jsoup.Jsoup
-import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
-import play.api.mvc.{Call, MessagesControllerComponents}
+import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.income.personalAllowance
 
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-
-  val postAction: Call = controllers.routes.IncomeController.submitPersonalAllowance
-  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-  val personalAllowanceView: personalAllowance = fakeApplication.injector.instanceOf[personalAllowance]
-  val fakeLang: Lang = Lang("en")
-  val injectedForm: PersonalAllowanceForm = fakeApplication.injector.instanceOf[PersonalAllowanceForm]
-  val personalAllowanceForm: Form[PersonalAllowanceModel] = injectedForm(11000, "2022", fakeLang)
+  private val postAction = controllers.routes.IncomeController.submitPersonalAllowance
+  private implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  private val personalAllowanceView = fakeApplication.injector.instanceOf[personalAllowance]
+  private val fakeLang = Lang("en")
+  private val injectedForm = fakeApplication.injector.instanceOf[PersonalAllowanceForm]
+  private val personalAllowanceForm = injectedForm(11000, "2022", fakeLang)
 
   "Personal Allowance view" when {
 
