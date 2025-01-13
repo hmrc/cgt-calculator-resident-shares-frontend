@@ -23,7 +23,6 @@ signOut.message = Er eich diogelwch, byddwn yn eich allgofnodi cyn pen
 signOut.keepAliveButtonText = Ewch ati i gyfrifo eich Treth Enillion Cyfalaf
 signOut.signOutButtonText = Dileu''ch atebion
 
-calc.checkYourAnswers.tableHeading = Rydych wedi rhoi gwybod i ni
 calc.checkYourAnswers.title = Gwirio''ch atebion
 
 calc.common.date.error.beforeMinimum = Nodwch ddyddiad sydd ar ôl 6 4 2015
@@ -69,7 +68,7 @@ calc.resident.outsideTaxYears.title = Nid yw''r gyfrifiannell hon yn cefnogi''r 
 calc.resident.personalAllowance.title = Lwfans Personol
 calc.resident.personalAllowance.currentYearQuestion = Faint yw''ch Lwfans Personol?
 calc.resident.personalAllowance.help = Dyma swm eich incwm nad ydych yn talu treth arno.
-calc.resident.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol
+calc.resident.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol (yn agor tab newydd)
 calc.resident.personalAllowance.link.text = Rhagor o wybodaeth am
 calc.resident.personalAllowance.list.one = ennill mwy na £100,000
 calc.resident.personalAllowance.list.title = Yn y flwyddyn dreth {0}, £{1} oedd Lwfans Personol y DU, oni bai eich bod wedi gwneud y canlynol:
@@ -144,17 +143,16 @@ calc.resident.shares.disposalValue.error.minimumAmount = Mae''n rhaid i faint y 
 
 calc.resident.shares.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu cyfranddaliadau ers 5 Ebrill 2015.
 
-calc.resident.shares.ownerBeforeLegislationStart.help = Os cawsoch eich cyfranddaliadau cyn 31 Mawrth 1982, defnyddiwch y gwerth marchnadol ar 31 Mawrth 1982 i gyfrifo''ch Treth Enillion Cyfalaf. Ar ôl y dyddiad hwn, defnyddiwch y gost wreiddiol.
 calc.resident.shares.ownerBeforeLegislationStart.noSelectError = Rhowch wybod i ni a oeddech chi''n berchen ar y cyfranddaliadau cyn 1 Ebrill 1982
 calc.resident.shares.ownerBeforeLegislationStart.title = Oeddech chi''n berchen ar y cyfranddaliadau cyn 1 Ebrill 1982?
 
 calc.resident.shares.sellForLess.noSelectError = Rhowch wybod i ni a wnaethoch werthu''r cyfranddaliadau am lai na''u gwerth er mwyn helpu''r prynwr.
 calc.resident.shares.sellForLess.question = A wnaethoch werthu''r cyfranddaliadau am lai na''u gwerth er mwyn helpu''r prynwr?
 
-calc.resident.shares.valueBeforeLegislationStart.title = Roeddech yn berchen ar y cyfranddaliadau cyn 1&nbsp;Ebrill&nbsp;1982
+calc.resident.shares.valueBeforeLegislationStart.title = Gwerth marchnadol y cyfranddaliadau ar 31 Mawrth 1982
 calc.resident.shares.valueBeforeLegislationStart.help = Cewch wybodaeth am y prisiad o''r gyfnewidfa stoc neu siaradwch â''ch brocer stoc neu reolwr eich cronfa.
 calc.resident.shares.valueBeforeLegislationStart.hintText = Os oeddech yn berchen ar y cyfranddaliadau gyda rhywun arall, dylech ond nodi gwerth eich cyfran chi o''r cyfranddaliadau.
-calc.resident.shares.valueBeforeLegislationStart.information = Os cawsoch eich cyfranddaliadau cyn 31 Mawrth 1982, defnyddiwch y gwerth marchnadol ar 31 Mawrth 1982 i gyfrifo''ch Treth Enillion Cyfalaf.
+calc.resident.shares.valueBeforeLegislationStart.information = Defnyddiwch werth marchnadol y cyfranddaliadau ar 31 Mawrth 1982 er mwyn cyfrifo’ch Treth Enillion Cyfalaf.
 calc.resident.shares.valueBeforeLegislationStart.question = Beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982?
 calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount = Nodwch beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982
 calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount = Mae''n rhaid i beth oedd gwerth y cyfranddaliadau ar 31 Mawrth 1982 fod yn y fformat cywir

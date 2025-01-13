@@ -49,7 +49,6 @@ calc.common.error.invalidAmountNoDecimal = Enter an amount in the correct format
 
 ## Check Your Answers ##
 calc.checkYourAnswers.title = Check your answers
-calc.checkYourAnswers.tableHeading = You have told us
 
 ###############################################################################################
 ## Resident messages ##
@@ -110,7 +109,7 @@ calc.resident.personalAllowance.list.one = earned more than £100,000
 calc.resident.personalAllowance.list.two = claimed Blind Person''s Allowance
 calc.resident.personalAllowance.list.three = claimed Marriage Allowance
 calc.resident.personalAllowance.link.text = Find out more about
-calc.resident.personalAllowance.link = Income tax rates and Personal Allowances
+calc.resident.personalAllowance.link = Income tax rates and Personal Allowances (opens in new tab)
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
 calc.resident.personalAllowance.error.mandatoryAmount = Enter what your Personal Allowance was for the {0} tax year
 calc.resident.personalAllowance.error.invalidAmount = Your Personal Allowance for the {0} tax year must be in the correct format
@@ -173,9 +172,9 @@ calc.resident.shares.disposalCosts.error.invalidAmount = How much you paid in co
 calc.resident.shares.disposalCosts.error.minimumAmount = How much you paid in costs when you sold the shares must be 0 or more
 
 ## Worth On messages
-calc.resident.shares.valueBeforeLegislationStart.title = You owned the shares before 1&nbsp;April&nbsp;1982
+calc.resident.shares.valueBeforeLegislationStart.title = Market value of the shares on 31 March 1982
 calc.resident.shares.valueBeforeLegislationStart.question = What were the shares worth on 31 March 1982?
-calc.resident.shares.valueBeforeLegislationStart.information = If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax.
+calc.resident.shares.valueBeforeLegislationStart.information = Use the market value of the shares on 31 March 1982 to work out your Capital Gains Tax.
 calc.resident.shares.valueBeforeLegislationStart.help = Get valuation information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.valueBeforeLegislationStart.hintText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount = Enter what the shares were worth on 31 March 1982
@@ -184,7 +183,6 @@ calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount = What the 
 
 ## Owner Before Legislation Start Messages
 calc.resident.shares.ownerBeforeLegislationStart.title = Did you own the shares before 1 April 1982?
-calc.resident.shares.ownerBeforeLegislationStart.help = If you had your shares before 31 March 1982, use the market value on 31 March 1982 to work out your Capital Gains Tax. After this date, use the original cost.
 calc.resident.shares.ownerBeforeLegislationStart.noSelectError = Tell us if you owned the shares before 1 April 1982
 
 ## Worth When Inherited

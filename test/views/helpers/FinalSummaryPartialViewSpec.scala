@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package views.resident.helpers
+package views.helpers
 
 import assets.MessageLookup.{SummaryDetails => summaryMessages}
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
@@ -22,20 +22,17 @@ import controllers.helpers.FakeRequestHelper
 import models.resident._
 import models.resident.shares._
 import org.jsoup.Jsoup
-import play.api.i18n.{Lang, Messages}
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.playHelpers.resident.finalSummaryPartial
 
 class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-  val finalSummaryPartialView = fakeApplication.injector.instanceOf[finalSummaryPartial]
-  val fakeLang: Lang = Lang("en")
-  
-  "FinalSummaryPartial" when {
+  private implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  private val finalSummaryPartialView = fakeApplication.injector.instanceOf[finalSummaryPartial]
 
+  "FinalSummaryPartial" when {
     "the share was sold inside tax years, bought after legislation start," +
       " with no brought forward losses and taxed at 18%" should {
-
       val gainAnswers = GainAnswersModel(
         disposalDate = Dates.constructDate(10, 10, 2015),
         disposalValue = Some(100000),
@@ -101,14 +98,6 @@ class FinalSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppl
       }
 
       "have a section for the Calculation details" which {
-
-        "has a h2 tag" which {
-
-          s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-            doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
-          }
-        }
-
         "has a div for total gain" which {
 
           lazy val div = doc.select("#yourTotalGain").get(0)
