@@ -17,10 +17,10 @@
 import sbt.*
 
 object AppDependencies {
-  lazy val bootstrapVersion = "9.0.0"
+  lazy val bootstrapVersion = "9.7.0"
   lazy val playVersion = "play-30"
-  lazy val taxYearVersion = "4.0.0"
-  lazy val hmrcMongoVersion = "1.7.0"
+  lazy val taxYearVersion = "5.0.0"
+  lazy val hmrcMongoVersion = "2.4.0"
 
   val compile: Seq[ModuleID] = Seq(
     "uk.gov.hmrc" %% s"bootstrap-frontend-$playVersion" % bootstrapVersion,
@@ -33,8 +33,8 @@ object AppDependencies {
     "uk.gov.hmrc" %% s"bootstrap-test-$playVersion" % bootstrapVersion % scope,
     "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.1" % scope,
     "org.scalatestplus" %% "scalatestplus-mockito" % "1.0.0-M2" % scope,
-    "org.mockito" % "mockito-core" % "5.11.0" % scope,
-    "org.jsoup" % "jsoup" % "1.17.2" % scope,
+    "org.mockito" % "mockito-core" % "5.15.2" % scope,
+    "org.jsoup" % "jsoup" % "1.18.3" % scope,
     "org.playframework" %% "play-test" % playVersion % scope,
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo-test-$playVersion" % hmrcMongoVersion % scope,
     "com.github.tomakehurst" % "wiremock" % "3.0.0-beta-7" % scope
