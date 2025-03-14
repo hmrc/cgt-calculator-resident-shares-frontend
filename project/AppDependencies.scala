@@ -20,7 +20,7 @@ object AppDependencies {
   lazy val bootstrapVersion = "9.7.0"
   lazy val playVersion = "play-30"
   lazy val taxYearVersion = "5.0.0"
-  lazy val hmrcMongoVersion = "2.4.0"
+  lazy val hmrcMongoVersion = "2.5.0"
 
   val compile: Seq[ModuleID] = Seq(
     "uk.gov.hmrc" %% s"bootstrap-frontend-$playVersion" % bootstrapVersion,
