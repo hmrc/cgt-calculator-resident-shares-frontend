@@ -54,7 +54,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a navTitle of Calculate your Capital Gains Tax" in {
-        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe "Calculate your Capital Gains Tax"
+        doc.getElementsByClass("govuk-header__link govuk-header__service-name").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a back button that" should {
@@ -73,7 +73,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a home link to the shares disposal date" in {
-        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       s"have the page heading '${messages.h1}'" in {
