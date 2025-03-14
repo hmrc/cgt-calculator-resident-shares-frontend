@@ -80,7 +80,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       "have a home link to 'home-link'" in {
-        doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       "has a banner" which {

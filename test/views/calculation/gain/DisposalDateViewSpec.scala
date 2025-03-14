@@ -43,7 +43,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have the title 'When did you sell or give away the shares?'" in {

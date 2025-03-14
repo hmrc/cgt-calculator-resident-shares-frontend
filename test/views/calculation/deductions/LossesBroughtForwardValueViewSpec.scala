@@ -56,11 +56,11 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
       }
 
       "have a dynamic navTitle of navTitle" in {
-        doc.body.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe "Calculate your Capital Gains Tax"
+        doc.body.getElementsByClass("govuk-header__link govuk-header__service-name").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a home link to 'home-link'" in {
-        doc.body.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.body.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       "have a back button that" should {

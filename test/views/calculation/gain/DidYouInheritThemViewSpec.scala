@@ -60,7 +60,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     }
 
     s"have the home link to 'home'" in {
-      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have a back button" which {

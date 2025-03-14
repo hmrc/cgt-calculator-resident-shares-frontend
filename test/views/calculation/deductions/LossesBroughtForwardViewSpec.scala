@@ -44,7 +44,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
     }
 
     "have a dynamic navTitle of navTitle" in {
-      doc.getElementsByClass("hmrc-header__service-name hmrc-header__service-name--linked").text() shouldBe "Calculate your Capital Gains Tax"
+      doc.getElementsByClass("govuk-header__link govuk-header__service-name").text() shouldBe "Calculate your Capital Gains Tax"
     }
 
     s"have a title ${messages.title("2015 to 2016")}" in {
