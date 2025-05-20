@@ -29,6 +29,6 @@ class FeedbackSurveyController @Inject()(appConfig: ApplicationConfig,
   extends FrontendController(mcc) with ValidActiveSession {
 
   def redirectExitSurvey: Action[AnyContent] = Action.async {
-    Future.successful(Redirect(appConfig.signOutUrl).withNewSession)
+    Future.successful(Redirect(s"${appConfig.signOutUrl}?continue=${appConfig.feedbackSurvey}").withNewSession)
   }
 }

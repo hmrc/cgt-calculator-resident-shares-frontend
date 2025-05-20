@@ -35,7 +35,9 @@ class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: 
 
   private lazy val basGatewayUrl: String = loadConfig(s"bas-gateway-frontend.host")
 
-  lazy val signOutUrl: String = s"$basGatewayUrl/bas-gateway/sign-out-without-state/?continue=$feedbackSurvey"
+  private val signOutUri: String = loadConfig("sign-out.uri")
+
+  lazy val signOutUrl: String = s"$basGatewayUrl$signOutUri"
 
   lazy val urBannerLink = "https://signup.take-part-in-research.service.gov.uk/?utm_campaign=CGT_Resident_Shares&utm_source=Other&utm_medium=other&t=HMRC&id=144"
 
