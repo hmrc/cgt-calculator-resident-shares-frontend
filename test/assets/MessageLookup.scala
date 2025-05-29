@@ -321,7 +321,8 @@ object MessageLookup {
   }
 
   object SaUser extends Common {
-    val title = "Are you currently in Self Assessment? - Calculate your Capital Gains Tax - GOV.UK"
+    val h1 = "Are you currently in Self Assessment?"
+    val title = s"$h1 - Calculate your Capital Gains Tax - GOV.UK"
     val errorTitle = "Error: Are you currently in Self Assessment? - Calculate your Capital Gains Tax - GOV.UK"
     val heading = "Are you currently in Self Assessment?"
     val error = "Select whether you are currently in Self Assessment"
