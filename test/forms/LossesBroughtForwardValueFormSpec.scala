@@ -56,7 +56,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -69,7 +69,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -95,7 +95,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.minimumAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.minimumAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -108,7 +108,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", "2022")(using Lang("en"))
       }
     }
   }

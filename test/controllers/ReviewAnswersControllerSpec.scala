@@ -67,16 +67,16 @@ class ReviewAnswersControllerSpec extends CommonPlaySpec with WithCommonFakeAppl
                       deductionsResponse: DeductionGainAnswersModel,
                       taxYearModel: Option[TaxYearModel] = None): ReviewAnswersController = {
 
-    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainResponse))
 
-    when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareDeductionAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(deductionsResponse))
 
-    when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareIncomeAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswersModel))
 
     new ReviewAnswersController(mockConnector, mockSessionCacheService, mockMCC, checkYourAnswersView)

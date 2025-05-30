@@ -30,6 +30,6 @@ object OwnerBeforeLegislationStartForm {
         .verifying("calc.resident.shares.ownerBeforeLegislationStart.noSelectError", mandatoryCheck)
         .verifying("calc.resident.shares.ownerBeforeLegislationStart.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
-    )(OwnerBeforeLegislationStartModel.apply)(OwnerBeforeLegislationStartModel.unapply)
+    )(OwnerBeforeLegislationStartModel.apply)(o=>Some(o.ownerBeforeLegislationStart))
   )
 }

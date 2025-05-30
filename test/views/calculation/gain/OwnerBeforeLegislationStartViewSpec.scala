@@ -16,25 +16,26 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => Messages}
+import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.OwnerBeforeLegislationStartForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.ownerBeforeLegislationStart
 
 class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val ownerBeforeLegislationStartView: ownerBeforeLegislationStart = fakeApplication.injector.instanceOf[ownerBeforeLegislationStart]
 
   "Owned Before 1982 view with an empty form" should {
 
-    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm, Some("back-link"))(fakeRequest, mockMessage)
+    lazy val view = ownerBeforeLegislationStartView(ownerBeforeLegislationStartForm, Some("back-link"))(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -42,16 +43,16 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
       doc.charset.toString shouldBe "UTF-8"
     }
 
-    s"have a title ${Messages.title}" in {
-      doc.title shouldBe Messages.title
+    s"have a title ${messages.title}" in {
+      doc.title shouldBe messages.title
     }
 
     "have a H1 tag that" should {
 
       lazy val h1Tag = doc.select("h1")
 
-      s"have the page heading '${Messages.heading}'" in {
-        h1Tag.text shouldBe Messages.heading
+      s"have the page heading '${messages.heading}'" in {
+        h1Tag.text shouldBe messages.heading
       }
 
       "have the govuk-fieldset__heading class" in {
@@ -92,8 +93,8 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
       lazy val legend = doc.select("legend")
 
-      s"contain the text ${Messages.heading}" in {
-        legend.text should include(s"${Messages.heading}")
+      s"contain the text ${messages.heading}" in {
+        legend.text should include(s"${messages.heading}")
       }
     }
 
@@ -216,7 +217,7 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "Owned Before 1982 view with form errors" should {
 
     lazy val form = ownerBeforeLegislationStartForm.bind(Map("ownerBeforeLegislationStart" -> ""))
-    lazy val view = ownerBeforeLegislationStartView(form, Some("back"))(fakeRequest, mockMessage)
+    lazy val view = ownerBeforeLegislationStartView(form, Some("back"))(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

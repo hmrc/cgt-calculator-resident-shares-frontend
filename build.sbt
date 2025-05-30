@@ -7,12 +7,14 @@ lazy val microservice = Project(appName, file("."))
   .settings(majorVersion := 1)
   .settings(PlayKeys.playDefaultPort := 9704)
   .settings(
-    scalaVersion := "2.13.16",
+    scalaVersion := "3.7.0",
     libraryDependencies ++= AppDependencies.compile ++ AppDependencies.test()
   )
   .settings(
     scalacOptions.+=("-Wconf:src=html/.*:s"), //suppresses warnings in twirl files and routes.
     scalacOptions.+=("-Wconf:src=routes/.*:s"), //these warnings are loud and inconsequential.
+    scalacOptions += "-Wconf:msg=Flag.*repeatedly:s",
+
     TwirlKeys.templateImports ++= Seq(
       "uk.gov.hmrc.govukfrontend.views.html.components._",
       "uk.gov.hmrc.hmrcfrontend.views.html.components._",

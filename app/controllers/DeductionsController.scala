@@ -41,20 +41,20 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      lossesBroughtForwardValueView: lossesBroughtForwardValue)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  private def getDisposalDate(implicit request: Request[_]): Future[Option[DisposalDateModel]] =
+  private def getDisposalDate(implicit request: Request[?]): Future[Option[DisposalDateModel]] =
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
 
   private def formatDisposalDate(disposalDateModel: DisposalDateModel): String =
     s"${disposalDateModel.year}-${disposalDateModel.month}-${disposalDateModel.day}"
 
-  private def getTaxYear(implicit request: Request[_]) =
+  private def getTaxYear(implicit request: Request[?]) =
     for {
       disposalDate <- getDisposalDate
       disposalDateString = formatDisposalDate(disposalDate.get)
       taxYear <- calcConnector.getTaxYear(disposalDateString)
     } yield taxYear.get
 
-  private def positiveChargeableGainCheck(implicit request: Request[_]): Future[Boolean] =
+  private def positiveChargeableGainCheck(implicit request: Request[?]): Future[Boolean] =
     for {
       gainAnswers <- sessionCacheService.getShareGainAnswers
       chargeableGainAnswers <- sessionCacheService.getShareDeductionAnswers
@@ -81,7 +81,7 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
     }).recoverToStart()
   }
 
-  private def redirect(implicit request: Request[_]) =
+  private def redirect(implicit request: Request[?]) =
     positiveChargeableGainCheck map {
       case true => Redirect(routes.IncomeController.currentIncome)
       case false => Redirect(routes.ReviewAnswersController.reviewDeductionsAnswers)

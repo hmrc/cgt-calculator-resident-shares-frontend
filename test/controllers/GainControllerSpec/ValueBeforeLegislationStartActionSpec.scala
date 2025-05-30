@@ -63,11 +63,11 @@ class ValueBeforeLegislationStartActionSpec extends CommonPlaySpec with WithComm
   def setupTarget(getData: Option[ValueBeforeLegislationStartModel]): GainController = {
 
     when(mockSessionCacheService.fetchAndGetFormData[ValueBeforeLegislationStartModel]
-      (ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.valueBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[ValueBeforeLegislationStartModel]
-      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,

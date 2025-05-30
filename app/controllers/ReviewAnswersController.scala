@@ -38,16 +38,16 @@ class ReviewAnswersController @Inject()(calculatorConnector: CalculatorConnector
                                         checkYourAnswersView: checkYourAnswers)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
 
-  private def getTaxYear(disposalDate: LocalDate)(implicit request: Request[_]) =
+  private def getTaxYear(disposalDate: LocalDate)(implicit request: Request[?]) =
     calculatorConnector.getTaxYear(disposalDate.format(requestFormatter)).map {
       _.get
     }
 
-  private def getGainAnswers(implicit request: Request[_]) = sessionCacheService.getShareGainAnswers
+  private def getGainAnswers(implicit request: Request[?]) = sessionCacheService.getShareGainAnswers
 
-  private def getDeductionsAnswers(implicit request: Request[_]) = sessionCacheService.getShareDeductionAnswers
+  private def getDeductionsAnswers(implicit request: Request[?]) = sessionCacheService.getShareDeductionAnswers
 
-  private def languageRequest(body : Lang => Future[Result])(implicit request: Request[_]) =
+  private def languageRequest(body : Lang => Future[Result])(implicit request: Request[?]) =
     body(mcc.messagesApi.preferred(request).lang)
 
   val reviewGainAnswers: Action[AnyContent] = ValidateSession.async {

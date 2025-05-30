@@ -35,7 +35,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
   "The Shares Worth When Sold For Less View when supplied with an empty form" should {
 
-    lazy val view = worthWhenSoldForLessView(worthWhenSoldForLessForm)(fakeRequest, mockMessage)
+    lazy val view = worthWhenSoldForLessView(worthWhenSoldForLessForm)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -157,7 +157,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "The Shares Worth When Sold For Less View when supplied with a correct form" should {
 
     lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "100"))
-    lazy val view = worthWhenSoldForLessView(form)(fakeRequest, mockMessage)
+    lazy val view = worthWhenSoldForLessView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form in the input" in {
@@ -176,7 +176,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
   "The Shares Worth When Sold For Less View when supplied with an incorrect form" should {
 
     lazy val form = worthWhenSoldForLessForm.bind(Map("amount" -> "adsa"))
-    lazy val view = worthWhenSoldForLessView(form)(fakeRequest, mockMessage)
+    lazy val view = worthWhenSoldForLessView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

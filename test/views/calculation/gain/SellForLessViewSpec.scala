@@ -24,18 +24,19 @@ import controllers.helpers.FakeRequestHelper
 import forms.SellForLessForm._
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.sellForLess
 
 class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val sellForLessView = fakeApplication.injector.instanceOf[sellForLess]
 
   "Sell for less view with an empty form" should {
 
-    lazy val view = sellForLessView(sellForLessForm, "back-link")(fakeRequest, mockMessage)
+    lazy val view = sellForLessView(sellForLessForm, "back-link")(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -192,7 +193,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
   }
 
   "Sell for less view with a filled form" which {
-    lazy val view = sellForLessView(sellForLessForm.fill(SellForLessModel(true)), "back-link")(fakeRequest, mockMessage)
+    lazy val view = sellForLessView(sellForLessForm.fill(SellForLessModel(true)), "back-link")(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "for the option 'Yes'" should {
@@ -208,7 +209,7 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
   "Sell for less view with form errors" should {
 
     lazy val form = sellForLessForm.bind(Map("sellForLess" -> ""))
-    lazy val view = sellForLessView(form, "back-link")(fakeRequest, mockMessage)
+    lazy val view = sellForLessView(form, "back-link")(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

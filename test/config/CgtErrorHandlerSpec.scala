@@ -48,13 +48,13 @@ class CgtErrorHandlerSpec extends CommonPlaySpec with WithCommonFakeApplication 
     import play.api.routing.sird._
 
     Router.from {
-      case GET(p"/ok") => actionBuilder.async { request =>
+      case GET(p"/ok") => actionBuilder.async { _ =>
         Future.successful(Results.Ok("OK"))
       }
-      case GET(p"/application-exception") => actionBuilder.async { request =>
+      case GET(p"/application-exception") => actionBuilder.async { _ =>
         throw new ApplicationException(Redirect(controllers.utils.routes.TimeoutController.timeout()), "Test exception thrown")
       }
-      case GET(p"/other-error") => actionBuilder.async { request =>
+      case GET(p"/other-error") => actionBuilder.async { _ =>
         throw new IllegalArgumentException("Other Exception Thrown")
       }
     }

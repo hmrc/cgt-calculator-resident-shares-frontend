@@ -40,7 +40,7 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
   val checkYourAnswersView: checkYourAnswers = fakeApplication.injector.instanceOf[checkYourAnswers]
 
   lazy val view: HtmlFormat.Appendable = checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
-    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(fakeRequestWithSession, mockMessage)
+    Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(using fakeRequestWithSession, mockMessage)
   lazy val doc: Document = Jsoup.parse(view.body)
 
   "have a charset of UTF-8" in {
@@ -135,7 +135,7 @@ class CheckYourAnswersViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       val f = (checkYourAnswersView(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
         Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false)
-        (fakeRequestWithSession,mockMessage))
+        (using fakeRequestWithSession,mockMessage))
 
       val render = checkYourAnswersView.render(dummyPostCall, dummyBackLink, gainAnswersMostPossibles,
         Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), false,

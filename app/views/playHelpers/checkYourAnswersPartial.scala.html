@@ -54,8 +54,8 @@
             displayLink = displayLinks
         )
 
-        @{if(!gainAnswers.soldForLessThanWorth)
-            summaryNumericRowHelper(
+        @if(!gainAnswers.soldForLessThanWorth){
+            @summaryNumericRowHelper(
                 "disposalValue",
                 messages("calc.resident.shares.disposalValue.question"),
                 gainAnswers.disposalValue.get,
@@ -64,9 +64,8 @@
             )
         }
 
-        @{
-            if(gainAnswers.soldForLessThanWorth)
-                summaryNumericRowHelper(
+        @if(gainAnswers.soldForLessThanWorth){
+                @summaryNumericRowHelper(
                     "worthWhenSoldForLess",
                     messages("calc.resident.shares.worthWhenSoldForLess.question"),
                     gainAnswers.worthWhenSoldForLess.get,
@@ -148,8 +147,8 @@
                 displayLink = displayLinks
             )
 
-            @{if(deductionAnswers.get.broughtForwardModel.get.option)
-                summaryNumericRowHelper(
+            @if(deductionAnswers.get.broughtForwardModel.get.option){
+                @summaryNumericRowHelper(
                     "broughtForwardLossesValue",
                     messages("calc.resident.lossesBroughtForwardValue.title",
                     TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)),

@@ -32,13 +32,13 @@ class LossesBroughtForwardValueForm @Inject()(implicit val messagesApi: Messages
     mapping(
       "amount" -> text
         .transform(stripCurrencyCharacters, stripCurrencyCharacters)
-        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", year)(lang), mandatoryCheck)
-        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(lang), bigDecimalCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", year)(using lang), mandatoryCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(using lang), bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
-        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.minimumAmount", year)(lang), isPositive)
-        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(lang), decimalPlacesCheck)
-    )(LossesBroughtForwardValueModel.apply)(LossesBroughtForwardValueModel.unapply)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.minimumAmount", year)(using lang), isPositive)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(using lang), decimalPlacesCheck)
+    )(LossesBroughtForwardValueModel.apply)(o=>Some(o.amount))
   )
 
 }

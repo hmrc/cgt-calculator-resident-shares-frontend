@@ -44,7 +44,7 @@ class WhatNextSAController @Inject()(sessionCacheService: SessionCacheService,
   private val backLink = controllers.routes.SaUserController.saUser.url
   private lazy val iFormUrl = appConfig.residentIFormUrl
 
-  private def getDisposalDate(implicit request: Request[_]) =
+  private def getDisposalDate(implicit request: Request[?]) =
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](KeystoreKeys.ResidentShareKeys.disposalDate) map(
       _.get match { case DisposalDateModel(day, month, year) => taxYearOfDateLongHand(LocalDate.of(year, month, day)) }
     )

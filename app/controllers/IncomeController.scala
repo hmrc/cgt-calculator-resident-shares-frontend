@@ -44,14 +44,14 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
                                  currentIncomeForm: CurrentIncomeForm,
                                  currentIncomeView: currentIncome)(implicit ec: ExecutionContext)
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
-  private def lossesBroughtForwardResponse(implicit request: Request[_]) = {
+  private def lossesBroughtForwardResponse(implicit request: Request[?]) = {
     sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward).map {
       case Some(LossesBroughtForwardModel(response)) => response
       case None => false
     }
   }
 
-  private def getDisposalDate(implicit request: Request[_]) = {
+  private def getDisposalDate(implicit request: Request[?]) = {
     sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
   }
 
@@ -60,7 +60,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
   }
 
   //################################# Current Income Actions ##########################################
-  private def buildCurrentIncomeBackUrl(implicit request: Request[_]) = {
+  private def buildCurrentIncomeBackUrl(implicit request: Request[?]) = {
     lossesBroughtForwardResponse.map { response =>
       if (response) routes.DeductionsController.lossesBroughtForwardValue.url
       else routes.DeductionsController.lossesBroughtForward.url
@@ -116,7 +116,7 @@ class IncomeController @Inject()(calcConnector: CalculatorConnector,
 
   //################################# Personal Allowance Actions ##########################################
   private def getStandardPA(year: Int, hc: HeaderCarrier) = {
-    calcConnector.getPA(year)(hc)
+    calcConnector.getPA(year)(using hc)
   }
 
   private def taxYearValue(taxYear: String) = {

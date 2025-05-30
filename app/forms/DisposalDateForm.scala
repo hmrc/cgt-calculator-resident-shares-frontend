@@ -30,7 +30,7 @@ object DisposalDateForm {
 
   def disposalDateForm(minimumDate: LocalDate = LocalDate.now)(implicit messages: Messages): Form[DisposalDateModel] = Form(
     mapping(
-      key -> of(DateFormatter(
+      key -> of(using DateFormatter(
         key,
         optMinDate = Some(minimumDate)
       ))

@@ -59,13 +59,13 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
                      taxYearModel: TaxYearModel): DeductionsController = {
 
       when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardValueModel](ArgumentMatchers.eq(keystoreKeys.lossesBroughtForwardValue))
-        (ArgumentMatchers.any(), ArgumentMatchers.any()))
+        (using ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(getData))
 
-      when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel](ArgumentMatchers.eq(keystoreKeys.disposalDate))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(disposalDateModel)))
 
-      when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
       new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm, lossesBroughtForwardView, lossesBroughtForwardValueView)
@@ -138,27 +138,27 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
                       maxAnnualExemptAmount: Option[BigDecimal] = Some(BigDecimal(11100))
                      ): DeductionsController = {
 
-      when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getShareGainAnswers(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(gainAnswers))
 
-      when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
+      when(mockSessionCacheService.getShareDeductionAnswers(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(chargeableGainAnswers))
 
-      when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+      when(mockCalcConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(chargeableGain)))
 
       when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
-        (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        (ArgumentMatchers.eq(keystoreKeys.disposalDate))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(disposalDateModel)))
 
-      when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      when(mockCalcConnector.getFullAEA(ArgumentMatchers.any())(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(maxAnnualExemptAmount))
 
       when(mockSessionCacheService.saveFormData[LossesBroughtForwardValueModel](ArgumentMatchers.any(),
-        ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful("" -> "")
 
         )
