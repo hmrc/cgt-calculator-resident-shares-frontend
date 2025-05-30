@@ -41,6 +41,7 @@
     @form(action = postAction) {
         @inputRadio(
             legend = messages("calc.resident.lossesBroughtForward.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
+            legendClass = Some("govuk-fieldset__legend--xl"),
             items = Seq(
                 RadioItem(content = Text(messages("calc.base.yes")), value = Option("Yes")),
                 RadioItem(content = Text(messages("calc.base.no")), value = Option("No"))
