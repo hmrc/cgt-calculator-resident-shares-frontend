@@ -51,7 +51,7 @@ object CalculateRequestConstructor {
       )
   }
 
-  def incomeAnswersRequest(deductionsAnswers: DeductionGainAnswersModel, answers: IncomeAnswersModel): Map[String, Any] = {
+  def incomeAnswersRequest(answers: IncomeAnswersModel): Map[String, Any] = {
     Map(
       "previousIncome" -> answers.currentIncomeModel.get.amount.toDouble,
       "personalAllowance" -> answers.personalAllowanceModel.get.amount.toDouble

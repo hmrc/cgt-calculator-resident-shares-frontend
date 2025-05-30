@@ -59,11 +59,11 @@ class WorthWhenSoldForLessActionSpec extends CommonPlaySpec with WithCommonFakeA
     val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
     when(mockSessionCacheService.fetchAndGetFormData[WorthWhenSoldForLessModel]
-      (ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.worthWhenSoldForLess))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[WorthWhenSoldForLessModel]
-      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,

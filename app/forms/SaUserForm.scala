@@ -29,6 +29,6 @@ object SaUserForm {
         .verifying("calc.resident.saUser.errorSelect", optionalMandatoryCheck)
         .verifying("calc.resident.saUser.errorSelect", optionalYesNoCheck)
         .transform[Boolean](optionStringToBoolean, booleanToOptionString)
-    )(SaUserModel.apply)(SaUserModel.unapply)
+    )(SaUserModel.apply)(o=>Some(o.isInSa))
   )
 }

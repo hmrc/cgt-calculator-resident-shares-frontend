@@ -35,6 +35,6 @@ object ValueBeforeLegislationStartForm {
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount", isPositive)
         .verifying("calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount", decimalPlacesCheck)
-    )(ValueBeforeLegislationStartModel.apply)(ValueBeforeLegislationStartModel.unapply)
+    )(ValueBeforeLegislationStartModel.apply)(o=>Some(o.amount))
   )
 }

@@ -35,6 +35,6 @@ object WorthWhenSoldForLessForm {
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.minimumAmount", isPositive)
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidAmount", decimalPlacesCheck)
-    )(WorthWhenSoldForLessModel.apply)(WorthWhenSoldForLessModel.unapply)
+    )(WorthWhenSoldForLessModel.apply)(o=>Some(o.amount))
   )
 }

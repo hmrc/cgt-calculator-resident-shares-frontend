@@ -69,7 +69,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
+        taxYearModel, 100)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a banner" which {
@@ -325,7 +325,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
+        taxYearModel, 100)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for worth when sold for less" which {
@@ -375,7 +375,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
+        taxYearModel, 100)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for brought forward losses used" which {
@@ -429,7 +429,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
+        taxYearModel, 100)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for brought forward losses used" which {
@@ -469,11 +469,11 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
         acquisitionValue = Some(0),
         acquisitionCosts = BigDecimal(10000)
       )
-      val deductionAnswers = DeductionGainAnswersModel(
+       val deductionAnswers = DeductionGainAnswersModel(
         broughtForwardModel = Some(LossesBroughtForwardModel(true)),
         broughtForwardValueModel = Some(LossesBroughtForwardValueModel(35))
       )
-      val results = ChargeableGainResultModel(
+       val results = ChargeableGainResultModel(
         gain = 30000,
         chargeableGain = 0,
         aeaUsed = 900,
@@ -486,13 +486,13 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
         broughtForwardLossesUsed = 0,
         allowableLossesUsed = 0
       )
-      val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
+       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
-      lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
-      lazy val doc = Jsoup.parse(view.body)
+       lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
+        taxYearModel, 100)(using fakeRequestWithSession, mockMessage)
+        lazy val doc = Jsoup.parse(view.body)
 
-      "has a row for acquisition value" which {
+       "has a row for acquisition value" which {
         s"has the text '${summaryMessages.acquisitionValueBeforeLegislation}'" in {
           doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
         }
@@ -539,7 +539,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       val taxYearModel = TaxYearModel("2018/19", isValidYear = false, "2016/17")
 
       lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
+        taxYearModel, 100)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       s"display a notice summary with text ${summaryMessages.noticeSummary}" in {
@@ -581,7 +581,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
       val taxYearModel = TaxYearModel("2015/16", isValidYear = true, "2015/16")
 
       lazy val view = deductionsSummaryPartialView(gainAnswers, deductionAnswers, results,
-        taxYearModel, 100)(fakeRequestWithSession, mockMessage)
+        taxYearModel, 100)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "has a row for acquisition value" which {

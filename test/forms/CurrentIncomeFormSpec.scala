@@ -63,7 +63,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.mandatoryAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.mandatoryAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -81,7 +81,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.mandatoryAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.mandatoryAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -98,7 +98,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -115,7 +115,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -149,7 +149,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.minimumAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.minimumAmount", "2022")(using Lang("en"))
       }
     }
   }

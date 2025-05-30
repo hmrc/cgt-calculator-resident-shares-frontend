@@ -16,19 +16,18 @@
 
 package config
 
-import play.api.Environment
 import uk.gov.hmrc.play.bootstrap.config.ServicesConfig
 
 import javax.inject.Inject
 
 trait AppConfig {
-  val residentIFormUrl: String
-  val urBannerLink: String
-  val feedbackSurvey: String
-  val isWelshEnabled: Boolean
+  lazy val residentIFormUrl: String
+  lazy val urBannerLink: String
+  lazy val feedbackSurvey: String
+  lazy val isWelshEnabled: Boolean
 }
 
-class ApplicationConfig @Inject()(environment: Environment, val servicesConfig: ServicesConfig) extends AppConfig {
+class ApplicationConfig @Inject()(val servicesConfig: ServicesConfig) extends AppConfig {
   private def loadConfig(key: String) = servicesConfig.getString(key)
 
   lazy val feedbackSurvey: String = loadConfig(s"feedback-frontend.url")

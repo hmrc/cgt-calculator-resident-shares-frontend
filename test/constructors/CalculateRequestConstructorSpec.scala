@@ -84,11 +84,10 @@ class CalculateRequestConstructorSpec extends CommonPlaySpec {
   "calling incomeAnswersRequestString" when {
 
     "supplied with personal allowance and previous income" should {
-      val deductionGainAnswersModel = DeductionGainAnswersModel(None, None)
       val incomeGainAnswersModel = IncomeAnswersModel(Some(CurrentIncomeModel(1000)), Some(PersonalAllowanceModel(10600)))
 
       "return a valid request string" in {
-        val result = CalculateRequestConstructor.incomeAnswersRequest(deductionGainAnswersModel, incomeGainAnswersModel)
+        val result = CalculateRequestConstructor.incomeAnswersRequest(incomeGainAnswersModel)
         result shouldBe Map("previousIncome" -> 1000.0, "personalAllowance" -> 10600.0)
       }
     }

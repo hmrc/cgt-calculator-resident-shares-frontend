@@ -16,25 +16,26 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => Messages}
+import assets.MessageLookup.Resident.Shares.{WorthWhenInherited => messages}
 import assets.MessageLookup.{Resident => commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.WorthWhenInheritedForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.worthWhenInherited
 
 class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
 
   "worthWhenInherited view" should {
     lazy val form = worthWhenInheritedForm
-    lazy val view = worthWhenInheritedView(form)(fakeRequest, mockMessage)
+    lazy val view = worthWhenInheritedView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -53,16 +54,16 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
     }
 
-    s"have a title of ${Messages.title}" in {
-      doc.title() shouldBe Messages.title
+    s"have a title of ${messages.title}" in {
+      doc.title() shouldBe messages.title
     }
 
-    s"have a question of ${Messages.h1}" in {
-      doc.select("h1.govuk-heading-xl").text() shouldBe Messages.h1
+    s"have a question of ${messages.h1}" in {
+      doc.select("h1.govuk-heading-xl").text() shouldBe messages.h1
     }
 
-    s"have a legend for an input with text ${Messages.question}" in {
-      doc.body.getElementsByClass("govuk-label--m").text() shouldEqual Messages.question
+    s"have a legend for an input with text ${messages.question}" in {
+      doc.body.getElementsByClass("govuk-label--m").text() shouldEqual messages.question
     }
 
     "have a form tag" in {
@@ -77,8 +78,8 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       doc.select("form").attr("method") shouldBe "POST"
     }
 
-    s"have a label for an input with text ${Messages.question}" in {
-      doc.select("label").text() shouldEqual Messages.question
+    s"have a label for an input with text ${messages.question}" in {
+      doc.select("label").text() shouldEqual messages.question
     }
 
     s"have an input field with id amount " in {
@@ -87,15 +88,15 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
     "has help text that" should {
 
-      s"have the text ${Messages.helpText}" in {
-        doc.body.getElementsByClass("govuk-body").text shouldBe Messages.helpText
+      s"have the text ${messages.helpText}" in {
+        doc.body.getElementsByClass("govuk-body").text shouldBe messages.helpText
       }
     }
 
     "have a p tag" which {
       lazy val form = doc.getElementsByTag("form")
-      s"with the extra text ${Messages.hintText}" in {
-        form.select("p.govuk-inset-text").text shouldBe Messages.hintText
+      s"with the extra text ${messages.hintText}" in {
+        form.select("p.govuk-inset-text").text shouldBe messages.hintText
       }
     }
 
@@ -116,7 +117,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   "worthWhenInherited View with form without errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> "100"))
-    lazy val view = worthWhenInheritedView(form)(fakeRequest, mockMessage)
+    lazy val view = worthWhenInheritedView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -134,7 +135,7 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
   "worthWhenInherited View with form with errors" should {
     lazy val form = worthWhenInheritedForm.bind(Map("amount" -> ""))
-    lazy val view = worthWhenInheritedView(form)(fakeRequest, mockMessage)
+    lazy val view = worthWhenInheritedView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

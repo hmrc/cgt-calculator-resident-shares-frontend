@@ -55,7 +55,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", true, "2016/17")
-      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage)
+      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(using fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -354,7 +354,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "generate the same template when .render and .f are called" in {
 
         val f = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000,
-          true)(fakeRequest, mockMessage)
+          true)(using fakeRequest, mockMessage)
 
         val render = gainSummaryView.render(testModel, -100, taxYearModel, 150 , 11000,
           true, fakeRequest, mockMessage)
@@ -379,7 +379,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       )
 
       lazy val taxYearModel = TaxYearModel("2016/17", false, "2016/17")
-      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(fakeRequest, mockMessage)
+      lazy val view = gainSummaryView(testModel, -100, taxYearModel, 150 , 11000, showUserResearchPanel = false)(using fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

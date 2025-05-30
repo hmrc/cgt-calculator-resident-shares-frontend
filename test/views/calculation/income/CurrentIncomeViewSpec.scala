@@ -42,7 +42,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
     lazy val backLink = controllers.routes.IncomeController.personalAllowance.toString
-    lazy val view = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
+    lazy val view = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(using fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -141,7 +141,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "generate the same template when .render and .f are called" in {
 
-      val f = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
+      val f = currentIncomeView(currentIncomeForm, backLink, taxYearModel, false)(using fakeRequest, mockMessage, fakeLang)
 
       val render = currentIncomeView.render(currentIncomeForm, backLink, taxYearModel, false, fakeRequest, mockMessage, fakeLang)
 
@@ -156,7 +156,7 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       lazy val form = currentIncomeForm.bind(Map("amount" -> ""))
       lazy val taxYearModel = TaxYearModel("2015/16", true, "2015/16")
       lazy val backLink = controllers.routes.DeductionsController.lossesBroughtForward.toString
-      lazy val view = currentIncomeView(form, backLink, taxYearModel, false)(fakeRequest, mockMessage, fakeLang)
+      lazy val view = currentIncomeView(form, backLink, taxYearModel, false)(using fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

@@ -63,14 +63,14 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
   def setupTarget(getData: Option[DisposalDateModel]): GainController = {
 
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
-      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[DisposalDateModel]
-      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
-    when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
+    when(mockCalcConnector.getMinimumDate()(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
     new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,
@@ -83,14 +83,14 @@ class DisposalDateActionSpec extends CommonPlaySpec with WithCommonFakeApplicati
 
     def setupTarget(): GainController = {
 
-      when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+      when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(dateResponse)))
 
       when(mockSessionCacheService.saveFormData[DisposalDateModel]
-        (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+        (ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
         .thenReturn(Future.successful("" -> ""))
 
-      when(mockCalcConnector.getMinimumDate()(ArgumentMatchers.any()))
+      when(mockCalcConnector.getMinimumDate()(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(LocalDate.parse("2015-06-04")))
 
       new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,

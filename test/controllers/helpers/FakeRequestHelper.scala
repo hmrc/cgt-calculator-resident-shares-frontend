@@ -25,5 +25,5 @@ trait FakeRequestHelper {
   lazy val fakeRequestWithSession = fakeRequest.withSession((SessionKeys.sessionId, ""))
 
   def fakeRequestToPOSTWithSession (input: (String, String)*): FakeRequest[AnyContentAsFormUrlEncoded] =
-    fakeRequestWithSession.withFormUrlEncodedBody(input: _*)
+    fakeRequestWithSession.withFormUrlEncodedBody(input*)
 }

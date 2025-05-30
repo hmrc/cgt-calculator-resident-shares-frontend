@@ -37,7 +37,7 @@ class WhatNextNonSaControllerSpec extends CommonPlaySpec with FakeRequestHelper 
 
   def setupController(): WhatNextNonSaController = {
     SharedMetricRegistries.clear()
-    implicit val mockAppConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+    implicit val mockAppConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
     val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
     val whatNextNonSaGainView = fakeApplication.injector.instanceOf[whatNextNonSaGain]
     val whatNextNonSaLossView = fakeApplication.injector.instanceOf[whatNextNonSaLoss]

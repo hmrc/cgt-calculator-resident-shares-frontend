@@ -35,7 +35,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
   "ValueBeforeLegislationStart View" should {
 
-    lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(fakeRequest, mockMessage)
+    lazy val view = valueBeforeLegislationStartView(valueBeforeLegislationStartForm)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have charset UTF-8" in {
@@ -150,7 +150,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "ValueBeforeLegislationStart View with form without errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> "100"))
-    lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, mockMessage)
+    lazy val view = valueBeforeLegislationStartView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display the value of the form" in {
@@ -169,7 +169,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
   "ValueBeforeLegislationStart View with form with errors" should {
 
     lazy val form = valueBeforeLegislationStartForm.bind(Map("amount" -> ""))
-    lazy val view = valueBeforeLegislationStartView(form)(fakeRequest, mockMessage)
+    lazy val view = valueBeforeLegislationStartView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "display an error summary message for the amount" in {

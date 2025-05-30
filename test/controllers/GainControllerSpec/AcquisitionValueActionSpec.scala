@@ -59,11 +59,11 @@ class AcquisitionValueActionSpec extends CommonPlaySpec with WithCommonFakeAppli
     val outsideTaxYearView = fakeApplication.injector.instanceOf[outsideTaxYear]
 
     when(mockSessionCacheService.fetchAndGetFormData[AcquisitionValueModel]
-      (ArgumentMatchers.eq(keystoreKeys.acquisitionValue))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.acquisitionValue))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(getData))
 
     when(mockSessionCacheService.saveFormData[AcquisitionValueModel]
-      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,

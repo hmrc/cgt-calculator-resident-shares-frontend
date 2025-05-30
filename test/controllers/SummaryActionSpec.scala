@@ -61,33 +61,33 @@ class SummaryActionSpec extends CommonPlaySpec with WithCommonFakeApplication wi
     val gainSummaryView = fakeApplication.injector.instanceOf[gainSummary]
     val deductionsSummaryView = fakeApplication.injector.instanceOf[deductionsSummary]
 
-    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
 
-    when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.getSharesTotalCosts(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalCosts))
 
-    when(mockCalculatorConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(grossGain))
 
-    when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareDeductionAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainAnswers))
 
     when(mockCalculatorConnector.calculateRttShareChargeableGain
-    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    (ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(chargeableGainResultModel))
 
-    when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareIncomeAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(incomeAnswers))
 
     when(mockCalculatorConnector.calculateRttShareTotalGainAndTax(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any(),
-      ArgumentMatchers.any())(ArgumentMatchers.any()))
+      ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGainAndTaxOwedModel))
 
-    when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYearModel))
 
-    when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalculatorConnector.getFullAEA(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11100))))
 
 

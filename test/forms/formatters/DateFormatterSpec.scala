@@ -63,7 +63,7 @@ class DateFormatterSpec extends CommonPlaySpec with WithCommonFakeApplication wi
 
   val messagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
   implicit val messages: Messages = messagesApi.preferred(fakeRequest)
-  val testFormatter: DateFormatter = DateFormatter(testKey, Some(testMinDate), Some(testMaxDate), rangeInclusive = false)(messages)
+  val testFormatter: DateFormatter = DateFormatter(testKey, Some(testMinDate), Some(testMaxDate), rangeInclusive = false)(using messages)
   val dateFormatter: DateTimeFormatter = DateTimeFormatter.ofPattern("d MMMM yyyy", messages.lang.toLocale)
 
   "testFormatter.bind" when {
@@ -314,7 +314,7 @@ class DateFormatterSpec extends CommonPlaySpec with WithCommonFakeApplication wi
       }
     }
     "the formatter has inclusive date range" must {
-      val testFormatter: DateFormatter = DateFormatter(testKey, Some(testMinDate), Some(testMaxDate), rangeInclusive = true)(messages)
+      val testFormatter: DateFormatter = DateFormatter(testKey, Some(testMinDate), Some(testMaxDate), rangeInclusive = true)(using messages)
 
       "return global date error when date is valid but is too far in the future" in {
         val testDate = testMaxDate.plusDays(1)

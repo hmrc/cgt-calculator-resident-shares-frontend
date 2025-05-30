@@ -27,7 +27,7 @@ import scala.concurrent.ExecutionContext
 trait WithCommonFakeApplication extends BeforeAndAfterAll {
   this: Suite =>
 
-  lazy val fakeApplication: Application = new GuiceApplicationBuilder().bindings(bindModules:_*).build()
+  lazy val fakeApplication: Application = new GuiceApplicationBuilder().bindings(bindModules*).build()
 
   implicit val ec: ExecutionContext = fakeApplication.injector.instanceOf[ExecutionContext]
   implicit lazy val materializer: Materializer = mock[Materializer]

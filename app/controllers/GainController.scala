@@ -99,7 +99,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
         )},
         success => {
           (for {
-            save <- sessionCacheService.saveFormData(keystoreKeys.disposalDate, success)
+            _ <- sessionCacheService.saveFormData(keystoreKeys.disposalDate, success)
             taxYearResult <- calcConnector.getTaxYear(s"${success.year}-${success.month}-${success.day}")
             route <- routeRequest(taxYearResult)
           } yield route).recoverToStart()
@@ -114,7 +114,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
   }
 
   //################ Sell for Less Actions ######################
-  private def sellForLessBackLink()(implicit request: Request[_]): Future[String] = {
+  private def sellForLessBackLink()(implicit request: Request[?]): Future[String] = {
     for {
       date <- sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate)
       taxYear <- calcConnector.getTaxYear(s"${date.get.year}-${date.get.month}-${date.get.day}")
@@ -362,7 +362,7 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
 
     def successAction(success: AcquisitionCostsModel) = {
       for {
-        save <- sessionCacheService.saveFormData(keystoreKeys.acquisitionCosts, success)
+        _ <- sessionCacheService.saveFormData(keystoreKeys.acquisitionCosts, success)
         answers <- sessionCacheService.getShareGainAnswers
         grossGain <- calcConnector.calculateRttShareGrossGain(answers)
       } yield grossGain match {

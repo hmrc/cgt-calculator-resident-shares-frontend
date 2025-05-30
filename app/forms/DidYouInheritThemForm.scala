@@ -30,7 +30,7 @@ object DidYouInheritThemForm {
         .verifying("calc.resident.shares.didYouInheritThem.errorSelect", mandatoryCheck)
         .verifying("calc.resident.shares.didYouInheritThem.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
-    )(DidYouInheritThemModel.apply)(DidYouInheritThemModel.unapply)
+    )(DidYouInheritThemModel.apply)(o=>Some(o.wereInherited))
   )
 
 }

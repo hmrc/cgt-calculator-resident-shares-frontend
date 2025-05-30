@@ -36,7 +36,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
   "SaUserView" when {
 
     "no errors are present" should {
-      lazy val view = saUserView(SaUserForm.saUserForm)(fakeRequest, mockMessage)
+      lazy val view = saUserView(SaUserForm.saUserForm)(using fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       s"have a title of ${messages.title}" in {
@@ -133,7 +133,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
 
     "errors are present" should {
       lazy val form = SaUserForm.saUserForm.bind(Map("isInSa" -> ""))
-      lazy val view = saUserView(form)(fakeRequest, mockMessage)
+      lazy val view = saUserView(form)(using fakeRequest, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "display an error summary message for the amount" in {

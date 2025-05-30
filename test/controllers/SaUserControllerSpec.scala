@@ -47,33 +47,32 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
   val mockMCC: MessagesControllerComponents = fakeApplication.injector.instanceOf[MessagesControllerComponents]
   val saUserView: saUser = fakeApplication.injector.instanceOf[saUser]
 
-  def setupController(gainAnswersModel: GainAnswersModel, chargeableGain: BigDecimal, totalGain: BigDecimal,
-                      taxOwed: BigDecimal): SaUserController = {
+  def setupController(gainAnswersModel: GainAnswersModel, chargeableGain: BigDecimal, totalGain: BigDecimal): SaUserController = {
     SharedMetricRegistries.clear()
 
-    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswersModel))
 
-    when(mockSessionCacheService.getShareDeductionAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareDeductionAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(ModelsAsset.deductionAnswersLeastPossibles))
 
-    when(mockSessionCacheService.getShareIncomeAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareIncomeAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(ModelsAsset.incomeAnswers))
 
-    when(mockConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
-    when(mockConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockConnector.calculateRttShareChargeableGain(ArgumentMatchers.any(), ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(ChargeableGainResultModel(totalGain, chargeableGain, 0, 0, 0, 0, 0, None, None, 0, 0))))
 
     when(mockConnector.calculateRttShareTotalGainAndTax(ArgumentMatchers.any(), ArgumentMatchers.any(),
-      ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any()))
+      ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(TotalGainAndTaxOwedModel(totalGain, chargeableGain, 11000, 0, 5000, 10000, 5, None, None, None, None, 0, 0))))
 
-    when(mockConnector.getFullAEA(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockConnector.getFullAEA(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(BigDecimal(11000))))
 
-    when(mockConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(ModelsAsset.taxYearModel)))
 
     new SaUserController(mockConnector, mockSessionCacheService, mockMCC, saUserView)
@@ -82,7 +81,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
   "Calling .saUser" when {
 
     "no session is provided" should {
-      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000)
       lazy val result = controller.submitSaUser(fakeRequest)
 
       "return a status of 303" in {
@@ -95,7 +94,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
     }
 
     "a session is provided" should {
-      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000)
       lazy val result = controller.submitSaUser(fakeRequestWithSession)
 
       "return a status of 400 when there is no form body in the request" in {
@@ -118,7 +117,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
   "Calling .submitSaUser" when {
 
     "no session is provided" should {
-      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+      lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000)
       lazy val result = controller.submitSaUser(fakeRequest)
 
       "return a status of 303" in {
@@ -134,7 +133,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       val form = "isInSa" -> "No"
 
       "there is no tax liability" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000, 0)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 0, -10000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -147,7 +146,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "there is a tax liability" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -164,7 +163,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       val form = "isInSa" -> "Yes"
 
       "there is a tax liability" should {
-        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000, 2000)
+        lazy val controller = setupController(ModelsAsset.gainAnswersMostPossibles, 10000, 5000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -177,7 +176,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "there is no tax liability and a disposal value less than 4*AEA" should {
-        lazy val controller = setupController(ModelsAsset.gainLowDisposalValue, 0, -10000, 0)
+        lazy val controller = setupController(ModelsAsset.gainLowDisposalValue, 0, -10000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {
@@ -190,7 +189,7 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
       }
 
       "there is no tax liability and a disposal value greater than 4*AEA" should {
-        lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000, 0)
+        lazy val controller = setupController(ModelsAsset.gainLargeDisposalValue, 0, -10000)
         lazy val result = controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))
 
         "return a status of 303" in {

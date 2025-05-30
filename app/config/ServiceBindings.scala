@@ -20,6 +20,6 @@ import play.api.inject.{Binding, Module}
 import play.api.{Configuration, Environment}
 
 class ServiceBindings extends Module {
-  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[_]] =
+  override def bindings(environment: Environment, configuration: Configuration): Seq[Binding[?]] =
     Seq(bind[AppConfig].to(classOf[ApplicationConfig]))
 }

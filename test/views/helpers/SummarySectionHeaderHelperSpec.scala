@@ -27,7 +27,7 @@ class SummarySectionHeaderHelperSpec extends CommonPlaySpec with WithCommonFakeA
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val summarySectionHeaderHelperView = fakeApplication.injector.instanceOf[summarySectionHeaderHelper]
-  lazy val TestObject = summarySectionHeaderHelperView("Heading")(mockMessage)
+  lazy val TestObject = summarySectionHeaderHelperView("Heading")(using mockMessage)
   lazy val h2 = Jsoup.parse(TestObject.body).select("H2")
 
   "The Summary Section Header Helper" should {

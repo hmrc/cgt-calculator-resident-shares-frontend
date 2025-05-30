@@ -35,6 +35,6 @@ object WorthWhenInheritedForm {
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.worthWhenInherited.error.minimumAmount", isPositive)
         .verifying("calc.resident.shares.worthWhenInherited.error.invalidAmount", decimalPlacesCheck)
-    )(WorthWhenInheritedModel.apply)(WorthWhenInheritedModel.unapply)
+    )(WorthWhenInheritedModel.apply)(o=>Some(o.amount))
   )
 }

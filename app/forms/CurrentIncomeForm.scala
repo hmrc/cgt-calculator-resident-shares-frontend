@@ -44,7 +44,7 @@ class CurrentIncomeForm @Inject()() extends Logging {
           .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
           .verifying(messages(s"calc.resident.currentIncome.$question.error.minimumAmount", taxYear), isPositive)
           .verifying(messages(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear), decimalPlacesCheck)
-      )(CurrentIncomeModel.apply)(CurrentIncomeModel.unapply)
+      )(CurrentIncomeModel.apply)(o=>Some(o.amount))
     )
   }
 

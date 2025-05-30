@@ -39,7 +39,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
   "The check your answers partial with as much filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(mockMessage)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers))(using mockMessage)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "has a date output row for the Disposal Date" which {
@@ -233,7 +233,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
   "The check your answers partial with display links set to false" should {
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersMostPossibles,
-      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(mockMessage)
+      Some(deductionAnswersMostPossibles), Some(taxYearModel), Some(incomeAnswers), displayLinks = false)(using mockMessage)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "have no links" in {
@@ -244,7 +244,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
   "The check your answers partial with as little filled in as possible" should {
 
     lazy val view: HtmlFormat.Appendable = checkYourAnswersPartialView(gainAnswersLeastPossibles,
-      Some(deductionAnswersLeastPossibles), Some(taxYearModel), None)(mockMessage)
+      Some(deductionAnswersLeastPossibles), Some(taxYearModel), None)(using mockMessage)
     lazy val doc: Document = Jsoup.parse(view.body)
 
     "has an option output row for sold for less than worth value in" which {
@@ -318,7 +318,7 @@ class CheckYourAnswersPartialViewSpec extends CommonPlaySpec with WithCommonFake
 
     }
 
-   "does not have a numeric output row for the current income" in {
+    "does not have a numeric output row for the current income" in {
       doc.select("#currentIncome-question").isEmpty shouldBe true
     }
 

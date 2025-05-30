@@ -37,19 +37,19 @@ import scala.concurrent.{ExecutionContext, Future}
 class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implicit ec: ExecutionContext) {
 
 
-  def saveFormData[T](key: String, data: T)(implicit request: Request[_], formats: Format[T]): Future[(String, String)] = {
+  def saveFormData[T](key: String, data: T)(implicit request: Request[?], formats: Format[T]): Future[(String, String)] = {
     preservingMdc {
       sessionRepository.putSession[T](DataKey(key), data)
     }
   }
 
-  def fetchAndGetFormData[T](key: String)(implicit request: Request[_], formats: Format[T]): Future[Option[T]] = {
+  def fetchAndGetFormData[T](key: String)(implicit request: Request[?], formats: Format[T]): Future[Option[T]] = {
     preservingMdc {
       sessionRepository.getFromSession[T](DataKey(key))
     }
   }
 
-  def getShareGainAnswers(implicit request: Request[_]): Future[GainAnswersModel] = {
+  def getShareGainAnswers(implicit request: Request[?]): Future[GainAnswersModel] = {
     val disposalDate = fetchAndGetFormData[DisposalDateModel](ResidentShareKeys.disposalDate)
       .map(formData => constructDate(formData.get.day, formData.get.month, formData.get.year))
 
@@ -116,7 +116,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implic
       )
   }
 
-  def getShareDeductionAnswers(implicit request: Request[_]): Future[DeductionGainAnswersModel] = {
+  def getShareDeductionAnswers(implicit request: Request[?]): Future[DeductionGainAnswersModel] = {
     val broughtForwardModel = fetchAndGetFormData[LossesBroughtForwardModel](ResidentShareKeys.lossesBroughtForward)
     val broughtForwardValueModel = fetchAndGetFormData[LossesBroughtForwardValueModel](ResidentShareKeys.lossesBroughtForwardValue)
 
@@ -136,7 +136,7 @@ class SessionCacheService @Inject()(sessionRepository: SessionRepository)(implic
       )
   }
 
-  def getShareIncomeAnswers(implicit request: Request[_]): Future[IncomeAnswersModel] = {
+  def getShareIncomeAnswers(implicit request: Request[?]): Future[IncomeAnswersModel] = {
     val currentIncomeModel = fetchAndGetFormData[CurrentIncomeModel](ResidentShareKeys.currentIncome)
     val personalAllowanceModel = fetchAndGetFormData[PersonalAllowanceModel](ResidentShareKeys.personalAllowance)
 
