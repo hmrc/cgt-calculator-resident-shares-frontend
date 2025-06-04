@@ -43,9 +43,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
   implicit lazy val actorSystem: ActorSystem = ActorSystem()
 
   def setupTarget(storedData: Option[CurrentIncomeModel],
-                  otherProperties: Boolean = true,
                   lossesBroughtForward: Boolean = true,
-                  annualExemptAmount: BigDecimal = 0,
                   disposalDate: Option[DisposalDateModel],
                   taxYear: Option[TaxYearModel]): IncomeController = {
 
@@ -58,23 +56,23 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
     val currentIncomeView = fakeApplication.injector.instanceOf[currentIncome]
 
     when(mockSessionCacheService.fetchAndGetFormData[CurrentIncomeModel]
-      (ArgumentMatchers.eq(keystoreKeys.currentIncome))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.currentIncome))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(storedData))
 
     when(mockSessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel]
-      (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))(ArgumentMatchers.any(),
+      (ArgumentMatchers.eq(keystoreKeys.lossesBroughtForward))(using ArgumentMatchers.any(),
       ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(LossesBroughtForwardModel(lossesBroughtForward))))
 
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
-      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.disposalDate))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(disposalDate))
 
-    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(taxYear))
 
     when(mockSessionCacheService.saveFormData[CurrentIncomeModel](ArgumentMatchers.any(),
-      ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> "")
 
       )
@@ -139,7 +137,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "there are no brought forward losses" should {
 
-      lazy val target = setupTarget(None, otherProperties = false, lossesBroughtForward = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
+      lazy val target = setupTarget(None, lossesBroughtForward = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
                                     taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.currentIncome(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(contentAsString(result))
@@ -155,7 +153,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "brought forward losses has been selected" should {
 
-      lazy val target = setupTarget(None, otherProperties = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
+      lazy val target = setupTarget(None, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
                                     taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.currentIncome(fakeRequestWithSession)
       lazy val doc = Jsoup.parse(contentAsString(result))
@@ -171,7 +169,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
   }
 
   "Calling .currentIncome from the IncomeController with no session" should {
-    lazy val target = setupTarget(None, otherProperties = false, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
+    lazy val target = setupTarget(None, disposalDate = Some(DisposalDateModel(10, 10, 2015)),
       taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
     lazy val result = target.currentIncome(fakeRequest)
 
@@ -203,7 +201,7 @@ class CurrentIncomeActionSpec extends CommonPlaySpec with WithCommonFakeApplicat
 
     "given an invalid form" should {
 
-      lazy val target = setupTarget(Some(CurrentIncomeModel(-40000)), otherProperties = false,
+      lazy val target = setupTarget(Some(CurrentIncomeModel(-40000)),
                                     disposalDate = Some(DisposalDateModel(10, 10, 2015)), taxYear = Some(TaxYearModel("2015/16", true, "2015/16")))
       lazy val result = target.submitCurrentIncome(fakeRequestToPOSTWithSession(("amount", "-40000")).withMethod("POST"))
 

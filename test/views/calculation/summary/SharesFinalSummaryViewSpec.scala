@@ -88,7 +88,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         100,
         100,
         isCurrentTaxYear = true,
-        showUserResearchPanel = true)(fakeRequestWithSession, mockMessage)
+        showUserResearchPanel = true)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "have a charset of UTF-8" in {
@@ -409,7 +409,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       "generate the same template when .render and .f are called" in {
 
         val f = finalSummaryView(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl, taxYearModel,
-          100, 100, isCurrentTaxYear = true, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage)
+          100, 100, isCurrentTaxYear = true, showUserResearchPanel = true)(using fakeRequestWithSession, mockMessage)
 
         val render = finalSummaryView.render(gainAnswers, deductionAnswers, incomeAnswers, results, backLinkUrl, taxYearModel,
           100, 100, isCurrentTaxYear = true, showUserResearchPanel = true, fakeRequestWithSession, mockMessage)
@@ -465,7 +465,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         100,
         100,
         isCurrentTaxYear = true,
-        showUserResearchPanel = false)(fakeRequestWithSession, mockMessage)
+        showUserResearchPanel = false)(using fakeRequestWithSession, mockMessage)
       lazy val doc = Jsoup.parse(view.body)
 
       "not display the continue button" in {

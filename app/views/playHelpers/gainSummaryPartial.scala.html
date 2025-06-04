@@ -36,13 +36,12 @@
   <h2 class="govuk-panel__body">&pound;@MoneyPounds(0, 2).quantity</h2>
 </div>
 
-@{if (!taxYear.isValidYear) {
-    govukWarningText(WarningText(
+@if(!taxYear.isValidYear) {
+    @govukWarningText(WarningText(
         iconFallbackText = Some("Warning"),
         content = Text(Messages("calc.summary.noticeSummary"))
     ))
     }
-}
 
   <!-- Calculation Details Section -->
 <section id="calcDetails">
@@ -61,16 +60,16 @@
           case (false) => {@summaryNumericRow("disposalValue", Messages("calc.summary.calculationDetails.disposalValue"), gainAnswers.disposalValue.get)}
         }
 
-        @{if(gainAnswers.ownerBeforeLegislationStart)
-          summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
+        @if(gainAnswers.ownerBeforeLegislationStart){
+          @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValueBeforeLegislation"), gainAnswers.valueBeforeLegislationStart.get)
         }
 
-        @{if(gainAnswers.displayWorthWhenBought)
-          summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
+        @if(gainAnswers.displayWorthWhenBought){
+          @summaryNumericRow("acquisitionValue",Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.acquisitionValue.get)
         }
 
-        @{if(gainAnswers.displayWorthWhenInherited)
-          summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
+        @if(gainAnswers.displayWorthWhenInherited){
+          @summaryNumericRow("acquisitionValue", Messages("calc.summary.calculationDetails.acquisitionValue"), gainAnswers.worthWhenInherited.get)
         }
 
         @summaryNumericRow("totalCosts", Messages("calc.summary.calculationDetails.totalCosts"), totalCosts)

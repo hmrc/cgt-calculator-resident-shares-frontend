@@ -41,7 +41,7 @@ class SessionRepository @Inject()(
     sessionIdKey = SessionKeys.sessionId
   ) {
 
-  def clear(implicit request: Request[_]): Future[Unit] = {
+  def clear(implicit request: Request[?]): Future[Unit] = {
     preservingMdc {
       cacheRepo.deleteEntity(request)
     }

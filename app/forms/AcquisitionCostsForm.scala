@@ -35,6 +35,6 @@ object AcquisitionCostsForm {
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.acquisitionCosts.error.minimumAmount", isPositive)
         .verifying("calc.resident.shares.acquisitionCosts.error.invalidAmount", decimalPlacesCheck)
-    )(AcquisitionCostsModel.apply)(AcquisitionCostsModel.unapply)
+    )(AcquisitionCostsModel.apply)(o=>Some(o.amount))
   )
 }

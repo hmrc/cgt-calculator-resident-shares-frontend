@@ -23,18 +23,19 @@ import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import forms.DidYouInheritThemForm._
 import org.jsoup.Jsoup
+import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.gain.didYouInheritThem
 
 class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
-  implicit lazy val mockMessage = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
+  implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val didYouInheritThemView: didYouInheritThem = fakeApplication.injector.instanceOf[didYouInheritThem]
   val title = s"${messages.question} - ${commonMessages.homeText} - GOV.UK"
   "Sell for less view with an empty form" should {
 
-    lazy val view = didYouInheritThemView(didYouInheritThemForm)(fakeRequest, mockMessage)
+    lazy val view = didYouInheritThemView(didYouInheritThemForm)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
     lazy val form = doc.getElementsByTag("form")
 
@@ -214,7 +215,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
   "Sell for less view with form errors" should {
 
     lazy val form = didYouInheritThemForm.bind(Map("wereInherited" -> ""))
-    lazy val view = didYouInheritThemView(form)(fakeRequest, mockMessage)
+    lazy val view = didYouInheritThemView(form)(using fakeRequest, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have an error summary" which {

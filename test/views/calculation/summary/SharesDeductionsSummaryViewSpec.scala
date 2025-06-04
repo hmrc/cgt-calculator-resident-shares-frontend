@@ -71,7 +71,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, 100, showUserResearchPanel = true)(fakeRequestWithSession, mockMessage)
+      taxYearModel, 100, showUserResearchPanel = true)(using fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -196,7 +196,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
     lazy val backUrl = controllers.routes.ReviewAnswersController.reviewDeductionsAnswers.url
 
     lazy val view = deductionsSummaryView(gainAnswers, deductionAnswers, results, backUrl,
-      taxYearModel, 100, showUserResearchPanel = false)(fakeRequestWithSession, mockMessage)
+      taxYearModel, 100, showUserResearchPanel = false)(using fakeRequestWithSession, mockMessage)
     lazy val doc = Jsoup.parse(view.body)
 
     "not display the what to do next section" in {

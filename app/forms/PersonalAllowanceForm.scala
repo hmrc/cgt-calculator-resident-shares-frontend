@@ -30,12 +30,12 @@ class PersonalAllowanceForm @Inject()(implicit val messagesApi: MessagesApi) {
     mapping(
       "amount" -> text
         .transform(stripCurrencyCharacters, stripCurrencyCharacters)
-        .verifying(messagesApi("calc.resident.personalAllowance.error.mandatoryAmount", taxYear)(lang), mandatoryCheck)
-        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(lang), bigDecimalCheck)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.mandatoryAmount", taxYear)(using lang), mandatoryCheck)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(using lang), bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(maxPA))
-        .verifying(messagesApi("calc.resident.personalAllowance.error.minimumAmount", taxYear)(lang), isPositive)
-        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(lang), decimalPlacesCheckNoDecimal)
-    )(PersonalAllowanceModel.apply)(PersonalAllowanceModel.unapply)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.minimumAmount", taxYear)(using lang), isPositive)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(using lang), decimalPlacesCheckNoDecimal)
+    )(PersonalAllowanceModel.apply)(o=>Some(o.amount))
   )
 }

@@ -48,18 +48,18 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
     SharedMetricRegistries.clear()
 
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
-      (ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(Some(disposalDate)))
 
     new WhatNextSAController(mockSessionCacheService, mockMCC, mockConfig, whatNextSAFourTimesAEAView,
       whatNextSAGainView, whatNextSANoGainView)
   }
 
-  def setupControllerNoSession(disposalDate: DisposalDateModel): WhatNextSAController = {
+  def setupControllerNoSession(): WhatNextSAController = {
     SharedMetricRegistries.clear()
 
     when(mockSessionCacheService.fetchAndGetFormData[DisposalDateModel]
-      (ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future(None))
 
     new WhatNextSAController(mockSessionCacheService, mockMCC, mockConfig, whatNextSAFourTimesAEAView,
@@ -168,7 +168,7 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
   "Empty controller" when {
     "called with .whatNextSaGain" should {
       "redirect to start" in {
-        lazy val controller = setupControllerNoSession(DisposalDateModel(8, 5, 2016))
+        lazy val controller = setupControllerNoSession()
         val result = controller.whatNextSAGain(fakeRequestWithSession)
         status(result) shouldBe 303
       }
@@ -176,7 +176,7 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
 
     "called with .whatNextSaNoGain" should {
       "redirect to start" in {
-        lazy val controller = setupControllerNoSession(DisposalDateModel(8, 5, 2016))
+        lazy val controller = setupControllerNoSession()
         val result = controller.whatNextSANoGain(fakeRequestWithSession)
         status(result) shouldBe 303
       }

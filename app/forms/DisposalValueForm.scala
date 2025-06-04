@@ -35,6 +35,6 @@ object DisposalValueForm {
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.disposalValue.error.minimumAmount", isPositive)
         .verifying("calc.resident.shares.disposalValue.error.invalidAmount", decimalPlacesCheck)
-    )(DisposalValueModel.apply)(DisposalValueModel.unapply)
+    )(DisposalValueModel.apply)(o=>Some(o.amount))
   )
 }

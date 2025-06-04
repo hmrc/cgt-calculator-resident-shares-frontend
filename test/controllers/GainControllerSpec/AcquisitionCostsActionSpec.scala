@@ -73,25 +73,25 @@ class AcquisitionCostsActionSpec extends CommonPlaySpec with WithCommonFakeAppli
                  ): GainController = {
 
     when(mockSessionCacheService.fetchAndGetFormData[AcquisitionCostsModel]
-      (ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.acquisitionCosts))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(acquisitionCostsData))
 
     when(mockSessionCacheService.fetchAndGetFormData[OwnerBeforeLegislationStartModel]
-      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.ownerBeforeLegislationStart))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(ownedBeforeStartOfTaxData))
 
     when(mockSessionCacheService.fetchAndGetFormData[DidYouInheritThemModel]
-      (ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.eq(keystoreKeys.didYouInheritThem))(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful(inheritedThemData))
 
-    when(mockSessionCacheService.getShareGainAnswers(ArgumentMatchers.any()))
+    when(mockSessionCacheService.getShareGainAnswers(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(gainAnswers))
 
-    when(mockCalcConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(ArgumentMatchers.any()))
+    when(mockCalcConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any()))
       .thenReturn(Future.successful(totalGain))
 
     when(mockSessionCacheService.saveFormData[AcquisitionCostsModel]
-      (ArgumentMatchers.any(), ArgumentMatchers.any())(ArgumentMatchers.any(), ArgumentMatchers.any()))
+      (ArgumentMatchers.any(), ArgumentMatchers.any())(using ArgumentMatchers.any(), ArgumentMatchers.any()))
       .thenReturn(Future.successful("" -> ""))
 
     new GainController(mockCalcConnector, mockSessionCacheService, mockMCC,

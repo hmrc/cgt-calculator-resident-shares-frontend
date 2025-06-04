@@ -63,7 +63,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       else Future.successful(None)
     }
 
-    def buildDeductionsSummaryBackUrl(deductionGainAnswers: DeductionGainAnswersModel): Future[String] = {
+    def buildDeductionsSummaryBackUrl(): Future[String] = {
       Future.successful(routes.ReviewAnswersController.reviewDeductionsAnswers.url)
     }
 
@@ -114,7 +114,7 @@ class SummaryController @Inject()(calculatorConnector: CalculatorConnector,
       maxAEA <- getMaxAEA(taxYearInt)
       grossGain <- calculatorConnector.calculateRttShareGrossGain(answers)
       deductionAnswers <- sessionCacheService.getShareDeductionAnswers
-      backLink <- buildDeductionsSummaryBackUrl(deductionAnswers)
+      backLink <- buildDeductionsSummaryBackUrl()
       chargeableGain <- getChargeableGain(grossGain, answers, deductionAnswers, maxAEA.get)
       incomeAnswers <- sessionCacheService.getShareIncomeAnswers
       totalGain <- getTotalTaxableGain(chargeableGain, answers, deductionAnswers, incomeAnswers, maxAEA.get)

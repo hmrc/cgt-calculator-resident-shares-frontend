@@ -97,7 +97,7 @@ class CalculatorConnector @Inject()(http: HttpClientV2,
 
     val totalGainReq = CalculateRequestConstructor.totalGainRequest(totalGainInput)
     val chargeableGainReq = CalculateRequestConstructor.chargeableGainRequest(chargeableGainInput, maxAEA)
-    val incomeAnswersReq = CalculateRequestConstructor.incomeAnswersRequest(chargeableGainInput, incomeAnswers)
+    val incomeAnswersReq = CalculateRequestConstructor.incomeAnswersRequest(incomeAnswers)
 
 
     http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-resident-capital-gains-tax?${totalGainReq ++ chargeableGainReq ++ incomeAnswersReq}").transform(_.addHttpHeaders(headers)).execute[Option[resident.TotalGainAndTaxOwedModel]]

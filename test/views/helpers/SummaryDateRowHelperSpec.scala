@@ -30,14 +30,14 @@ class SummaryDateRowHelperSpec extends CommonPlaySpec with WithCommonFakeApplica
 
   val summaryDateRowHelperView = fakeApplication.injector.instanceOf[summaryDateRowHelper]
   val fakeLang: Lang = Lang("en")
-  lazy val row = summaryDateRowHelperView("testID","testQ",constructDate(12,9,1990))(mockMessage)
+  lazy val row = summaryDateRowHelperView("testID","testQ",constructDate(12,9,1990))(using mockMessage)
   lazy val doc = Jsoup.parse(row.body)
 
   "The Summary Date Row Helper" should {
 
     s"if given data that includes a change link " should {
 
-      lazy val rowWithChangeLink = summaryDateRowHelperView("testID","testQ",constructDate(12,9,1990),Some("link"))(mockMessage)
+      lazy val rowWithChangeLink = summaryDateRowHelperView("testID","testQ",constructDate(12,9,1990),Some("link"))(using mockMessage)
       lazy val link = Jsoup.parse(rowWithChangeLink.body).select("a")
 
       "include a change link" which {

@@ -30,6 +30,6 @@ object LossesBroughtForwardForm {
         .verifying("calc.resident.lossesBroughtForward.errorSelect", mandatoryCheck)
         .verifying("calc.resident.lossesBroughtForward.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
-    )(LossesBroughtForwardModel.apply)(LossesBroughtForwardModel.unapply)
+    )(LossesBroughtForwardModel.apply)(o=>Some(o.option))
   )
 }

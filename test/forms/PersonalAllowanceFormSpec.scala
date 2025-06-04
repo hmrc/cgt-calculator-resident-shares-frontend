@@ -54,7 +54,7 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"error with message '${messages.mandatoryAmount}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.mandatoryAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.mandatoryAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -67,7 +67,7 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"error with message '${messages.invalidAmountNoDecimal}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.invalidAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.invalidAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -80,7 +80,7 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"error with message '${messages.minimumAmount}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.minimumAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.minimumAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -93,7 +93,7 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"error with message '${messages.invalidAmountNoDecimal}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.invalidAmount", "2022")(Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.invalidAmount", "2022")(using Lang("en"))
       }
     }
 
@@ -103,7 +103,7 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
             "raise form error" in {
               form.hasErrors shouldBe true
             }
-           s"error with message '${messages.maximumLimit(MoneyPounds(limit, 0).quantity)}'" in {
+            s"error with message '${messages.maximumLimit(MoneyPounds(limit, 0).quantity)}'" in {
                 form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
            }
           }
