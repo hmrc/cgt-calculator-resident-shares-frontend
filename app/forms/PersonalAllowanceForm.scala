@@ -35,7 +35,7 @@ class PersonalAllowanceForm @Inject()(implicit val messagesApi: MessagesApi) {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(maxPA))
         .verifying(messagesApi("calc.resident.personalAllowance.error.minimumAmount", taxYear)(using lang), isPositive)
-        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidAmount", taxYear)(using lang), decimalPlacesCheckNoDecimal)
+        .verifying(messagesApi("calc.resident.personalAllowance.error.invalidDecimalPlace", taxYear)(using lang), decimalPlacesCheckNoDecimal)
     )(PersonalAllowanceModel.apply)(o=>Some(o.amount))
   )
 }

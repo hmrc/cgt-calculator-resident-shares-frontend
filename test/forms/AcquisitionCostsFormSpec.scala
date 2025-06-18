@@ -103,8 +103,8 @@ class AcquisitionCostsFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionCosts.error.invalidAmount"
+      s"error with message '${messages.invalidDecimalPlace}'" in {
+        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionCosts.error.invalidDecimalPlace"
       }
     }
   }

@@ -108,7 +108,7 @@ class DisposalValueFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.resident.shares.disposalValue.error.invalidAmount"
+        form.error("amount").get.message shouldBe "calc.resident.shares.disposalValue.error.invalidDecimalPlace"
       }
     }
 
