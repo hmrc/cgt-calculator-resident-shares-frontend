@@ -34,7 +34,7 @@ object WorthWhenSoldForLessForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.minimumAmount", isPositive)
-        .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidDecimalPlace", decimalPlacesCheck)
     )(WorthWhenSoldForLessModel.apply)(o=>Some(o.amount))
   )
 }

@@ -34,7 +34,7 @@ object AcquisitionCostsForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.acquisitionCosts.error.minimumAmount", isPositive)
-        .verifying("calc.resident.shares.acquisitionCosts.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.acquisitionCosts.error.invalidDecimalPlace", decimalPlacesCheck)
     )(AcquisitionCostsModel.apply)(o=>Some(o.amount))
   )
 }

@@ -34,7 +34,7 @@ object DisposalValueForm {
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
         .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
         .verifying("calc.resident.shares.disposalValue.error.minimumAmount", isPositive)
-        .verifying("calc.resident.shares.disposalValue.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.disposalValue.error.invalidDecimalPlace", decimalPlacesCheck)
     )(DisposalValueModel.apply)(o=>Some(o.amount))
   )
 }

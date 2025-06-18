@@ -38,6 +38,7 @@ object MessageLookup {
     def maximumLimit(limit: String): String = s"Enter an amount that's £$limit or less"
 
     val invalidAmount = "Enter an amount in the correct format"
+    val invalidDecimalPlace = "Enter an amount in the correct decimal places"
     val invalidAmountNoDecimal = "Enter an amount in the correct format"
   }
 
