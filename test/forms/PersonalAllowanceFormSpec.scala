@@ -93,7 +93,7 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
 
       s"error with message '${messages.invalidAmountNoDecimal}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.invalidAmount", "2022")(using Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.personalAllowance.error.invalidDecimalPlace", "2022")(using Lang("en"))
       }
     }
 
@@ -104,7 +104,7 @@ class PersonalAllowanceFormSpec extends CommonPlaySpec with WithCommonFakeApplic
               form.hasErrors shouldBe true
             }
             s"error with message '${messages.maximumLimit(MoneyPounds(limit, 0).quantity)}'" in {
-                form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
+                form.error("amount").get.message shouldBe "calc.resident.personalAllowance.error.maxAmountExceeded"
            }
           }
   }

@@ -32,9 +32,9 @@ object WorthWhenSoldForLessForm {
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
+        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric,"calc.resident.shares.worthWhenSoldForLess.error.maxAmountExceeded"))
         .verifying("calc.resident.shares.worthWhenSoldForLess.error.minimumAmount", isPositive)
-        .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.worthWhenSoldForLess.error.invalidDecimalPlace", decimalPlacesCheck)
     )(WorthWhenSoldForLessModel.apply)(o=>Some(o.amount))
   )
 }

@@ -41,9 +41,9 @@ class CurrentIncomeForm @Inject()() extends Logging {
           .verifying(messages(s"calc.resident.currentIncome.$question.error.mandatoryAmount", taxYear), mandatoryCheck)
           .verifying(messages(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear), bigDecimalCheck)
           .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-          .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
+          .verifying(maxMonetaryValueConstraint(Constants.maxNumeric, s"calc.resident.currentIncome.$question.error.maxAmountExceeded", Some(taxYear)))
           .verifying(messages(s"calc.resident.currentIncome.$question.error.minimumAmount", taxYear), isPositive)
-          .verifying(messages(s"calc.resident.currentIncome.$question.error.invalidAmount", taxYear), decimalPlacesCheck)
+          .verifying(messages(s"calc.resident.currentIncome.$question.error.invalidDecimalPlace", taxYear), decimalPlacesCheck)
       )(CurrentIncomeModel.apply)(o=>Some(o.amount))
     )
   }

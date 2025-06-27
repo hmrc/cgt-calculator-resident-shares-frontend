@@ -32,9 +32,9 @@ object WorthWhenInheritedForm {
         .verifying("calc.resident.shares.worthWhenInherited.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.worthWhenInherited.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
+        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric,"calc.resident.shares.worthWhenInherited.error.maxAmountExceeded"))
         .verifying("calc.resident.shares.worthWhenInherited.error.minimumAmount", isPositive)
-        .verifying("calc.resident.shares.worthWhenInherited.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.worthWhenInherited.error.invalidDecimalPlace", decimalPlacesCheck)
     )(WorthWhenInheritedModel.apply)(o=>Some(o.amount))
   )
 }

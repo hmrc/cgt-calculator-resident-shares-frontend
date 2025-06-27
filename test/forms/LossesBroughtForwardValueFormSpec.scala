@@ -82,7 +82,7 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
       }
 
       s"have an error with message '${messages.maximumAmount}'" in {
-        form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
+        form.error("amount").get.message shouldBe "calc.resident.lossesBroughtForwardValue.error.maxAmountExceeded"
       }
     }
 
@@ -107,8 +107,8 @@ class LossesBroughtForwardValueFormSpec extends CommonPlaySpec with WithCommonFa
         form.hasErrors shouldBe true
       }
 
-      s"have an error with message '${messages.invalidAmount}'" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", "2022")(using Lang("en"))
+      s"have an error with message '${messages.invalidDecimalPlace}'" in {
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidDecimalPlace", "2022")(using Lang("en"))
       }
     }
   }
