@@ -35,9 +35,9 @@ class LossesBroughtForwardValueForm @Inject()(implicit val messagesApi: Messages
         .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.mandatoryAmount", year)(using lang), mandatoryCheck)
         .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(using lang), bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
+        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric, "calc.resident.lossesBroughtForwardValue.error.maxAmountExceeded", Some(year)))
         .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.minimumAmount", year)(using lang), isPositive)
-        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidAmount", year)(using lang), decimalPlacesCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForwardValue.error.invalidDecimalPlace", year)(using lang), decimalPlacesCheck)
     )(LossesBroughtForwardValueModel.apply)(o=>Some(o.amount))
   )
 

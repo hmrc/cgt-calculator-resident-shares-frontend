@@ -41,7 +41,7 @@ calc.common.date.fields.year = Year
 calc.common.date.hint = For example, 4 9 2021
 calc.common.date.error.invalidDate = Enter a real date
 calc.common.readMore = Read more
-calc.common.error.maxAmountExceeded = Enter an amount that is {0} or less
+calc.common.error.maxAmountExceeded = How much you sold the shares for must be £{0} or less
 calc.common.error.mandatoryAmount = Enter an amount
 calc.common.error.minimumAmount = Enter an amount that is £0 or more
 calc.common.error.invalidAmount = Enter an amount in the correct format e.g. 10000.00
@@ -84,8 +84,10 @@ calc.resident.lossesBroughtForward.errorSelect = Tell us if you are claiming any
 calc.resident.lossesBroughtForwardValue.title = What is the total value of your Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForwardValue.pageHeading = What is the total value of your Capital Gains Tax losses from tax years before {0}?
 calc.resident.lossesBroughtForwardValue.error.mandatoryAmount = Enter the total value of your Capital Gains Tax losses from tax years before {0}
-calc.resident.lossesBroughtForwardValue.error.invalidAmount = The total value of your Capital Gains Tax losses from tax years before {0} must be in the correct format
-calc.resident.lossesBroughtForwardValue.error.minimumAmount = The total value of your Capital Gains Tax losses from tax years before {0} must be 0 or more
+calc.resident.lossesBroughtForwardValue.error.invalidAmount = The total value of your Capital Gains Tax losses from tax years before {0} must be an amount of money in pounds
+calc.resident.lossesBroughtForwardValue.error.invalidDecimalPlace = The total value of your Capital Gains losses from the tax years before {0} has too many numbers after the decimal point
+calc.resident.lossesBroughtForwardValue.error.minimumAmount = The total value of your Capital Gains Tax losses from tax years before {0} must be £0 or more
+calc.resident.lossesBroughtForwardValue.error.maxAmountExceeded = The total value of your Capital Gains Tax losses from the tax years before {0} must be £{1} or less
 
 ## Current Income messages
 calc.resident.currentIncome.question = In the {0} tax year, what was your income?
@@ -93,12 +95,17 @@ calc.resident.currentIncome.questionCurrentYear = How much do you expect your in
 calc.resident.shares.currentIncome.helpText = Include your salary before tax, and anything else you pay income tax on, but not the money you made from selling the shares.
 
 calc.resident.currentIncome.question.error.mandatoryAmount = Enter your income for the {0} tax year
-calc.resident.currentIncome.question.error.invalidAmount = Your income for the {0} tax year must be in the correct format
+calc.resident.currentIncome.question.error.invalidAmount = Your income for the {0} tax year must be an amount of money in pounds
+calc.resident.currentIncome.question.error.invalidDecimalPlace = Your income for the {0} tax year has too many numbers after the decimal point
 calc.resident.currentIncome.question.error.minimumAmount = Your income for the {0} tax year must be £0 or more
+calc.resident.currentIncome.question.error.maxAmountExceeded = Your income for the {1} tax year must be £{0} or less
+
 
 calc.resident.currentIncome.questionCurrentYear.error.mandatoryAmount = Enter how much you expect your income to be in this tax year
-calc.resident.currentIncome.questionCurrentYear.error.invalidAmount = How much you expect your income to be in this tax year must be in the correct format
+calc.resident.currentIncome.questionCurrentYear.error.invalidAmount = How much you expect your income to be in this tax year must be an amount of money in pounds
+calc.resident.currentIncome.questionCurrentYear.error.invalidDecimalPlace = How much you expect your income to be in this tax year has too many numbers after the decimal point
 calc.resident.currentIncome.questionCurrentYear.error.minimumAmount = How much you expect your income to be in this year must be £0 or more
+calc.resident.currentIncome.questionCurrentYear.error.maxAmountExceeded = How much you expect your income to be in this tax year must be £{0} or less
 
 ## Personal Allowance messages
 calc.resident.personalAllowance.title = Personal Allowance
@@ -112,8 +119,10 @@ calc.resident.personalAllowance.link.text = Find out more about
 calc.resident.personalAllowance.link = Income tax rates and Personal Allowances (opens in new tab)
 calc.resident.personalAllowance.currentYearQuestion = How much is your Personal Allowance?
 calc.resident.personalAllowance.error.mandatoryAmount = Enter what your Personal Allowance was for the {0} tax year
-calc.resident.personalAllowance.error.invalidAmount = Your Personal Allowance for the {0} tax year must be in the correct format
-calc.resident.personalAllowance.error.minimumAmount = Your Personal Allowance for the {0} tax year must be 0 or more
+calc.resident.personalAllowance.error.invalidAmount = Your Personal Allowance for the {0} tax year must be an amount of money in pounds
+calc.resident.personalAllowance.error.invalidDecimalPlace = Your Personal Allowance for the {0} tax year has too many numbers after the decimal point
+calc.resident.personalAllowance.error.minimumAmount = Your Personal Allowance for the {0} tax year must be £0 or more
+calc.resident.personalAllowance.error.maxAmountExceeded = Your Personal Allowance for the {1} tax year must be £{0} or less
 
 #####################################################################################x##########
 ## Resident Shares messages ##
@@ -146,8 +155,10 @@ calc.resident.shares.disposalValue.title = Shares value when sold
 calc.resident.shares.disposalValue.question = How much did you sell the shares for?
 calc.resident.shares.disposalValue.jointOwnership = If you owned the shares with someone else, only enter your portion of the sale value.
 calc.resident.shares.disposalValue.error.mandatoryAmount = Enter how much you sold the shares for
-calc.resident.shares.disposalValue.error.invalidAmount = How much you sold the shares for must be in the correct format
-calc.resident.shares.disposalValue.error.minimumAmount = How much you sold the shares for must be 0 or more
+calc.resident.shares.disposalValue.error.invalidAmount = How much you sold the shares for must be an amount of money in pounds
+calc.resident.shares.disposalValue.error.invalidDecimalPlace = How much you sold the shares for has too many numbers after the decimal point
+calc.resident.shares.disposalValue.error.minimumAmount = How much you sold the shares for must be £0 or more
+calc.resident.shares.disposalValue.error.maxAmountExceeded = How much you sold the shares for must be £{0} or less
 
 ## Sell for Less messages
 calc.resident.shares.sellForLess.question = Did you sell the shares for less than they were worth to help the buyer?
@@ -159,8 +170,10 @@ calc.resident.shares.worthWhenSoldForLess.question = What were the shares worth 
 calc.resident.shares.worthWhenSoldForLess.informationText = Get information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.worthWhenSoldForLess.jointOwnershipText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 calc.resident.shares.worthWhenSoldForLess.error.mandatoryAmount = Enter how much the shares were worth when you sold them
-calc.resident.shares.worthWhenSoldForLess.error.invalidAmount = How much the shares were worth when you sold them must be in the correct format
-calc.resident.shares.worthWhenSoldForLess.error.minimumAmount = How much the shares were worth when you sold them must be 0 or more
+calc.resident.shares.worthWhenSoldForLess.error.invalidAmount = How much the shares were worth when you sold them must be an amount of money in pounds
+calc.resident.shares.worthWhenSoldForLess.error.invalidDecimalPlace = How much the shares were worth when you sold them has too many numbers after the decimal point
+calc.resident.shares.worthWhenSoldForLess.error.minimumAmount = How much the shares were worth when you sold them must be £0 or more
+calc.resident.shares.worthWhenSoldForLess.error.maxAmountExceeded = How much the shares were worth when you sold them must be £{0} or less
 
 ## Disposal Costs messages
 calc.resident.shares.disposalCosts.title = Costs when you sold the shares
@@ -168,8 +181,10 @@ calc.resident.shares.disposalCosts.question = How much did you pay in costs when
 calc.resident.shares.disposalCosts.helpText = This includes costs for stockbroker fees.
 calc.resident.shares.disposalCosts.jointOwnership = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
 calc.resident.shares.disposalCosts.error.mandatoryAmount = Enter how much you paid in costs when you sold the shares
-calc.resident.shares.disposalCosts.error.invalidAmount = How much you paid in costs when you sold the shares must be in the correct format
-calc.resident.shares.disposalCosts.error.minimumAmount = How much you paid in costs when you sold the shares must be 0 or more
+calc.resident.shares.disposalCosts.error.invalidAmount = How much you paid in costs when you sold the shares must be an amount of money in pounds
+calc.resident.shares.disposalCosts.error.invalidDecimalPlace = How much you paid in costs when you sold the shares has too many numbers after the decimal point
+calc.resident.shares.disposalCosts.error.minimumAmount = How much you paid in costs when you sold the shares must be £0 or more
+calc.resident.shares.disposalCosts.error.maxAmountExceeded = How much you paid in costs when you sold the shares must be £{0} or less
 
 ## Worth On messages
 calc.resident.shares.valueBeforeLegislationStart.title = Market value of the shares on 31 March 1982
@@ -178,8 +193,10 @@ calc.resident.shares.valueBeforeLegislationStart.information = Use the market va
 calc.resident.shares.valueBeforeLegislationStart.help = Get valuation information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.valueBeforeLegislationStart.hintText = If you owned the shares with someone else, only enter the value of your portion of the shares.
 calc.resident.shares.valueBeforeLegislationStart.error.mandatoryAmount = Enter what the shares were worth on 31 March 1982
-calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount = What the shares were worth on 31 March 1982 must be in the correct format
-calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount = What the shares were worth on 31 March 1982 must be 0 or more
+calc.resident.shares.valueBeforeLegislationStart.error.invalidAmount = What the shares were worth on 31 March 1982 must be an amount of money in pounds
+calc.resident.shares.valueBeforeLegislationStart.error.invalidDecimalPlace = What the shares were worth on 31 March 1982 has too many numbers after the decimal point
+calc.resident.shares.valueBeforeLegislationStart.error.minimumAmount = What the shares were worth on 31 March 1982 must be £0 or more
+calc.resident.shares.valueBeforeLegislationStart.error.maxAmountExceeded = What the shares were worth on 31 March 1982 must be £{0} or less
 
 ## Owner Before Legislation Start Messages
 calc.resident.shares.ownerBeforeLegislationStart.title = Did you own the shares before 1 April 1982?
@@ -191,8 +208,10 @@ calc.resident.shares.worthWhenInherited.question = What were the shares worth wh
 calc.resident.shares.worthWhenInherited.help = Use information from the stock exchange or talk to your stockbroker or fund manager.
 calc.resident.shares.worthWhenInherited.hintText = If you owned the shares with someone else, only enter the market value for your portion of the shares.
 calc.resident.shares.worthWhenInherited.error.mandatoryAmount = Enter what the shares were worth when you inherited them
-calc.resident.shares.worthWhenInherited.error.invalidAmount = How much the shares were worth when you inherited them must be in the correct format
-calc.resident.shares.worthWhenInherited.error.minimumAmount = What the shares were worth when you inherited them must be 0 or more
+calc.resident.shares.worthWhenInherited.error.invalidAmount = How much the shares were worth when you inherited them must be an amount of money in pounds
+calc.resident.shares.worthWhenInherited.error.invalidDecimalPlace = How much the shares were worth when you inherited them has too many numbers after the decimal point
+calc.resident.shares.worthWhenInherited.error.minimumAmount = What the shares were worth when you inherited them must be £0 or more
+calc.resident.shares.worthWhenInherited.error.maxAmountExceeded = How much the shares were worth when you inherited them must be £{0} or less
 
 ## Inherited Shares Messages
 calc.resident.shares.didYouInheritThem.errorSelect = Tell us if you inherited the shares
@@ -203,8 +222,10 @@ calc.resident.shares.acquisitionValue.title = What you paid for the shares
 calc.resident.shares.acquisitionValue.question = How much did you pay for the shares?
 calc.resident.shares.acquisitionValue.hintText = If you owned them with someone else, only enter your share of the purchase.
 calc.resident.shares.acquisitionValue.error.mandatoryAmount = Enter how much you paid for the shares
-calc.resident.shares.acquisitionValue.error.invalidAmount = How much you paid for the shares must be in the correct format
-calc.resident.shares.acquisitionValue.error.minimumAmount = How much you paid for the shares must be 0 or more
+calc.resident.shares.acquisitionValue.error.invalidAmount = How much you paid for the shares must be an amount of money in pounds
+calc.resident.shares.acquisitionValue.error.invalidDecimalPlace = How much you paid for the shares has too many numbers after the decimal point
+calc.resident.shares.acquisitionValue.error.minimumAmount = How much you paid for the shares must be £0 or more
+calc.resident.shares.acquisitionValue.error.maxAmountExceeded = How much you paid for the shares must be £{0} or less
 
 ## Acquisition Costs messages
 calc.resident.shares.acquisitionCosts.title = Costs when you got the shares
@@ -212,8 +233,10 @@ calc.resident.shares.acquisitionCosts.question = How much did you pay in costs w
 calc.resident.shares.acquisitionCosts.help = This includes costs for stockbroker fees and Stamp Duty.
 calc.resident.shares.acquisitionCosts.hintText = If you owned the shares with someone else, only enter your portion of the costs as agreed with your co-owner.
 calc.resident.shares.acquisitionCosts.error.mandatoryAmount = Enter how much you paid in costs when you got the shares
-calc.resident.shares.acquisitionCosts.error.invalidAmount = How much you paid in costs when you got the shares must be in the correct format
-calc.resident.shares.acquisitionCosts.error.minimumAmount = How much you paid in costs when you got the shares must be 0 or more
+calc.resident.shares.acquisitionCosts.error.invalidAmount = How much you paid in costs when you got the shares must be an amount of money in pounds
+calc.resident.shares.acquisitionCosts.error.invalidDecimalPlace = How much you paid in costs when you got the shares has too many numbers after the decimal point
+calc.resident.shares.acquisitionCosts.error.minimumAmount = How much you paid in costs when you got the shares must be £0 or more
+calc.resident.shares.acquisitionCosts.error.maxAmountExceeded = How much you paid in costs when you got the shares must be £{0} or less
 
 ## Final Summary messages
 calc.summary.cgtToPay = Capital Gains Tax to pay for the {0} tax year

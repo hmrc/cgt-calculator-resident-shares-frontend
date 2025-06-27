@@ -32,9 +32,9 @@ object AcquisitionCostsForm {
         .verifying("calc.resident.shares.acquisitionCosts.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.acquisitionCosts.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
+        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric, "calc.resident.shares.acquisitionCosts.error.maxAmountExceeded"))
         .verifying("calc.resident.shares.acquisitionCosts.error.minimumAmount", isPositive)
-        .verifying("calc.resident.shares.acquisitionCosts.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.acquisitionCosts.error.invalidDecimalPlace", decimalPlacesCheck)
     )(AcquisitionCostsModel.apply)(o=>Some(o.amount))
   )
 }

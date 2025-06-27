@@ -24,9 +24,10 @@ import scala.util.{Failure, Success, Try}
 object Validation {
   def maxMonetaryValueConstraint(
                                   maxValue: BigDecimal,
-                                  errMsgKey: String = "calc.common.error.maxAmountExceeded"
+                                  errMsgKey: String = "calc.common.error.maxAmountExceeded",
+                                  errMsgOptionalValue : Option[String] = None
                                 ): Constraint[BigDecimal] = Constraint("constraints.maxValue")({
-    value => maxMoneyCheck(value, maxValue, errMsgKey)
+    value => maxMoneyCheck(value, maxValue, errMsgKey,errMsgOptionalValue)
   })
 
   def maxMonetaryValueConstraint[T](maxValue: BigDecimal, extractMoney: T => Option[BigDecimal]): Constraint[T] = {
@@ -37,11 +38,11 @@ object Validation {
     })
   }
 
-  private def maxMoneyCheck(value: BigDecimal, maxValue: BigDecimal, errMsgKey: String): ValidationResult = {
+  private def maxMoneyCheck(value: BigDecimal, maxValue: BigDecimal, errMsgKey: String, errMsgOptionalValue : Option[String] = None): ValidationResult = {
     if(value <= maxValue) {
       Valid
     } else {
-      Invalid(ValidationError(errMsgKey, MoneyPounds(maxValue, 0).quantity))
+      Invalid(ValidationError(errMsgKey, MoneyPounds(maxValue, 0).quantity, errMsgOptionalValue.getOrElse(None)))
     }
   }
 

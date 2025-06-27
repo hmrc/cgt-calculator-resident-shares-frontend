@@ -70,7 +70,7 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
       }
 
       s"return a form with the error message ${messages.maximumAmount}" in {
-        form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
+        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionValue.error.maxAmountExceeded"
       }
     }
 
@@ -93,8 +93,8 @@ class AcquisitionValueFormSpec extends CommonPlaySpec with WithCommonFakeApplica
         form.hasErrors shouldBe true
       }
 
-      s"return a form with the error message ${messages.invalidAmount}" in {
-        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionValue.error.invalidAmount"
+      s"return a form with the error message ${messages.invalidDecimalPlace}" in {
+        form.error("amount").get.message shouldBe "calc.resident.shares.acquisitionValue.error.invalidDecimalPlace"
       }
     }
   }

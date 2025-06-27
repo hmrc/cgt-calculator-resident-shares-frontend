@@ -32,9 +32,9 @@ object DisposalValueForm {
         .verifying("calc.resident.shares.disposalValue.error.mandatoryAmount", mandatoryCheck)
         .verifying("calc.resident.shares.disposalValue.error.invalidAmount", bigDecimalCheck)
         .transform[BigDecimal](stringToBigDecimal, bigDecimalToString)
-        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric))
+        .verifying(maxMonetaryValueConstraint(Constants.maxNumeric,"calc.resident.shares.disposalValue.error.maxAmountExceeded"))
         .verifying("calc.resident.shares.disposalValue.error.minimumAmount", isPositive)
-        .verifying("calc.resident.shares.disposalValue.error.invalidAmount", decimalPlacesCheck)
+        .verifying("calc.resident.shares.disposalValue.error.invalidDecimalPlace", decimalPlacesCheck)
     )(DisposalValueModel.apply)(o=>Some(o.amount))
   )
 }

@@ -115,7 +115,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidAmount", "2022")(using Lang("en"))
+        form.error("amount").get.message shouldBe messagesApi("calc.resident.currentIncome.question.error.invalidDecimalPlace", "2022")(using Lang("en"))
       }
     }
 
@@ -132,7 +132,7 @@ class CurrentIncomeFormSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
 
       "associate the correct error message to the error" in {
-        form.error("amount").get.message shouldBe "calc.common.error.maxAmountExceeded"
+        form.error("amount").get.message shouldBe "calc.resident.currentIncome.question.error.maxAmountExceeded"
       }
     }
 
