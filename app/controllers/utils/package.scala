@@ -19,6 +19,7 @@ package controllers
 import play.api.Logging
 import play.api.mvc.Results._
 import play.api.mvc.{Request, Result}
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{CanAwait, ExecutionContext, Future}
@@ -34,9 +35,12 @@ package object utils {
 
     def recoverToStart()(implicit request: Request[?], ec: ExecutionContext): Future[Result] =
       future.recover {
-        case _: NoSuchElementException =>
+        case e: NoSuchElementException =>
           logger.warn(s"${request.uri} resulted in None.get, user redirected to start")
-          Redirect(controllers.utils.routes.TimeoutController.timeout())
+          throw ApplicationException(
+            Redirect(controllers.utils.routes.TimeoutController.timeout()),
+            e.getMessage
+          )
       }
 
     def transform[S](f: Try[Result] => Try[S])(implicit executor: ExecutionContext): Future[S] = future.transform(f)

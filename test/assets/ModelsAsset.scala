@@ -36,6 +36,19 @@ object ModelsAsset {
     10000
   )
 
+  val gainAnswersWithException = GainAnswersModel(Dates.constructDate(10, 10, 2016),
+    soldForLessThanWorth = true,
+    Some(200000),
+    None,
+    10000,
+    ownerBeforeLegislationStart = false,
+    None,
+    inheritedTheShares = Some(false),
+    None,
+    Some(100000),
+    10000
+  )
+
   val gainAnswersLeastPossibles = GainAnswersModel(Dates.constructDate(10, 10, 2016),
     soldForLessThanWorth = true,
     None,

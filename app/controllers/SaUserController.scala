@@ -20,6 +20,7 @@ import common.Dates.requestFormatter
 import connectors.CalculatorConnector
 import constructors.CalculateRequestConstructor
 import controllers.predicates.ValidActiveSession
+import controllers.utils.RecoverableFuture
 import forms.SaUserForm
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
@@ -98,7 +99,7 @@ class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
     }
 
     def successAction(model: SaUserModel) = {
-      for {
+      (for {
         answers <- sessionCacheService.getShareGainAnswers
         grossGain <- calculatorConnector.calculateRttShareGrossGain(answers)
         deductionAnswers <- sessionCacheService.getShareDeductionAnswers
@@ -109,7 +110,7 @@ class SaUserController @Inject()(calculatorConnector: CalculatorConnector,
         incomeAnswers <- sessionCacheService.getShareIncomeAnswers
         finalResult <- totalTaxableGain(chargeableGain, deductionAnswers, answers, incomeAnswers, maxAEA.get)
         route <- routeAction(model, finalResult, maxAEA.get, CalculateRequestConstructor.determineDisposalValueToUse(answers))
-      } yield route
+      } yield route).recoverToStart()
     }
 
     SaUserForm.saUserForm.bindFromRequest().fold(errorAction, successAction)

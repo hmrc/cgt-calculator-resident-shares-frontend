@@ -23,6 +23,7 @@ import org.scalatest.wordspec.AnyWordSpec
 import play.api.http.{HttpEntity, Status}
 import play.api.mvc.{AnyContent, Request, ResponseHeader, Result}
 import play.api.test.FakeRequest
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import scala.concurrent.duration._
 import scala.concurrent.{Await, Future}
@@ -38,9 +39,12 @@ class RecoverableFutureSpec extends AnyWordSpec with ScalaFutures with Matchers 
       val future: Future[Result] = Future.failed(new NoSuchElementException("test message")).recoverToStart()
       val url = controllers.utils.routes.TimeoutController.timeout().url
 
-      whenReady(future) { result =>
+      whenReady(future.failed) {
+        case ApplicationException(result, message) =>
         result.header.headers should contain("Location" -> url)
         result.header.status shouldBe SEE_OTHER
+        message should equal("test message")
+        case e => throw e
       }
     }
 

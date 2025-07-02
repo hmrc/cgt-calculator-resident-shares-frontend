@@ -30,9 +30,11 @@ import org.mockito.Mockito._
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.Application
 import play.api.mvc.MessagesControllerComponents
-import play.api.test.Helpers._
+import play.api.mvc.Results.Redirect
+import play.api.test.Helpers.*
 import services.SessionCacheService
 import uk.gov.hmrc.http.{HeaderCarrier, SessionId}
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import views.html.calculation.whatNext.saUser
 
 import scala.concurrent.Future
@@ -198,6 +200,19 @@ class SaUserControllerSpec extends CommonPlaySpec with FakeRequestHelper with Mo
 
         "redirect to the nonSa loss with value greater than what next page" in {
           redirectLocation(result) shouldBe Some(controllers.routes.WhatNextSAController.whatNextSAOverFourTimesAEA.url)
+        }
+      }
+
+      "NoSuchElementException is thrown" should {
+        "return an ApplicationException and redirect to timeout page" in {
+          val form = "isInSa" -> "Yes"
+          val controller = new SaUserController(mockConnector, mockSessionCacheService, mockMCC, saUserView)
+          when(mockSessionCacheService.getShareGainAnswers(using ArgumentMatchers.any()))
+            .thenReturn(Future.successful(ModelsAsset.gainAnswersWithException))
+          when(mockConnector.calculateRttShareGrossGain(ArgumentMatchers.any())(using ArgumentMatchers.any())).thenReturn(Future.failed(new NoSuchElementException("test message")))
+          val resultSa = intercept[ApplicationException](await(controller.submitSaUser(fakeRequestToPOSTWithSession(form).withMethod("POST"))))
+          resultSa.result shouldBe Redirect("/calculate-your-capital-gains/resident/shares/session-timeout", 303)
+
         }
       }
     }

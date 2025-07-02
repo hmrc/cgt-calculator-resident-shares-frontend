@@ -24,25 +24,27 @@ import controllers.helpers.FakeRequestHelper
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
-import play.api.test.Helpers._
+import play.api.mvc.Results.Redirect
+import play.api.test.Helpers.*
 import services.SessionCacheService
+import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 import views.html.calculation.whatNext.{whatNextSAFourTimesAEA, whatNextSAGain, whatNextSANoGain}
 
-import java.time._
+import java.time.*
 import scala.concurrent.Future
 
 class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper with MockitoSugar with WithCommonFakeApplication {
 
   val date: LocalDate = LocalDate.of(2016, 5, 8)
-  val mockSessionCacheService = mock[SessionCacheService]
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val whatNextSAFourTimesAEAView = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
-  val whatNextSAGainView = fakeApplication.injector.instanceOf[whatNextSAGain]
-  val whatNextSANoGainView = fakeApplication.injector.instanceOf[whatNextSANoGain]
+  val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val mockMCC: MessagesControllerComponents = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val whatNextSAFourTimesAEAView: whatNextSAFourTimesAEA = fakeApplication.injector.instanceOf[whatNextSAFourTimesAEA]
+  val whatNextSAGainView: whatNextSAGain = fakeApplication.injector.instanceOf[whatNextSAGain]
+  val whatNextSANoGainView: whatNextSANoGain = fakeApplication.injector.instanceOf[whatNextSANoGain]
 
   def setupController(disposalDate: DisposalDateModel): WhatNextSAController = {
     SharedMetricRegistries.clear()
@@ -169,16 +171,18 @@ class WhatNextSaControllerSpec extends CommonPlaySpec with FakeRequestHelper wit
     "called with .whatNextSaGain" should {
       "redirect to start" in {
         lazy val controller = setupControllerNoSession()
-        val result = controller.whatNextSAGain(fakeRequestWithSession)
-        status(result) shouldBe 303
+        val nextSaGainController = controller.whatNextSAGain(fakeRequestWithSession)
+        val result = intercept[ApplicationException](await(nextSaGainController))
+        result.result shouldBe Redirect("/calculate-your-capital-gains/resident/shares/session-timeout", 303)
       }
     }
 
     "called with .whatNextSaNoGain" should {
       "redirect to start" in {
         lazy val controller = setupControllerNoSession()
-        val result = controller.whatNextSANoGain(fakeRequestWithSession)
-        status(result) shouldBe 303
+        val nextSaNoGainController = controller.whatNextSANoGain(fakeRequestWithSession)
+        val result = intercept[ApplicationException](await(nextSaNoGainController))
+        result.result shouldBe Redirect("/calculate-your-capital-gains/resident/shares/session-timeout", 303)
       }
     }
   }
