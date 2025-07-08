@@ -21,11 +21,9 @@ import constructors.CalculateRequestConstructor
 import models._
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
-import play.api.mvc.Results._
 import uk.gov.hmrc.http.HttpReads.Implicits._
 import uk.gov.hmrc.http.client.HttpClientV2
 import uk.gov.hmrc.http.{HeaderCarrier, StringContextOps}
-import uk.gov.hmrc.play.bootstrap.frontend.http.ApplicationException
 
 import java.time.LocalDate
 import javax.inject.Inject
@@ -50,7 +48,7 @@ class CalculatorConnector @Inject()(http: HttpClientV2,
             isEligibleMarriageAllowance: Boolean = false)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
 
     val blindPersonAllowanceParams = if (isEligibleBlindPersonsAllowance) Seq("isEligibleBlindPersonsAllowance" -> true) else Nil
-    val eligibleMarriageAllowanceParams = if (isEligibleMarriageAllowance) Seq("sEligibleMarriageAllowance" -> true) else Nil
+    val eligibleMarriageAllowanceParams = if (isEligibleMarriageAllowance) Seq("isEligibleMarriageAllowance" -> true) else Nil
 
     val params = Seq("taxYear" -> taxYear) ++ blindPersonAllowanceParams ++ eligibleMarriageAllowanceParams
 
@@ -63,30 +61,20 @@ class CalculatorConnector @Inject()(http: HttpClientV2,
   }
 
   def calculateRttShareGrossGain(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
-    val totalGainReq = CalculateRequestConstructor.totalGainRequest(input)
-
-    http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-total-gain?$totalGainReq").transform(_.addHttpHeaders(headers)).execute[BigDecimal]
-  }.recover {
-    case e: NoSuchElementException =>
-      throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout()),
-        e.getMessage
-      )
+    for {
+      totalGainReq <- Future(CalculateRequestConstructor.totalGainRequest(input))
+      result <- http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-total-gain?$totalGainReq").transform(_.addHttpHeaders(headers)).execute[BigDecimal]
+    } yield result
   }
 
   def calculateRttShareChargeableGain(totalGainInput: GainAnswersModel,
                                       chargeableGainInput: DeductionGainAnswersModel,
                                       maxAEA: BigDecimal)(implicit hc: HeaderCarrier): Future[Option[ChargeableGainResultModel]] = {
-    val totalGainReq = CalculateRequestConstructor.totalGainRequest(totalGainInput)
-    val chargeableGainReq = CalculateRequestConstructor.chargeableGainRequest(chargeableGainInput, maxAEA)
-
-    http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-chargeable-gain?${totalGainReq ++ chargeableGainReq}").transform(_.addHttpHeaders(headers)).execute[Option[resident.ChargeableGainResultModel]]
-  }.recover {
-    case e: NoSuchElementException =>
-      throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout()),
-        e.getMessage
-      )
+    for {
+      totalGainReq <- Future(CalculateRequestConstructor.totalGainRequest(totalGainInput))
+      chargeableGainReq <- Future(CalculateRequestConstructor.chargeableGainRequest(chargeableGainInput, maxAEA))
+      result <- http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-chargeable-gain?${totalGainReq ++ chargeableGainReq}").transform(_.addHttpHeaders(headers)).execute[Option[resident.ChargeableGainResultModel]]
+    } yield result
   }
 
   def calculateRttShareTotalGainAndTax(totalGainInput: GainAnswersModel,
@@ -94,29 +82,18 @@ class CalculatorConnector @Inject()(http: HttpClientV2,
                                        maxAEA: BigDecimal,
                                        incomeAnswers: IncomeAnswersModel)(implicit hc: HeaderCarrier):
   Future[Option[resident.TotalGainAndTaxOwedModel]] = {
-
-    val totalGainReq = CalculateRequestConstructor.totalGainRequest(totalGainInput)
-    val chargeableGainReq = CalculateRequestConstructor.chargeableGainRequest(chargeableGainInput, maxAEA)
-    val incomeAnswersReq = CalculateRequestConstructor.incomeAnswersRequest(incomeAnswers)
-
-
-    http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-resident-capital-gains-tax?${totalGainReq ++ chargeableGainReq ++ incomeAnswersReq}").transform(_.addHttpHeaders(headers)).execute[Option[resident.TotalGainAndTaxOwedModel]]
-  }.recover {
-    case e: NoSuchElementException =>
-      throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout()),
-        e.getMessage
-      )
+    for {
+      totalGainReq <- Future(CalculateRequestConstructor.totalGainRequest(totalGainInput))
+      chargeableGainReq <- Future(CalculateRequestConstructor.chargeableGainRequest(chargeableGainInput, maxAEA))
+      incomeAnswersReq <- Future(CalculateRequestConstructor.incomeAnswersRequest(incomeAnswers))
+      result <- http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-resident-capital-gains-tax?${totalGainReq ++ chargeableGainReq ++ incomeAnswersReq}").transform(_.addHttpHeaders(headers)).execute[Option[resident.TotalGainAndTaxOwedModel]]
+    } yield result
   }
 
   def getSharesTotalCosts(input: GainAnswersModel)(implicit hc: HeaderCarrier): Future[BigDecimal] = {
-    val totalGainReq = CalculateRequestConstructor.totalGainRequest(input)
-    http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-total-costs?$totalGainReq").transform(_.addHttpHeaders(headers)).execute[BigDecimal]
-  }.recover {
-    case e: NoSuchElementException =>
-      throw ApplicationException(
-        Redirect(controllers.utils.routes.TimeoutController.timeout()),
-        e.getMessage
-      )
+    for {
+      totalGainReq <- Future(CalculateRequestConstructor.totalGainRequest(input))
+      result <- http.get(url"$serviceUrl/capital-gains-calculator/shares/calculate-total-costs?$totalGainReq").transform(_.addHttpHeaders(headers)).execute[BigDecimal]
+    } yield result
   }
 }

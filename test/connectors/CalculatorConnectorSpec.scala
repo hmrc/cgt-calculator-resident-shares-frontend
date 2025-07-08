@@ -16,28 +16,26 @@
 
 package connectors
 
-import assets.ModelsAsset._
+import assets.ModelsAsset.*
 import com.typesafe.config.ConfigFactory
 import common.CommonPlaySpec
 import models.resident.{ChargeableGainResultModel, TaxYearModel}
+import org.scalacheck.Gen
 import org.scalatestplus.mockito.MockitoSugar
 import org.scalatestplus.play.guice.GuiceOneAppPerSuite
-import play.api.http.Status
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import play.api.http.Status.*
 import play.api.inject.guice.GuiceApplicationBuilder
 import play.api.test.Helpers.{await, defaultAwaitTimeout}
 import play.api.{Application, Configuration}
-import uk.gov.hmrc.http.HeaderCarrier
 import uk.gov.hmrc.http.test.WireMockSupport
+import uk.gov.hmrc.http.{HeaderCarrier, UpstreamErrorResponse}
 import util.WireMockMethods
 
 import java.time.LocalDate
 
-// TODO: Few of the tests have been ignored due to the way underlying connect handles http requests.
-// This is not an ideal way and as part of HttpClientV2, the connector interface should be updated accordingly, and then
-// re-enable the tests and update them accordingly. Will be captured as part of https://jira.tools.tax.service.gov.uk/browse/DLS-10770
-
 class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
-  with WireMockSupport with GuiceOneAppPerSuite with WireMockMethods {
+  with WireMockSupport with GuiceOneAppPerSuite with WireMockMethods with ScalaCheckDrivenPropertyChecks {
 
   private val config = Configuration(
     ConfigFactory.parseString(
@@ -61,180 +59,213 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
   implicit val hc: HeaderCarrier = HeaderCarrier()
 
   "Calling .getMinimumDate" should {
+    val basePath = "/capital-gains-calculator/minimum-date"
     "return a DateTime which matches the returned LocalDate" in {
       val expectedDate = LocalDate.parse("2015-06-04")
-      when(GET, "/capital-gains-calculator/minimum-date").thenReturn(Status.OK, expectedDate)
+      when(GET, basePath).thenReturn(OK, expectedDate)
 
       await(calculatorConnector.getMinimumDate()) shouldBe expectedDate
+    }
+
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
+
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.getMinimumDate())
+        }
     }
   }
 
   "Calling .getFullAEA" should {
-
+    val basePath = "/capital-gains-calculator/tax-rates-and-bands/max-full-aea"
+    val queryParam = "?taxYear=0"
     "return a value corresponding to the year if it exists" in {
       val expectedResult = Some(BigDecimal(10000))
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-full-aea").thenReturn(Status.OK, expectedResult)
+      when(GET, basePath).thenReturn(OK, expectedResult)
 
       await(calculatorConnector.getFullAEA(2017)) shouldBe expectedResult
     }
 
-    "return a none value if it is returned" ignore {
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-full-aea").thenReturn(Status.OK, None)
-      await(calculatorConnector.getFullAEA(2017)) shouldBe None
+    "return None when taxYear = 0 or if does not exist" in forAll(Gen.oneOf(Seq(OK, BAD_REQUEST, NOT_FOUND))) {
+      status =>
+        when(GET, s"$basePath$queryParam").thenReturn(status, None)
+        await(calculatorConnector.getFullAEA(0)) shouldBe None
+    }
+
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
+
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.getFullAEA(2017))
+        }
     }
   }
 
   "Calling .getPA" should {
+    val basePath = "/capital-gains-calculator/tax-rates-and-bands/max-pa"
+    val queryParam = "?taxYear=2&isEligibleBlindPersonsAllowance=true&isEligibleMarriageAllowance=true"
     "return a value corresponding to the year if it exists without blind persons allowance" in {
       val expectedResult = Some(BigDecimal(10000))
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-pa").thenReturn(Status.OK, expectedResult)
+      when(GET, basePath).thenReturn(OK, expectedResult)
 
       await(calculatorConnector.getPA(2017)) shouldBe expectedResult
     }
 
-    "return a none value if it is returned with blind persons allowance" ignore {
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-pa").thenReturn(Status.OK, None)
-      await(calculatorConnector.getPA(2017, isEligibleBlindPersonsAllowance = true)) shouldBe None
+    "return None when taxYear = 2 and isEligibleBlindPersonsAllowance = true or if does not exist" in forAll(Gen.oneOf(Seq(OK, BAD_REQUEST, NOT_FOUND))) {
+      status =>
+        when(GET, s"$basePath$queryParam").thenReturn(status, None)
+        await(calculatorConnector.getPA(2,true, true)) shouldBe None
+    }
+
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
+
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.getPA(2017))
+        }
     }
   }
 
   "Calling .getTaxYear" should {
+    val basePath = "/capital-gains-calculator/tax-year"
+    val queryParam = "?date=3"
     "return a value corresponding to the year if it exists" in {
       val expectedResult = Some(TaxYearModel("2017", isValidYear = true, "2017"))
-      when(GET, "/capital-gains-calculator/tax-year").thenReturn(Status.OK, expectedResult)
+      when(GET, basePath).thenReturn(OK, expectedResult)
 
       await(calculatorConnector.getTaxYear("2017")) shouldBe expectedResult
     }
 
-    "return a none value if it is returned" ignore {
-      when(GET, "/capital-gains-calculator/tax-year").thenReturn(Status.OK, None)
-      await(calculatorConnector.getTaxYear("2017")) shouldBe None
+    "return None when taxYear = 3 or if does not exist" in forAll(Gen.oneOf(Seq(OK, BAD_REQUEST, NOT_FOUND))) {
+      status =>
+        when(GET, s"$basePath$queryParam").thenReturn(status, None)
+        await(calculatorConnector.getTaxYear("3")) shouldBe None
+    }
+
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
+
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.getTaxYear("2017"))
+        }
     }
   }
 
   "Calling .calculateRttShareGrossGain" should {
+    val basePath = "/capital-gains-calculator/shares/calculate-total-gain"
     "return a value corresponding to the result" in {
       val expectedResult = BigDecimal(10000)
-      when(GET, "/capital-gains-calculator/shares/calculate-total-gain").thenReturn(Status.OK, expectedResult)
+      when(GET, basePath).thenReturn(OK, expectedResult)
 
       await(calculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)) shouldBe expectedResult
+    }
+
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
+
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles))
+        }
     }
   }
 
   "Calling .calculateRttShareChargeableGain" should {
+    val basePath = "/capital-gains-calculator/shares/calculate-chargeable-gain"
+    val queryParam = "?disposalValue=200000.0&disposalDate=2016-10-10&broughtForwardLosses=10000.0&acquisitionValue=100000.0&disposalCosts=10000.0&annualExemptAmount=10000.0&acquisitionCosts=10000.0"
     val chargeableGainResultModel = ChargeableGainResultModel(7000, 0, 11100, 0, 0, BigDecimal(0), BigDecimal(0), None, None, 0, 0)
 
     "return a value corresponding to the result if it exists" in {
-      when(GET, "/capital-gains-calculator/shares/calculate-chargeable-gain").thenReturn(Status.OK, chargeableGainResultModel)
+      when(GET, basePath).thenReturn(OK, chargeableGainResultModel)
 
       await(calculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
         deductionAnswersMostPossibles, 10000)) shouldBe Some(chargeableGainResultModel)
     }
 
-    "return a None if it doesn't exist" ignore {
-      when(GET, "/capital-gains-calculator/shares/calculate-chargeable-gain").thenReturn(Status.OK, None)
+    "return a None if it doesn't exist " in forAll(Gen.oneOf(Seq(OK, BAD_REQUEST, NOT_FOUND))) {
+      status =>
+        when(GET, s"$basePath$queryParam").thenReturn(status, None)
 
-      await(calculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
-        deductionAnswersMostPossibles, 10000)) shouldBe None
+        await(calculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
+          deductionAnswersMostPossibles, 10000)) shouldBe None
+    }
+
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
+
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
+            deductionAnswersMostPossibles, 10000))
+        }
     }
   }
 
   "Calling .calculateRttShareTotalGainAndTax" should {
+    val basePath = "/capital-gains-calculator/shares/calculate-resident-capital-gains-tax"
+    val queryParam = "?disposalValue=200000.0&disposalDate=2016-10-10&broughtForwardLosses=10000.0&acquisitionValue=100000.0&disposalCosts=10000.0&annualExemptAmount=10000.0&personalAllowance=0.0&previousIncome=0.0&acquisitionCosts=10000.0"
+
     "return a value corresponding to the result if it exists" in {
-      when(GET, "/capital-gains-calculator/shares/calculate-resident-capital-gains-tax")
-        .thenReturn(Status.OK, totalGainAndTaxOwedModel)
+      when(GET, basePath)
+        .thenReturn(OK, totalGainAndTaxOwedModel)
 
       await(calculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
         deductionAnswersMostPossibles, 10000, incomeAnswers)) shouldBe Some(totalGainAndTaxOwedModel)
     }
 
-    "return a None if it doesn't exist" ignore {
-      when(GET, "/capital-gains-calculator/shares/calculate-resident-capital-gains-tax").thenReturn(Status.OK, None)
-      await(calculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
-        deductionAnswersMostPossibles, 10000, incomeAnswers)) shouldBe None
+    "return a None if it doesn't exist" in forAll(Gen.oneOf(Seq(OK, BAD_REQUEST, NOT_FOUND))) {
+      status =>
+        when(GET, s"$basePath$queryParam").thenReturn(status, None)
+        await(calculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
+          deductionAnswersMostPossibles, 10000, incomeAnswers)) shouldBe None
+    }
+
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
+
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
+            deductionAnswersMostPossibles, 10000, incomeAnswers))
+        }
     }
   }
 
   "Calling .getSharesTotalCosts" should {
+    val basePath = "/capital-gains-calculator/shares/calculate-total-costs"
 
     "return a value corresponding to the result" in {
-      when(GET, "/capital-gains-calculator/shares/calculate-total-costs").thenReturn(Status.OK, BigDecimal(10000))
+      when(GET,basePath).thenReturn(OK, BigDecimal(10000))
       await(calculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)) shouldBe BigDecimal(10000)
     }
-  }
 
-  "Service connection failures on calls to connector" should {
+    "Throw UpstreamErrorResponse on errors" in forAll(
+      Gen.oneOf(Seq(INTERNAL_SERVER_ERROR, BAD_GATEWAY, SERVICE_UNAVAILABLE))
+    ) {
+      status =>
+        when(GET, basePath).thenReturn(status)
 
-    "return an exception for getSharesTotalCosts" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/shares/calculate-total-costs")
-
-      (the[Exception] thrownBy await(calculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles)))
-        .getMessage should include ("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for calculateRttShareTotalGainAndTax" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/shares/calculate-resident-capital-gains-tax")
-
-      (the[Exception] thrownBy await(calculatorConnector.calculateRttShareTotalGainAndTax(gainAnswersMostPossibles,
-        deductionAnswersMostPossibles, 10000, incomeAnswers))).getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for calculateRttShareChargeableGain" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/shares/calculate-chargeable-gain")
-
-      (the[Exception] thrownBy await(calculatorConnector.calculateRttShareChargeableGain(gainAnswersMostPossibles,
-        deductionAnswersMostPossibles, 10000))).getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for calculateRttShareGrossGain" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/shares/calculate-total-gain")
-
-      (the[Exception] thrownBy await(calculatorConnector.calculateRttShareGrossGain(gainAnswersMostPossibles)))
-        .getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for getTaxYear" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/tax-year")
-
-      (the[Exception] thrownBy await(calculatorConnector.getTaxYear("2017")))
-        .getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for getPA" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-pa")
-
-      (the[Exception] thrownBy await(calculatorConnector.getPA(2017)))
-        .getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for getFullAEA" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/tax-rates-and-bands/max-full-aea")
-
-      (the[Exception] thrownBy await(calculatorConnector.getFullAEA(2017)))
-        .getMessage should include("Connection refused")
-      wireMockServer.start()
-    }
-
-    "return an exception for getMinimumDate" in {
-      wireMockServer.stop()
-      when(GET, "/capital-gains-calculator/minimum-date")
-
-      (the[Exception] thrownBy await(calculatorConnector.getMinimumDate()))
-        .getMessage should include("Connection refused")
-      wireMockServer.start()
+        assertThrows[UpstreamErrorResponse] {
+          await(calculatorConnector.getSharesTotalCosts(gainAnswersMostPossibles))
+        }
     }
   }
 }
