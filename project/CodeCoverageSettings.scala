@@ -31,7 +31,6 @@ object CodeCoverageSettings {
     "res.*",
     "prod.*",
     "config.*",
-    "controllers.SessionCacheController",
     "testOnlyDoNotUseInAppConf.*"
   )
 
