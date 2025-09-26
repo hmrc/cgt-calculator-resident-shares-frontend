@@ -69,17 +69,27 @@ class GainController @Inject()(calcConnector: CalculatorConnector,
   extends FrontendController(mcc) with ValidActiveSession with I18nSupport {
   //################# Disposal Date Actions ####################
   def disposalDate: Action[AnyContent] = Action.async { implicit request =>
-    if (request.session.get(SessionKeys.sessionId).isEmpty) {
-      val sessionId = UUID.randomUUID.toString
-      Future.successful(Ok(disposalDateView(disposalDateForm())).withSession(request.session + (SessionKeys.sessionId -> s"session-$sessionId")))
-    }
-    else {
+    if (request.session.get(SessionKeys.portalState).isEmpty) {
+      val sessionId = request.session.get(SessionKeys.sessionId).getOrElse {
+        s"session-${UUID.randomUUID.toString}"
+      }
+
+      val updatedSession = request.session +
+        (SessionKeys.portalState -> "OnBoarding") +
+        (SessionKeys.sessionId   -> sessionId)
+
+      Future.successful(
+        Ok(disposalDateView(disposalDateForm()))
+          .withSession(updatedSession)
+      )
+    } else {
       sessionCacheService.fetchAndGetFormData[DisposalDateModel](keystoreKeys.disposalDate).map {
         case Some(data) => Ok(disposalDateView(disposalDateForm().fill(data)))
-        case None => Ok(disposalDateView(disposalDateForm()))
+        case None       => Ok(disposalDateView(disposalDateForm()))
       }
     }
   }
+
 
   def submitDisposalDate: Action[AnyContent] = ValidateSession.async { implicit request =>
     def routeRequest(taxYearResult: Option[TaxYearModel]): Future[Result] = {
