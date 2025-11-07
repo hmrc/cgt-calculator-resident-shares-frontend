@@ -48,11 +48,11 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
       }
 
       "have a navTitle" in {
-        doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe "Calculate your Capital Gains Tax"
+        doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").text() shouldBe "Calculate your Capital Gains Tax"
       }
 
       "have a home link to 'home-link'" in {
-        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       s"have a heading of ${messages.heading}" in {

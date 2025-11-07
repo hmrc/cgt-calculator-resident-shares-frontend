@@ -16,15 +16,20 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.Resident.Shares.{DisposalValue => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.Resident.Shares.DisposalValue as messages
+import assets.MessageLookup.Resident as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.DisposalValueForm._
+import forms.DisposalValueForm.*
+import models.resident.DisposalValueModel
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
+import play.api.data.Form
 import play.api.i18n.Messages
-import play.api.mvc.MessagesControllerComponents
+import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents}
+import play.api.test.FakeRequest
+import play.twirl.api.HtmlFormat
 import views.html.calculation.gain.disposalValue
 
 class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
@@ -34,10 +39,10 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
   val disposalValueView: disposalValue = fakeApplication.injector.instanceOf[disposalValue]
 
   case class FakePOST(value: String) {
-    lazy val request = fakeRequestToPOSTWithSession(("amount", value)).withMethod("POST")
-    lazy val form = disposalValueForm.bind(Map(("amount", value)))
-    lazy val view = disposalValueView(form)(using request, mockMessage)
-    lazy val doc = Jsoup.parse(view.body)
+    lazy val request: FakeRequest[AnyContentAsFormUrlEncoded] = fakeRequestToPOSTWithSession(("amount", value)).withMethod("POST")
+    lazy val form: Form[DisposalValueModel] = disposalValueForm.bind(Map(("amount", value)))
+    lazy val view: HtmlFormat.Appendable = disposalValueView(form)(using request, mockMessage)
+    lazy val doc: Document = Jsoup.parse(view.body)
   }
 
   "Disposal Value View" should {
@@ -50,7 +55,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     s"have the title of the page ${messages.title}" in {

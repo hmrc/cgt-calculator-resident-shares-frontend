@@ -92,7 +92,7 @@ class WorthWhenInheritedActionSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       "have a home link to 'homeLink'" in {
-        doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/shares/disposal-date"
+        doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldBe "/calculate-your-capital-gains/resident/shares/disposal-date"
       }
 
       "have a method to POST" in {

@@ -31,8 +31,8 @@ import java.time.LocalDate
 class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val disposalDateView = fakeApplication.injector.instanceOf[disposalDate]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val disposalDateView: disposalDate = fakeApplication.injector.instanceOf[disposalDate]
   "Disposal Date view" should {
 
     lazy val view = disposalDateView(disposalDateForm(LocalDate.parse("2015-04-06")))(using fakeRequest, mockMessage)
@@ -43,7 +43,7 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     "have the title 'When did you sell or give away the shares?'" in {
