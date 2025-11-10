@@ -30,8 +30,8 @@ import views.html.calculation.gain.worthWhenInherited
 class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val worthWhenInheritedView = fakeApplication.injector.instanceOf[worthWhenInherited]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val worthWhenInheritedView: worthWhenInherited = fakeApplication.injector.instanceOf[worthWhenInherited]
 
   "worthWhenInherited view" should {
     lazy val form = worthWhenInheritedForm
@@ -47,11 +47,11 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     }
 
     s"have a nav title of 'navTitle'" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").text() shouldBe commonMessages.homeText
+      doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").text() shouldBe commonMessages.homeText
     }
 
     s"have a home link to 'homeLink'" in {
-      doc.select("body > header > div > div > div.govuk-header__content > a").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
+      doc.select("body > header > section > div > div > span.govuk-service-navigation__service-name > a").attr("href") shouldBe controllers.routes.GainController.disposalDate.url
     }
 
     s"have a title of ${messages.title}" in {

@@ -29,8 +29,8 @@ import views.html.calculation.gain.acquisitionValue
 class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val acquisitionValueView = fakeApplication.injector.instanceOf[acquisitionValue]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val acquisitionValueView: acquisitionValue = fakeApplication.injector.instanceOf[acquisitionValue]
 
   "Acquisition Value view" should {
 
@@ -42,7 +42,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
     }
 
     "have a home link to 'home-link'" in {
-      doc.getElementsByClass("govuk-header__link govuk-header__service-name").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
+      doc.getElementsByClass("govuk-service-navigation__link").attr("href") shouldEqual "/calculate-your-capital-gains/resident/shares/disposal-date"
     }
 
     s"have title ${messages.title}" in {
