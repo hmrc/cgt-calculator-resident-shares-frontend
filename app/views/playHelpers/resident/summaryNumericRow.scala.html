@@ -19,15 +19,16 @@
 @this()
 
 @(rowId: String, question: String, amount: BigDecimal, isTotal: Boolean = false, hintText: Boolean = true)(implicit messages: Messages)
-
+<dl class="govuk-summary-list">
 @(isTotal, hintText) match {
   case (true, _) => {
 
-    <tr id="@rowId" class="govuk-table__row">
-      <th id="@{rowId}-text" scope="row" class="govuk-table__header">
-        <strong>@question</strong>
-      </th>
-      <td id="@{rowId}-amount" class="govuk-table__cell govuk-table__cell--numeric">
+  <div  id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
+      <strong>@question</strong>
+    </dt>
+    <dd id="@{rowId}-amount" class="govuk-summary-list__value">
+
       @amount.scale match {
         case 0 => {
           <strong>&pound;@MoneyPounds(amount, 0).quantity</strong>
@@ -39,15 +40,15 @@
           <strong>&pound;@MoneyPounds(amount, 2).quantity</strong>
         }
       }
-      </td>
-    </tr>
+      </dd>
+  </div>
   }
   case (_, true) => {
-    <tr id="@rowId" class="govuk-table__row">
-      <th id="@{rowId}-text" scope="row" class="govuk-table__header">
+  <div id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
       @question
-      </th>
-      <td id="@{rowId}-amount" class="govuk-table__cell govuk-table__cell--numeric">
+    </dt>
+    <dd id="@{rowId}-amount" class="govuk-summary-list__value">
       @amount.scale match {
         case 0 => {
           <span>&pound;@MoneyPounds(amount, 0).quantity</span>
@@ -59,16 +60,16 @@
           <span>&pound;@MoneyPounds(amount, 2).quantity</span>
         }
       }
-      </td>
-    </tr>
+      </dd>
+  </div>
   }
   case (_, false) => {
-    <tr id="@rowId" class="govuk-table__row">
-      <th id="@{rowId}-text" scope="row" class="govuk-table__header">
+  <div id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
       @question
-      </th>
-      <td id="@{rowId}-amount" class="govuk-table__cell govuk-table__cell--numeric">
-      @amount.scale match {
+    </dt>
+    <dd id="@{rowId}-amount" class="govuk-summary-list__value">
+     @amount.scale match {
         case 0 => {
           <span>&pound;@MoneyPounds(amount, 0).quantity</span>
         }
@@ -79,7 +80,8 @@
           <span>&pound;@MoneyPounds(amount, 2).quantity</span>
         }
       }
-      </td>
-    </tr>
+      </dd>
+    </div>
   }
 }
+</dl>
