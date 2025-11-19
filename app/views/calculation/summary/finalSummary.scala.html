@@ -54,7 +54,7 @@
     <hr class="govuk-section-break govuk-section-break--l cgt-for-print">
 
     <!--Print only CYA-->
-    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), isCurrentTaxYear = isCurrentTaxYear, displayLinks = false, forPrint = true)
+    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), isCurrentTaxYear = isCurrentTaxYear, displayLinks = true, forPrint = true)
 
     @if(taxYear.isValidYear) {
         <section id="whatToDoNext" class="govuk-!-display-none-print">
