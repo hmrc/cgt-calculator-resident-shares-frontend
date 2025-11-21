@@ -28,7 +28,7 @@ import views.html.playHelpers.deductionsSummaryPartial
 
 class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-  val deductionsSummaryPartialView = fakeApplication.injector.instanceOf[deductionsSummaryPartial]
+  val deductionsSummaryPartialView: deductionsSummaryPartial = fakeApplication.injector.instanceOf[deductionsSummaryPartial]
   val fakeLang: Lang = Lang("en")
 
   "DeductionsSummaryPartial" when {
@@ -101,7 +101,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
         "has a h2 tag" which {
 
           s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-            doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+            doc.select("#calcHeader").text shouldBe summaryMessages.howWeWorkedThisOut
           }
         }
 
@@ -109,10 +109,10 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
 
           lazy val div = doc.select("#yourTotalGain")
 
-          "has a caption tag" which {
+          "has a h2 tag" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("caption").text shouldBe summaryMessages.yourTotalGain
+              div.select("div > h2").text shouldBe summaryMessages.yourTotalGain
             }
           }
 
@@ -162,10 +162,10 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
 
           lazy val div = doc.select("#yourDeductions")
 
-          "has a caption tag" which {
+          "has a h2 tag" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("caption").text shouldBe summaryMessages.yourDeductions
+              div.select("div> h2").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -204,10 +204,10 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
 
           lazy val div = doc.select("#yourTaxableGain")
 
-          "has a caption tag" which {
+          "has a h2 tag" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("caption").text shouldBe summaryMessages.yourTaxableGain
+              div.select("div > h2").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -263,10 +263,10 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
 
           lazy val div = doc.select("#remainingDeductions")
 
-          "has a caption tag" which {
+          "has a h2 tag" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("caption").text shouldBe summaryMessages.remainingDeductions
+              div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
             }
           }
 

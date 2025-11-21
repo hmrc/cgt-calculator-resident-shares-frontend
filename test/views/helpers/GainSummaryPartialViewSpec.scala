@@ -28,7 +28,7 @@ import views.html.playHelpers.gainSummaryPartial
 
 class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
-  val gainSummaryPartialView = fakeApplication.injector.instanceOf[gainSummaryPartial]
+  val gainSummaryPartialView: gainSummaryPartial = fakeApplication.injector.instanceOf[gainSummaryPartial]
   val fakeLang: Lang = Lang("en")
   
   "The shares were sold for less than worth" should {
@@ -80,7 +80,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       "has a h2 tag" which {
 
         s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-          doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+          doc.select("#calcHeader").text shouldBe summaryMessages.howWeWorkedThisOut
         }
       }
 
@@ -91,47 +91,47 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourTotalLoss}'" in {
-            div.select("caption").text shouldBe summaryMessages.yourTotalLoss
+            div.select("div > h2").text shouldBe summaryMessages.yourTotalLoss
           }
         }
 
         "has a row for disposal value" which {
           s"has the text '${summaryMessages.disposalValue}'" in {
-            div.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
+            doc.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
           }
 
           "has the value '£10'" in {
-            div.select("#disposalValue-amount").text shouldBe "£10"
+            doc.select("#disposalValue-amount span").text shouldBe "£10"
           }
         }
 
         "has a row for acquisition value" which {
           s"has the text '${summaryMessages.acquisitionValue}'" in {
-            div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+            doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
           }
 
           "has the value '£10,000'" in {
-            div.select("#acquisitionValue-amount").text shouldBe "£10,000"
+            doc.select("#acquisitionValue-amount span").text shouldBe "£10,000"
           }
         }
 
         "has a row for total costs" which {
           s"has the text '${summaryMessages.totalCosts}'" in {
-            div.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
+            doc.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
           }
 
           "has the value '£150'" in {
-            div.select("#totalCosts-amount").text shouldBe "£150"
+            doc.select("#totalCosts-amount span").text shouldBe "£150"
           }
         }
 
         "has a row for total loss" which {
           s"has the text '${summaryMessages.totalLoss}'" in {
-            div.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
+            doc.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
           }
 
           "has the value '£100'" in {
-            div.select("#totalLoss-amount").text shouldBe "£100"
+            doc.select("#totalLoss-amount strong").text shouldBe "£100"
           }
         }
       }
@@ -143,14 +143,14 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.select("caption").text shouldBe summaryMessages.yourDeductions
+            div.select("div > h2").text shouldBe summaryMessages.yourDeductions
           }
         }
 
         "has a row for AEA used" which {
 
           s"has the text '${summaryMessages.aeaUsed}'" in {
-            div.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
+            doc.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
           }
 
           "has the value '£0'" in {
@@ -159,17 +159,17 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         }
 
         "not have a row for brought forward losses used" in {
-          div.select("#lossesUsed-text") shouldBe empty
+          doc.select("#lossesUsed-text") shouldBe empty
         }
 
         "has a row for total deductions" which {
 
           s"has the text '${summaryMessages.totalDeductions}'" in {
-            div.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
+            doc.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
           }
 
           "has the value '£0'" in {
-            div.select("#totalDeductions-amount").text shouldBe "£0"
+            doc.select("#totalDeductions-amount strong").text shouldBe "£0"
           }
         }
       }
@@ -178,25 +178,25 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTaxableGain")
 
-        "does not have a caption tag" in {
-          div.select("caption") shouldBe empty
+        "does not have a h2 tag" in {
+          div.select("h2") shouldBe empty
         }
 
         "does not have a row for gain" in {
-          div.select("#gain-text") shouldBe empty
+          doc.select("#gain-text") shouldBe empty
         }
 
         "does not have a row for minus deductions" in {
-          div.select("#minusDeductions-text") shouldBe empty
+          doc.select("#minusDeductions-text") shouldBe empty
         }
 
         "has a row for taxable gain" which {
           s"has the text '${summaryMessages.taxableGain}'" in {
-            div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
+            doc.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
           }
 
           "has the value '£0'" in {
-            div.select("#taxableGain-amount").text shouldBe "£0"
+            doc.select("#taxableGain-amount strong").text shouldBe "£0"
           }
         }
       }
@@ -205,26 +205,26 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         lazy val div = doc.select("#yourTaxRate")
 
-        "does not have a caption tag" in {
-          div.select("caption") shouldBe empty
+        "does not have a h2 tag" in {
+          div.select("h2") shouldBe empty
         }
 
         "does not have a row for first band"  in {
-          div.select("#firstBand-text") shouldBe empty
+          doc.select("#firstBand-text") shouldBe empty
         }
 
         "does not have a row for second band" in {
-          div.select("#secondBand-text") shouldBe empty
+          doc.select("#secondBand-text") shouldBe empty
         }
 
         "has a row for tax to pay" which {
 
           s"has the text ${summaryMessages.taxToPay}" in {
-            div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+            doc.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
           }
 
           "has the value '£0'" in {
-            div.select("#taxToPay-amount").text shouldBe "£0"
+            doc.select("#taxToPay-amount").text shouldBe "£0"
           }
         }
       }
@@ -239,31 +239,31 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a caption tag" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.select("caption").text shouldBe summaryMessages.remainingDeductions
+            div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
           }
         }
 
         "has a row for annual exempt amount left" which {
           s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
-            div.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+            doc.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
           }
 
           "has the value '£11,000'" in {
-            div.select("#aeaLeft-amount").text shouldBe "£11,000"
+            doc.select("#aeaLeft-amount span").text shouldBe "£11,000"
           }
         }
 
         "not have a row for brought forward losses remaining" in {
-          div.select("#broughtForwardLossesRemaining-text") shouldBe empty
+          doc.select("#broughtForwardLossesRemaining-text") shouldBe empty
         }
 
         "has a row for losses to carry forward" which {
           s"has the text${summaryMessages.lossesToCarryForwardFromCalculation}" in {
-            div.select("#lossesToCarryForwardFromCalc-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
+            doc.select("#lossesToCarryForwardFromCalc-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
           }
 
           "has the value '£100" in {
-            div.select("#lossesToCarryForwardFromCalc-amount").text shouldBe "£100"
+            doc.select("#lossesToCarryForwardFromCalc-amount span").text shouldBe "£100"
           }
         }
       }
@@ -297,16 +297,16 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
 
       s"has the text '${summaryMessages.yourTotalGain}'" in {
-        div.select("caption").text shouldBe summaryMessages.yourTotalGain
+        div.select("div > h2").text shouldBe summaryMessages.yourTotalGain
       }
 
       "has a row for total gain" which {
         s"has the text '${summaryMessages.totalGain}'" in {
-          div.select("#totalGain-text").text shouldBe summaryMessages.totalGain
+          doc.select("#totalGain-text").text shouldBe summaryMessages.totalGain
         }
 
         "has the value '£0'" in {
-          div.select("#totalGain-amount").text shouldBe "£0"
+          doc.select("#totalGain-amount strong").text shouldBe "£0"
         }
       }
     }
@@ -362,7 +362,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       "has a h2 tag" which {
 
         s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-          doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+          doc.select("#calcHeader").text shouldBe summaryMessages.howWeWorkedThisOut
         }
       }
 
@@ -373,47 +373,47 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourTotalLoss}'" in {
-            div.select("caption").text shouldBe summaryMessages.yourTotalLoss
+            div.select("div > h2").text shouldBe summaryMessages.yourTotalLoss
           }
         }
 
         "has a row for disposal value" which {
           s"has the text '${summaryMessages.disposalValue}'" in {
-            div.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
+            doc.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
           }
 
           "has the value '£1,000'" in {
-            div.select("#disposalValue-amount").text shouldBe "£1,000"
+            doc.select("#disposalValue-amount span").text shouldBe "£1,000"
           }
         }
 
         "has a row for acquisition value" which {
           s"has the text '${summaryMessages.acquisitionValueBeforeLegislation}'" in {
-            div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
+            doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValueBeforeLegislation
           }
 
           "has the value '£1,000'" in {
-            div.select("#acquisitionValue-amount").text shouldBe "£1,000"
+            doc.select("#acquisitionValue-amount span").text shouldBe "£1,000"
           }
         }
 
         "has a row for total costs" which {
           s"has the text '${summaryMessages.totalCosts}'" in {
-            div.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
+            doc.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
           }
 
           "has the value '£200,000'" in {
-            div.select("#totalCosts-amount").text shouldBe "£200,000"
+            doc.select("#totalCosts-amount").text shouldBe "£200,000"
           }
         }
 
         "has a row for total loss" which {
           s"has the text '${summaryMessages.totalLoss}'" in {
-            div.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
+            doc.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
           }
 
           "has the value '£100'" in {
-            div.select("#totalLoss-amount").text shouldBe "£100"
+            doc.select("#totalLoss-amount strong").text shouldBe "£100"
           }
         }
       }
@@ -425,7 +425,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a caption tag" which {
 
           s"has the text '${summaryMessages.yourDeductions}'" in {
-            div.select("caption").text shouldBe summaryMessages.yourDeductions
+            div.select("div > h2").text shouldBe summaryMessages.yourDeductions
           }
         }
 
@@ -436,26 +436,26 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a row for AEA used" which {
 
           s"has the text '${summaryMessages.aeaUsed}'" in {
-            div.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
+            doc.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
           }
 
           "has the value '£0'" in {
-            div.select("#aeaUsed-amount").text shouldBe "£0"
+            doc.select("#aeaUsed-amount span").text shouldBe "£0"
           }
         }
 
         "not have a row for brought forward losses used" in {
-          div.select("#lossesUsed-text") shouldBe empty
+          doc.select("#lossesUsed-text") shouldBe empty
         }
 
         "has a row for total deductions" which {
 
           s"has the text '${summaryMessages.totalDeductions}'" in {
-            div.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
+            doc.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
           }
 
           "has the value '£0'" in {
-            div.select("#totalDeductions-amount").text shouldBe "£0"
+            doc.select("#totalDeductions-amount strong").text shouldBe "£0"
           }
         }
       }
@@ -465,7 +465,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         lazy val div = doc.select("#yourTaxableGain")
 
         "does not have a caption tag" in {
-          div.select("caption") shouldBe empty
+          div.select("div > h2") shouldBe empty
         }
 
         "does not have a row for gain" in {
@@ -478,11 +478,11 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         "has a row for taxable gain" which {
           s"has the text '${summaryMessages.taxableGain}'" in {
-            div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
+            doc.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
           }
 
           "has the value '£0'" in {
-            div.select("#taxableGain-amount").text shouldBe "£0"
+            doc.select("#taxableGain-amount strong").text shouldBe "£0"
           }
         }
       }
@@ -492,7 +492,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         lazy val div = doc.select("#yourTaxRate")
 
         "does not have a caption tag" in {
-          div.select("caption") shouldBe empty
+          div.select("div > h2") shouldBe empty
         }
 
         "does not have a row for first band"  in {
@@ -506,11 +506,11 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a row for tax to pay" which {
 
           s"has the text ${summaryMessages.taxToPay}" in {
-            div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+            doc.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
           }
 
           "has the value '£0'" in {
-            div.select("#taxToPay-amount").text shouldBe "£0"
+            doc.select("#taxToPay-amount strong").text shouldBe "£0"
           }
         }
       }
@@ -525,17 +525,17 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
         "has a caption tag" which {
 
           s"has the text ${summaryMessages.remainingDeductions}" in {
-            div.select("caption").text shouldBe summaryMessages.remainingDeductions
+            div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
           }
         }
 
         "has a row for annual exempt amount left" which {
           s"has the text ${summaryMessages.remainingAnnualExemptAmount("2015 to 2016")}" in {
-            div.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
+            doc.select("#aeaLeft-text").text shouldBe summaryMessages.remainingAnnualExemptAmount("2015 to 2016")
           }
 
           "has the value '£11,000'" in {
-            div.select("#aeaLeft-amount").text shouldBe "£11,000"
+            doc.select("#aeaLeft-amount span").text shouldBe "£11,000"
           }
         }
 
@@ -545,11 +545,11 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         "has a row for losses to carry forward" which {
           s"has the text${summaryMessages.lossesToCarryForwardFromCalculation}" in {
-            div.select("#lossesToCarryForwardFromCalc-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
+            doc.select("#lossesToCarryForwardFromCalc-text").text shouldBe summaryMessages.lossesToCarryForwardFromCalculation
           }
 
           "has the value '£100" in {
-            div.select("#lossesToCarryForwardFromCalc-amount").text shouldBe "£100"
+            doc.select("#lossesToCarryForwardFromCalc-amount span").text shouldBe "£100"
           }
         }
       }
@@ -609,7 +609,7 @@ class GainSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "has the value '£1,000'" in {
-        doc.select("#acquisitionValue-amount").text shouldBe "£1,000"
+        doc.select("#acquisitionValue-amount span").text shouldBe "£1,000"
       }
     }
   }

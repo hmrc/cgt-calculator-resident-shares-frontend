@@ -19,67 +19,68 @@
 @this()
 
 @(rowId: String, question: String, amount: BigDecimal, isTotal: Boolean = false, hintText: Boolean = true)(implicit messages: Messages)
-
-@(isTotal, hintText) match {
+<dl class="govuk-summary-list">
+  @(isTotal, hintText) match {
   case (true, _) => {
 
-    <tr id="@rowId" class="govuk-table__row">
-      <th id="@{rowId}-text" scope="row" class="govuk-table__header">
-        <strong>@question</strong>
-      </th>
-      <td id="@{rowId}-amount" class="govuk-table__cell govuk-table__cell--numeric">
-        @amount.scale match {
-          case 0 => {
-            <strong>&pound;@MoneyPounds(amount, 0).quantity</strong>
-          }
-          case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
-            <strong>&pound;@MoneyPounds(amount, 0).quantity</strong>
-          }
-          case _ => {
-            <strong>£@MoneyPounds(amount, 2).quantity</strong>
-          }
-        }
-    </td>
-    </tr>
+  <div id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
+      <strong>@question</strong>
+    </dt>
+    <dd id="@{rowId}-amount" class="govuk-summary-list__value">
+      @amount.scale match {
+      case 0 => {
+      <strong>&pound;@MoneyPounds(amount, 0).quantity</strong>
+      }
+      case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
+      <strong>&pound;@MoneyPounds(amount, 0).quantity</strong>
+      }
+      case _ => {
+      <strong>£@MoneyPounds(amount, 2).quantity</strong>
+      }
+      }
+    </dd>
+  </div>
   }
   case (_, true) => {
-    <tr id="@rowId" class="govuk-table__row">
-      <th id="@{rowId}-text" scope="row" class="govuk-table__header">
-        @question
-      </th>
-      <td id="@{rowId}-amount" class="govuk-table__cell govuk-table__cell--numeric">
-        @amount.scale match {
-          case 0 => {
-            <span>&pound;@MoneyPounds(amount, 0).quantity</span>
-          }
-          case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
-            <span>&pound;@MoneyPounds(amount, 0).quantity</span>
-          }
-          case _ => {
-            <span>&pound;@MoneyPounds(amount, 2).quantity</span>
-          }
-        }
-    </td>
-    </tr>
+  <div id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
+      @question
+    </dt>
+    <dd id="@{rowId}-amount" class="govuk-summary-list__value">
+      @amount.scale match {
+      case 0 => {
+      <span>&pound;@MoneyPounds(amount, 0).quantity</span>
+      }
+      case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
+      <span>&pound;@MoneyPounds(amount, 0).quantity</span>
+      }
+      case _ => {
+      <span>&pound;@MoneyPounds(amount, 2).quantity</span>
+      }
+      }
+    </dd>
+  </div>
   }
   case (_, false) => {
-    <tr id="@rowId" class="govuk-table__row">
-      <th id="@{rowId}-text" scope="row" class="govuk-table__header">
-        @question
-      </th>
-      <td id="@{rowId}-amount" class="govuk-table__cell govuk-table__cell--numeric">
-        @amount.scale match {
-          case 0 => {
-            <span>&pound;@MoneyPounds(amount, 0).quantity</span>
-          }
-          case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
-            <span>&pound;@MoneyPounds(amount, 0).quantity</span>
-          }
-          case _ => {
-            <span>&pound;@MoneyPounds(amount, 2).quantity</span>
-          }
-        }
-    </td>
-    </tr>
+  <div id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
+      @question
+    </dt>
+    <dd id="@{rowId}-amount" class="govuk-summary-list__value">
+      @amount.scale match {
+      case 0 => {
+      <span>&pound;@MoneyPounds(amount, 0).quantity</span>
+      }
+      case _ if amount == amount.setScale(0, BigDecimal.RoundingMode.FLOOR) => {
+      <span>&pound;@MoneyPounds(amount, 0).quantity</span>
+      }
+      case _ => {
+      <span>&pound;@MoneyPounds(amount, 2).quantity</span>
+      }
+      }
+    </dd>
+  </div>
   }
-}
+  }
+</dl>

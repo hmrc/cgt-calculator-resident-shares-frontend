@@ -112,7 +112,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         "has a h2 tag" which {
 
           s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
-            doc.select("section#calcDetails h2").text shouldBe summaryMessages.howWeWorkedThisOut
+            doc.select("#calcHeader").text shouldBe summaryMessages.howWeWorkedThisOut
           }
         }
 
@@ -120,50 +120,50 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
           lazy val div = doc.select("#yourTotalLoss")
 
-          "has a caption" which {
+          "has a summary list" which {
 
             s"has the text '${summaryMessages.yourTotalLoss}'" in {
-              div.select("caption").text shouldBe summaryMessages.yourTotalLoss
+              div.select("div > h2 ").text shouldBe summaryMessages.yourTotalLoss
             }
           }
 
           "has a row for disposal value" which {
             s"has the text '${summaryMessages.disposalValue}'" in {
-              div.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
+              doc.select("#disposalValue-text").text shouldBe summaryMessages.disposalValue
             }
 
             "has the value '£10'" in {
-              div.select("#disposalValue-amount").text shouldBe "£10"
+              doc.select("#disposalValue-amount span").text shouldBe "£10"
             }
           }
 
           "has a row for acquisition value" which {
             s"has the text '${summaryMessages.acquisitionValue}'" in {
-              div.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
+              doc.select("#acquisitionValue-text").text shouldBe summaryMessages.acquisitionValue
             }
 
             "has the value '£10,000'" in {
-              div.select("#acquisitionValue-amount").text shouldBe "£10,000"
+              doc.select("#acquisitionValue-amount span").text shouldBe "£10,000"
             }
           }
 
           "has a row for total costs" which {
             s"has the text '${summaryMessages.totalCosts}'" in {
-              div.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
+              doc.select("#totalCosts-text").text shouldBe summaryMessages.totalCosts
             }
 
             "has the value '£150'" in {
-              div.select("#totalCosts-amount").text shouldBe "£150"
+              doc.select("#totalCosts-amount span").text shouldBe "£150"
             }
           }
 
           "has a row for total loss" which {
             s"has the text '${summaryMessages.totalLoss}'" in {
-              div.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
+              doc.select("#totalLoss-text").text shouldBe summaryMessages.totalLoss
             }
 
             "has the value '£100'" in {
-              div.select("#totalLoss-amount").text shouldBe "£100"
+              doc.select("#totalLoss-amount strong").text shouldBe "£100"
             }
           }
         }
@@ -172,36 +172,36 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
           lazy val div = doc.select("#yourDeductions")
 
-          "has a caption" which {
+          "has a heading" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("caption").text shouldBe summaryMessages.yourDeductions
+              div.select("div > h2").text shouldBe summaryMessages.yourDeductions
             }
           }
 
           "has a row for AEA used" which {
 
             s"has the text '${summaryMessages.aeaUsed}'" in {
-              div.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
+              doc.select("#aeaUsed-text").text shouldBe summaryMessages.aeaUsed
             }
 
             "has the value '£0'" in {
-              div.select("#aeaUsed-amount").text shouldBe "£0"
+              doc.select("#aeaUsed-amount span").text shouldBe "£0"
             }
           }
 
           "not have a row for brought forward losses used" in {
-            div.select("#lossesUsed-text") shouldBe empty
+            doc.select("#lossesUsed-text") shouldBe empty
           }
 
           "has a row for total deductions" which {
 
             s"has the text '${summaryMessages.totalDeductions}'" in {
-              div.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
+              doc.select("#totalDeductions-text").text shouldBe summaryMessages.totalDeductions
             }
 
             "has the value '£0'" in {
-              div.select("#totalDeductions-amount").text shouldBe "£0"
+              doc.select("#totalDeductions-amount strong").text shouldBe "£0"
             }
           }
         }
@@ -224,11 +224,11 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
           "has a row for taxable gain" which {
             s"has the text '${summaryMessages.taxableGain}'" in {
-              div.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
+              doc.select("#taxableGain-text").text shouldBe summaryMessages.taxableGain
             }
 
             "has the value '£0'" in {
-              div.select("#taxableGain-amount").text shouldBe "£0"
+              doc.select("#taxableGain-amount strong").text shouldBe "£0"
             }
           }
         }
@@ -252,11 +252,11 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           "has a row for tax to pay" which {
 
             s"has the text ${summaryMessages.taxToPay}" in {
-              div.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
+              doc.select("#taxToPay-text").text shouldBe summaryMessages.taxToPay
             }
 
             "has the value '£0'" in {
-              div.select("#taxToPay-amount").text shouldBe "£0"
+              doc.select("#taxToPay-amount strong").text shouldBe "£0"
             }
           }
         }
@@ -268,10 +268,10 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
           lazy val div = doc.select("#remainingDeductions")
 
-          "has a caption" which {
+          "has a heading" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("caption").text shouldBe summaryMessages.remainingDeductions
+              div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
             }
           }
 
