@@ -16,17 +16,18 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.{Resident => commonMessages, SharesDisposalCosts => messages}
+import assets.MessageLookup.{Resident as commonMessages, SharesDisposalCosts as messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.DisposalCostsForm._
+import forms.DisposalCostsForm.*
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.gain.disposalCosts
 
-class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours{
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -64,14 +65,14 @@ class DisposalCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
 
     "have a H1 tag that" should {
 
-      lazy val h1Tag = doc.select("H1")
+      lazy val h1Tag = doc.select("h1")
 
       s"have the page heading '${messages.h1}'" in {
         h1Tag.text shouldBe messages.h1
       }
 
       "have the heading-large class" in {
-        h1Tag.hasClass("govuk-heading-xl") shouldBe true
+        h1Tag.hasClass("govuk-heading-l") shouldBe true
       }
     }
 

@@ -16,8 +16,8 @@
 
 package views.calculation.whatNext
 
-import assets.MessageLookup.WhatNextPages.{FourTimesAEA => pageMessages}
-import assets.MessageLookup.{WhatNextPages => commonMessages}
+import assets.MessageLookup.WhatNextPages.FourTimesAEA as pageMessages
+import assets.MessageLookup.WhatNextPages as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper

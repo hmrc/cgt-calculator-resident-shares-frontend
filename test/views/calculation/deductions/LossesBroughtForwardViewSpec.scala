@@ -16,18 +16,19 @@
 
 package views.calculation.deductions
 
-import assets.MessageLookup.{LossesBroughtForward => messages, Resident => commonMessages}
+import assets.MessageLookup.{LossesBroughtForward as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.LossesBroughtForwardForm._
+import forms.LossesBroughtForwardForm.*
 import models.resident.TaxYearModel
 import org.jsoup.Jsoup
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents}
+import util.helper.ViewBehaviours
 import views.html.calculation.deductions.lossesBroughtForward
 
-class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val postAction: Call = controllers.routes.DeductionsController.submitLossesBroughtForward
@@ -59,8 +60,8 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
       doc.getElementsByClass("govuk-back-link").text shouldEqual commonMessages.back
     }
 
-    s"have the question of the page ${messages.question("2015 to 2016")}" in {
-      doc.getElementsByTag("h1").text() shouldEqual messages.question("2015 to 2016")
+    s"have the question of the page ${messages.question("2015 to 2016")}" should {
+         behave like pageWithExpectedMessage(legendHeadingStyle, messages.question("2015 to 2016"))(using doc)
     }
 
     s"render a form tag with a POST action" in {

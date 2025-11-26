@@ -16,7 +16,7 @@
 
 package views.calculation.deductions
 
-import assets.MessageLookup.{LossesBroughtForwardValue => messages, Resident => commonMessages}
+import assets.MessageLookup.{LossesBroughtForwardValue as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
@@ -26,9 +26,10 @@ import org.jsoup.Jsoup
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.deductions.lossesBroughtForwardValue
 
-class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val fakeLang: Lang = Lang("en")
 
@@ -171,10 +172,8 @@ class LossesBroughtForwardValueViewSpec extends CommonPlaySpec with WithCommonFa
 
       "have a H1 tag that" should {
 
-        lazy val h1Tag = doc.select("h1")
-
-        s"have the page heading '${messages.question("2014 to 2015")}'" in {
-          h1Tag.text shouldBe messages.question("2014 to 2015")
+        s"have the page heading '${messages.question("2014 to 2015")}'" should {
+          behave like pageWithExpectedMessage(labelStyle, messages.question("2014 to 2015"))(using doc)
         }
       }
 

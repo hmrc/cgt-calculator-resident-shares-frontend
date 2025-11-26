@@ -68,7 +68,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       "have the govuk-heading-xl class" in {
-        heading.hasClass("govuk-heading-xl") shouldEqual true
+        heading.hasClass("govuk-heading-l") shouldEqual true
       }
     }
 

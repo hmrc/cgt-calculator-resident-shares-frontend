@@ -16,16 +16,17 @@
 
 package views.calculation.whatNext
 
-import assets.MessageLookup.{WhatNextNonSaLoss => messages}
+import assets.MessageLookup.WhatNextNonSaLoss as messages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.whatNext.whatNextNonSaLoss
 
-class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -61,9 +62,8 @@ class WhatNextNonSaLossViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       }
     }
 
-
-    s"have a heading of ${messages.heading}" in {
-      doc.select("h1").text shouldBe messages.heading
+    s"heading of ${messages.heading}" should {
+      behave like pageWithExpectedMessage(headingStyle, messages.heading)(using doc)
     }
 
     s"have a first paragraph with text ${messages.detailsOne}" in {

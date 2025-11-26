@@ -16,18 +16,19 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.Resident.Shares.{ValueBeforeLegislationStart => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.Resident.Shares.ValueBeforeLegislationStart as messages
+import assets.MessageLookup.Resident as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.ValueBeforeLegislationStartForm._
+import forms.ValueBeforeLegislationStartForm.*
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.gain.valueBeforeLegislationStart
 
-class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -51,15 +52,8 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     "have a heading that" should {
-
-      lazy val heading = doc.select("H1")
-
-      s"have the correct text" in {
-        heading.text shouldBe messages.h1
-      }
-
-      "have the govuk-heading-xl class" in {
-        heading.hasClass("govuk-heading-xl") shouldEqual true
+      s"have the question of the page ${messages.h1}" should {
+        behave like pageWithExpectedMessage(headingStyle, messages.h1)(using doc)
       }
     }
 

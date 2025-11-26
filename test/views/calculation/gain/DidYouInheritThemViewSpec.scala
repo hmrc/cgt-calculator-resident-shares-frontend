@@ -58,6 +58,7 @@ class DidYouInheritThemViewSpec extends CommonPlaySpec with WithCommonFakeApplic
       "have the govuk-fieldset__heading class" in {
         h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
       }
+      
     }
 
     s"have the home link to 'home'" in {
