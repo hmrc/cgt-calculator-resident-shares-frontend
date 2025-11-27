@@ -108,7 +108,7 @@ calc.resident.currentIncome.questionCurrentYear.error.minimumAmount = How much y
 calc.resident.currentIncome.questionCurrentYear.error.maxAmountExceeded = How much you expect your income to be in this tax year must be £{0} or less
 
 ## Personal Allowance messages
-calc.resident.personalAllowance.title = Personal Allowance
+calc.resident.personalAllowance.title = Personal Allowance in the {0} tax year
 calc.resident.personalAllowance.question = In the {0} tax year, what was your Personal Allowance?
 calc.resident.personalAllowance.list.title = In the tax year {0} the UK Personal Allowance was £{1} unless you:
 calc.resident.personalAllowance.help = This is the amount of your income that you do not pay tax on.

@@ -176,8 +176,8 @@ object MessageLookup {
 
   //Personal Allowance messages.en
   object PersonalAllowance {
-    val h1 = "Personal Allowance"
-    val title = s"$h1 - Calculate your Capital Gains Tax - GOV.UK"
+    val h1: String => String = (input: String) => s"Personal Allowance in the $input tax year"
+    val title: String => String = (input: String) => s"Personal Allowance in the $input tax year - Calculate your Capital Gains Tax - GOV.UK"
     def question(input: String): String = s"In the $input tax year, what was your Personal Allowance?"
     val link = "Income tax rates and Personal Allowances (opens in new tab)"
     val linkText = "Find out more about"
