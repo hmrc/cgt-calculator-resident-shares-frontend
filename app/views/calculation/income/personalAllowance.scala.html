@@ -29,7 +29,7 @@
 
 @(personalAllowanceForm: Form[PersonalAllowanceModel], taxYear: TaxYearModel, standardPA: BigDecimal, postAction: Call, backLink: Option[String], journey: String, currentTaxYear: String)(implicit request: Request[_], messages: Messages, lang: Lang)
 
-@title = @{messages("calc.resident.personalAllowance.title")}
+@title = @{messages("calc.resident.personalAllowance.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))}
 
 @taxYearValid = @{taxYear.taxYearSupplied == currentTaxYear}
 @question = @{

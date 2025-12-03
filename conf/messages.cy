@@ -69,7 +69,7 @@ calc.resident.outsideTaxYears.message = Gallwch barhau i''w defnyddio, ond byddw
 calc.resident.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu eiddo ers 5 Ebrill 2015.
 calc.resident.outsideTaxYears.title = Nid yw''r gyfrifiannell hon yn cefnogi''r dyddiad rydych wedi''i roi
 
-calc.resident.personalAllowance.title = Lwfans Personol
+calc.resident.personalAllowance.title = Lwfans Personol ym mlwyddyn dreth {0}
 calc.resident.personalAllowance.currentYearQuestion = Faint yw''ch Lwfans Personol?
 calc.resident.personalAllowance.help = Dyma swm eich incwm nad ydych yn talu treth arno.
 calc.resident.personalAllowance.link = Gyfraddau Treth Incwm a Lwfansau Personol (yn agor tab newydd)
