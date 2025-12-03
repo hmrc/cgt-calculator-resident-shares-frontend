@@ -73,8 +73,8 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         heading.text should include(messages.h1)
       }
 
-      "have the govuk-heading-xl class" in {
-        heading.hasClass("govuk-heading-xl") shouldBe true
+      "have the govuk-heading-l class" in {
+        heading.hasClass("govuk-heading-l") shouldBe true
       }
 
       "have a p tag" which {

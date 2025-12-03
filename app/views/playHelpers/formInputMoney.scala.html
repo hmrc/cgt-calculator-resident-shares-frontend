@@ -22,13 +22,13 @@
 @(
     field: Field,
     question: String,
-    labelClass: String = "govuk-label--xl",
+    labelClass: String = "govuk-label--l",
     hintText: Option[String] = None
 )(implicit messages: Messages)
 
 @govukInput(Input(
     label = Label(
-        isPageHeading = labelClass.matches("govuk-label--xl"),
+        isPageHeading = labelClass.matches("govuk-label--l"),
         classes = labelClass,
         content = Text(question)
     ),

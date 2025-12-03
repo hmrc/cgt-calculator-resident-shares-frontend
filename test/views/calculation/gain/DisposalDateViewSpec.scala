@@ -16,19 +16,21 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.{DisposalDate => viewMessages, Resident => commonMessages, SharesDisposalDate => messages}
+import assets.MessageLookup.{DisposalDate as viewMessages, Resident as commonMessages, SharesDisposalDate as messages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.DisposalDateForm._
+import forms.DisposalDateForm.*
 import models.resident.DisposalDateModel
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.gain.disposalDate
+
 import java.time.LocalDate
 
-class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours{
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -50,8 +52,8 @@ class DisposalDateViewSpec extends CommonPlaySpec with WithCommonFakeApplication
       doc.title() shouldBe messages.title
     }
 
-    "have the heading question 'When did you sell or give away the shares?'" in {
-      doc.body.getElementsByTag("h1").text should include(messages.question)
+    "have the heading question 'When did you sell or give away the shares?'" should {
+      behave like pageWithExpectedMessage(legendHeadingStyle, messages.question)(using doc)
     }
 
     "have the helptext 'For example, 4 9 2021'" in {

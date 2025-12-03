@@ -16,19 +16,20 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.Resident.Shares.{SellForLess => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.Resident.Shares.SellForLess as messages
+import assets.MessageLookup.Resident as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.SellForLessForm._
+import forms.SellForLessForm.*
 import models.resident.SellForLessModel
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.gain.sellForLess
 
-class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours{
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -49,15 +50,8 @@ class SellForLessViewSpec extends CommonPlaySpec with WithCommonFakeApplication 
     }
 
     "have a H1 tag that" should {
-
-      lazy val h1Tag = doc.select("h1")
-
-      s"have the page heading '${messages.title}'" in {
-        h1Tag.text shouldBe messages.title
-      }
-
-      "have the heading-large class" in {
-        h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
+      s"have the question of the page ${messages.title}" should {
+        behave like pageWithExpectedMessage(legendHeadingStyle, messages.title)(using doc)
       }
     }
 

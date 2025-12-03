@@ -122,7 +122,7 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         }
 
         s"have a legend for an input with text ${messages.title}" in {
-          doc.body.getElementsByClass("govuk-heading-xl").text() shouldEqual messages.h1("2015 to 2016")
+          doc.body.getElementsByClass("govuk-heading-l").text() shouldEqual messages.h1("2015 to 2016")
         }
       }
 

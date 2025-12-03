@@ -74,8 +74,8 @@ class AcquisitionCostsViewSpec extends CommonPlaySpec with WithCommonFakeApplica
         h1Tag.text shouldBe messages.h1
       }
 
-      "have the govuk-heading-xl class" in {
-        h1Tag.hasClass("govuk-heading-xl") shouldBe true
+      "have the govuk-heading-l class" in {
+        h1Tag.hasClass("govuk-heading-l") shouldBe true
       }
     }
 

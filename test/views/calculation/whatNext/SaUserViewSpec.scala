@@ -84,7 +84,7 @@ class SaUserViewSpec extends CommonPlaySpec with WithCommonFakeApplication with 
         }
 
         "has the class 'visuallyhidden'" in {
-          legend.attr("class") shouldBe "govuk-fieldset__legend govuk-fieldset__legend--xl"
+          legend.attr("class") shouldBe "govuk-fieldset__legend govuk-fieldset__legend--l"
         }
       }
 

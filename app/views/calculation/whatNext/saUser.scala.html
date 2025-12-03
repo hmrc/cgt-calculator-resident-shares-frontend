@@ -39,7 +39,7 @@
 
     @form(action = controllers.routes.SaUserController.submitSaUser) {
         @inputRadio(
-            legendClass = Some("govuk-fieldset__legend--xl"),
+            legendClass = Some("govuk-fieldset__legend--l"),
             legend = Messages("calc.resident.saUser.title"),
             items = Seq(
                 RadioItem(content = Text(Messages("calc.base.yes")), value = Option("Yes")),

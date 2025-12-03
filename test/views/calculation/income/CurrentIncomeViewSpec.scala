@@ -16,7 +16,7 @@
 
 package views.calculation.income
 
-import assets.MessageLookup.{CurrentIncome => messages, Resident => commonMessages}
+import assets.MessageLookup.{CurrentIncome as messages, Resident as commonMessages}
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
@@ -27,9 +27,10 @@ import org.jsoup.Jsoup
 import play.api.data.Form
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.income.currentIncome
 
-class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -70,8 +71,8 @@ class CurrentIncomeViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       }
     }
 
-    s"have the question of the page ${messages.question("2015 to 2016")}" in {
-      doc.select("h1").text shouldEqual messages.question("2015 to 2016")
+    s"have the question of the page ${messages.question("2015 to 2016")}" should {
+      behave like pageWithExpectedMessage(labelStyle, messages.question("2015 to 2016"))(using doc)
     }
 
     "have a form" which {

@@ -30,9 +30,10 @@ import play.api.i18n.Messages
 import play.api.mvc.{AnyContentAsFormUrlEncoded, MessagesControllerComponents}
 import play.api.test.FakeRequest
 import play.twirl.api.HtmlFormat
+import util.helper.ViewBehaviours
 import views.html.calculation.gain.disposalValue
 
-class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours{
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -66,8 +67,8 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
       doc.select(".govuk-back-link").attr("href") shouldEqual "#"
     }
 
-    s"have the question of the page ${messages.h1}" in {
-      doc.select("h1").text shouldEqual messages.h1
+    s"have the question of the page ${messages.h1}" should {
+      behave like pageWithExpectedMessage(headingStyle, messages.h1)(using doc)
     }
 
     "render a form tag with a submit action" in {

@@ -16,18 +16,19 @@
 
 package views.calculation.gain
 
-import assets.MessageLookup.Resident.Shares.{OwnerBeforeLegislationStart => messages}
-import assets.MessageLookup.{Resident => commonMessages}
+import assets.MessageLookup.Resident.Shares.OwnerBeforeLegislationStart as messages
+import assets.MessageLookup.Resident as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.OwnerBeforeLegislationStartForm._
+import forms.OwnerBeforeLegislationStartForm.*
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.gain.ownerBeforeLegislationStart
 
-class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -48,15 +49,8 @@ class OwnerBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
     }
 
     "have a H1 tag that" should {
-
-      lazy val h1Tag = doc.select("h1")
-
-      s"have the page heading '${messages.heading}'" in {
-        h1Tag.text shouldBe messages.heading
-      }
-
-      "have the govuk-fieldset__heading class" in {
-        h1Tag.hasClass("govuk-fieldset__heading") shouldBe true
+      s"have the question of the page ${messages.heading}" should {
+        behave like pageWithExpectedMessage(legendHeadingStyle, messages.heading)(using doc)
       }
     }
 

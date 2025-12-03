@@ -16,17 +16,18 @@
 
 package views.calculation.whatNext
 
-import assets.MessageLookup.WhatNextPages.{WhatNextGain => pageMessages}
-import assets.MessageLookup.{WhatNextPages => commonMessages}
+import assets.MessageLookup.WhatNextPages.WhatNextGain as pageMessages
+import assets.MessageLookup.WhatNextPages as commonMessages
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
 import org.jsoup.Jsoup
 import play.api.i18n.Messages
 import play.api.mvc.MessagesControllerComponents
+import util.helper.ViewBehaviours
 import views.html.calculation.whatNext.whatNextSAGain
 
-class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
+class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with ViewBehaviours {
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
 
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
@@ -45,8 +46,8 @@ class WhatNextSAGainViewSpec extends CommonPlaySpec with WithCommonFakeApplicati
       doc.select(".govuk-back-link").attr("href") shouldBe "#"
     }
 
-    "have the correct heading" in {
-      doc.select("h1").text shouldBe commonMessages.yourOptionHEading
+    "have the correct heading" should {
+      behave like pageWithExpectedMessage(headingStyle, commonMessages.yourOptionHEading)(using doc)
     }
 
     "have a bullet point list" which {
