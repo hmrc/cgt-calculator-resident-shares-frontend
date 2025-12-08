@@ -123,7 +123,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           "has a summary list" which {
 
             s"has the text '${summaryMessages.yourTotalLoss}'" in {
-              div.select("div > h2 ").text shouldBe summaryMessages.yourTotalLoss
+              div.select("div > h3 ").text shouldBe summaryMessages.yourTotalLoss
             }
           }
 
@@ -175,7 +175,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           "has a heading" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourDeductions
+              div.select("div > h3").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -271,7 +271,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           "has a heading" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
+              div.select("div > h3").text shouldBe summaryMessages.remainingDeductions
             }
           }
 
@@ -306,7 +306,7 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
 
         "has a h2 tag" which {
           s"has the text ${summaryMessages.whatToDoNext}" in {
-            section.select("h2").text shouldBe summaryMessages.whatToDoNext
+            section.select("h3").text shouldBe summaryMessages.whatToDoNext
           }
         }
 

@@ -19,7 +19,7 @@
 @this()
 
 @(rowId: String, question: String, amount: BigDecimal, isTotal: Boolean = false, hintText: Boolean = true)(implicit messages: Messages)
-<dl class="govuk-summary-list">
+
   @(isTotal, hintText) match {
   case (true, _) => {
 
@@ -83,4 +83,3 @@
   </div>
   }
   }
-</dl>
