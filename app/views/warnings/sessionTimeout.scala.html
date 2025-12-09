@@ -25,7 +25,7 @@
  timeoutEnabled = false
 ) {
 
-    <h1 class="govuk-heading-xl">@Messages("session.timeout.message")</h1>
+    <h1 class="govuk-heading-xl" role="alert" aria-live="assertive">@Messages("session.timeout.message")</h1>
 
     <a id="startAgain" class="govuk-button" role="button" href="@controllers.routes.GainController.disposalDate.url" data-journey-click="nav:calc:restart">@Messages("calc.summary.startAgain")</a>
 
