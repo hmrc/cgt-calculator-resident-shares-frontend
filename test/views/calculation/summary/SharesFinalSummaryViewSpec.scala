@@ -137,6 +137,13 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
       }
 
       "have a section for the Calculation details" which {
+        "has a h2 tag" which {
+
+          s"has the text '${summaryMessages.howWeWorkedThisOut}'" in {
+            doc.select("#calcHeader").text shouldBe summaryMessages.howWeWorkedThisOut
+          }
+        }
+
         "has a div for total gain" which {
 
           lazy val div = doc.select("#yourTotalGain")
