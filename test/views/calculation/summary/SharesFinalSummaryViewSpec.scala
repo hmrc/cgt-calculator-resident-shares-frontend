@@ -151,7 +151,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("div >h2").text shouldBe summaryMessages.yourTotalGain
+              div.select("div >h3").text shouldBe summaryMessages.yourTotalGain
             }
           }
 
@@ -204,7 +204,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourDeductions
+              div.select("div > h3").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -248,7 +248,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
           "has a caption" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("div >h2").text shouldBe summaryMessages.yourTaxableGain
+              div.select("div >h3").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -290,7 +290,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
           "has a caption" which {
 
             s"has the text ${summaryMessages.yourTaxRate}" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTaxRate
+              div.select("div > h3").text shouldBe summaryMessages.yourTaxRate
             }
           }
 
@@ -336,7 +336,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
             "has a caption" which {
 
               s"has the text ${summaryMessages.remainingDeductions}" in {
-                div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
+                div.select("div > h3").text shouldBe summaryMessages.remainingDeductions
               }
             }
 
@@ -368,7 +368,7 @@ class SharesFinalSummaryViewSpec extends CommonPlaySpec with WithCommonFakeAppli
 
         "has a h2 tag" which {
           s"has the text ${summaryMessages.whatToDoNextHeading}" in {
-            section.select("h2").text shouldBe summaryMessages.whatToDoNextHeading
+            section.select("h3").text shouldBe summaryMessages.whatToDoNextHeading
           }
         }
 

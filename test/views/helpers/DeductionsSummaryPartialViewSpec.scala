@@ -112,7 +112,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
           "has a h2 tag" which {
 
             s"has the text '${summaryMessages.yourTotalGain}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTotalGain
+              div.select("div > h3").text shouldBe summaryMessages.yourTotalGain
             }
           }
 
@@ -165,7 +165,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
           "has a h2 tag" which {
 
             s"has the text '${summaryMessages.yourDeductions}'" in {
-              div.select("div> h2").text shouldBe summaryMessages.yourDeductions
+              div.select("div> h3").text shouldBe summaryMessages.yourDeductions
             }
           }
 
@@ -207,7 +207,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
           "has a h2 tag" which {
 
             s"has the text '${summaryMessages.yourTaxableGain}'" in {
-              div.select("div > h2").text shouldBe summaryMessages.yourTaxableGain
+              div.select("div > h3").text shouldBe summaryMessages.yourTaxableGain
             }
           }
 
@@ -266,7 +266,7 @@ class DeductionsSummaryPartialViewSpec extends CommonPlaySpec with WithCommonFak
           "has a h2 tag" which {
 
             s"has the text ${summaryMessages.remainingDeductions}" in {
-              div.select("div > h2").text shouldBe summaryMessages.remainingDeductions
+              div.select("div > h3").text shouldBe summaryMessages.remainingDeductions
             }
           }
 

@@ -105,7 +105,7 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
       lazy val whatToDoNext = doc.select("section#whatToDoNext")
 
       s"should have a h2 with the text ${messages.whatToDoNextHeading}" in {
-        whatToDoNext.select("h2").text shouldBe messages.whatToDoNextHeading
+        whatToDoNext.select("h3").text shouldBe messages.whatToDoNextHeading
       }
 
       s"should have a p with the text ${messages.whatToDoNextContinue}" in {
