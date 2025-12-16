@@ -24,7 +24,7 @@
   case (true, _) => {
 
   <div id="@rowId" class="govuk-summary-list__row">
-    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 75%;">
       <strong>@question</strong>
     </dt>
     <dd id="@{rowId}-amount" class="govuk-summary-list__value">
@@ -44,7 +44,7 @@
   }
   case (_, true) => {
   <div id="@rowId" class="govuk-summary-list__row">
-    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 75%;">
       @question
     </dt>
     <dd id="@{rowId}-amount" class="govuk-summary-list__value">
@@ -64,7 +64,7 @@
   }
   case (_, false) => {
   <div id="@rowId" class="govuk-summary-list__row">
-    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 70%;">
+    <dt id="@{rowId}-text" class="govuk-summary-list__key"  style="width: 75%;">
       @question
     </dt>
     <dd id="@{rowId}-amount" class="govuk-summary-list__value">
