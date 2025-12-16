@@ -91,24 +91,14 @@
         <dl class="govuk-summary-list">
             @summaryNumericRow("aeaUsed", Messages("calc.summary.calculationDetails.aeaUsed"), 0)
             @summaryNumericRow("totalDeductions", Messages("calc.summary.calculationDetails.totalDeductions"), 0, isTotal = true)
-      </dl>
-  </div>
-
-  <div>
-      <dl class="govuk-summary-list">
-    @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), 0, isTotal = true)
-      </dl>
-  </div>
-
-  <div>
-      <dl class="govuk-summary-list">
-  @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), 0, isTotal = true)
-      </dl>
-  </div>
+            @summaryNumericRow("taxableGain", Messages("calc.summary.calculationDetails.taxableGain"), 0, isTotal = true)
+            @summaryNumericRow("taxToPay", Messages("calc.summary.calculationDetails.taxToPay"), 0, isTotal = true)
+        </dl>
+    </div>
 
 </section>
 
-  <!--Remaining Details Section-->
+<!--Remaining Details Section-->
 <section id="remainingDeductions">
 
     <!-- Header -->
@@ -118,15 +108,9 @@
                 @Messages("calc.summary.remainingDeductions.heading")
             </h3>
         </div>
-           <div id="aeaLeftSummary">
-               <dl class="govuk-summary-list">
-               @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)), maxAEA, hintText = false)
-               </dl>
-          </div>
-          <div id="lossesToCarryForward">
-              <dl class="govuk-summary-list">
-                @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
-              </dl>
-          </div>
+        <dl class="govuk-summary-list">
+            @summaryNumericRow("aeaLeft", Messages("calc.summary.remainingDeductions.aeaLeft", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)), maxAEA, hintText = false)
+            @summaryNumericRow("lossesToCarryForwardFromCalc", Messages("calc.summary.remainingDeductions.lossesToCarryForward"), gain, hintText = false)
+        </dl>
     </div>
 </section>
