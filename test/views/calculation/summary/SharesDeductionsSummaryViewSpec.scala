@@ -101,6 +101,15 @@ class SharesDeductionsSummaryViewSpec extends CommonPlaySpec with WithCommonFake
       }
     }
 
+    "have a section for Your answers" which {
+      lazy val section = doc.select("#yourAnswers")
+      "has a details tag" in {
+        section.select("details").hasClass("govuk-details") shouldBe true
+      }
+      s"has a span for ${messages.yourAnswers}" in {
+        section.select("details>>summary>>span").text shouldBe messages.yourAnswers
+      }
+    }
     "should display the what to do next section" which {
       lazy val whatToDoNext = doc.select("section#whatToDoNext")
 

@@ -71,10 +71,7 @@
         totalCosts
     )
 
-    <hr class="govuk-section-break govuk-section-break--l cgt-for-print">
-
-    <!--Print only CYA-->
-    @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), None, displayLinks = false, forPrint = true)
+      @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), None, displayLinks = false, forSummary = true)
 
     @if(taxYear.isValidYear) {
         <section id="whatToDoNext" class="govuk-!-display-none-print">

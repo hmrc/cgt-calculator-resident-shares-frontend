@@ -300,7 +300,15 @@ class SharesGainSummaryViewSpec extends CommonPlaySpec with WithCommonFakeApplic
           }
         }
       }
-
+      "have a section for Your answers" which {
+        lazy val section = doc.select("#yourAnswers")
+        "has a details tag" in {
+          section.select("details").hasClass("govuk-details") shouldBe true
+        }
+        s"has a span for ${summaryMessages.yourAnswers}" in {
+          section.select("details>>summary>>span").text shouldBe summaryMessages.yourAnswers
+        }
+      }
       "have a section for What to do next" which {
         lazy val section = doc.select("#whatToDoNext")
 
