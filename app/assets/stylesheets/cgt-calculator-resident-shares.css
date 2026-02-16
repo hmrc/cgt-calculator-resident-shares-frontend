@@ -1,8 +1,4 @@
 
-.cgt-for-print {
-    display: none;
-}
-
 body:not(.js-enabled) .cgt-print-button {
     display: none;
 }

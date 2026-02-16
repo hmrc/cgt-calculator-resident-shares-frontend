@@ -67,10 +67,7 @@
         maxAea
     )
 
-    <hr class="govuk-section-break govuk-section-break--l cgt-for-print">
-
-    <!--Print only CYA-->
-    @checkYourAnswersPartial(answers, None, None, None, displayLinks = false, forPrint = true)
+    @checkYourAnswersPartial(answers, None, None, None, displayLinks = false, forSummary = true)
 
     @if(taxYear.isValidYear) {
         <section id="whatToDoNext" class="govuk-!-display-none-print">

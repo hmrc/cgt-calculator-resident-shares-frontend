@@ -24,6 +24,7 @@ signOut.keepAliveButtonText = Ewch ati i gyfrifo eich Treth Enillion Cyfalaf
 signOut.signOutButtonText = Dileu''ch atebion
 
 calc.checkYourAnswers.title = Gwirio''ch atebion
+calc.checkYourAnswers.tableHeading = Eich atebion
 
 calc.common.date.error.beforeMinimum = Nodwch ddyddiad sydd ar ôl 6 4 2015
 calc.common.date.error.invalidDate = Nodwch ddyddiad go iawn
@@ -254,7 +255,7 @@ calc.summary.remainingDeductions.lossesToCarryForward = Y colledion y gallwch eu
 calc.summary.startAgain = Dechrau eto
 
 calc.summary.whatToDoNext.details = Cyn i chi fynd yn eich blaen, cadwch gopi o''ch cyfrifiad. Bydd angen hwn arnoch pan fyddwch yn rhoi gwybod am eich Treth Enillion Cyfalaf.
-calc.summary.whatToDoNext.heading = Yr hyn sy''n digwydd nesaf
+calc.summary.whatToDoNext.heading = Yr hyn i''w wneud nesaf
 
 calc.whatToDoNext.finish = Yn ôl i GOV.UK
 calc.whatToDoNext.fourAEA.information = Bydd yn rhaid i chi roi gwybod am eich ffigurau Treth Enillion Cyfalaf drwy Hunanasesiad.
