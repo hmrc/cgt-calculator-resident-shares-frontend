@@ -38,12 +38,12 @@
         </dd>
     </div>
 } else {
-    <tr id="@rowId" class="govuk-table__row">
-        <th id="@{rowId}-question" scope="row" class="govuk-table__header">
-            @question
-        </th>
-        <td id="@{rowId}-date" class="govuk-table__cell">
-           @date.localFormat("d MMMM yyyy")
-        </td>
-    </tr>
+<div id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-question" class="govuk-summary-list__key" style="width: 75%;">
+        @question
+    </dt>
+    <dd id="@{rowId}-date" class="govuk-summary-list__value">
+        @date.localFormat("d MMMM yyyy")
+    </dd>
+</div>
 }
