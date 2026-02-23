@@ -34,12 +34,12 @@
         </dd>
     </div>
 } else {
-    <tr id="@rowId" class="govuk-table__row">
-        <th id="@{rowId}-question" class="govuk-table__header">
-            @question
-        </th>
-        <td id="@{rowId}-option" class="govuk-table__cell">
-            @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
-        </td>
-    </tr>
+<div id="@rowId" class="govuk-summary-list__row">
+    <dt id="@{rowId}-question" class="govuk-summary-list__key" style="width: 75%;">
+        @question
+    </dt>
+    <dd id="@{rowId}-option" class="govuk-summary-list__value">
+        @{if (answer) messages("calc.base.yes") else messages("calc.base.no")}
+    </dd>
+</div>
 }

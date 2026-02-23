@@ -44,7 +44,7 @@
         </summary>
             <div class="govuk-details__text">
                 }
-                @if(displayLinks) {<dl class="govuk-summary-list">} else {<table class="govuk-table"> <tbody class="govuk-table__body">}
+                <dl class="govuk-summary-list">
                 <!--Gain Answers Section-->
                 @summaryDateRowHelper(
                     "disposalDate",
@@ -194,7 +194,7 @@
                         displayLink = displayLinks)
                     }
                 }
-            @if(displayLinks) { </dl>} else {</tbody></table>}
+            </dl>
             @if(forSummary){
             </div>
     </details>
