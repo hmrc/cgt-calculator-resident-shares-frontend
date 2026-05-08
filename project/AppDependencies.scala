@@ -17,7 +17,7 @@
 import sbt.*
 
 object AppDependencies {
-  lazy val bootstrapVersion = "10.6.0"
+  lazy val bootstrapVersion = "10.7.0"
   lazy val playVersion = "play-30"
   lazy val taxYearVersion = "6.0.0"
   lazy val hmrcMongoVersion = "2.12.0"
