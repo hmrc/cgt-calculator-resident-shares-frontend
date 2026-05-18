@@ -19,9 +19,7 @@
 
 @this(
     govukLayout: GovukLayout,
-    hmrcAccountMenu: HmrcAccountMenu,
     hmrcStandardPage: HmrcStandardPage,
-    hmrcLanguageSelectHelper: HmrcLanguageSelectHelper,
     hmrcReportTechnicalIssueHelper: HmrcReportTechnicalIssueHelper,
     hmrcTimeoutDialogHelper: HmrcTimeoutDialogHelper,
     backLink: playHelpers.backLink,
@@ -40,11 +38,6 @@
     implicit request: RequestHeader,
     messages: Messages
 )
-
-@accountMenu = {
-
-    @hmrcLanguageSelectHelper()
-}
 
 @head = {
     @if(timeoutEnabled) {
