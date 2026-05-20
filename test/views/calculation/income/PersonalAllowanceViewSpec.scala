@@ -17,7 +17,7 @@
 package views.calculation.income
 
 import assets.DateAsset
-import assets.MessageLookup.{PersonalAllowance => messages, Resident => commonMessages}
+import assets.MessageLookup.{PersonalAllowance as messages, Resident as commonMessages}
 import common.resident.JourneyKeys
 import common.{CommonPlaySpec, Dates, WithCommonFakeApplication}
 import controllers.helpers.FakeRequestHelper
@@ -27,6 +27,8 @@ import org.jsoup.Jsoup
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.MessagesControllerComponents
 import views.html.calculation.income.personalAllowance
+
+import java.time.LocalDate
 
 class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper {
   private val postAction = controllers.routes.IncomeController.submitPersonalAllowance
@@ -185,13 +187,14 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
     "supplied with the current tax year" should {
 
       lazy val taxYearModel = TaxYearModel(Dates.getCurrentTaxYear, true, Dates.getCurrentTaxYear)
+      val startYear = LocalDate.now().getYear
       lazy val view = personalAllowanceView(personalAllowanceForm, taxYearModel, BigDecimal(11000), postAction,
         Some("back-link"), JourneyKeys.shares, Dates.getCurrentTaxYear)(using fakeRequest, mockMessage, fakeLang)
       lazy val doc = Jsoup.parse(view.body)
       lazy val h1Tag = doc.select("H1")
 
         s"have a title ${messages.title(TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied))}" in {
-          doc.title() shouldBe messages.title("2025 to 2026")
+          doc.title() shouldBe messages.title(s"$startYear to ${startYear+1}")
         }
 
         s"have the page heading '${messages.h1(TaxYearModel.convertWithWelsh(taxYearModel.taxYearSupplied))}'" in {

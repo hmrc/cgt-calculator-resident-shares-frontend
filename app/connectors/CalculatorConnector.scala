@@ -44,13 +44,11 @@ class CalculatorConnector @Inject()(http: HttpClientV2,
     http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-full-aea?taxYear=$taxYear").transform(_.addHttpHeaders(headers)).execute[Option[BigDecimal]]
   }
 
-  def getPA(taxYear: Int, isEligibleBlindPersonsAllowance: Boolean = false,
-            isEligibleMarriageAllowance: Boolean = false)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
+  def getPA(taxYear: Int, isEligibleBlindPersonsAllowance: Boolean = false)(implicit hc: HeaderCarrier): Future[Option[BigDecimal]] = {
 
     val blindPersonAllowanceParams = if (isEligibleBlindPersonsAllowance) Seq("isEligibleBlindPersonsAllowance" -> true) else Nil
-    val eligibleMarriageAllowanceParams = if (isEligibleMarriageAllowance) Seq("isEligibleMarriageAllowance" -> true) else Nil
 
-    val params = Seq("taxYear" -> taxYear) ++ blindPersonAllowanceParams ++ eligibleMarriageAllowanceParams
+    val params = Seq("taxYear" -> taxYear) ++ blindPersonAllowanceParams
 
     http.get(url"$serviceUrl/capital-gains-calculator/tax-rates-and-bands/max-pa?$params")
       .transform(_.addHttpHeaders(headers)).execute[Option[BigDecimal]]
