@@ -109,7 +109,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
 
   "Calling .getPA" should {
     val basePath = "/capital-gains-calculator/tax-rates-and-bands/max-pa"
-    val queryParam = "?taxYear=2&isEligibleBlindPersonsAllowance=true"
+    val queryParam = "?taxYear=2&isEligibleBlindPersonsAllowance=true&isEligibleMarriageAllowance=true"
     "return a value corresponding to the year if it exists without blind persons allowance" in {
       val expectedResult = Some(BigDecimal(10000))
       when(GET, basePath).thenReturn(OK, expectedResult)
@@ -120,7 +120,7 @@ class CalculatorConnectorSpec extends CommonPlaySpec with MockitoSugar
     "return None when taxYear = 2 and isEligibleBlindPersonsAllowance = true or if does not exist" in forAll(Gen.oneOf(Seq(OK, BAD_REQUEST, NOT_FOUND))) {
       status =>
         when(GET, s"$basePath$queryParam").thenReturn(status, None)
-        await(calculatorConnector.getPA(2,true)) shouldBe None
+        await(calculatorConnector.getPA(2,true, true)) shouldBe None
     }
 
     "Throw UpstreamErrorResponse on errors" in forAll(
