@@ -38,13 +38,16 @@
 @scripts = {
     <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
 }
-
+@pageHead  = {
+    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
+}
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
-    scripts = Some(scripts)
+    scripts = Some(scripts),
+    pageHeadBlock = Some(pageHead)
 ) {
 
-    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
+
 
     <!-- Google Analytics -->
     <div id="ga-reporting" class="govuk-visually-hidden">

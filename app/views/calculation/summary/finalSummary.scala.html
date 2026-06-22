@@ -42,13 +42,15 @@
     <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
 }
 
+@pageHead  = {
+    <link rel="stylesheet" type="text/css" media="print" href='@routes.Assets.versioned("stylesheets/cgt-print.css")' />
+}
+
 @layout(
     pageTitle = Messages("calc.summary.cgtToPay", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied)),
-    scripts = Some(scripts)
+    scripts = Some(scripts),
+    pageHeadBlock = Some(pageHead)
 ){
-
-    <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />
-
     @finalSummaryPartial(gainAnswers, deductionAnswers, result, taxYear, totalCosts, totalDeductions)
 
     @checkYourAnswersPartial(gainAnswers, Some(deductionAnswers), Some(taxYear), Some(incomeAnswers), isCurrentTaxYear = isCurrentTaxYear, displayLinks = false, forSummary = true)
