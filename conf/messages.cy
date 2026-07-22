@@ -66,7 +66,7 @@ calc.resident.lossesBroughtForwardValue.error.minimumAmount = Mae''n rhaid i gyf
 calc.resident.lossesBroughtForwardValue.error.maxAmountExceeded = Mae’n rhaid i gyfanswm eich colledion Treth Enillion Cyfalaf o’r blynyddoedd treth cyn {0} fod yn £{1} neu lai
 
 calc.resident.outsideTaxYears.changeDate = Newid eich dyddiad
-calc.resident.outsideTaxYears.message = Gallwch barhau i''w defnyddio, ond byddwn yn defnyddio''r cyfraddau treth o''r flwyddyn dreth {0}.
+calc.resident.outsideTaxYears.message = Gallwch barhau i''w defnyddio, ond byddwn yn defnyddio''r cyfraddau treth o''r blwyddyn dreth {0}.
 calc.resident.outsideTaxYears.message.tooEarly = Gallwch ddefnyddio''r gyfrifiannell hon os ydych wedi gwerthu eiddo ers 5 Ebrill 2015.
 calc.resident.outsideTaxYears.title = Nid yw''r gyfrifiannell hon yn cefnogi''r dyddiad rydych wedi''i roi
 
