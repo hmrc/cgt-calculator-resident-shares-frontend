@@ -30,7 +30,7 @@
     <h1 class="govuk-heading-l">@Messages("calc.resident.outsideTaxYears.title")</h1>
 
     @if(isAfterApril15) {
-        <p class="govuk-body">@Messages("calc.resident.outsideTaxYears.message", taxYear.calculationTaxYear)</p>
+        <p class="govuk-body">@Messages("calc.resident.outsideTaxYears.message", TaxYearModel.convertWithWelsh(taxYear.calculationTaxYear))</p>
             @govukButton(Button(
                 href = Some(continueUrl),
                 content = Text(messages("calc.base.button.continue")),

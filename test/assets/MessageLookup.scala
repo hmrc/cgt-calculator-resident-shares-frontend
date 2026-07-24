@@ -137,7 +137,7 @@ object MessageLookup {
     val tooEarly = "You can use this calculator if you have sold a property since 5 April 2015."
     val sharesTooEarly = "You can use this calculator if you have sold shares since 5 April 2015."
 
-    def content(year: String): String = s"You can continue to use it, but we will use the tax rates from the $year tax year."
+    def content(startAndEndYear: String): String = s"You can continue to use it, but we will use the tax rates from the $startAndEndYear tax year."
   }
 
   //Summary messages.en

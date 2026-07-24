@@ -108,8 +108,8 @@ class OutsideTaxYearsViewSpec extends CommonPlaySpec with WithCommonFakeApplicat
         behave like pageWithExpectedMessage(headingStyle, messages.heading)(using doc)
       }
 
-      s"have a message of ${messages.content("2016/17")}" in {
-        doc.select("p.govuk-body").text() shouldBe messages.content("2016/17")
+      s"have a message of ${messages.content("2016 to 2017")}" in {
+        doc.select("p.govuk-body").text() shouldBe messages.content("2016 to 2017")
       }
 
       "have a back link that" should {
