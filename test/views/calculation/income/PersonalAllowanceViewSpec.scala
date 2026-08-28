@@ -102,13 +102,21 @@ class PersonalAllowanceViewSpec extends CommonPlaySpec with WithCommonFakeApplic
         s"has the full text ${messages.linkText + " " + messages.link}" in {
           doc.getElementsByClass("govuk-body").get(2).text() shouldBe messages.linkText + " " + messages.link + "."
         }
+        
+        s"has the href to the new marriage allowance page" in {
+          doc.getElementsByClass("govuk-link").get(1).attr("href") shouldBe "https://www.gov.uk/marriage-allowance"
+        }
+        
+        s"has the link text ${messages.linkMarriage}" in {
+          doc.getElementsByClass("govuk-link").get(1).text() shouldBe messages.linkMarriage
+        }
 
         "has the href to the gov uk rates page" in {
-          doc.getElementsByClass("govuk-link").get(1).attr("href") shouldBe "https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
+          doc.getElementsByClass("govuk-link").get(2).attr("href") shouldBe "https://www.gov.uk/income-tax-rates/current-rates-and-allowances"
         }
 
         s"has the link text ${messages.link}" in {
-          doc.getElementsByClass("govuk-link").get(1).text() shouldBe messages.link
+          doc.getElementsByClass("govuk-link").get(2).text() shouldBe messages.link
         }
       }
 
