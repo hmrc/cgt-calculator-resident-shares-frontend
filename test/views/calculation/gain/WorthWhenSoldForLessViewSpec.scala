@@ -110,7 +110,7 @@ class WorthWhenSoldForLessViewSpec extends CommonPlaySpec with WithCommonFakeApp
         }
 
         s"has a p taf with the text ${messages.jointOwnershipText}" in {
-          doc.select("p.govuk-inset-text").text shouldBe messages.jointOwnershipText
+          doc.select("p.govuk-body").last().text shouldBe messages.jointOwnershipText
         }
 
         "renders in input tags" in {

@@ -89,14 +89,14 @@ class WorthWhenInheritedViewSpec extends CommonPlaySpec with WithCommonFakeAppli
     "has help text that" should {
 
       s"have the text ${messages.helpText}" in {
-        doc.body.getElementsByClass("govuk-body").text shouldBe messages.helpText
+        doc.body.select("p.govuk-body").first().text shouldBe messages.helpText
       }
     }
 
     "have a p tag" which {
       lazy val form = doc.getElementsByTag("form")
       s"with the extra text ${messages.hintText}" in {
-        form.select("p.govuk-inset-text").text shouldBe messages.hintText
+        form.select("p.govuk-body").last().text shouldBe messages.hintText
       }
     }
 

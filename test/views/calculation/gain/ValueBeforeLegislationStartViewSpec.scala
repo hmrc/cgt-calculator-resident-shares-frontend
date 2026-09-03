@@ -100,7 +100,7 @@ class ValueBeforeLegislationStartViewSpec extends CommonPlaySpec with WithCommon
 
         "have a p tag" which {
           s"with the extra text ${messages.hintText}" in {
-            doc.body.getElementsByClass("govuk-inset-text").text shouldBe messages.hintText
+            doc.body.select("p.govuk-body").last().text shouldBe messages.hintText
           }
         }
 
