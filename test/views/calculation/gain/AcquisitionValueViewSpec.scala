@@ -79,7 +79,7 @@ class AcquisitionValueViewSpec extends CommonPlaySpec with WithCommonFakeApplica
 
       "have a p tag" which {
         s"with the extra text ${messages.hintText}" in {
-          doc.getElementsByClass("govuk-inset-text").text shouldBe messages.hintText
+          doc.select("p.govuk-body").text shouldBe messages.hintText
         }
       }
     }
