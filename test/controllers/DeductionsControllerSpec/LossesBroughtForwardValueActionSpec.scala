@@ -16,23 +16,23 @@
 
 package controllers.DeductionsControllerSpec
 
-import assets.MessageLookup.{LossesBroughtForwardValue => messages}
-import common.KeystoreKeys.{ResidentShareKeys => keystoreKeys}
+import assets.MessageLookup.LossesBroughtForwardValue as messages
+import common.KeystoreKeys.ResidentShareKeys as keystoreKeys
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.DeductionsController
 import controllers.helpers.FakeRequestHelper
-import forms.LossesBroughtForwardValueForm
-import models.resident._
-import models.resident.shares._
+import forms.{LossesBroughtForwardForm, LossesBroughtForwardValueForm}
+import models.resident.*
+import models.resident.shares.*
 import org.apache.pekko.actor.ActorSystem
 import org.jsoup.Jsoup
 import org.mockito.ArgumentMatchers
-import org.mockito.Mockito._
+import org.mockito.Mockito.*
 import org.scalatestplus.mockito.MockitoSugar
 import play.api.mvc.MessagesControllerComponents
-import play.api.test.Helpers._
+import play.api.test.Helpers.*
 import services.SessionCacheService
 import views.html.calculation.deductions.{lossesBroughtForward, lossesBroughtForwardValue}
 
@@ -41,15 +41,16 @@ import scala.concurrent.Future
 class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommonFakeApplication with FakeRequestHelper with MockitoSugar{
 
   implicit lazy val actorSystem: ActorSystem = ActorSystem()
-  val mockCalcConnector = mock[CalculatorConnector]
+  val mockCalcConnector: CalculatorConnector = mock[CalculatorConnector]
   val mockSessionCacheService: SessionCacheService = mock[SessionCacheService]
-  val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
-  val gainModel = mock[GainAnswersModel]
-  val summaryModel = mock[DeductionGainAnswersModel]
-  val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
-  val lossesBroughtForwardValueForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
-  val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
-  val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
+  val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
+  val gainModel: GainAnswersModel = mock[GainAnswersModel]
+  val summaryModel: DeductionGainAnswersModel = mock[DeductionGainAnswersModel]
+  val mockMCC: MessagesControllerComponents = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val lossesBroughtForwardForm: LossesBroughtForwardForm = fakeApplication.injector.instanceOf[LossesBroughtForwardForm]
+  val lossesBroughtForwardValueForm: LossesBroughtForwardValueForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
+  val lossesBroughtForwardView: lossesBroughtForward = fakeApplication.injector.instanceOf[lossesBroughtForward]
+  val lossesBroughtForwardValueView: lossesBroughtForwardValue = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
 
   "Calling .lossesBroughtForwardValue from the resident DeductionsController" when {
 
@@ -68,7 +69,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
       when(mockCalcConnector.getTaxYear(ArgumentMatchers.any())(using ArgumentMatchers.any()))
         .thenReturn(Future.successful(Some(taxYearModel)))
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm, lossesBroughtForwardView, lossesBroughtForwardValueView)
+      new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC,lossesBroughtForwardForm, lossesBroughtForwardValueForm, lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "request has a valid session with no keystore data" should {
@@ -163,7 +164,7 @@ class LossesBroughtForwardValueActionSpec extends CommonPlaySpec with WithCommon
 
         )
 
-      new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC, lossesBroughtForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
+      new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC,lossesBroughtForwardForm, lossesBroughtForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
     }
 
     "given a valid form" when {

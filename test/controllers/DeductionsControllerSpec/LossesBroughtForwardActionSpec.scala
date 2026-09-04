@@ -24,7 +24,7 @@ import config.ApplicationConfig
 import connectors.CalculatorConnector
 import controllers.DeductionsController
 import controllers.helpers.FakeRequestHelper
-import forms.LossesBroughtForwardValueForm
+import forms.{LossesBroughtForwardForm,LossesBroughtForwardValueForm}
 import models.resident._
 import models.resident.shares.{DeductionGainAnswersModel, GainAnswersModel}
 import org.apache.pekko.actor.ActorSystem
@@ -50,6 +50,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
   val mockSessionCacheService = mock[SessionCacheService]
   val mockConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   val mockMCC = fakeApplication.injector.instanceOf[MessagesControllerComponents]
+  val lossesBroughForwardForm = fakeApplication.injector.instanceOf[LossesBroughtForwardForm]
   val lossesBroughForwardValueForm = fakeApplication.injector.instanceOf[LossesBroughtForwardValueForm]
   val lossesBroughtForwardView = fakeApplication.injector.instanceOf[lossesBroughtForward]
   val lossesBroughtForwardValueView = fakeApplication.injector.instanceOf[lossesBroughtForwardValue]
@@ -90,7 +91,7 @@ class LossesBroughtForwardActionSpec extends CommonPlaySpec with WithCommonFakeA
 
       )
 
-    new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC, lossesBroughForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
+    new DeductionsController(mockCalcConnector, mockSessionCacheService, mockMCC,lossesBroughForwardForm, lossesBroughForwardValueForm ,lossesBroughtForwardView, lossesBroughtForwardValueView)
   }
 
   "Calling .lossesBroughtForward from the resident DeductionsController" when {

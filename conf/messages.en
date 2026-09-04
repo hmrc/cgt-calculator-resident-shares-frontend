@@ -75,15 +75,13 @@ calc.resident.summary.remainingBroughtForwardLossHelp = to reduce your Capital G
 calc.resident.summary.annualExemptAmountHelp = You can use this to reduce your tax if you sell something else that is covered by Capital Gains Tax in the same tax year.
 
 ## Losses Brought Forward messages
-calc.resident.lossesBroughtForward.title = Are you claiming any Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from tax years before {0}?
+calc.resident.lossesBroughtForward.question = Are you claiming any Capital Gains Tax losses from before the {0} tax year?
 calc.resident.lossesBroughtForward.helpText =  These are unused losses that are covered by Capital Gains Tax and that you have already reported to HMRC.
-calc.resident.lossesBroughtForward.errorSelect = Tell us if you are claiming any Capital Gains Tax losses from tax years before 2015 to 2016
+calc.resident.lossesBroughtForward.errorSelect = Tell us if you are claiming any Capital Gains Tax losses from tax years before the {0}
 
 
 ##Losses Brought Forward Value messages
-calc.resident.lossesBroughtForwardValue.title = What is the total value of your Capital Gains Tax losses from tax years before {0}?
-calc.resident.lossesBroughtForwardValue.pageHeading = What is the total value of your Capital Gains Tax losses from tax years before {0}?
+calc.resident.lossesBroughtForwardValue.pageHeading = What is the total value of your Capital Gains Tax losses from before the {0} tax year?
 calc.resident.lossesBroughtForwardValue.error.mandatoryAmount = Enter the total value of your Capital Gains Tax losses from tax years before {0}
 calc.resident.lossesBroughtForwardValue.error.invalidAmount = The total value of your Capital Gains Tax losses from tax years before {0} must be an amount of money in pounds
 calc.resident.lossesBroughtForwardValue.error.invalidDecimalPlace = The total value of your Capital Gains losses from the tax years before {0} has too many numbers after the decimal point

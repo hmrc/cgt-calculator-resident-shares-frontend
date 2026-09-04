@@ -149,7 +149,7 @@
 
                     @summaryOptionRowHelper(
                         "broughtForwardLosses",
-                        messages("calc.resident.lossesBroughtForward.title",
+                        messages("calc.resident.lossesBroughtForward.question",
                         TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)),
                         deductionAnswers.get.broughtForwardModel.get.option,
                         Some(deductionRoutes.lossesBroughtForward.toString),
@@ -159,7 +159,7 @@
                     @if(deductionAnswers.get.broughtForwardModel.get.option){
                         @summaryNumericRowHelper(
                             "broughtForwardLossesValue",
-                            messages("calc.resident.lossesBroughtForwardValue.title",
+                            messages("calc.resident.lossesBroughtForwardValue.pageHeading",
                             TaxYearModel.convertWithWelsh(taxYear.get.taxYearSupplied)),
                             deductionAnswers.get.broughtForwardValueModel.get.amount,
                             Some(deductionRoutes.lossesBroughtForwardValue.toString),
