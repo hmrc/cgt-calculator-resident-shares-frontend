@@ -52,13 +52,11 @@ calc.resident.currentIncome.questionCurrentYear.error.invalidDecimalPlace = Mae 
 calc.resident.currentIncome.questionCurrentYear.error.minimumAmount = Mae''n rhaid i faint ydych yn disgwyl i''ch incwm fod yn y flwyddyn dreth hon fod yn £0 neu fwy
 calc.resident.currentIncome.questionCurrentYear.error.maxAmountExceeded = Mae’n rhaid i faint ydych yn disgwyl i’ch incwm fod yn y flwyddyn dreth hon fod yn £{0} neu lai
 
-calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn 2015 i 2016
+calc.resident.lossesBroughtForward.errorSelect = Rhowch wybod i ni a ydych yn hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}
 calc.resident.lossesBroughtForward.helpText = Colledion nas defnyddiwyd yw''r rhain, a gwmpesir gan Dreth Enillion Cyfalaf, yr ydych eisoes wedi rhoi gwybod i CThEF amdanynt.
-calc.resident.lossesBroughtForward.question = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
-calc.resident.lossesBroughtForward.title = Ydych chi''n hawlio colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
+calc.resident.lossesBroughtForward.question = Ydych chi’n hawlio unrhyw golledion Treth Enillion Cyfalaf o gyfnod cyn blwyddyn dreth {0}?
 
-calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
-calc.resident.lossesBroughtForwardValue.title = Beth yw cyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}?
+calc.resident.lossesBroughtForwardValue.pageHeading = Beth yw cyfanswm gwerth eich colledion Treth Enillion Cyfalaf o gyfnod cyn blwyddyn dreth {0}?
 calc.resident.lossesBroughtForwardValue.error.mandatoryAmount = Nodwch gyfanswm eich colledion Treth Enillion Cyfalaf o''r blynyddoedd treth cyn {0}
 calc.resident.lossesBroughtForwardValue.error.invalidAmount = Mae’n rhaid i gyfanswm gwerth eich colledion Treth Enillion Cyfalaf o flynyddoedd treth cyn {0} fod yn swm o arian mewn punnoedd
 calc.resident.lossesBroughtForwardValue.error.invalidDecimalPlace = Mae cyfanswm gwerth eich colledion Treth Enillion Cyfalaf o flynyddoedd treth cyn {0} yn cynnwys gormod o rifau ar ôl y pwynt degol
