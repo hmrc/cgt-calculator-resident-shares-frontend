@@ -20,8 +20,9 @@ import assets.MessageLookup.{LossesBroughtForward as messages, Resident as commo
 import common.{CommonPlaySpec, WithCommonFakeApplication}
 import config.ApplicationConfig
 import controllers.helpers.FakeRequestHelper
-import forms.LossesBroughtForwardForm.*
-import models.resident.TaxYearModel
+import forms.LossesBroughtForwardForm
+import play.api.data.Form
+import models.resident.{LossesBroughtForwardModel, TaxYearModel}
 import org.jsoup.Jsoup
 import play.api.i18n.{Lang, Messages}
 import play.api.mvc.{Call, MessagesControllerComponents}
@@ -32,12 +33,17 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
   implicit lazy val mockMessage: Messages = fakeApplication.injector.instanceOf[MessagesControllerComponents].messagesApi.preferred(fakeRequest)
   val mockConfig: ApplicationConfig = fakeApplication.injector.instanceOf[ApplicationConfig]
   lazy val postAction: Call = controllers.routes.DeductionsController.submitLossesBroughtForward
+  
   val lossesBroughtForwardView: lossesBroughtForward = fakeApplication.injector.instanceOf[lossesBroughtForward]
   val fakeLang: Lang = Lang("en")
+  
+  val injectedForm: LossesBroughtForwardForm = fakeApplication.injector.instanceOf[LossesBroughtForwardForm]
+  val lossesBroughtForwardForm: Form[LossesBroughtForwardModel] = injectedForm("2022", fakeLang)
+
 
   "Reliefs view" should {
-
-    lazy val view = lossesBroughtForwardView(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"))(using fakeRequest, mockMessage, fakeLang)
+    lazy val taxYear = TaxYearModel("2015/16", true, "2015/16")
+    lazy val view = lossesBroughtForwardView( lossesBroughtForwardForm , postAction, "", taxYear)(using fakeRequest, mockMessage, fakeLang)
     lazy val doc = Jsoup.parse(view.body)
 
     "have a charset of UTF-8" in {
@@ -91,7 +97,7 @@ class LossesBroughtForwardViewSpec extends CommonPlaySpec with WithCommonFakeApp
 
       val f = lossesBroughtForwardView.f(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"))(fakeRequest, mockMessage, fakeLang)
 
-      val render = lossesBroughtForwardView.render(lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"), fakeRequest, mockMessage, fakeLang)
+      val render = lossesBroughtForwardView.render( lossesBroughtForwardForm, postAction, "", TaxYearModel("2015/16", true, "2015/16"), fakeRequest, mockMessage, fakeLang)
 
       f shouldBe render
     }

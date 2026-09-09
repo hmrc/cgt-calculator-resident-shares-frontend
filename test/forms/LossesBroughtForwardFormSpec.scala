@@ -17,9 +17,15 @@
 package forms
 
 import common.{CommonPlaySpec, WithCommonFakeApplication}
-import forms.LossesBroughtForwardForm._
+import forms.LossesBroughtForwardForm
+import play.api.i18n.{Lang, MessagesApi}
 
 class LossesBroughtForwardFormSpec extends CommonPlaySpec with WithCommonFakeApplication {
+
+  val injectedForm = fakeApplication.injector.instanceOf[LossesBroughtForwardForm]
+  val lossesBroughtForwardForm = injectedForm("2022", Lang("en"))
+  implicit val messagesApi: MessagesApi = fakeApplication.injector.instanceOf[MessagesApi]
+
 
   "Creating the form with an empty model" should {
 
@@ -79,7 +85,7 @@ class LossesBroughtForwardFormSpec extends CommonPlaySpec with WithCommonFakeApp
       }
 
       "associate the correct error message to the error" in {
-        form.error("option").get.message shouldBe "calc.resident.lossesBroughtForward.errorSelect"
+        form.error("option").get.message shouldBe messagesApi("calc.resident.lossesBroughtForward.errorSelect","2022")(using Lang("en"))
       }
 
       "supplied with invalid data for option" should {
@@ -95,7 +101,7 @@ class LossesBroughtForwardFormSpec extends CommonPlaySpec with WithCommonFakeApp
         }
 
         "associate the correct error message to the error" in {
-          form.error("option").get.message shouldBe "calc.resident.lossesBroughtForward.errorSelect"
+          form.error("option").get.message shouldBe messagesApi("calc.resident.lossesBroughtForward.errorSelect","2022")(using Lang("en"))
         }
       }
     }

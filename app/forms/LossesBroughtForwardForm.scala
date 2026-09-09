@@ -16,20 +16,23 @@
 
 package forms
 
-import common.Transformers._
-import common.Validation._
+import common.Transformers.*
+import common.Validation.*
 import models.resident.LossesBroughtForwardModel
-import play.api.data.Forms._
-import play.api.data._
+import play.api.data.Forms.*
+import play.api.data.*
+import javax.inject.Inject
+import play.api.i18n.{Lang, MessagesApi}
 
-object LossesBroughtForwardForm {
+class LossesBroughtForwardForm @Inject()(implicit val messagesApi: MessagesApi){
 
-  lazy val lossesBroughtForwardForm = Form(
+ def apply(year:String, lang: Lang): Form[LossesBroughtForwardModel] = Form(
     mapping(
       "option" -> text
-        .verifying("calc.resident.lossesBroughtForward.errorSelect", mandatoryCheck)
-        .verifying("calc.resident.lossesBroughtForward.errorSelect", yesNoCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForward.errorSelect",year)(using lang), mandatoryCheck)
+        .verifying(messagesApi("calc.resident.lossesBroughtForward.errorSelect",year)(using lang), yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
     )(LossesBroughtForwardModel.apply)(o=>Some(o.option))
   )
+
 }

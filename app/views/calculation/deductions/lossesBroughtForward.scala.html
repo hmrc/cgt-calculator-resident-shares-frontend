@@ -29,7 +29,7 @@
 @(lossesBroughtForwardForm: Form[LossesBroughtForwardModel], postAction: Call, backLinkUrl: String, taxYear: TaxYearModel)(implicit request: Request[_], messages: Messages, lang: Lang)
 
 @title = @{
-    if(lossesBroughtForwardForm.errors.nonEmpty) messages("site.title.error", messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else messages("calc.resident.lossesBroughtForward.title", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
+    if(lossesBroughtForwardForm.errors.nonEmpty) messages("site.title.error", messages("calc.resident.lossesBroughtForward.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))) else messages("calc.resident.lossesBroughtForward.question", TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied))
 }
 
 @layout(
@@ -50,7 +50,7 @@
             inLine = true,
             field = lossesBroughtForwardForm("option")
         )
-
+        <input type="hidden" name="option" value="" />
         @submitButton()
     }
 }
