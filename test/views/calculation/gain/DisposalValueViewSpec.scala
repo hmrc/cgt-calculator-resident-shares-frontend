@@ -84,7 +84,7 @@ class DisposalValueViewSpec extends CommonPlaySpec with WithCommonFakeApplicatio
     }
 
     "have the joint ownership text" in {
-      doc.select("p.govuk-inset-text").text shouldBe messages.jointOwnership
+      doc.select("p.govuk-body").text shouldBe messages.jointOwnership
     }
 
     s"have a legend for an input with text ${messages.question}" in {
