@@ -28,7 +28,7 @@ class LossesBroughtForwardForm @Inject()(implicit val messagesApi: MessagesApi){
 
  def apply(year:String, lang: Lang): Form[LossesBroughtForwardModel] = Form(
     mapping(
-      "option" -> text
+      "option" -> common.Formatters.text(messagesApi("calc.resident.lossesBroughtForward.errorSelect",year)(using lang))
         .verifying(messagesApi("calc.resident.lossesBroughtForward.errorSelect",year)(using lang), mandatoryCheck)
         .verifying(messagesApi("calc.resident.lossesBroughtForward.errorSelect",year)(using lang), yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
