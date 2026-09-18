@@ -149,18 +149,18 @@ object MessageLookup {
 
   //Losses Brought Forward messages.en
   object LossesBroughtForward {
-    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
+    def title(input: String): String = s"Are you claiming any Capital Gains Tax losses from before the $input tax year? - Calculate your Capital Gains Tax - GOV.UK"
 
-    def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from tax years before $input?"
+    def question(input: String): String = s"Are you claiming any Capital Gains Tax losses from before the $input tax year?"
 
     val helpText = "These are unused losses that are covered by Capital Gains Tax and that you have already reported to HMRC."
   }
 
   //Losses Brought Forward Value messages.en
   object LossesBroughtForwardValue {
-    def title(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input? - Calculate your Capital Gains Tax - GOV.UK"
+    def title(input: String): String = s"What is the total value of your Capital Gains Tax losses from before the $input tax year? - Calculate your Capital Gains Tax - GOV.UK"
 
-    def question(input: String): String = s"What is the total value of your Capital Gains Tax losses from tax years before $input?"
+    def question(input: String): String = s"What is the total value of your Capital Gains Tax losses from before the $input tax year?"
   }
 
   //Current Income messages.en

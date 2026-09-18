@@ -21,7 +21,7 @@ import common.TaxDates.taxYearStringToInteger
 import connectors.CalculatorConnector
 import controllers.predicates.ValidActiveSession
 import controllers.utils.RecoverableFuture
-import forms.LossesBroughtForwardForm._
+import forms.LossesBroughtForwardForm
 import forms.LossesBroughtForwardValueForm
 import models.resident._
 import play.api.i18n.{I18nSupport, Lang}
@@ -36,6 +36,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class DeductionsController @Inject()(calcConnector: CalculatorConnector,
                                      sessionCacheService: SessionCacheService,
                                      mcc: MessagesControllerComponents,
+                                     lossesBroughtForwardForm: LossesBroughtForwardForm,
                                      lossesBroughtForwardValueForm: LossesBroughtForwardValueForm,
                                      lossesBroughtForwardView: lossesBroughtForward,
                                      lossesBroughtForwardValueView: lossesBroughtForwardValue)(implicit ec: ExecutionContext)
@@ -76,7 +77,12 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
       taxYear <- getTaxYear
       formData <- sessionCacheService.fetchAndGetFormData[LossesBroughtForwardModel](keystoreKeys.lossesBroughtForward)
     } yield {
-      val form = formData.map(lossesBroughtForwardForm.fill).getOrElse(lossesBroughtForwardForm)
+      val form = formData
+        .map(
+          lossesBroughtForwardForm(
+            TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang)
+            .fill
+        ).getOrElse(lossesBroughtForwardForm(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied), lang))
       Ok(lossesBroughtForwardView(form, lossesBroughtForwardPostAction, lossesBroughtForwardBackUrl, taxYear))
     }).recoverToStart()
   }
@@ -91,7 +97,8 @@ class DeductionsController @Inject()(calcConnector: CalculatorConnector,
     implicit val lang: Lang = messagesApi.preferred(request).lang
     (for {
       taxYear <- getTaxYear
-      route <- lossesBroughtForwardForm.bindFromRequest().fold(
+      form = lossesBroughtForwardForm.apply(TaxYearModel.convertWithWelsh(taxYear.taxYearSupplied),lang)
+      route <- form.bindFromRequest().fold(
         errors =>
           Future.successful(BadRequest(lossesBroughtForwardView(errors, lossesBroughtForwardPostAction, lossesBroughtForwardBackUrl, taxYear))),
         success =>
