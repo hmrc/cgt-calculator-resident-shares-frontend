@@ -17,14 +17,14 @@
 import sbt.*
 
 object AppDependencies {
-  lazy val bootstrapVersion = "10.7.0"
+  lazy val bootstrapVersion = "10.8.0"
   lazy val playVersion = "play-30"
   lazy val taxYearVersion = "6.0.0"
-  lazy val hmrcMongoVersion = "2.13.0"
+  lazy val hmrcMongoVersion = "2.14.0"
 
   val compile: Seq[ModuleID] = Seq(
     "uk.gov.hmrc" %% s"bootstrap-frontend-$playVersion" % bootstrapVersion,
-    "uk.gov.hmrc" %% s"play-frontend-hmrc-$playVersion" % "13.13.0",
+    "uk.gov.hmrc" %% s"play-frontend-hmrc-$playVersion" % "13.15.0",
     "uk.gov.hmrc.mongo" %% s"hmrc-mongo-$playVersion" % hmrcMongoVersion,
     "uk.gov.hmrc" %% "tax-year" % taxYearVersion
   )
