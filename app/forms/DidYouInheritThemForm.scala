@@ -26,7 +26,7 @@ object DidYouInheritThemForm {
 
   lazy val didYouInheritThemForm = Form(
     mapping(
-      "wereInherited" -> text
+      "wereInherited" -> common.Formatters.text("calc.resident.shares.didYouInheritThem.errorSelect")
         .verifying("calc.resident.shares.didYouInheritThem.errorSelect", mandatoryCheck)
         .verifying("calc.resident.shares.didYouInheritThem.errorSelect", yesNoCheck)
         .transform[Boolean](stringToBoolean, booleanToString)
