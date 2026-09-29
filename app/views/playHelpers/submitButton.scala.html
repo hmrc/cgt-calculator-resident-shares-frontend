@@ -18,6 +18,14 @@
 
 @(submitText: String = "calc.base.button.continue")(implicit messages: Messages)
 
+@summaryLink = @{
+
+navigation.back.map {
+case SummaryPage => controllers.SummaryController.summary()
+case _ => ""
+}
+}
+
 @govukButton(Button(
     content = Text(messages(submitText)),
     attributes = Map(
@@ -25,3 +33,11 @@
         "data-prevent-double-click" -> "true"
     )
 ))
+
+@if(summaryLink!=Some("")) {
+@summaryLink.map { link =>
+<p>
+    <a href="@link">@Messages("link.goBackToSummary")</a>
+</p>
+}
+} el
