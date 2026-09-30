@@ -26,7 +26,7 @@ object OwnerBeforeLegislationStartForm {
 
   lazy val ownerBeforeLegislationStartForm = Form(
     mapping(
-      "ownerBeforeLegislationStart" -> text
+      "ownerBeforeLegislationStart" -> common.Formatters.text("calc.resident.shares.ownerBeforeLegislationStart.noSelectError")
         .verifying("calc.resident.shares.ownerBeforeLegislationStart.noSelectError", mandatoryCheck)
         .verifying("calc.resident.shares.ownerBeforeLegislationStart.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)

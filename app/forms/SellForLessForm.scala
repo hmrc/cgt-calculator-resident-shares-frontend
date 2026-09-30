@@ -26,7 +26,7 @@ object SellForLessForm {
 
   lazy val sellForLessForm = Form(
     mapping(
-      "sellForLess" -> text
+      "sellForLess" -> common.Formatters.text("calc.resident.shares.sellForLess.noSelectError")
         .verifying("calc.resident.shares.sellForLess.noSelectError", mandatoryCheck)
         .verifying("calc.resident.shares.sellForLess.noSelectError", yesNoCheck)
         .transform(stringToBoolean, booleanToString)
