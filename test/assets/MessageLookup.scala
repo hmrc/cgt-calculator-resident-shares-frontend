@@ -284,9 +284,9 @@ object MessageLookup {
       val importantInformation = s"If you report and pay now, you will still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
         "To report now, you'll need HMRC sign in details. If you do not already have these, you can create them before you sign in."
-      val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+      val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback about the CGT calculator service (opens in new tab)."
       val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
-      val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
+      val exitSurveyLinkText = "leave feedback about the CGT calculator service (opens in new tab)"
     }
 
     object WhatNextNoGain {
@@ -296,9 +296,9 @@ object MessageLookup {
       val importantInformation = s"If you report it now, you will still need to declare your capital gains through Self Assessment."
       val whatNextInformation =
         "To report now, you'll need HMRC sign in details. If you do not already have these, you can create them before you sign in."
-      val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+      val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback about the CGT calculator service (opens in new tab)."
       val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
-      val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
+      val exitSurveyLinkText = "leave feedback about the CGT calculator service (opens in new tab)"
     }
   }
 
@@ -308,9 +308,9 @@ object MessageLookup {
     val reportNow = "Report now"
     val detailsOne = "Use our online form to report and pay your Capital Gains Tax."
     val detailsTwo = "To report now, you'll need HMRC sign in details. If you do not already have these, you can create them before you sign in."
-    val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback for the CGT calculator service (takes 2 minutes)."
+    val exitSurveyText = "If you do not wish to report capital gains at this time, you can exit now or leave feedback about the CGT calculator service (opens in new tab)."
     val exitSurveyLink = "/calculate-your-capital-gains/resident/shares/feedback-survey"
-    val exitSurveyLinkText = "leave feedback for the CGT calculator service (takes 2 minutes)"
+    val exitSurveyLinkText = "leave feedback about the CGT calculator service (opens in new tab)"
   }
 
   object WhatNextNonSaLoss extends Common {

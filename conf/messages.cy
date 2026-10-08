@@ -266,7 +266,7 @@ calc.whatToDoNext.gain.bulletTitle = Gallwch wneud un o''r canlynol:
 calc.whatToDoNext.gain.reportImportant = Os byddwch yn rhoi gwybod ac yn talu nawr, bydd dal angen i chi ddatgan eich enillion cyfalaf drwy Hunanasesiad.
 calc.whatToDoNext.gain.reportNowInfo = Er mwyn rhoi gwybod nawr, bydd angen manylion mewngofnodi CThEF arnoch. Os nad oes gennych y rhain eisoes, gallwch eu cael cyn i chi fewngofnodi.
 calc.whatToDoNext.exitSurveyMessage = Os nad ydych am roi gwybod am enillion cyfalaf ar hyn o bryd, gallwch adael y dudalen nawr neu
-calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifiannell Treth Enillion Cyfalaf (mae''n cymryd 2 funud).
+calc.whatToDoNext.exitSurveyLink = roi adborth ar gyfer gwasanaeth y gyfrifiannell Treth Enillion Cyfalaf (yn agor tab newydd)
 
 
 calc.whatToDoNext.noGain.bulletPointOne = rhoi gwybod am hyn ar eich Ffurflen Dreth Hunanasesiad ar gyfer y flwyddyn dreth {0}
