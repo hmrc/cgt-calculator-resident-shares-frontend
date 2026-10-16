@@ -16,6 +16,7 @@
 
 @import models.resident.TaxYearModel
 @import models.resident.shares.GainAnswersModel
+@import views.html.helper.CSPNonce
 
 @this(
         gainSummaryPartial: playHelpers.gainSummaryPartial,
@@ -34,7 +35,7 @@
 )(implicit request: Request[_], messages: Messages)
 
 @scripts = {
-    <script src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
 }
 @pageHead  = {
     <link href='@routes.Assets.versioned("stylesheets/cgt-print.css")' media="print" rel="stylesheet" type="text/css" />

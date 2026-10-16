@@ -16,6 +16,7 @@
 
 @import models.resident._
 @import models.resident.shares._
+@import views.html.helper.CSPNonce
 
 @this(
         layout: Layout,
@@ -38,7 +39,7 @@
 )(implicit request: Request[_], messages: Messages)
 
 @scripts = {
-    <script src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
+    <script @CSPNonce.attr src='@controllers.routes.Assets.versioned("javascripts/print.js")'></script>
 }
 
 @pageHead  = {
